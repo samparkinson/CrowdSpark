@@ -9,5 +9,20 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+        <ListView x:Name="ProjectsList" ItemsSource="{Binding Projects}"/>
+
+    <!--<controls:HamburgerMenu PaneBackground="@[PaneBackground:Brush:Black]" x:Name="HamburgerMenuControl"
+    Foreground="White"
+    ItemTemplate="{StaticResource ButtonTemplate}"
+    OptionsItemTemplate="{StaticResource OptionTemplate}"
+    ItemClick="HamburgerMenu_OnItemClick"
+    OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
+    OpenPaneLength="240"
+    DisplayMode="CompactInline"
+    CompactPaneLength="48"
+    HamburgerHeight="48"
+    IsPaneOpen="False">
+    </controls:HamburgerMenu>-->
     </Grid>
 </Page>
+
