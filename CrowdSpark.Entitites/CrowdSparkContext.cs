@@ -26,7 +26,7 @@ namespace CrowdSpark.Entitites
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=MSSqlLocalDB;Database=CrowdSparkDB;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=CrowdSparkDB;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 
