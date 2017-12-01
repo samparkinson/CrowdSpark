@@ -19,7 +19,7 @@ namespace CrowdSpark
             {
                 var user = context.User.FirstOrDefault();
 
-                Console.WriteLine(user.Firstname);
+         //       Console.WriteLine(user.Firstname);
             }
 
             BuildWebHost(args).Run();
