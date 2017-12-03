@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
-namespace CrowdSpark.Entitites
+namespace CrowdSpark.Common
 {
-    public partial class Category
+    public class CategoryDTO
     {
         public int Id { get; set; }
 

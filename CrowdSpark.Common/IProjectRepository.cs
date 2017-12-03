@@ -11,7 +11,7 @@ namespace CrowdSpark.Common
      
         Task<ProjectDetailsDTO> FindAsync(int projectId);
 
-        Task<IReadOnlyCollection<ProjectDTO>> ReadAsync();
+        Task<IReadOnlyCollection<ProjectDetailsDTO>> ReadAsync();
 
         Task<bool> UpdateAsync(ProjectDetailsDTO details);
 
