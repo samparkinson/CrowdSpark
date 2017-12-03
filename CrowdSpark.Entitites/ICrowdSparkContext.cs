@@ -11,7 +11,7 @@ namespace CrowdSpark.Entitites
 
         DbSet<Category> Categorys { get; set; }
 
-        DbSet<Project> Posts { get; set; }
+        DbSet<Project> Projects { get; set; }
 
         DbSet<Skill> Skills { get; set; }
 
