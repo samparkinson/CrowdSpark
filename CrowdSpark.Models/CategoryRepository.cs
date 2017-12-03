@@ -53,14 +53,7 @@ namespace CrowdSpark.Models
 
         public async Task<IReadOnlyCollection<Category>> ReadAsync()
         {
-            var categories = from c in _context.Categorys
-                           select new Category
-                           {
-                               Id = c.Id,
-                               Name = c.Name
-                           };
-
-            return await categories.ToListAsync();
+            return await _context.Categorys.ToListAsync();
         }
 
         public async Task<bool> UpdateAsync(Category details)
