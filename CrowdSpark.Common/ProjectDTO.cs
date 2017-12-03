@@ -13,6 +13,8 @@ namespace CrowdSpark.Common
 
         public Location Location { get; set; }
 
+        public ICollection<Skill> Skills { get; set; }
+
         public ICollection<Spark> Sparks { get; set; }
     }
 }

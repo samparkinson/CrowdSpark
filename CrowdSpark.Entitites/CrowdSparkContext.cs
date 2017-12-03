@@ -6,7 +6,7 @@ namespace CrowdSpark.Entitites
     {
         public virtual DbSet<Attachment> Attachments { get; set; }
         public virtual DbSet<Category> Categorys { get; set; }
-        public virtual DbSet<Project> Posts { get; set; }
+        public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<Spark> Sparks { get; set; }
         public virtual DbSet<User> User { get; set; }
