@@ -27,7 +27,7 @@ namespace CrowdSpark.App.ViewModels
 
         public UserViewModel(UserDTO UserDTO)
         {
-            Id = UserDTO.Id;
+            //Id = UserDTO.Id;
 
             Firstname = UserDTO.Firstname;
 
