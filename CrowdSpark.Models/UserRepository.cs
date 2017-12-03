@@ -2,7 +2,9 @@
 using CrowdSpark.Entitites;
 using CrowdSpark.Common;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CrowdSpark.Models
 {
@@ -20,9 +22,12 @@ namespace CrowdSpark.Models
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteAsync(int userId)
+        public async Task<bool> DeleteAsync(int userId)
         {
-            throw new NotImplementedException();
+            var user = await _context.User.FindAsync(userId);
+            _context.User.Remove(user);
+
+            return ( await _context.SaveChangesAsync() > 0 );
         }
 
         public void Dispose()
@@ -30,14 +35,33 @@ namespace CrowdSpark.Models
             throw new NotImplementedException();
         }
 
-        public Task<UserDTO> FindAsync(int userId)
+        public async Task<UserDTO> FindAsync(int userId)
         {
-            throw new NotImplementedException();
+            var user =  await _context.User.FindAsync(userId);
+
+            return new UserDTO
+            {
+                Firstname = user.Firstname,
+                Surname = user.Surname,
+                Mail = user.Mail,
+                Location = user.Location,
+                Skills = user.Skills
+            };
         }
 
-        public Task<IReadOnlyCollection<UserDTO>> ReadAsync()
+        public async Task<IReadOnlyCollection<UserDTO>> ReadAsync()
         {
-            throw new NotImplementedException();
+            var users = from u in _context.User
+                           select new UserDTO
+                           {
+                               Firstname = u.Firstname,
+                               Surname = u.Surname,
+                               Mail = u.Mail,
+                               Location = u.Location,
+                               Skills = u.Skills
+                           };
+
+            return await users.ToListAsync();
         }
 
         public Task<bool> UpdateAsync(UserDTO details)

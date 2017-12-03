@@ -39,15 +39,16 @@ namespace CrowdSpark.Models
 
         public async Task<IReadOnlyCollection<ProjectDetailsDTO>> ReadAsync()
         {
-            var projects = from c in _context.Projects
+            var projects = from p in _context.Projects
                              select new ProjectDetailsDTO
                              {
-                                 Id = c.Id,
-                                 Title = c.Title,
-                                 Description = c.Description,
-                                 LocationId = c.LocationId,
-                                 Skills = c.Skills
+                                 Id = p.Id,
+                                 Title = p.Title,
+                                 Description = p.Description,
+                                 LocationId = p.LocationId,
+                                 Skills = p.Skills
                              };
+
             return await projects.ToListAsync();
         }
 
