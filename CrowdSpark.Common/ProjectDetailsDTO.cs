@@ -15,7 +15,7 @@ namespace CrowdSpark.Common
 
         public string Description { get; set; }
 
-        public int LocationID { get; set; }
+        public int ?LocationId { get; set; }
 
         public ICollection<Skill> Skills { get; set; }
     }

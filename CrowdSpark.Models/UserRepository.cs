@@ -10,6 +10,11 @@ namespace CrowdSpark.Models
     {
         private readonly ICrowdSparkContext _context;
 
+        public UserRepository(ICrowdSparkContext context)
+        {
+            _context = context;
+        }
+
         public Task<int> CreateAsync(UserDTO user)
         {
             throw new NotImplementedException();
