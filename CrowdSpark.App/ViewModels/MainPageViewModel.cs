@@ -1,25 +1,36 @@
-﻿using CrowdSpark.Entitites;
-using System;
-using System.Collections.Generic;
+﻿using CrowdSpark.Common;
+using CrowdSpark.Entitites;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CrowdSpark.App.ViewModels
 {
     class MainPageViewModel : BaseViewModel
     {
-        public ObservableCollection<ProjectPageViewModel> Projects { get; private set; }
-        public ObservableCollection<string> ProjectNames { get; set; }
-        private IProjectsRepository _repository;
+        //get values from db
+        public ObservableCollection<ProjectViewModel> Projects { get; set; }
 
-        public MainPageViewModel(ICrowdSparkContext repository)
+        //dummy items
+        public ObservableCollection<string> ProjectNames = new ObservableCollection<string>();
+        public ObservableCollection<string> listItems = new ObservableCollection<string>();
+        
+        public MainPageViewModel()
         {
-            _repository = repository;
-            Projects = repository.
-        }
+            Projects = new ObservableCollection<ProjectViewModel>();
 
-        public 
+            initDummy();
+        }
+       
+        private void initDummy()
+        {
+            var _location = new Location { Id = 1, City = "Copengahen", Country = "Denmark" };
+            var _projects = new[] { new ProjectDTO { Id = 1, Title = "Project1", Location = _location, Description = "Desc 1"},
+            new ProjectDTO { Id = 2, Title = "Project2", Location = _location, Description = "Desc 2"},
+            new ProjectDTO { Id = 3, Title = "Project3", Location = _location, Description = "Desc 3"}};
+
+            foreach (var p in _projects)
+            {
+                Projects.Add(new ProjectViewModel(p));
+            }
+        }
     }
 }

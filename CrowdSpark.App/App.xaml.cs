@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CrowdSpark.App.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,14 +23,16 @@ namespace CrowdSpark.App
     /// </summary>
     sealed partial class App : Application
     {
+        public static IServiceProvider ServiceProvider { get; } = IoCContainer.Create();
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>

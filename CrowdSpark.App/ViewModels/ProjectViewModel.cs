@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CrowdSpark.App.ViewModels
 {
-    class PostViewModel : BaseViewModel
+    class ProjectViewModel : BaseViewModel
     {
         private int _id;
         public int Id { get => _id; set { if (value != _id) { _id = value; OnPropertyChanged(); } } }
@@ -21,13 +21,15 @@ namespace CrowdSpark.App.ViewModels
         public ICollection<Spark> _sparks;
         public ICollection<Spark> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
 
-        public PostViewModel(PostDTO PostDTO)
+        public ProjectViewModel(ProjectDTO ProjectDTO)
         {
-            Id = PostDTO.Id;
+            Id = ProjectDTO.Id;
 
-            Title = PostDTO.Title;
+            Title = ProjectDTO.Title;
 
-            Location = PostDTO.Location;
+            Location = ProjectDTO.Location;
+
+            Description = ProjectDTO.Description;
 
             //Sparks = PostDTO.Sparks; --??
         }
