@@ -17,7 +17,7 @@ namespace CrowdSpark
         {
             using (var context = new CrowdSparkContext())
             {
-                var user = context.User.FirstOrDefault();
+                //var user = context.User.FirstOrDefault();
 
          //       Console.WriteLine(user.Firstname);
             }
