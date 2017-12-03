@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdSpark.Web", "CrowdSpark.Web\CrowdSpark.Web.csproj", "{5479564F-74EA-43C6-AFAD-5BBE5C7FAB88}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdSpark.Web.Tests", "Cro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdSpark.App", "CrowdSpark.App\CrowdSpark.App.csproj", "{89E674BD-1CFF-4D70-89D9-792DED53A497}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdSpark.Common", "CrowdSpark.Common\CrowdSpark.Common.csproj", "{42717617-47A3-4540-9848-80C736D2581E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdSpark.Common", "CrowdSpark.Common\CrowdSpark.Common.csproj", "{42717617-47A3-4540-9848-80C736D2581E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,16 +45,6 @@ Global
 		{5479564F-74EA-43C6-AFAD-5BBE5C7FAB88}.Release|x64.Build.0 = Release|Any CPU
 		{5479564F-74EA-43C6-AFAD-5BBE5C7FAB88}.Release|x86.ActiveCfg = Release|Any CPU
 		{5479564F-74EA-43C6-AFAD-5BBE5C7FAB88}.Release|x86.Build.0 = Release|Any CPU
-		{ED715FB7-E072-4CAE-8F79-64FA75E10CA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED715FB7-E072-4CAE-8F79-64FA75E10CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED715FB7-E072-4CAE-8F79-64FA75E10CA3}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{ED715FB7-E072-4CAE-8F79-64FA75E10CA3}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{ED715FB7-E072-4CAE-8F79-64FA75E10CA3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{ED715FB7-E072-4CAE-8F79-64FA75E10CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED715FB7-E072-4CAE-8F79-64FA75E10CA3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED715FB7-E072-4CAE-8F79-64FA75E10CA3}.Release|ARM.ActiveCfg = Release|Any CPU
-		{ED715FB7-E072-4CAE-8F79-64FA75E10CA3}.Release|x64.ActiveCfg = Release|Any CPU
-		{ED715FB7-E072-4CAE-8F79-64FA75E10CA3}.Release|x86.ActiveCfg = Release|Any CPU
 		{EF78F4A6-DD99-4688-BDC9-415855C20997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF78F4A6-DD99-4688-BDC9-415855C20997}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF78F4A6-DD99-4688-BDC9-415855C20997}.Debug|ARM.ActiveCfg = Debug|Any CPU
