@@ -17,7 +17,7 @@ namespace CrowdSpark.Controllers
         }
 
         // POST api/values
-        [HttpPost("{title},{description}")]
+        [HttpPost("{title}")]
         public void Post([FromBody]string title)
         {
         }

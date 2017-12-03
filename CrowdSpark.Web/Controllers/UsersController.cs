@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CrowdSpark.Web.Controllers
 {
+
+    public class NameO {
+        public string name { get; set; }
+    }
+
+    [Produces("application/json")]
     [Route("api/[controller]")]
     public class UsersController
     {
@@ -17,17 +23,20 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // GET api/users/skills
-        [HttpGet("skills")]
+        [Route("skills")]
+        [HttpGet]
         public IEnumerable<string> GetSkills()
         {
             return new string[] { "programming", "pyrotechnics" };
         }
 
-        [HttpPost("skills/{name}")]
-        public string GetSkill([FromBody]string name)
+        //[HttpPost("skills{name}")]
+        [Route("skills")]
+        [HttpPost]
+        public string PostSkill([FromBody]NameDTO name)
         {
 //            return "ok, skill already present!";
-            return "skill "+ name + " added!";
+            return "skill "+ name.name + " added!";
         }
 
         /*   [Route("api/users/[controller]")]
