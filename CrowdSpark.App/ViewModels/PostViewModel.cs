@@ -21,7 +21,7 @@ namespace CrowdSpark.App.ViewModels
         public ICollection<Spark> _sparks;
         public ICollection<Spark> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
 
-        public PostViewModel(PostDTO PostDTO)
+        public PostViewModel(ProjectDTO PostDTO)
         {
             Id = PostDTO.Id;
 
