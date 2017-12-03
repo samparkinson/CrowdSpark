@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CrowdSpark.Entitites
 {
-    public class Post
+    public class Project
     {
         public int Id { get; set; }
 
@@ -16,6 +16,8 @@ namespace CrowdSpark.Entitites
         public int? LocationId { get; set; }
 
         public Location Location { get; set; }
+
+        public ICollection<Skill> Skills { get; set; }
 
         public ICollection<Spark> Sparks { get; set; }
     }
