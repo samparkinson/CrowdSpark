@@ -24,8 +24,7 @@ namespace CrowdSpark.Entitites
 
         public Location Location { get; set; }
 
-        //  [Strin]
-        // public string Location { get; set; }
+        public ICollection<Skill> Skills { get; set; }
 
         public ICollection<Spark> Sparks { get; set; }
 
