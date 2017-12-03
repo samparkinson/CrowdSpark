@@ -17,9 +17,23 @@ namespace CrowdSpark.Models
             _context = context;
         }
 
-        public Task<int> CreateAsync(UserDTO user)
+        public async Task<int> CreateAsync(UserDTO user)
         {
-            throw new NotImplementedException();
+            var userToCreate = new User
+            {
+                Firstname = user.Firstname,
+                Surname = user.Surname,
+                Mail = user.Mail,
+                LocationId = user.Location.Id,
+                Skills = user.Skills
+            };
+
+            _context.User.Add(userToCreate);
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return userToCreate.Id;
+            }
+            else throw new DbUpdateException("Error creating user", (Exception)null);
         }
 
         public async Task<bool> DeleteAsync(int userId)
@@ -28,11 +42,6 @@ namespace CrowdSpark.Models
             _context.User.Remove(user);
 
             return ( await _context.SaveChangesAsync() > 0 );
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<UserDTO> FindAsync(int userId)
@@ -64,9 +73,24 @@ namespace CrowdSpark.Models
             return await users.ToListAsync();
         }
 
-        public Task<bool> UpdateAsync(UserDTO details)
+        public async Task<bool> UpdateAsync(int userId, UserDTO user)
         {
-            throw new NotImplementedException();
+            var userToUpdate = await _context.User.FindAsync(userId);
+            _context.User.Update(userToUpdate);
+
+            userToUpdate.Firstname = user.Firstname;
+            userToUpdate.Surname = user.Surname;
+            userToUpdate.Mail = user.Mail;
+            userToUpdate.LocationId = user.Location.Id;
+            userToUpdate.Location = user.Location;
+            userToUpdate.Skills = user.Skills;    
+
+            return (await _context.SaveChangesAsync() > 0);
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
         }
     }
 }
