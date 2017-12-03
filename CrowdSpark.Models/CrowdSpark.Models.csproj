@@ -4,4 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CrowdSpark.Common\CrowdSpark.Common.csproj" />
+    <ProjectReference Include="..\CrowdSpark.Entitites\CrowdSpark.Entitites.csproj" />
+  </ItemGroup>
+
 </Project>
