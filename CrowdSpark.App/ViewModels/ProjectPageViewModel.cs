@@ -21,15 +21,17 @@ namespace CrowdSpark.App.ViewModels
         public ICollection<Spark> _sparks;
         public ICollection<Spark> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
 
-        public ProjectPageViewModel(ProjectDTO ProjectDTO)
+
+        public void Initialize(ProjectViewModel projectViewModel)
         {
-            Id = ProjectDTO.Id;
 
-            Title = ProjectDTO.Title;
+            Id = projectViewModel.Id;
 
-            Location = ProjectDTO.Location;
+            Title = projectViewModel.Title;
 
-            //Sparks = PostDTO.Sparks; --??
+            Description = projectViewModel.Description;
+
+            Location = projectViewModel.Location;
         }
     }
 }
