@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using CrowdSpark.Entitites;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CrowdSpark.Entitites
+namespace CrowdSpark.Common
 {
-    public class Post
+    public class ProjectDTO
     {
         public int Id { get; set; }
 
@@ -12,12 +13,11 @@ namespace CrowdSpark.Entitites
         public string Title { get; set; }
 
         public string Description { get; set; }
-        
+
         public int? LocationId { get; set; }
 
         public Location Location { get; set; }
 
-        public ICollection<Spark> Sparks { get; set; }
+        public ICollection<Skill> Skills { get; set; }
     }
-
 }
