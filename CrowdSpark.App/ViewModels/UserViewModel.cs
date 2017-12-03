@@ -14,7 +14,7 @@ namespace CrowdSpark.App.ViewModels
         public string Firstname { get => _firstname; set { if (value != _firstname) { _firstname = value; OnPropertyChanged(); } } }
 
         private string _surname;
-        public string Surname { get => _firstname; set { if (value != _firstname) { _firstname = value; OnPropertyChanged(); } } }
+        public string Surname { get => _surname; set { if (value != _surname) { _surname = value; OnPropertyChanged(); } } }
 
         private string _mail;
         public string Mail { get => _mail; set { if (value != _mail) { _mail = value; OnPropertyChanged(); } } }
