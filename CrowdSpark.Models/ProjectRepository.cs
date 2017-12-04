@@ -48,7 +48,11 @@ namespace CrowdSpark.Models
         {
             var project = await _context.Projects.FindAsync(projectId);
 
-            return new ProjectDetailsDTO
+            if (project is null)
+            {
+                return null;
+            }
+            else return new ProjectDetailsDTO
             {
                 Id = project.Id,
                 Title = project.Title,
