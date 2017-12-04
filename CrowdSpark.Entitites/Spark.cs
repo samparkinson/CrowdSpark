@@ -2,13 +2,13 @@
 {
     public class Spark
     {
-        public int PostId { get; set; }
+        public int ProjectId { get; set; }
         public int UserId { get; set; }
 
-        public Project Post { get; set; }
+        public Project Project { get; set; }
         public User User { get; set; }
 
-        public int Status { get; set; }
+        public int Status { get; set; } // TODO, create enum for Spark
     }
 
 }
