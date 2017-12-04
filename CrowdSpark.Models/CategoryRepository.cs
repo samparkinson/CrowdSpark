@@ -42,13 +42,7 @@ namespace CrowdSpark.Models
 
         public async Task<Category> FindAsync(int categoryId)
         {
-            var category =  await _context.Categorys.FindAsync(categoryId);
-
-            return new Category
-            {
-                Id = category.Id,
-                Name = category.Name
-            };
+            return await _context.Categorys.FindAsync(categoryId);
         }
 
         public async Task<IReadOnlyCollection<Category>> ReadAsync()
