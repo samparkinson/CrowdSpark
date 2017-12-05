@@ -1,5 +1,6 @@
 ﻿using CrowdSpark.Entitites;
 using System.Collections.Generic;
+using System;
 
 namespace CrowdSpark.Common
 {
@@ -16,5 +17,9 @@ namespace CrowdSpark.Common
         public ICollection<Skill> Skills { get; set; }
 
         public ICollection<Spark> Sparks { get; set; }
+
+        public Category Category { get; set; }
+
+        public DateTime CreatedDate { get; set; }
     }
 }
