@@ -1,4 +1,6 @@
-﻿namespace CrowdSpark.Entitites
+﻿using System;
+
+namespace CrowdSpark.Entitites
 {
     public class Spark
     {
@@ -9,6 +11,8 @@
         public User User { get; set; }
 
         public int Status { get; set; } // TODO, create enum for Spark
+
+        public DateTime CreationDate { get; set; }
     }
 
 }
