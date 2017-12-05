@@ -24,7 +24,7 @@
             </StackPanel>
         </SplitView.Pane>
         <SplitView.Content>
-            <Grid>
+            
                 <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="80" />
@@ -36,6 +36,25 @@
                     
                     <TextBlock Margin="10" Text="Projects" FontSize="40" VerticalAlignment="Top" />
 
+
+                <AppBar IsSticky="True" Margin="10,20,10,10" Grid.Row="0" Grid.Column ="0" ClosedDisplayMode="Compact">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal">
+                            <SearchBox FocusOnKeyboardInput="True" QueryText="WHAT INTERESTS YOU?" QuerySubmitted="mySearchBox_QuerySubmitted" Height="40" MinWidth ="400"/>
+                        </StackPanel>
+                            
+                           
+
+                            
+                        </Grid>
+                    </AppBar>
+ 
+                    
                     <StackPanel Grid.Row="1" Grid.Column="0" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
                         <ScrollViewer Name="ProjectsScrollView" Height="1500" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
                             <ListView x:Name="projectsListView" ItemsSource="{Binding Projects}" SelectionMode="None" 
@@ -61,7 +80,7 @@
                         </ScrollViewer>
                     </StackPanel>
                 </Grid> 
-            </Grid>
+
         </SplitView.Content>
     </SplitView>
 
