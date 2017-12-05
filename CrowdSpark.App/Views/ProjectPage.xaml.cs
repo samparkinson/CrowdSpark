@@ -42,6 +42,8 @@ namespace CrowdSpark.App.Views
 
             _vm.Initialize(_project);
 
+            CountryFlagImage.Source = _vm.CountryFlag;
+
             var rootFrame = Window.Current.Content as Frame;
             //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
