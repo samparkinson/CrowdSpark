@@ -15,6 +15,9 @@ namespace CrowdSpark.App.ViewModels
         private Location _location;
         public Location Location { get => _location; set { if (!value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
 
+        public string City { get; set; }
+        public string Country { get; set; }
+
         public string _description;
         public string Description { get => _description; set { if (value != _description) { _description = value; OnPropertyChanged(); } } }
 
@@ -32,6 +35,9 @@ namespace CrowdSpark.App.ViewModels
             Description = projectViewModel.Description;
 
             Location = projectViewModel.Location;
+
+            City = Location.City;
+            Country = Location.Country;
         }
     }
 }

@@ -43,9 +43,6 @@ namespace CrowdSpark.App
             //Convert arg into project
             var clickedProject = (ProjectViewModel)e.ClickedItem;
 
-            //ProjectViewModel
-            Debug.WriteLine(clickedProject.Title);
-
             Frame.Navigate(typeof(ProjectPage), clickedProject);
         }
 
