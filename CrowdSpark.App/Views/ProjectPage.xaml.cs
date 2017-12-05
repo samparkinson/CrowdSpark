@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -44,7 +45,7 @@ namespace CrowdSpark.App.Views
 
             CountryFlagImage.Source = _vm.CountryFlag;
 
-            var rootFrame = Window.Current.Content as Frame;
+           var rootFrame = Window.Current.Content as Frame;
             //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
@@ -55,7 +56,7 @@ namespace CrowdSpark.App.Views
         {
             MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
         }
-
+        
         private void MenuOptionsList_ItemClick(object sender, ItemClickEventArgs e)
         {
             Console.WriteLine(e.ToString());
