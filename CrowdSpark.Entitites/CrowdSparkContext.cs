@@ -33,7 +33,7 @@ namespace CrowdSpark.Entitites
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Spark>()
-                .HasKey(e => new { e.UserId, e.PostId });
+                .HasKey(e => new { e.ProjectId, e.UserId });
       //      modelBuilder.Entity<EpisodeCharacter>()
       //          .HasKey(e => new { e.EpisodeId, e.CharacterId });
         }

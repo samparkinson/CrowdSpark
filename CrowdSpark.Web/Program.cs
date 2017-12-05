@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using CrowdSpark.Entitites;
+using CrowdSpark.Common;
 
 namespace CrowdSpark
 {
