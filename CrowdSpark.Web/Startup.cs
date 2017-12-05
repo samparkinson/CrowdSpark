@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using CrowdSpark.Entitites;
 using CrowdSpark.Common;
+using CrowdSpark.Logic;
 using CrowdSpark.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -67,6 +68,7 @@ namespace CrowdSpark
             services.AddScoped<ILocationRepository, LocationRepository>();
             services.AddScoped<IAttachmentRepository, AttachmentRepository>();
             services.AddScoped<ISparkRepository, SparkReposiory>();
+            services.AddScoped<IUserLogic, UserLogic>();
 
             var options = new AzureAdOptions();
             Configuration.Bind("AzureAd", options);
