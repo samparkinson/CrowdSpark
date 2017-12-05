@@ -12,7 +12,7 @@ namespace CrowdSpark.Entitites
 
         public int Status { get; set; } // TODO, create enum for Spark
 
-        public DateTime CreationDate { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 
 }
