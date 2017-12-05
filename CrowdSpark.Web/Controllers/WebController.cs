@@ -32,6 +32,14 @@ namespace CrowdSpark.Web.Controllers
             return View();
         }
 
+        [Route("login")]
+        public IActionResult Login()
+        {
+            ViewData["Message"] = "Your login page.";
+
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
