@@ -30,7 +30,6 @@ namespace CrowdSpark
         {
             services.AddMvc();
 
-            
             services.AddDbContext<CrowdSparkContext>( o =>
                 o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -52,9 +51,22 @@ namespace CrowdSpark
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Web/Error");
             }
 
-            app.UseMvc();
+            app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+            routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Web}/{action=Index}/{id?}");
+            });
+
         }
     }
 }

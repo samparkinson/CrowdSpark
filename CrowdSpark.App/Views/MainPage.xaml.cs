@@ -48,5 +48,20 @@ namespace CrowdSpark.App
 
             Frame.Navigate(typeof(ProjectPage), clickedProject);
         }
+
+        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
+        }
+
+        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void mySearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
+        {
+            this.Frame.Navigate(typeof(MainPage), args.QueryText); // navigate to SearchResultPage
+        }
     }
 }
