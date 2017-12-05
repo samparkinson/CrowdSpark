@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+CrowdSpark.Web/appsettings.json
+CrowdSpark.Web/wwwroot/js/config.js
+
 # User-specific files
 *.suo
 *.user
