@@ -48,5 +48,10 @@ namespace CrowdSpark.App
 
             Frame.Navigate(typeof(ProjectPage), clickedProject);
         }
+
+        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
+        }
     }
 }
