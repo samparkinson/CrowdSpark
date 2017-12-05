@@ -9,5 +9,8 @@ namespace CrowdSpark.Common
     {
         [Required]
         public int PId { get; set; }
+
+        [Required]
+        public DateTime CreatedDate { get; set; }
     }
 }

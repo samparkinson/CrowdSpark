@@ -1,5 +1,5 @@
 # CrowdSpark
-Crowdspark is the minimal viable product of a software engineering design project.
+Crowdspark is the minimal viable product of a software engineering design project, executed in the asp.net environment.
 
 ![mockup](https://github.com/samparkinson/CrowdSpark/blob/master/mockup.png)
 
