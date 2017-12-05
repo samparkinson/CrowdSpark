@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Navigation;
 namespace CrowdSpark.App.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Projects page which displays info in a more detailed way
     /// </summary>
     public sealed partial class ProjectPage : Page
     {
@@ -47,8 +47,16 @@ namespace CrowdSpark.App.Views
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
-                
+        }
 
+        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
+        }
+
+        private void MenuOptionsList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Console.WriteLine(e.ToString());
         }
     }
 }
