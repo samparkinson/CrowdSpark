@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using CrowdSpark.Common;
+using CrowdSpark.Logic;
+using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Web.Controllers
 {
@@ -13,37 +15,45 @@ namespace CrowdSpark.Web.Controllers
     [Route("api/users/[controller]")]
     public class UsersController : Controller
     {
-        private readonly IUserRepository _repository;
+        private readonly IUserLogic _userLogic;
 
-        public UsersController(IUserRepository repository)
+        public UsersController(IUserLogic userLogic)
         {
-            _repository = repository;
+            _userLogic = userLogic;
         }
 
         // GET api/users
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var users = await _repository.ReadAsync();
-
-            if (users is null) //NOTE can user actually be null?
-            {
-                return Ok(new UserDTO[] { });
-            }
-            else return Ok(users);
+            return Ok(await _userLogic.GetUsersAsync()); // users can never be null as calling user must be logged in, thus in the db
         }
 
         // GET api/users/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var user = await _repository.FindAsync(id);
+            return Ok(await _userLogic.GetUserAsync(id)); //TODO, decided if users can look at the profile of other users
+        }
 
-            if (user is null) //NOTE can user actually be null?
+        // POST api/users
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]UserDTO user)
+        {
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
-            else return Ok(user);
+
+            var success = await _userLogic.CreateUserAsync(user);
+
+            var userId = 0; //TODO, get userID from auth
+
+            if (success == ResponseLogic.SUCCESS)
+            {
+                return CreatedAtAction(nameof(Get), new { userId }, null);
+            }
+            else return StatusCode(500);
         }
 
         // PUT api/users/
@@ -57,13 +67,17 @@ namespace CrowdSpark.Web.Controllers
 
             var userId = 0; // TODO, get user ID from auth
 
-            var success = await _repository.UpdateAsync(userId, user);
+            var success = await _userLogic.UpdateUserAsync(userId, user);
 
-            if (success)
+            if (success == ResponseLogic.SUCCESS)
             {
                 return NoContent();
             }
-            else return NotFound();
+            else if (success == ResponseLogic.NOT_FOUND)
+            {
+                return NotFound();
+            }
+            else return StatusCode(500);
         }
 
         // DELETE api/users/
@@ -72,13 +86,17 @@ namespace CrowdSpark.Web.Controllers
         {
             var userId = 0; //TODO, get userId from auth
 
-            var success = await _repository.DeleteAsync(userId);
+            var success = await _userLogic.DeleteUserAsync(userId);
 
-            if (success)
+            if (success == ResponseLogic.SUCCESS)
             {
                 return NoContent();
             }
-            else return NotFound();
+            else if (success == ResponseLogic.NOT_FOUND)
+            {
+                return NotFound();
+            }
+            else return StatusCode(500);
         }
 
         // GET api/users/skills
@@ -88,7 +106,7 @@ namespace CrowdSpark.Web.Controllers
         {
             var userId = 0; //TODO, get user id from auth
 
-            var user = await _repository.FindAsync(userId);
+            var user = await _userLogic.GetUserAsync(userId);
 
             if (user is null) //NOTE can user actually be null?
             {
@@ -100,16 +118,8 @@ namespace CrowdSpark.Web.Controllers
         //[HttpPost("skills{name}")]
         [Route("skills")] //NOTE,Is this to create a skill for the user or to create a new skill in our skill db??
         [HttpPost]
-        public async Task<IActionResult> PostSkill([FromBody]SkillDTO skill)
+        public async Task<IActionResult> PostSkill([FromBody]Skill skill)
         {
-            throw new NotImplementedException();
-
-            //NOTE, I think we should create a new project which contains "logic", e.g. adding skills to users and projects, this should also check that the skill is in the skill db etc, if removing skills this is where the check to see if they live in other places as well, this can be called in a non blocking way. I.e. code adds skill to user, says done, but then does the maintainance of the skill task seperatley
-
-            if (skill.PId != null)
-            {
-                ModelState.AddModelError(string.Empty, "PId must be null when creating a skill for a user.");
-            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -117,8 +127,17 @@ namespace CrowdSpark.Web.Controllers
 
             var userId = 0; //TODO, get userId from auth
 
-            var success = await _repository.AddSkillAsync(userId, skill);
+            var success = await _userLogic.AddUserSkillAsync(userId, skill);
 
+            if (success == ResponseLogic.SUCCESS)
+            {
+                return NoContent();
+            }
+            else if (success == ResponseLogic.NOT_FOUND)
+            {
+                return NotFound();
+            }
+            else return StatusCode(500);
         }
     }
 
