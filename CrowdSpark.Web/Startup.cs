@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using CrowdSpark.Entitites;
 using CrowdSpark.Common;
 using CrowdSpark.Models;
+using CrowdSpark.Logic;
 
 namespace CrowdSpark
 {
@@ -42,6 +43,7 @@ namespace CrowdSpark
             services.AddScoped<ILocationRepository, LocationRepository>();
             services.AddScoped<IAttachmentRepository, AttachmentRepository>();
             services.AddScoped<ISparkRepository, SparkReposiory>();
+            services.AddScoped<IUserLogic, UserLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

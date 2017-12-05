@@ -88,11 +88,6 @@ namespace CrowdSpark.Models
             return (await _context.SaveChangesAsync() > 0);
         }
 
-        public async Task<bool> AddSkillAsync(int userId, SkillDTO skill) //NOTE, this should probably be extracted into some sort of logic controller
-        {
-            throw new NotImplementedException();
-        }
-
         public void Dispose()
         {
             _context.Dispose();
