@@ -72,7 +72,7 @@
                             </Grid>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="1" DataContext="{Binding Location}">
+                        <StackPanel Grid.Row="2" DataContext="{Binding Location}">
                             <Grid>
                                 <TextBlock Margin="25" Text="{Binding City}" FontSize="40" VerticalAlignment="Top" />
                             </Grid>
@@ -82,8 +82,8 @@
                             </Grid>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="2">
-                            <Image x:Name="CountryFlagImage" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Row="1">
+                            <Image x:Name="CountryFlagImage" Source="{Binding CountryFlag}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

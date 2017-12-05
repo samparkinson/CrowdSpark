@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace CrowdSpark.App.ViewModels
@@ -33,7 +34,7 @@ namespace CrowdSpark.App.ViewModels
 
         public string LogStatusText { get; set; }
 
-        public BitmapImage CountryFlag { get; set; }
+        public ImageSource CountryFlag { get; set; }
 
         public void Initialize(ProjectViewModel projectViewModel)
         {
@@ -54,13 +55,12 @@ namespace CrowdSpark.App.ViewModels
             CountryFlag = GetCountryFlag(Country);
         }
 
-        private BitmapImage GetCountryFlag(string Country)
+        private ImageSource GetCountryFlag(string Country)
         {
             CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
             CultureInfo cInfo = cultures.FirstOrDefault(culture => new RegionInfo(culture.LCID).EnglishName == Country);
 
             string CountryCode = cInfo.Name.Split("-")[1].ToLower();
-            Debug.WriteLine(String.Format(@"..\Assets\flags\{0}.png", CountryCode));
 
             var fileLocation = new Uri(String.Format(@"ms-appx:..\Assets\flags\{0}.png", CountryCode));
             
