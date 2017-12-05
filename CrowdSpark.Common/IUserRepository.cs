@@ -15,6 +15,8 @@ namespace CrowdSpark.Common
 
         Task<bool> UpdateAsync(int userId, UserDTO details);
 
+        Task<bool> AddSkillAsync(int userId, SkillDTO skill);
+
         Task<bool> DeleteAsync(int userId);
     }
 }

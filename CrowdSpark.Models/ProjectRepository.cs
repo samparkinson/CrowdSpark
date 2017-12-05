@@ -25,7 +25,8 @@ namespace CrowdSpark.Models
                 Description = project.Description,
                 LocationId = project.Location.Id,
                 Location = project.Location,
-                Skills = project.Skills
+                Skills = project.Skills,
+                CreatedDate = project.CreatedDate
             };
 
             _context.Projects.Add(projectToCreate);
@@ -48,13 +49,18 @@ namespace CrowdSpark.Models
         {
             var project = await _context.Projects.FindAsync(projectId);
 
-            return new ProjectDetailsDTO
+            if (project is null)
+            {
+                return null;
+            }
+            else return new ProjectDetailsDTO
             {
                 Id = project.Id,
                 Title = project.Title,
                 Description = project.Description,
                 LocationId = project.Location.Id,
-                Skills = project.Skills
+                Skills = project.Skills,
+                CreatedDate = project.CreatedDate
             };
         }
 
@@ -67,7 +73,8 @@ namespace CrowdSpark.Models
                                  Title = p.Title,
                                  Description = p.Description,
                                  LocationId = p.LocationId,
-                                 Skills = p.Skills
+                                 Skills = p.Skills,
+                                 CreatedDate = p.CreatedDate
                              };
 
             return await projects.ToListAsync();
@@ -85,6 +92,8 @@ namespace CrowdSpark.Models
             projectToUpdate.LocationId = details.LocationId;
             projectToUpdate.Location = location;
             projectToUpdate.Skills = details.Skills;
+            
+            //Not updating created date as it should never be updated
 
             return (await _context.SaveChangesAsync() > 0);
         }
