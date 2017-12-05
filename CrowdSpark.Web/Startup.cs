@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using CrowdSpark.Entitites;
 using CrowdSpark.Common;
 using CrowdSpark.Models;
+using CrowdSpark.Logic;
 
 namespace CrowdSpark
 {
@@ -29,7 +30,6 @@ namespace CrowdSpark
         {
             services.AddMvc();
 
-            
             services.AddDbContext<CrowdSparkContext>( o =>
                 o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -42,6 +42,7 @@ namespace CrowdSpark
             services.AddScoped<ILocationRepository, LocationRepository>();
             services.AddScoped<IAttachmentRepository, AttachmentRepository>();
             services.AddScoped<ISparkRepository, SparkReposiory>();
+            services.AddScoped<IUserLogic, UserLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,9 +51,22 @@ namespace CrowdSpark
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Web/Error");
             }
 
-            app.UseMvc();
+            app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+            routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Web}/{action=Index}/{id?}");
+            });
+
         }
     }
 }
