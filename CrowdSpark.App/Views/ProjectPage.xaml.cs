@@ -43,10 +43,12 @@ namespace CrowdSpark.App.Views
             _vm.Initialize(_project);
 
             var rootFrame = Window.Current.Content as Frame;
-
+            //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
+                
+
         }
     }
 }
