@@ -9,10 +9,6 @@ namespace CrowdSpark.App.ViewModels
     {
         //get values from db
         public ObservableCollection<ProjectViewModel> Projects { get; set; }
-
-        //dummy items
-        public ObservableCollection<string> ProjectNames = new ObservableCollection<string>();
-        public ObservableCollection<string> listItems = new ObservableCollection<string>();
         
         public MainPageViewModel()
         {
@@ -23,13 +19,13 @@ namespace CrowdSpark.App.ViewModels
        
         private void initDummy()
         {
-            var _location = new Location { Id = 1, City = "Copengahen", Country = "Denmark" };
+            var _location = new Location { Id = 1, City = "Copenhagen", Country = "Denmark" };
 
             var dummyProjects = new List<ProjectDTO>();
             
             for (int i = 0; i < 20; i++)
             {
-                dummyProjects.Add(new ProjectDTO { Id = i, Title = "Project " + i, Location = _location, Description = "Desc " + i });
+                dummyProjects.Add(new ProjectDTO { Id = i, Title = "Project " + i, Location = _location, Description = "Description " + i });
             }
 
             foreach (var p in dummyProjects)

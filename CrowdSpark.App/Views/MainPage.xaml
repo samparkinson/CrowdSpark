@@ -23,18 +23,18 @@
                 </StackPanel>
             </StackPanel>
         </SplitView.Pane>
+
         <SplitView.Content>
-            
-                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="80" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Margin="10" Text="Projects" FontSize="40" VerticalAlignment="Top" />
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Margin="10" Text="Projects" FontSize="40" VerticalAlignment="Top" />
 
 
                 <AppBar IsSticky="True" Margin="10,20,10,10" Grid.Row="0" Grid.Column ="0" ClosedDisplayMode="Compact">
@@ -47,39 +47,35 @@
                         <StackPanel Orientation="Horizontal">
                             <SearchBox FocusOnKeyboardInput="True" QueryText="WHAT INTERESTS YOU?" QuerySubmitted="mySearchBox_QuerySubmitted" Height="40" MinWidth ="400"/>
                         </StackPanel>
-                            
-                           
-
-                            
-                        </Grid>
-                    </AppBar>
+                    </Grid>
+                </AppBar>
  
                     
-                    <StackPanel Grid.Row="1" Grid.Column="0" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
-                        <ScrollViewer Name="ProjectsScrollView" Height="1500" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-                            <ListView x:Name="projectsListView" ItemsSource="{Binding Projects}" SelectionMode="None" 
-                      VerticalAlignment="Center" IsItemClickEnabled="True"  ItemClick="projectsListView_ItemClick">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="32"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="1" Grid.Column="0" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                    <ScrollViewer Name="ProjectsScrollView" Height="1500" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                        <ListView x:Name="projectsListView" ItemsSource="{Binding Projects}" SelectionMode="None" 
+                  VerticalAlignment="Center" IsItemClickEnabled="True"  ItemClick="projectsListView_ItemClick">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
 
-                                            <Image Source="../Assets/Square44x44Logo.scale-200.png" Width="32" Height="32" HorizontalAlignment="Left" Grid.Column="0"/>
+                                        <Image Source="../Assets/Square44x44Logo.scale-200.png" Width="32" Height="32" HorizontalAlignment="Left" Grid.Column="0"/>
 
-                                            <StackPanel Margin="20" Grid.Column="1" >
-                                                <TextBlock Text="{Binding Title}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"/>
-                                                <TextBlock Text="{Binding Description}" FontSize="15" MaxHeight="60"/>
-                                            </StackPanel>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </ScrollViewer>
-                    </StackPanel>
-                </Grid> 
+                                        <StackPanel Margin="20" Grid.Column="1" >
+                                            <TextBlock Text="{Binding Title}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding Description}" FontSize="15" MaxHeight="60"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </ScrollViewer>
+                </StackPanel>
+            </Grid> 
 
         </SplitView.Content>
     </SplitView>
