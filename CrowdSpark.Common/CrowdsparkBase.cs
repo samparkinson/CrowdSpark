@@ -36,9 +36,13 @@ namespace CrowdSpark.Common
         DECLINED
     }
 
-    public enum ErrorCodes
+    public enum ResponseLogic
     {
-        GOOD
+        SUCCESS,
+        ERROR_CREATING,
+        ERROR_UPDATING,
+        ERROR_DELETING,
+        NOT_FOUND
     }
     
 }
