@@ -1,5 +1,6 @@
 ﻿using CrowdSpark.Common;
 using CrowdSpark.Entitites;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace CrowdSpark.App.ViewModels
@@ -23,11 +24,15 @@ namespace CrowdSpark.App.ViewModels
         private void initDummy()
         {
             var _location = new Location { Id = 1, City = "Copengahen", Country = "Denmark" };
-            var _projects = new[] { new ProjectDTO { Id = 1, Title = "Project1", Location = _location, Description = "Desc 1"},
-            new ProjectDTO { Id = 2, Title = "Project2", Location = _location, Description = "Desc 2"},
-            new ProjectDTO { Id = 3, Title = "Project3", Location = _location, Description = "Desc 3"}};
 
-            foreach (var p in _projects)
+            var dummyProjects = new List<ProjectDTO>();
+            
+            for (int i = 0; i < 20; i++)
+            {
+                dummyProjects.Add(new ProjectDTO { Id = i, Title = "Project " + i, Location = _location, Description = "Desc " + i });
+            }
+
+            foreach (var p in dummyProjects)
             {
                 Projects.Add(new ProjectViewModel(p));
             }
