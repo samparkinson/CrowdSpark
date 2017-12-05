@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+<h1>ADAL.js sample</h1>
+<p>
+    A minimal sample app using ADAL.JS and vanilla JavaScript to obtain
+    an access token from Azure Active Directory and make an API request.
+</p>
+<p>
+    <a href="#" onclick="authContext.login(); return false;">Log in</a> |
+    <a href="#" onclick="authContext.logOut(); return false;">Log out</a>
+</p>
+<p id="username"></p>
+<pre id="api-response"></pre>
+<pre id="api-token"></pre>
+
+<script type="text/javascript">
+
+    // Set up ADAL
+    var authContext = new AuthenticationContext(config);
+    var baseUrl = "https://crowdsparkapp.azurewebsites.net/"
+
+    // Make an AJAX request to the Microsoft Graph API and print the response as JSON.
+    var getCharacters = function (access_token) {
+        document.getElementById('api-response').textContent = 'Calling API...';
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', baseUrl + 'api/characters', true);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Do something with the response
+                document.getElementById('api-response').textContent =
+                    JSON.stringify(JSON.parse(xhr.responseText), null, '  ');
+            } else {
+                // TODO: Do something with the error (or non-200 responses)
+                document.getElementById('api-response').textContent =
+                    'ERROR:\n\n' + xhr.responseText;
+                err = xhr;
+            }
+        };
+        xhr.send();
+    }
+
+    if (authContext.isCallback(window.location.hash)) {
+
+        // Handle redirect after token requests
+        authContext.handleWindowCallback();
+        var err = authContext.getLoginError();
+        if (err) {
+            // TODO: Handle errors signing in and getting tokens
+            document.getElementById('api-response').textContent =
+                'ERROR:\n\n' + err;
+        }
+
+    } else {
+
+        // If logged in, get access token and make an API request
+        var user = authContext.getCachedUser();
+        if (user) {
+
+            document.getElementById('username').textContent = 'Signed in as: ' + user.userName;
+            document.getElementById('api-response').textContent = 'Getting access token...';
+
+            // Get an access token to the API
+            authContext.acquireToken(
+                config.apiResourceId,
+                function (error, token) {
+
+                    if (error || !token) {
+                        // TODO: Handle error obtaining access token
+                        document.getElementById('api-response').textContent = 'ERROR:\n\n' + error;
+                        return;
+                    }
+
+                    // Use the access token
+                    document.getElementById('api-token').textContent = token;
+                    getCharacters(token);
+                }
+            );
+
+        } else {
+            document.getElementById('username').textContent = 'Not signed in.';
+        }
+    }
+</script>
