@@ -53,5 +53,15 @@ namespace CrowdSpark.App
         {
             MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
         }
+
+        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void mySearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
+        {
+            this.Frame.Navigate(typeof(MainPage), args.QueryText); // navigate to SearchResultPage
+        }
     }
 }
