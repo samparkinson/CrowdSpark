@@ -60,5 +60,10 @@ namespace CrowdSpark.App
         {
             this.Frame.Navigate(typeof(MainPage), args.QueryText); // navigate to SearchResultPage
         }
+
+        private void LogButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

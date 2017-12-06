@@ -23,8 +23,8 @@ namespace CrowdSpark.App.ViewModels
         private Location _location;
         public Location Location { get => _location; set { if (!value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
 
-        public string City { get; set; }
-        public string Country { get; set; }
+        //public string City { get; set; }
+        //public string Country { get; set; }
 
         public string _description;
         public string Description { get => _description; set { if (value != _description) { _description = value; OnPropertyChanged(); } } }
@@ -47,12 +47,12 @@ namespace CrowdSpark.App.ViewModels
 
             Location = projectViewModel.Location;
 
-            City = Location.City;
-            Country = Location.Country;
+            //City = Location.City;
+            //Country = Location.Country;
 
             LogStatusText = "Log Out";
 
-            CountryFlag = GetCountryFlag(Country);
+            CountryFlag = GetCountryFlag(Location.Country);
         }
 
         private ImageSource GetCountryFlag(string Country)
@@ -62,7 +62,7 @@ namespace CrowdSpark.App.ViewModels
 
             string CountryCode = cInfo.Name.Split("-")[1].ToLower();
 
-            var fileLocation = new Uri(String.Format(@"ms-appx:..\Assets\flags\{0}.png", CountryCode));
+            var fileLocation = new Uri(String.Format(@"ms-appx:Assets\flags\{0}.png", CountryCode));
             
             return new BitmapImage(fileLocation);
         }
