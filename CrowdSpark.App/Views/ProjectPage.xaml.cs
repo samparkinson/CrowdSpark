@@ -61,5 +61,15 @@ namespace CrowdSpark.App.Views
         {
             Console.WriteLine(e.ToString());
         }
+
+        private void LogButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
+        {
+
+        }
     }
 }
