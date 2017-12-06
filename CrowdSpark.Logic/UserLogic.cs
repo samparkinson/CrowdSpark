@@ -43,7 +43,8 @@ namespace CrowdSpark.Logic
             {
                 return ResponseLogic.ERROR_CREATING;
             }
-            else return ResponseLogic.SUCCESS;
+
+            return ResponseLogic.SUCCESS;
         }
 
         public async Task<ResponseLogic> UpdateUserAsync(int userId, UserDTO user)
@@ -76,20 +77,19 @@ namespace CrowdSpark.Logic
             {
                 return ResponseLogic.SUCCESS;
             }
-            else
-            {
-                // roll back skill changes 
-                foreach (var skill in skillsToAdd)
-                {
-                    await _skillLogic.RemoveSkillAsync(skill); //TODO, need to convert this to a parralle for each
-                }
-                foreach (var skill in skillsToRemove)
-                {
-                    await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parralle for each
-                }
 
-                return ResponseLogic.ERROR_UPDATING;
+            // roll back skill changes 
+            foreach (var skill in skillsToAdd)
+            {
+                await _skillLogic.RemoveSkillAsync(skill); //TODO, need to convert this to a parralle for each
             }
+            foreach (var skill in skillsToRemove)
+            {
+                await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parralle for each
+            }
+
+            return ResponseLogic.ERROR_UPDATING;
+
         }
 
         public async Task<ResponseLogic> DeleteUserAsync(int userId)
