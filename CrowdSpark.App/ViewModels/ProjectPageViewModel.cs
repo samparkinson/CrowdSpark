@@ -1,7 +1,9 @@
-﻿using CrowdSpark.Common;
+﻿using CrowdSpark.App.Helpers;
+using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -22,20 +24,15 @@ namespace CrowdSpark.App.ViewModels
 
         private Location _location;
         public Location Location { get => _location; set { if (!value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
-
-        //public string City { get; set; }
-        //public string Country { get; set; }
-
+        
         public string _description;
         public string Description { get => _description; set { if (value != _description) { _description = value; OnPropertyChanged(); } } }
 
         public ICollection<Spark> _sparks;
         public ICollection<Spark> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
-
-        public string LogStatusText { get; set; }
-
+        
         public ImageSource CountryFlag { get; set; }
-
+        
         public void Initialize(ProjectViewModel projectViewModel)
         {
 
@@ -46,13 +43,10 @@ namespace CrowdSpark.App.ViewModels
             Description = projectViewModel.Description;
 
             Location = projectViewModel.Location;
-
-            //City = Location.City;
-            //Country = Location.Country;
-
-            LogStatusText = "Log Out";
-
+            
             CountryFlag = GetCountryFlag(Location.Country);
+
+            MenuOptions = new HamburgerMenuOptionsFactory("Kenan").MenuOptions;
         }
 
         private ImageSource GetCountryFlag(string Country)

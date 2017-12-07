@@ -13,11 +13,7 @@ namespace CrowdSpark.App.ViewModels
 
         //To set the height of scroll view
         public int ScrollViewHeight { get; set; }
-
-        //Options
-        public ObservableCollection<MenuOption> MenuOptions { get; set; }
-
-
+        
         public MainPageViewModel()
         {
             Projects = new ObservableCollection<ProjectViewModel>();

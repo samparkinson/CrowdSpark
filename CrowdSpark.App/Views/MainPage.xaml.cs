@@ -9,14 +9,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace CrowdSpark.App
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page, IAppPage
     {
 
         private readonly MainPageViewModel _vm;
@@ -33,7 +28,7 @@ namespace CrowdSpark.App
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var rootFrame = Window.Current.Content as Frame;
-
+            
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
@@ -47,25 +42,38 @@ namespace CrowdSpark.App
             Frame.Navigate(typeof(ProjectPage), clickedProject);
         }
 
+        //Handle hamburger menu open/close 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
         }
-
-        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        
+        private void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
-
+            // navigate to SearchResultPage
+            this.Frame.Navigate(typeof(SearchPage), args.QueryText); 
         }
-
-        private void mySearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
+        
+        void IAppPage.OptionsList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.Frame.Navigate(typeof(MainPage), args.QueryText); // navigate to SearchResultPage
-        }
-
-        private void OptionsList_ItemClick(object sender, ItemClickEventArgs e)
-        {
+            //Convert e to MenuOption
             var clickedOption = (MenuOption)e.ClickedItem;
-            
+
+            switch (clickedOption.Icon)
+            {
+                case "Account":
+                    //this.Frame.Navigate(typeof(SearchPage), args.QueryText);
+                    break;
+                case "Page":
+                    //MainPage doesn't need arguments
+                    this.Frame.Navigate(typeof(MainPage), null);
+                    break;
+                case "Setting":
+                    break;
+                case "Message":
+                    break;
+            }
+
             Debug.WriteLine("Text: " + clickedOption.Text);
         }
     }

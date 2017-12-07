@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CrowdSpark.App.Helpers;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CrowdSpark.App.ViewModels
 {
@@ -12,6 +9,9 @@ namespace CrowdSpark.App.ViewModels
     {
         //what is this??? --Ken
         public event PropertyChangedEventHandler PropertyChanged;
+
+        //Options for hamburger menu, every page has a hamburger menu
+        public ObservableCollection<MenuOption> MenuOptions { get; set; }
 
         public void OnPropertyChanged([CallerMemberName]string propertyName = null)
         {
