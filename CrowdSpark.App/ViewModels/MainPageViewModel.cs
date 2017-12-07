@@ -3,6 +3,8 @@ using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Windows.Security.Credentials;
 
 namespace CrowdSpark.App.ViewModels
 {
@@ -17,6 +19,13 @@ namespace CrowdSpark.App.ViewModels
         //Options
         public ObservableCollection<MenuOption> MenuOptions { get; set; }
 
+        // login
+        private static WebAccount account;
+
+        private readonly IAuthenticationHelper helper;
+
+        public ICommand SignInOutCommand { get; }
+
 
         public MainPageViewModel()
         {
@@ -26,9 +35,29 @@ namespace CrowdSpark.App.ViewModels
 
             ScrollViewHeight = Projects.Count * 60;
 
-            MenuOptions = new HamburgerMenuOptionsFactory("Kenan").MenuOptions;
+            MenuOptions = new HamburgerMenuOptionsFactory().MenuOptions;
+
+            SignInOutCommand = new RelayCommand(async o =>
+            {
+                if (account != null)
+                {
+                    await _helper.SignOutAsync(_account);
+                    _account = null;
+                    Characters.Clear();
+                }
+                else
+                {
+                    _account = await _helper.SignInAsync();
+                    if (_account != null)
+                    {
+                        await Initialize();
+                    }
+                }
+            });
         }
-       
+
+
+
         private void initDummy()
         {
             var _location = new Location { Id = 1, City = "Copenhagen", Country = "Denmark" };
