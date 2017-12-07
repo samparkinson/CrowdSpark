@@ -26,14 +26,14 @@ namespace CrowdSpark.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _userLogic.GetUsersAsync()); // users can never be null as calling user must be logged in, thus in the db
+            return Ok(await _userLogic.GetAsync()); // users can never be null as calling user must be logged in, thus in the db
         }
 
         // GET api/users/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _userLogic.GetUserAsync(id)); //TODO, decided if users can look at the profile of other users
+            return Ok(await _userLogic.GetAsync(id)); //TODO, decided if users can look at the profile of other users
         }
 
         // POST api/users
@@ -45,7 +45,7 @@ namespace CrowdSpark.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var success = await _userLogic.CreateUserAsync(user);
+            var success = await _userLogic.CreateAsync(user);
 
             var userId = 0; //TODO, get userID from auth
 
@@ -67,7 +67,7 @@ namespace CrowdSpark.Web.Controllers
 
             var userId = 0; // TODO, get user ID from auth
 
-            var success = await _userLogic.UpdateUserAsync(userId, user);
+            var success = await _userLogic.UpdateAsync(userId, user);
 
             if (success == ResponseLogic.SUCCESS)
             {
@@ -86,7 +86,7 @@ namespace CrowdSpark.Web.Controllers
         {
             var userId = 0; //TODO, get userId from auth
 
-            var success = await _userLogic.DeleteUserAsync(userId);
+            var success = await _userLogic.DeleteAsync(userId);
 
             if (success == ResponseLogic.SUCCESS)
             {
@@ -106,7 +106,7 @@ namespace CrowdSpark.Web.Controllers
         {
             var userId = 0; //TODO, get user id from auth
 
-            var user = await _userLogic.GetUserAsync(userId);
+            var user = await _userLogic.GetAsync(userId);
 
             if (user is null) //NOTE can user actually be null?
             {
@@ -127,7 +127,7 @@ namespace CrowdSpark.Web.Controllers
 
             var userId = 0; //TODO, get userId from auth
 
-            var success = await _userLogic.AddUserSkillAsync(userId, skill);
+            var success = await _userLogic.AddSkillAsync(userId, skill);
 
             if (success == ResponseLogic.SUCCESS)
             {
