@@ -95,12 +95,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\IAppPage.cs" />
     <Compile Include="Helpers\HamburgerMenuOptionsFactory.cs" />
     <Compile Include="Helpers\MenuOption.cs" />
     <Compile Include="Models\AuthenticationHelper.cs" />
-    <Compile Include="Models\AuthorizedHandler.cs" />
+    <Compile Include="Models\AuthorizedHandler.cs/>
     <Compile Include="Models\CurrentUser.cs" />
     <Compile Include="Models\IAuthenticationHelper.cs" />
+<<<<<<< HEAD
     <Compile Include="Models\ISettings.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
@@ -108,13 +110,24 @@
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+=======
+    <Compile Include="Models\ISettings.cs/>
+    <Compile Include="Models\Settings.cs/>
+    <Compile Include="Models\CurrentUser.cs" />
+
+>>>>>>> 18f394ab22b9b3f4a5b47787d0fd12459b7546e9
     <Compile Include="Models\IoCContainer.cs" />
+
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\ProjectViewModel.cs" />
+    <Compile Include="ViewModels\SearchPageViewModel.cs" />
     <Compile Include="ViewModels\ProjectPageViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ProjectPage.xaml.cs">
       <DependentUpon>ProjectPage.xaml</DependentUpon>
     </Compile>

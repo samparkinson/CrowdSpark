@@ -71,5 +71,10 @@ namespace CrowdSpark.App.Views
 
             Debug.WriteLine("Text: " + clickedOption.Text);
         }
+
+        void IAppPage.SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
