@@ -1,5 +1,4 @@
-﻿using CrowdSpark.App.Models;
-using CrowdSpark.Common;
+﻿using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using System;
 using System.Collections.Generic;
@@ -26,20 +25,19 @@ namespace CrowdSpark.App.ViewModels
         private ICollection<Spark> _sparks;
         public ICollection<Spark> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
 
-        public UserViewModel(CurrentUser currentUser)
+        public UserViewModel(UserDTO UserDTO)
         {
-            //Id = currentUser.Id;
+            //Id = UserDTO.Id;
 
-            Firstname = currentUser.Firstname;
+            Firstname = UserDTO.Firstname;
 
-            Surname = currentUser.Surname;
+            Surname = UserDTO.Surname;
 
-            Mail = currentUser.Mail;
+            Mail = UserDTO.Mail;
 
-            Location = currentUser.Location;
+            Location = UserDTO.Location;
 
-            //Sparks = currentUser.Sparks; --??
+            //Sparks = UserDTO.Sparks; --??
         }
-        
     }
 }

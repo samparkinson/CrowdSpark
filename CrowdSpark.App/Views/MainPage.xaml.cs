@@ -1,8 +1,6 @@
 ﻿using CrowdSpark.App.Helpers;
-using CrowdSpark.App.Models;
 using CrowdSpark.App.ViewModels;
 using CrowdSpark.App.Views;
-using CrowdSpark.Entitites;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics;
@@ -82,14 +80,6 @@ namespace CrowdSpark.App
         void IAppPage.SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
             throw new NotImplementedException();
-        }
-
-        private void ProfileButton_Click(object sender, RoutedEventArgs e)
-        {
-            var _location = new Location { Id = 1, City = "Copenhagen", Country = "Denmark" };
-            var dummyUser = new CurrentUser { Firstname = "Firstname", Surname = "Surname", Mail = "test@itu.dk", Location = _location };
-
-            this.Frame.Navigate(typeof(UserPage), dummyUser);
         }
     }
 }
