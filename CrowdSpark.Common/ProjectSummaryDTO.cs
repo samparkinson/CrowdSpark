@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CrowdSpark.Common
 {
-    public class ProjectDetailsDTO
+    public class ProjectSummaryDTO
     {
         public int Id { get; set; }
 
@@ -15,9 +15,11 @@ namespace CrowdSpark.Common
 
         public string Description { get; set; }
 
-        public int ?LocationId { get; set; }
+        public int? LocationId { get; set; }
 
         public ICollection<Skill> Skills { get; set; }
+
+        public Category Category { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; }
