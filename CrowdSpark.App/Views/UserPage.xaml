@@ -11,36 +11,21 @@
             <!--Left side menu-->
             <SplitView.Pane>
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <!--For menu options-->
-                        <RowDefinition Height="*"/>
-                        <!--For settings option-->
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
 
-                    <StackPanel Background="Gray" Grid.Row="0">
-                        <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
-                     Width="45" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
-                        <StackPanel Orientation="Horizontal">
-                            <Button x:Name="ProfileButton" FontFamily="Segoe MDL2 Assets" Content="&#xE825;" Width="48" Height="50" Background="Transparent"/>
-                            <TextBlock Text="Profile" FontSize="18" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Button x:Name="ProjectsButton" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="48" Height="50" Background="Transparent" />
-                            <TextBlock Text="Projects" FontSize="18" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Button x:Name="SettingsButton" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="48" Height="50" Background="Transparent" />
-                            <TextBlock Text="Settings" FontSize="18" VerticalAlignment="Center" />
-                        </StackPanel>
+                    <StackPanel Background="Gray">
+                        <ListView x:Name="OptionsList" HorizontalAlignment="Stretch" IsItemClickEnabled="True" VerticalAlignment="Top" SelectionMode="None" ItemClick="OptionsList_ItemClick" ItemsSource="{Binding MenuOptions}" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="-12,0">
+                                        <SymbolIcon Symbol="{Binding Icon}" Width="48" Height="50"/>
+                                        <TextBlock FontStyle="Italic" FontSize="18" VerticalAlignment="Center" Text="{Binding Text}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackPanel>
 
-                    <StackPanel Background="Gray" Grid.Row="1">
-                        <StackPanel Orientation="Horizontal">
-                            <Button x:Name="LogButton" Click="LogButton_Click" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="48" Height="50" Background="Transparent" />
-                            <TextBlock Text="{Binding LogStatusText}" FontSize="18" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </StackPanel>
+                  
                 </Grid>
             </SplitView.Pane>
 
