@@ -76,13 +76,11 @@ namespace CrowdSpark.App
 
             Debug.WriteLine("Text: " + clickedOption.Text);
         }
-<<<<<<< HEAD
 
         void IAppPage.SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
             throw new NotImplementedException();
         }
-=======
->>>>>>> parent of 9301929... userpage
+
     }
 }

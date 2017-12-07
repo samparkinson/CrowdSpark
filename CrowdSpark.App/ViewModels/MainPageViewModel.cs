@@ -58,8 +58,7 @@ namespace CrowdSpark.App.ViewModels
             });
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         public async Task Initialize()
         {
             account = await helper.GetAccountAsync();
@@ -75,10 +74,6 @@ namespace CrowdSpark.App.ViewModels
                 */
             }
         }
-=======
->>>>>>> parent of 9301929... userpage
-=======
->>>>>>> parent of 9301929... userpage
 
 
         private void initDummy()
