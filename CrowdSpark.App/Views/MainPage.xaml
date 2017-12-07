@@ -51,7 +51,7 @@
                 <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Gray" Margin="10">
                     <SearchBox FocusOnKeyboardInput="True" Margin="10" QuerySubmitted="mySearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="What would you want to do?"/>
                     <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
-                    <Button Content="Profile" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
+                    <Button Content="Profile" Click="ProfileButton_Click" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Grid.Column="0" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >

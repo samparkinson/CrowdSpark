@@ -55,8 +55,8 @@ namespace CrowdSpark.App.ViewModels
                 }
             });
         }
-
-
+        
+    
 
         private void initDummy()
         {
