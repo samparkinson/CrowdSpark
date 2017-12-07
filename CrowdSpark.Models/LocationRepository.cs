@@ -19,7 +19,7 @@ namespace CrowdSpark.Models
 
         public async Task<int> CreateAsync(Location location)
         {
-            _context.Location.Add(location);
+            _context.Locations.Add(location);
             if (await _context.SaveChangesAsync() > 0)
             {
                 return location.Id;
@@ -29,26 +29,26 @@ namespace CrowdSpark.Models
 
         public async Task<bool> DeleteAsync(int locationId)
         {
-            var location = await _context.Location.FindAsync(locationId);
-            _context.Location.Remove(location);
+            var location = await _context.Locations.FindAsync(locationId);
+            _context.Locations.Remove(location);
 
             return ( await _context.SaveChangesAsync() > 0 );
         }
 
         public async Task<Location> FindAsync(int locationId)
         {
-            return await _context.Location.FindAsync(locationId);
+            return await _context.Locations.FindAsync(locationId);
         }
 
         public async Task<IReadOnlyCollection<Location>> ReadAsync()
         {
-            return await _context.Location.ToListAsync();
+            return await _context.Locations.ToListAsync();
         }
 
         public async Task<bool> UpdateAsync(Location details)
         {
-            var locationToUpdate = await _context.Location.FindAsync(details.Id);
-            _context.Location.Update(locationToUpdate);
+            var locationToUpdate = await _context.Locations.FindAsync(details.Id);
+            _context.Locations.Update(locationToUpdate);
 
             locationToUpdate.City = details.City;
             locationToUpdate.Country = details.Country;

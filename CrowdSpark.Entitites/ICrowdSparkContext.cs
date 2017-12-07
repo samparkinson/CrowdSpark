@@ -17,9 +17,9 @@ namespace CrowdSpark.Entitites
 
         DbSet<Spark> Sparks { get; set; }
 
-        DbSet<User> User { get; set; }
+        DbSet<User> Users { get; set; }
 
-        DbSet<Location> Location { get; set; }
+        DbSet<Location> Locations { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
 

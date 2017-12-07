@@ -9,8 +9,8 @@ namespace CrowdSpark.Entitites
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<Spark> Sparks { get; set; }
-        public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<Location> Location { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
 
         public CrowdSparkContext()
         {

@@ -24,11 +24,11 @@ namespace CrowdSpark.Models
                 Firstname = user.Firstname,
                 Surname = user.Surname,
                 Mail = user.Mail,
-                LocationId = user.Location.Id,
+                LocationId = user.Location?.Id,
                 Skills = user.Skills
             };
 
-            _context.User.Add(userToCreate);
+            _context.Users.Add(userToCreate);
             if (await _context.SaveChangesAsync() > 0)
             {
                 return userToCreate.Id;
@@ -38,15 +38,15 @@ namespace CrowdSpark.Models
 
         public async Task<bool> DeleteAsync(int userId)
         {
-            var user = await _context.User.FindAsync(userId);
-            _context.User.Remove(user);
+            var user = await _context.Users.FindAsync(userId);
+            _context.Users.Remove(user);
 
             return ( await _context.SaveChangesAsync() > 0 );
         }
 
         public async Task<UserDTO> FindAsync(int userId)
         {
-            var user =  await _context.User.FindAsync(userId);
+            var user =  await _context.Users.FindAsync(userId);
 
             return new UserDTO
             {
@@ -60,7 +60,7 @@ namespace CrowdSpark.Models
 
         public async Task<IReadOnlyCollection<UserDTO>> ReadAsync()
         {
-            var users = from u in _context.User
+            var users = from u in _context.Users
                            select new UserDTO
                            {
                                Firstname = u.Firstname,
@@ -75,8 +75,8 @@ namespace CrowdSpark.Models
 
         public async Task<bool> UpdateAsync(int userId, UserDTO user)
         {
-            var userToUpdate = await _context.User.FindAsync(userId);
-            _context.User.Update(userToUpdate);
+            var userToUpdate = await _context.Users.FindAsync(userId);
+            _context.Users.Update(userToUpdate);
 
             userToUpdate.Firstname = user.Firstname;
             userToUpdate.Surname = user.Surname;

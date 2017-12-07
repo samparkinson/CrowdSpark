@@ -20,7 +20,7 @@ namespace CrowdSpark.Models
         public async Task<(int, int)> CreateAsync(SparkDTO spark, int userId)
         {
             var project = await _context.Projects.FindAsync(spark.PId);
-            var user = await _context.User.FindAsync(userId);
+            var user = await _context.Users.FindAsync(userId);
 
             var sparkToCreate = new Spark
             {
