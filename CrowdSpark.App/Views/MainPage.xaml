@@ -6,80 +6,96 @@
     xmlns:ms="http://namespaces.mindscape.co.nz/wpf"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local1="using:CrowdSpark.App.Helpers"
     mc:Ignorable="d">
 
-    <SplitView x:Name="MainSplitView" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="50" OpenPaneLength="200">
+    <SplitView x:Name="MainSplitView" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">
         <SplitView.Pane>
-            <StackPanel Background="Gray">
-                <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
-                     Width="50" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="MenuButton1" FontFamily="Segoe MDL2 Assets" Content="&#xE825;" Width="50" Height="50" Background="Transparent"/>
-                    <TextBlock Text="MenuButton1" FontSize="18" VerticalAlignment="Center" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="MenuButton2" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="50" Height="50" Background="Transparent" />
-                    <TextBlock Text="MenuButton2" FontSize="18" VerticalAlignment="Center" />
-                </StackPanel>
-            </StackPanel>
-        </SplitView.Pane>
-        <SplitView.Content>
-            
-                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="80" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <!--For menu options-->
+                    <RowDefinition Height="*"/>
+                    <!--For settings option-->
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Background="Gray" Grid.Row="0" HorizontalAlignment="Stretch">
                     
-                    <TextBlock Margin="10" Text="Projects" FontSize="40" VerticalAlignment="Top" />
+                    <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
+                     Width="45" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
 
-
-                <AppBar IsSticky="True" Margin="10,20,10,10" Grid.Row="0" Grid.Column ="0" ClosedDisplayMode="Compact">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-
-                        <StackPanel Orientation="Horizontal">
-                            <SearchBox FocusOnKeyboardInput="True" QueryText="WHAT INTERESTS YOU?" QuerySubmitted="mySearchBox_QuerySubmitted" Height="40" MinWidth ="400"/>
-                        </StackPanel>
-                            
-                           
-
-                            
-                        </Grid>
-                    </AppBar>
- 
-                    
-                    <StackPanel Grid.Row="1" Grid.Column="0" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
-                        <ScrollViewer Name="ProjectsScrollView" Height="1500" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-                            <ListView x:Name="projectsListView" ItemsSource="{Binding Projects}" SelectionMode="None" 
-                      VerticalAlignment="Center" IsItemClickEnabled="True"  ItemClick="projectsListView_ItemClick">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="32"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <Image Source="../Assets/Square44x44Logo.scale-200.png" Width="32" Height="32" HorizontalAlignment="Left" Grid.Column="0"/>
-
-                                            <StackPanel Margin="20" Grid.Column="1" >
-                                                <TextBlock Text="{Binding Title}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"/>
-                                                <TextBlock Text="{Binding Description}" FontSize="15" MaxHeight="60"/>
-                                            </StackPanel>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </ScrollViewer>
+                    <ListView HorizontalAlignment="Stretch" VerticalAlignment="Top" SelectionMode="None" ItemsSource="{Binding MenuOptions}" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="{Binding Icon}" Margin="0,0,12,0"/>
+                                    <TextBlock FontStyle="Italic" Text="{Binding Text}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <!--<StackPanel Orientation="Horizontal">
+                        <Button x:Name="ProfileButton" FontFamily="Segoe MDL2 Assets" Content="&#xE825;" Width="48" Height="50" Background="Transparent"/>
+                        <TextBlock Text="Profile" FontSize="18" VerticalAlignment="Center" />
                     </StackPanel>
-                </Grid> 
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="ProjectsButton" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="48" Height="50" Background="Transparent" />
+                        <TextBlock Text="Projects" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="SettingsButton" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="48" Height="50" Background="Transparent" />
+                        <TextBlock Text="Settings" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>-->
+                </StackPanel>
+
+                <!--Log in/out button-->
+                <StackPanel Background="Gray" Grid.Row="1">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="LogButton" Click="LogButton_Click" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="48" Height="50" Background="Transparent" />
+                        <TextBlock Text="{Binding LogStatusText}" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </SplitView.Pane>
+
+        <SplitView.Content>
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Gray" Margin="10">
+                    <SearchBox FocusOnKeyboardInput="True" Margin="10" QuerySubmitted="mySearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="What would you want to do?"/>
+                    <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
+                    <Button Content="Profile" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="0" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                    <ScrollViewer Name="ProjectsScrollView" Height="{Binding ScrollViewHeight}" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                        <ListView x:Name="projectsListView" ItemsSource="{Binding Projects}" SelectionMode="None" 
+                  VerticalAlignment="Center" IsItemClickEnabled="True"  ItemClick="projectsListView_ItemClick">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image Source="ms-appx:///Assets/logo-blackwhite.png" Width="32" Height="32" HorizontalAlignment="Left" Grid.Column="0"/>
+
+                                        <StackPanel Margin="20" Grid.Column="1" >
+                                            <TextBlock Text="{Binding Title}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding Description}" FontSize="15" MaxHeight="60"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </ScrollViewer>
+                </StackPanel>
+            </Grid> 
 
         </SplitView.Content>
     </SplitView>

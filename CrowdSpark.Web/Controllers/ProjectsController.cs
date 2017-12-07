@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CrowdSpark.Common;
+using CrowdSpark.Logic;
 
 namespace CrowdSpark.Controllers
 {
@@ -11,18 +12,18 @@ namespace CrowdSpark.Controllers
     [Route("api/projects/[controller]")]
     public class ProjectsController : Controller
     {
-        private readonly IProjectRepository _repository;
+        private readonly IProjectLogic _logic;
 
-        public ProjectsController(IProjectRepository repository )
+        public ProjectsController(IProjectLogic logic )
         {
-            _repository = repository;
+            _logic = logic;
         }
 
         // GET api/projects
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var projects = await _repository.ReadAsync();
+            var projects = await _logic.GetAsync();
 
             if (projects is null)
             {
@@ -35,7 +36,7 @@ namespace CrowdSpark.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var project = await _repository.FindAsync(id);
+            var project = await _logic.GetAsync(id);
 
             if (project is null)
             {
@@ -53,14 +54,14 @@ namespace CrowdSpark.Controllers
                 return BadRequest(ModelState);
             }
 
-            var projectId = await _repository.CreateAsync(project);
+            var projectId = await _logic.CreateAsync(project);
 
             return CreatedAtAction(nameof(Get), new {projectId}, null);
         }
 
         // PUT api/projects/42
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]ProjectDetailsDTO project)
+        public async Task<IActionResult> Put(int id, [FromBody]ProjectSummaryDTO project)
         {
             if (id != project.Id)
             {
@@ -72,26 +73,34 @@ namespace CrowdSpark.Controllers
                 return BadRequest(ModelState);
             }
 
-            var success = await _repository.UpdateAsync(project);
+            var success = await _logic.UpdateAsync(project);
 
-            if (success)
+            if (success == ResponseLogic.SUCCESS)
             {
                 return NoContent();
             }
-            else return NotFound();
+            else if (success == ResponseLogic.NOT_FOUND)
+            {
+                return NotFound();
+            }
+            else return StatusCode(500);
         }
 
         // DELETE api/projects/42
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var success = await _repository.DeleteAsync(id);
+            var success = await _logic.DeleteAsync(id);
 
-            if (success)
+            if (success == ResponseLogic.SUCCESS)
             {
                 return NoContent();
             }
-            else return NotFound();
+            else if (success == ResponseLogic.NOT_FOUND)
+            {
+                return NotFound();
+            }
+            else return StatusCode(500);
         }
     }
 }

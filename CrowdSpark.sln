@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdSpark.Web", "CrowdSpark.Web\CrowdSpark.Web.csproj", "{5479564F-74EA-43C6-AFAD-5BBE5C7FAB88}"
 EndProject
@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdSpark.Models.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdSpark.Web.Tests", "CrowdSpark.Web.Tests\CrowdSpark.Web.Tests.csproj", "{2C3D245D-273B-4D52-B5F4-E60D26EBE5DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdSpark.App", "CrowdSpark.App\CrowdSpark.App.csproj", "{89E674BD-1CFF-4D70-89D9-792DED53A497}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdSpark.UWP", "CrowdSpark.App\CrowdSpark.UWP.csproj", "{89E674BD-1CFF-4D70-89D9-792DED53A497}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdSpark.Common", "CrowdSpark.Common\CrowdSpark.Common.csproj", "{42717617-47A3-4540-9848-80C736D2581E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdSpark.Logic", "CrowdSpark.Logic\CrowdSpark.Logic.csproj", "{127A4A34-CD32-43A3-9BEA-46C00FA9DEDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdSpark.Logic", "CrowdSpark.Logic\CrowdSpark.Logic.csproj", "{127A4A34-CD32-43A3-9BEA-46C00FA9DEDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
