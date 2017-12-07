@@ -79,6 +79,11 @@ namespace CrowdSpark.App
             Debug.WriteLine("Text: " + clickedOption.Text);
         }
 
+        void IAppPage.SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
+        {
+            throw new NotImplementedException();
+        }
+
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
             var _location = new Location { Id = 1, City = "Copenhagen", Country = "Denmark" };
