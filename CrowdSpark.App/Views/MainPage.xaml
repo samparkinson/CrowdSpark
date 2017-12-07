@@ -6,6 +6,7 @@
     xmlns:ms="http://namespaces.mindscape.co.nz/wpf"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local1="using:CrowdSpark.App.Helpers"
     mc:Ignorable="d">
 
     <SplitView x:Name="MainSplitView" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">
@@ -18,10 +19,22 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <StackPanel Background="Gray" Grid.Row="0">
+                <StackPanel Background="Gray" Grid.Row="0" HorizontalAlignment="Stretch">
+                    
                     <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
                      Width="45" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
-                    <StackPanel Orientation="Horizontal">
+
+                    <ListView HorizontalAlignment="Stretch" VerticalAlignment="Top" SelectionMode="None" ItemsSource="{Binding MenuOptions}" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="{Binding Icon}" Margin="0,0,12,0"/>
+                                    <TextBlock FontStyle="Italic" Text="{Binding Text}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <!--<StackPanel Orientation="Horizontal">
                         <Button x:Name="ProfileButton" FontFamily="Segoe MDL2 Assets" Content="&#xE825;" Width="48" Height="50" Background="Transparent"/>
                         <TextBlock Text="Profile" FontSize="18" VerticalAlignment="Center" />
                     </StackPanel>
@@ -32,9 +45,10 @@
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="SettingsButton" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="48" Height="50" Background="Transparent" />
                         <TextBlock Text="Settings" FontSize="18" VerticalAlignment="Center" />
-                    </StackPanel>
+                    </StackPanel>-->
                 </StackPanel>
 
+                <!--Log in/out button-->
                 <StackPanel Background="Gray" Grid.Row="1">
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="LogButton" Click="LogButton_Click" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="48" Height="50" Background="Transparent" />
@@ -69,7 +83,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Image Source="Assets/logo-blackwhite.png" Width="32" Height="32" HorizontalAlignment="Left" Grid.Column="0"/>
+                                        <Image Source="ms-appx:///Assets/logo-blackwhite.png" Width="32" Height="32" HorizontalAlignment="Left" Grid.Column="0"/>
 
                                         <StackPanel Margin="20" Grid.Column="1" >
                                             <TextBlock Text="{Binding Title}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"/>
