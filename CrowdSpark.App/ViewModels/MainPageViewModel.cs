@@ -1,8 +1,12 @@
 ﻿using CrowdSpark.App.Helpers;
+using CrowdSpark.App.Models;
 using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.Security.Credentials;
 
 namespace CrowdSpark.App.ViewModels
 {
@@ -13,7 +17,18 @@ namespace CrowdSpark.App.ViewModels
 
         //To set the height of scroll view
         public int ScrollViewHeight { get; set; }
-        
+
+        //Options
+        public ObservableCollection<MenuOption> MenuOptions { get; set; }
+
+        // login
+        private static WebAccount account;
+
+        private readonly IAuthenticationHelper helper;
+
+        public ICommand SignInOutCommand { get; }
+
+
         public MainPageViewModel()
         {
             Projects = new ObservableCollection<ProjectViewModel>();
@@ -22,9 +37,44 @@ namespace CrowdSpark.App.ViewModels
 
             ScrollViewHeight = Projects.Count * 60;
 
-            MenuOptions = new HamburgerMenuOptionsFactory("Kenan").MenuOptions;
+            MenuOptions = new HamburgerMenuOptionsFactory().MenuOptions;
+
+            SignInOutCommand = new RelayCommand(async o =>
+            {
+                if (account != null)
+                {
+                    await helper.SignOutAsync(account);
+                    account = null;
+                   // Characters.Clear();
+                }
+                else
+                {
+                    account = await helper.SignInAsync();
+                    if (account != null)
+                    {
+                        await Initialize();
+                    }
+                }
+            });
         }
-       
+
+        public async Task Initialize()
+        {
+            account = await helper.GetAccountAsync();
+
+            if (account != null)
+            {
+              // var characters = await _repository.ReadAsync();
+
+    /*            foreach (var character in characters.Select(c => new CharacterViewModel(c)))
+                {
+                    Characters.Add(character);
+                }
+                */
+            }
+        }
+
+
         private void initDummy()
         {
             var _location = new Location { Id = 1, City = "Copenhagen", Country = "Denmark" };
