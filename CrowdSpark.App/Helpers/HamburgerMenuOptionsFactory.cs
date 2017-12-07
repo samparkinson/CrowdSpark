@@ -1,6 +1,4 @@
-﻿using CrowdSpark.App.Models;
-using CrowdSpark.App.ViewModels;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace CrowdSpark.App.Helpers
 {
