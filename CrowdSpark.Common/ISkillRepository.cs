@@ -12,6 +12,10 @@ namespace CrowdSpark.Common
      
         Task<Skill> FindAsync(int skillId);
 
+        Task<Skill> FindAsync(string skillName);
+
+        Task<IEnumerable<Skill>> FindWildcardAsync(string skillName);
+
         Task<IReadOnlyCollection<Skill>> ReadAsync();
 
         Task<bool> UpdateAsync(Skill details);

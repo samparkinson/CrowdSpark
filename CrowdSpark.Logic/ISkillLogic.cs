@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CrowdSpark.Common;
 using CrowdSpark.Entitites;
@@ -7,8 +8,20 @@ namespace CrowdSpark.Logic
 {
     public interface ISkillLogic
     {
-        Task<ResponseLogic> CreateSkillAsync(Skill skill);
+        Task<IEnumerable<Skill>> GetAsync();
 
-        Task<ResponseLogic> RemoveSkillAsync(Skill skill);
+        Task<Skill> GetAsync(int skillId);
+
+        Task<IEnumerable<Skill>> FindAsync(string searchString);
+
+        Task<Skill> FindExactAsync(string searchString);
+
+        Task<ResponseLogic> CreateAsync(Skill skill);
+
+        Task<ResponseLogic> UpdateAsync(Skill skill);
+
+        Task<ResponseLogic> RemoveAsync(Skill skill);
+
+        Task<ResponseLogic> DeleteAsync(int skillId);
     }
 }

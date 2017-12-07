@@ -53,14 +53,14 @@ namespace CrowdSpark.Logic
 
             foreach (var skill in skills)
             {
-                await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.CreateAsync(skill); //TODO, need to convert this to a parallel for each
             }
 
             if (id == 0)
             {
                 foreach (var skill in skills)
                 {
-                    await _skillLogic.RemoveSkillAsync(skill); //TODO, need to convert this to a parallel for each
+                    await _skillLogic.RemoveAsync(skill); //TODO, need to convert this to a parallel for each
                 }
 
                 return ResponseLogic.ERROR_CREATING;
@@ -86,11 +86,11 @@ namespace CrowdSpark.Logic
 
             foreach (var skill in skillsToAdd)
             {
-                await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.CreateAsync(skill); //TODO, need to convert this to a parallel for each
             }
             foreach (var skill in skillsToRemove)
             {
-                await _skillLogic.RemoveSkillAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.RemoveAsync(skill); //TODO, need to convert this to a parallel for each
             }
             
             var success = await _repository.UpdateAsync(project);
@@ -103,11 +103,11 @@ namespace CrowdSpark.Logic
             // roll back skill changes 
             foreach (var skill in skillsToAdd)
             {
-                await _skillLogic.RemoveSkillAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.RemoveAsync(skill); //TODO, need to convert this to a parallel for each
             }
             foreach (var skill in skillsToRemove)
             {
-                await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.CreateAsync(skill); //TODO, need to convert this to a parallel for each
             }
 
             return ResponseLogic.ERROR_UPDATING;
@@ -131,11 +131,11 @@ namespace CrowdSpark.Logic
 
             foreach (var skill in skillsToAdd)
             {
-                await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.CreateAsync(skill); //TODO, need to convert this to a parallel for each
             }
             foreach (var skill in skillsToRemove)
             {
-                await _skillLogic.RemoveSkillAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.RemoveAsync(skill); //TODO, need to convert this to a parallel for each
             }
 
             var location = new Location();
@@ -162,15 +162,14 @@ namespace CrowdSpark.Logic
             // roll back skill changes 
             foreach (var skill in skillsToAdd)
             {
-                await _skillLogic.RemoveSkillAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.RemoveAsync(skill); //TODO, need to convert this to a parallel for each
             }
             foreach (var skill in skillsToRemove)
             {
-                await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.CreateAsync(skill); //TODO, need to convert this to a parallel for each
             }
 
             return ResponseLogic.ERROR_UPDATING;
-
         }
 
         public async Task<ResponseLogic> DeleteAsync(int projectId)
@@ -184,7 +183,7 @@ namespace CrowdSpark.Logic
 
             foreach (var skill in project.Skills)
             {
-                await _skillLogic.RemoveSkillAsync(skill); //TODO, make run in parallel
+                await _skillLogic.RemoveAsync(skill); //TODO, make run in parallel
             } 
 
             var success = await _repository.DeleteAsync(projectId);
@@ -197,7 +196,7 @@ namespace CrowdSpark.Logic
             {
                 foreach (var skill in project.Skills)
                 {
-                    await _skillLogic.CreateSkillAsync(skill); //TODO, make run in parallel
+                    await _skillLogic.CreateAsync(skill); //TODO, make run in parallel
                 }
 
                 return ResponseLogic.ERROR_DELETING;

@@ -24,6 +24,13 @@ namespace CrowdSpark.Models
                 Name = skill.Name
             };
 
+            var existingSkill = await _context.Skills.Where(s => s.Name == skill.Name).FirstOrDefaultAsync();
+
+            if (existingSkill != null)
+            {
+                throw new DbUpdateException("Skill already exists", (Exception)null);
+            }
+
             _context.Skills.Add(skillToCreate);
             if (await _context.SaveChangesAsync() > 0)
             {
@@ -43,6 +50,16 @@ namespace CrowdSpark.Models
         public async Task<Skill> FindAsync(int skillId)
         {
             return await _context.Skills.FindAsync(skillId);
+        }
+
+        public async Task<Skill> FindAsync(string skillName)
+        {
+            return await _context.Skills.Where(s => s.Name.ToLower() == skillName.ToLower()).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Skill>> FindWildcardAsync(string skillName)
+        {
+            return await _context.Skills.Where(s => s.Name.ToLower().Contains(skillName.ToLower())).ToArrayAsync();
         }
 
         public async Task<IReadOnlyCollection<Skill>> ReadAsync()
