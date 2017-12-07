@@ -46,13 +46,13 @@ namespace CrowdSpark
                 .RequireAuthenticatedUser()
                 //.RequireRole("Admin", "SuperUser")
                 .Build();
-            /*
+            
             services.Configure<MvcOptions>(o =>
             {
-                o.Filters.Add(new RequireHttpsAttribute());
-                o.Filters.Add(new AuthorizeFilter(policy));
+        //        o.Filters.Add(new RequireHttpsAttribute());
+        //        o.Filters.Add(new AuthorizeFilter(policy));
             });
-            */
+            
 
             services.AddMvc();
 
@@ -107,8 +107,8 @@ namespace CrowdSpark
                 app.UseExceptionHandler("/Web/Error");
             }
 
-        //    var options = new RewriteOptions().AddRedirectToHttps();
-        //    app.UseRewriter(options);
+            var options = new RewriteOptions().AddRedirectToHttps();
+            app.UseRewriter(options);
 
             app.UseAuthentication();
 
