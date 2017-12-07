@@ -58,6 +58,7 @@ namespace CrowdSpark.App.ViewModels
             });
         }
 
+
         public async Task Initialize()
         {
             account = await helper.GetAccountAsync();

@@ -30,25 +30,18 @@ namespace CrowdSpark.App.ViewModels
 
         public ImageSource CountryFlag { get; set; }
 
-        public void Initialize(UserViewModel userViewModel)
+        public UserPageViewModel(UserDTO UserDTO)
         {
-            Id = userViewModel.Id;
+            Firstname = UserDTO.Firstname;
 
-            Location = userViewModel.Location;
+            Surname = UserDTO.Surname;
 
-            Surname = userViewModel.Surname;
+            Mail = UserDTO.Mail;
 
-            Firstname = userViewModel.Firstname;
-
-            Mail = userViewModel.Mail;
-
-            //City = Location.City;
-            //Country = Location.Country;
+            Location = UserDTO.Location;
 
             CountryFlag = GetCountryFlag(Location.Country);
         }
-
-
         private ImageSource GetCountryFlag(string Country)
         {
             CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
