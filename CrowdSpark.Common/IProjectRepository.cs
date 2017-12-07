@@ -9,11 +9,11 @@ namespace CrowdSpark.Common
     {
         Task<int> CreateAsync(ProjectDTO project);
      
-        Task<ProjectDetailsDTO> FindAsync(int projectId);
+        Task<ProjectDTO> FindAsync(int projectId);
 
-        Task<IReadOnlyCollection<ProjectDetailsDTO>> ReadAsync();
+        Task<IReadOnlyCollection<ProjectSummaryDTO>> ReadAsync();
 
-        Task<bool> UpdateAsync(ProjectDetailsDTO details);
+        Task<bool> UpdateAsync(ProjectDTO details);
 
         Task<bool> DeleteAsync(int projectId);
         

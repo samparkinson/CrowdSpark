@@ -26,6 +26,7 @@ namespace CrowdSpark.Models
                 LocationId = project.Location.Id,
                 Location = project.Location,
                 Skills = project.Skills,
+                Category = project.Category,
                 CreatedDate = project.CreatedDate
             };
 
@@ -45,7 +46,7 @@ namespace CrowdSpark.Models
             return (await _context.SaveChangesAsync() > 0);
         }
 
-        public async Task<ProjectDetailsDTO> FindAsync(int projectId)
+        public async Task<ProjectDTO> FindAsync(int projectId)
         {
             var project = await _context.Projects.FindAsync(projectId);
 
@@ -53,45 +54,48 @@ namespace CrowdSpark.Models
             {
                 return null;
             }
-            else return new ProjectDetailsDTO
+            else return new ProjectDTO
             {
                 Id = project.Id,
                 Title = project.Title,
                 Description = project.Description,
-                LocationId = project.Location.Id,
+                Location = project.Location,
                 Skills = project.Skills,
+                Sparks = project.Sparks,
+                Category = project.Category,
                 CreatedDate = project.CreatedDate
             };
         }
 
-        public async Task<IReadOnlyCollection<ProjectDetailsDTO>> ReadAsync()
+        public async Task<IReadOnlyCollection<ProjectSummaryDTO>> ReadAsync()
         {
             var projects = from p in _context.Projects
-                             select new ProjectDetailsDTO
+                             select new ProjectSummaryDTO
                              {
                                  Id = p.Id,
                                  Title = p.Title,
                                  Description = p.Description,
                                  LocationId = p.LocationId,
                                  Skills = p.Skills,
+                                 Category = p.Category,
                                  CreatedDate = p.CreatedDate
                              };
 
             return await projects.ToListAsync();
         }
 
-        public async Task<bool> UpdateAsync(ProjectDetailsDTO details)
+        public async Task<bool> UpdateAsync(ProjectDTO details)
         {
             var projectToUpdate = await _context.Projects.FindAsync(details.Id);
             _context.Projects.Update(projectToUpdate);
 
-            var location = _context.Location.Find(details.LocationId);
-
             projectToUpdate.Title = details.Title;
             projectToUpdate.Description = details.Description;
-            projectToUpdate.LocationId = details.LocationId;
-            projectToUpdate.Location = location;
+            projectToUpdate.LocationId = details.Location.Id;
+            projectToUpdate.Location = details.Location;
             projectToUpdate.Skills = details.Skills;
+            projectToUpdate.Sparks = details.Sparks;
+            projectToUpdate.Category = details.Category;
             
             //Not updating created date as it should never be updated
 

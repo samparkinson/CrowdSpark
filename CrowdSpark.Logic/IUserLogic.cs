@@ -8,19 +8,19 @@ namespace CrowdSpark.Logic
 {
     public interface IUserLogic
     {
-        Task<IEnumerable<UserDTO>> GetUsersAsync();
+        Task<IEnumerable<UserDTO>> GetAsync();
 
-        Task<UserDTO> GetUserAsync(int userId);
+        Task<UserDTO> GetAsync(int userId);
 
-        Task<ResponseLogic> CreateUserAsync(UserDTO user);
+        Task<ResponseLogic> CreateAsync(UserDTO user);
 
-        Task<ResponseLogic> UpdateUserAsync(int userId, UserDTO user);
+        Task<ResponseLogic> UpdateAsync(int userId, UserDTO user);
 
-        Task<ResponseLogic> DeleteUserAsync(int userId);
+        Task<ResponseLogic> DeleteAsync(int userId);
 
-        Task<ResponseLogic> AddUserSkillAsync(int userId, Skill skill);
+        Task<ResponseLogic> AddSkillAsync(int userId, Skill skill);
 
-        Task<ResponseLogic> RemoveUserSkillAsync(int userId, Skill skill);
+        Task<ResponseLogic> RemoveSkillAsync(int userId, Skill skill);
 
     }
 }

@@ -6,28 +6,44 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <SplitView x:Name="MainSplitView" Background="Gray" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="50" OpenPaneLength="200">
-            <SplitView.Pane>
+    <SplitView x:Name="MainSplitView" Background="Gray" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">
+        <!--Left side menu-->
+        <SplitView.Pane>
             <Grid>
                 <Grid.RowDefinitions>
+                    <!--For menu options-->
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
+                    <!--For settings option-->
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                
-                <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
-                     Width="50" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
 
-                <ListView x:Name="MenuOptionsList" Margin="0,12,0,0" SelectionMode="None" Grid.Row="1" VerticalAlignment="Stretch"
-                    ItemClick="MenuOptionsList_ItemClick" IsItemClickEnabled="True"
-                    ItemsSource="{Binding MenuOptions}" />
+                <StackPanel Background="Gray" Grid.Row="0">
+                    <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
+                     Width="45" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="ProfileButton" FontFamily="Segoe MDL2 Assets" Content="&#xE825;" Width="48" Height="50" Background="Transparent"/>
+                        <TextBlock Text="Profile" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="ProjectsButton" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="48" Height="50" Background="Transparent" />
+                        <TextBlock Text="Projects" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="SettingsButton" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="48" Height="50" Background="Transparent" />
+                        <TextBlock Text="Settings" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
 
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="14,24,0,24">
-                    <SymbolIcon Symbol="Setting" />
-                    <TextBlock Text="Settings" Margin="24,0,0,0" VerticalAlignment="Center" />
+                <StackPanel Background="Gray" Grid.Row="1">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="LogButton" Click="LogButton_Click" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="48" Height="50" Background="Transparent" />
+                        <TextBlock Text="{Binding LogStatusText}" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </SplitView.Pane>
 
+        <!--All except left side menu-->
         <SplitView.Content>
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Grid.RowDefinitions>
@@ -36,36 +52,51 @@
                     <!--For page contents-->
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Row="1" Grid.Column="0" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                <!--Top bar-->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Gray" Margin="10">
+                    <SearchBox FocusOnKeyboardInput="True" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="What would you want to do?"/>
+                    <Button Content="Filter" HorizontalAlignment="Right"></Button>
+                    <Button Content="Profile" HorizontalAlignment="Right"></Button>
+                </StackPanel>
+
+                <!--Body-->
+                <StackPanel Grid.Row="1" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*" />
+                            <!--For Post title and details-->
+                            <RowDefinition Height="Auto"/>
+                            <!--Location-->
+                            <RowDefinition Height="Auto" />
+                            <!--Participants-->
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Row="0" Grid.Column="0" >
-                            <TextBlock Margin="25" Text="{Binding Title}" FontSize="40" VerticalAlignment="Top" />
-                        </Grid>
+                        <!--Title and details-->
+                        <StackPanel Grid.Row="0">
+                            <Grid>
+                                <TextBlock Margin="25" Text="{Binding Title}" FontSize="40" VerticalAlignment="Top" />
+                            </Grid>
 
-                        <Grid Grid.Row="1" Grid.Column="0" >
-                            <TextBlock Margin="25" Text="{Binding Description}" FontSize="24" VerticalAlignment="Bottom" />
-                        </Grid>
-                    </Grid>
+                            <Grid>
+                                <TextBlock Margin="25" Text="{Binding Description}" FontSize="24" VerticalAlignment="Bottom" />
+                            </Grid>
+                        </StackPanel>
 
-                    <Grid Grid.Row="1" Grid.Column="0" >
-                        <TextBlock Margin="25" Text="{Binding City}" FontSize="40" VerticalAlignment="Top" />
-                    </Grid>
+                        <!--Location-->
+                        <StackPanel Grid.Row="1" DataContext="{Binding Location}">
+                            <Grid>
+                                <TextBlock Margin="10,0,0,0" Text="{Binding City}" FontSize="40" VerticalAlignment="Top"/>
+                                <!--{Binding CountryFlag}-->
+                                <Image x:Name="CountryFlagImage" Margin="40,0,0,0" Source="{Binding CountryFlag}" Height="20" Width="30" HorizontalAlignment="Left"/>
+                                <TextBlock Margin="70,70" Text="{Binding Country}" FontSize="24"/>
+                            </Grid>
+                        </StackPanel>
 
-
-                    <Grid Grid.Row="1" Grid.Column="0" >
-                        <TextBlock Margin="25" Text="{Binding Country}" FontSize="40" VerticalAlignment="Top" />
+                        
+                        <StackPanel Grid.Row="2">
+                            <TextBlock Text="Contributors"></TextBlock>
+                        </StackPanel>
                     </Grid>
                 </StackPanel>
             </Grid>
