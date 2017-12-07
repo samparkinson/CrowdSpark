@@ -100,19 +100,16 @@
     <Compile Include="Helpers\MenuOption.cs" />
 
     <Compile Include="Models\AuthenticationHelper.cs" />
-    <Compile Include="Models\AuthorizedHandler.cs/>
+    <Compile Include="Models\AuthorizedHandler.cs />
     <Compile Include="Models\CurrentUser.cs" />
     <Compile Include="Models\IAuthenticationHelper.cs" />
     <Compile Include="Models\ISettings.cs" />
     <Compile Include="Models\Settings.cs" />
+    <Compile Include="Models\IoCContainer.cs" />
 
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\UserPageViewModel.cs" />
 
-    <Compile Include="Models\ISettings.cs/>
-    <Compile Include="Models\Settings.cs/>
-    <Compile Include="Models\CurrentUser.cs" />
-    <Compile Include="Models\IoCContainer.cs" />
 
     <Compile Include="Properties\AssemblyInfo.cs" />
 
