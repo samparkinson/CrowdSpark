@@ -1,30 +1,16 @@
-﻿using CrowdSpark.App.ViewModels;
+﻿using CrowdSpark.App.Helpers;
+using CrowdSpark.App.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Diagnostics;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace CrowdSpark.App.Views
 {
-    /// <summary>
-    /// Projects page which displays info in a more detailed way
-    /// </summary>
-    public sealed partial class ProjectPage : Page
+    public sealed partial class ProjectPage : Page, IAppPage
     {
         private readonly ProjectPageViewModel _vm;
 
@@ -57,19 +43,38 @@ namespace CrowdSpark.App.Views
             MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
         }
         
-        private void MenuOptionsList_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            Console.WriteLine(e.ToString());
-        }
-
-        private void LogButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        
         private void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
+            this.Frame.Navigate(typeof(MainPage), args.QueryText); // navigate to SearchResultPage
+        }
 
+        public void OptionsList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            //Convert e to MenuOption
+            var clickedOption = (MenuOption)e.ClickedItem;
+
+            switch (clickedOption.Icon)
+            {
+                case "Account":
+                    //this.Frame.Navigate(typeof(SearchPage), args.QueryText);
+                    break;
+                case "Page":
+                    //MainPage doesn't need arguments
+                    this.Frame.Navigate(typeof(MainPage), null);
+                    break;
+                case "Setting":
+                    break;
+                case "Message":
+                    break;
+            }
+
+            Debug.WriteLine("Text: " + clickedOption.Text);
+        }
+
+        void IAppPage.SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
+        {
+            throw new NotImplementedException();
         }
     }
 }
