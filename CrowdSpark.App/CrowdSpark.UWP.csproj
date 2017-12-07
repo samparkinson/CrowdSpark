@@ -100,7 +100,7 @@
     <Compile Include="Helpers\MenuOption.cs" />
 
     <Compile Include="Models\AuthenticationHelper.cs" />
-    <Compile Include="Models\AuthorizedHandler.cs />
+    <Compile Include="Models\AuthorizedHandler.cs" />
     <Compile Include="Models\CurrentUser.cs" />
     <Compile Include="Models\IAuthenticationHelper.cs" />
     <Compile Include="Models\ISettings.cs" />
