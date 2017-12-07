@@ -46,7 +46,7 @@ namespace CrowdSpark.App.ViewModels
             
             CountryFlag = GetCountryFlag(Location.Country);
 
-            MenuOptions = new HamburgerMenuOptionsFactory("Kenan").MenuOptions;
+            MenuOptions = new HamburgerMenuOptionsFactory().MenuOptions;
         }
 
         private ImageSource GetCountryFlag(string Country)

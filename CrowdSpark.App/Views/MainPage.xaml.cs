@@ -54,7 +54,7 @@ namespace CrowdSpark.App
             this.Frame.Navigate(typeof(SearchPage), args.QueryText); 
         }
         
-        void IAppPage.OptionsList_ItemClick(object sender, ItemClickEventArgs e)
+        public void OptionsList_ItemClick(object sender, ItemClickEventArgs e)
         {
             //Convert e to MenuOption
             var clickedOption = (MenuOption)e.ClickedItem;
