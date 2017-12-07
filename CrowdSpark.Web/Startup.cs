@@ -46,13 +46,13 @@ namespace CrowdSpark
                 .RequireAuthenticatedUser()
                 //.RequireRole("Admin", "SuperUser")
                 .Build();
-            /*
+            
             services.Configure<MvcOptions>(o =>
             {
-                o.Filters.Add(new RequireHttpsAttribute());
-                o.Filters.Add(new AuthorizeFilter(policy));
+        //        o.Filters.Add(new RequireHttpsAttribute());
+        //        o.Filters.Add(new AuthorizeFilter(policy));
             });
-            */
+            
 
             services.AddMvc();
 
@@ -69,6 +69,7 @@ namespace CrowdSpark
             services.AddScoped<IAttachmentRepository, AttachmentRepository>();
             services.AddScoped<ISparkRepository, SparkReposiory>();
             services.AddScoped<IUserLogic, UserLogic>();
+            services.AddScoped<IProjectLogic, ProjectLogic>();
 
             var options = new AzureAdOptions();
             Configuration.Bind("AzureAd", options);
@@ -107,8 +108,8 @@ namespace CrowdSpark
                 app.UseExceptionHandler("/Web/Error");
             }
 
-        //    var options = new RewriteOptions().AddRedirectToHttps();
-        //    app.UseRewriter(options);
+            var options = new RewriteOptions().AddRedirectToHttps();
+            app.UseRewriter(options);
 
             app.UseAuthentication();
 

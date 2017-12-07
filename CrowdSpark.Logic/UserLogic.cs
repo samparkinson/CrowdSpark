@@ -18,17 +18,17 @@ namespace CrowdSpark.Logic
             _skillLogic = skillLogic;
         }
 
-        public async Task<IEnumerable<UserDTO>> GetUsersAsync()
+        public async Task<IEnumerable<UserDTO>> GetAsync()
         {
             return await _repository.ReadAsync();
         }
 
-        public async Task<UserDTO> GetUserAsync(int userId)
+        public async Task<UserDTO> GetAsync(int userId)
         {
             return await _repository.FindAsync(userId);
         }
 
-        public async Task<ResponseLogic> CreateUserAsync(UserDTO user)
+        public async Task<ResponseLogic> CreateAsync(UserDTO user)
         {
             var skills = user.Skills;
 
@@ -36,18 +36,23 @@ namespace CrowdSpark.Logic
 
             foreach (var skill in skills)
             {
-                await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parralle for each
+                await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parallel for each
             }
 
             if (id == 0)
             {
+                foreach (var skill in skills)
+                {
+                    await _skillLogic.RemoveSkillAsync(skill); //TODO, need to convert this to a parallel for each
+                }
+
                 return ResponseLogic.ERROR_CREATING;
             }
 
             return ResponseLogic.SUCCESS;
         }
 
-        public async Task<ResponseLogic> UpdateUserAsync(int userId, UserDTO user)
+        public async Task<ResponseLogic> UpdateAsync(int userId, UserDTO user)
         {
             var currentUser = await _repository.FindAsync(userId);
 
@@ -64,11 +69,11 @@ namespace CrowdSpark.Logic
 
             foreach (var skill in skillsToAdd)
             {
-                await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parralle for each
+                await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parallel for each
             }
             foreach (var skill in skillsToRemove)
             {
-                await _skillLogic.RemoveSkillAsync(skill); //TODO, need to convert this to a parralle for each
+                await _skillLogic.RemoveSkillAsync(skill); //TODO, need to convert this to a parallel for each
             }
             
             var success = await _repository.UpdateAsync(userId, user);
@@ -81,18 +86,18 @@ namespace CrowdSpark.Logic
             // roll back skill changes 
             foreach (var skill in skillsToAdd)
             {
-                await _skillLogic.RemoveSkillAsync(skill); //TODO, need to convert this to a parralle for each
+                await _skillLogic.RemoveSkillAsync(skill); //TODO, need to convert this to a parallel for each
             }
             foreach (var skill in skillsToRemove)
             {
-                await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parralle for each
+                await _skillLogic.CreateSkillAsync(skill); //TODO, need to convert this to a parallel for each
             }
 
             return ResponseLogic.ERROR_UPDATING;
 
         }
 
-        public async Task<ResponseLogic> DeleteUserAsync(int userId)
+        public async Task<ResponseLogic> DeleteAsync(int userId)
         {
             var user = await _repository.FindAsync(userId);
 
@@ -115,7 +120,7 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_DELETING;
         }
 
-        public async Task<ResponseLogic> AddUserSkillAsync(int userId, Skill skill)
+        public async Task<ResponseLogic> AddSkillAsync(int userId, Skill skill)
         {
             var user = await _repository.FindAsync(userId);
 
@@ -126,10 +131,10 @@ namespace CrowdSpark.Logic
 
             user.Skills.Add(skill);
 
-            return await UpdateUserAsync(userId, user);
+            return await UpdateAsync(userId, user);
         }
 
-        public async Task<ResponseLogic> RemoveUserSkillAsync(int userId, Skill skill)
+        public async Task<ResponseLogic> RemoveSkillAsync(int userId, Skill skill)
         {
             var user = await _repository.FindAsync(userId);
 
@@ -140,7 +145,7 @@ namespace CrowdSpark.Logic
 
             user.Skills.Remove(skill);
 
-            return await UpdateUserAsync(userId, user);
+            return await UpdateAsync(userId, user);
         }
 
     }
