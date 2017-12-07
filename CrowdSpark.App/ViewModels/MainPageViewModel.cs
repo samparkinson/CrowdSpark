@@ -1,8 +1,10 @@
 ﻿using CrowdSpark.App.Helpers;
+using CrowdSpark.App.Models;
 using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Security.Credentials;
 
@@ -41,22 +43,37 @@ namespace CrowdSpark.App.ViewModels
             {
                 if (account != null)
                 {
-                    await _helper.SignOutAsync(_account);
-                    _account = null;
-                    Characters.Clear();
+                    await helper.SignOutAsync(account);
+                    account = null;
+                   // Characters.Clear();
                 }
                 else
                 {
-                    _account = await _helper.SignInAsync();
-                    if (_account != null)
+                    account = await helper.SignInAsync();
+                    if (account != null)
                     {
                         await Initialize();
                     }
                 }
             });
         }
-        
-    
+
+        public async Task Initialize()
+        {
+            account = await helper.GetAccountAsync();
+
+            if (account != null)
+            {
+              // var characters = await _repository.ReadAsync();
+
+    /*            foreach (var character in characters.Select(c => new CharacterViewModel(c)))
+                {
+                    Characters.Add(character);
+                }
+                */
+            }
+        }
+
 
         private void initDummy()
         {
