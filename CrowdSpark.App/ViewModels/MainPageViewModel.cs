@@ -1,4 +1,5 @@
-﻿using CrowdSpark.Common;
+﻿using CrowdSpark.App.Helpers;
+using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +13,11 @@ namespace CrowdSpark.App.ViewModels
 
         //To set the height of scroll view
         public int ScrollViewHeight { get; set; }
-        
+
+        //Options
+        public ObservableCollection<MenuOption> MenuOptions { get; set; }
+
+
         public MainPageViewModel()
         {
             Projects = new ObservableCollection<ProjectViewModel>();
@@ -20,6 +25,8 @@ namespace CrowdSpark.App.ViewModels
             initDummy();
 
             ScrollViewHeight = Projects.Count * 60;
+
+            MenuOptions = new HamburgerMenuOptionsFactory("Kenan").MenuOptions;
         }
        
         private void initDummy()
