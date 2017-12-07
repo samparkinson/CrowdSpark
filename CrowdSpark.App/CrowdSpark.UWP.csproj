@@ -102,20 +102,14 @@
     <Compile Include="Models\AuthorizedHandler.cs/>
     <Compile Include="Models\CurrentUser.cs" />
     <Compile Include="Models\IAuthenticationHelper.cs" />
-<<<<<<< HEAD
     <Compile Include="Models\ISettings.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\UserPageViewModel.cs" />
-    <Compile Include="Views\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-=======
+
     <Compile Include="Models\ISettings.cs/>
     <Compile Include="Models\Settings.cs/>
     <Compile Include="Models\CurrentUser.cs" />
-
->>>>>>> 18f394ab22b9b3f4a5b47787d0fd12459b7546e9
     <Compile Include="Models\IoCContainer.cs" />
 
     <Compile Include="Properties\AssemblyInfo.cs" />
