@@ -1,4 +1,5 @@
-﻿using CrowdSpark.App.ViewModels;
+﻿using CrowdSpark.App.Helpers;
+using CrowdSpark.App.ViewModels;
 using CrowdSpark.App.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -61,9 +62,11 @@ namespace CrowdSpark.App
             this.Frame.Navigate(typeof(MainPage), args.QueryText); // navigate to SearchResultPage
         }
 
-        private void LogButton_Click(object sender, RoutedEventArgs e)
+        private void OptionsList_ItemClick(object sender, ItemClickEventArgs e)
         {
-
+            var clickedOption = (MenuOption)e.ClickedItem;
+            
+            Debug.WriteLine("Text: " + clickedOption.Text);
         }
     }
 }

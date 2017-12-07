@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CrowdSpark.App.Models;
+using CrowdSpark.App.ViewModels;
 using System.Collections.ObjectModel;
 
 namespace CrowdSpark.App.Helpers
@@ -9,6 +10,8 @@ namespace CrowdSpark.App.Helpers
 
         public HamburgerMenuOptionsFactory(string UserName)
         {
+            //should check if the user is logged in
+
             MenuOptions = new ObservableCollection<MenuOption>();
             
             MenuOptions.Add(new MenuOption("Account", UserName));
