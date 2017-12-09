@@ -45,6 +45,16 @@ namespace CrowdSpark.Models
             return await _context.Categorys.FindAsync(categoryId);
         }
 
+        public async Task<Category> FindAsync(string searchString)
+        {
+            return await _context.Categorys.Where(c => c.Name.ToLower() == searchString.ToLower()).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Category>> FindWildcardAsync(string searchString)
+        {
+            return await _context.Categorys.Where(c => c.Name.ToLower().Contains(searchString.ToLower())).ToArrayAsync();
+        }
+
         public async Task<IReadOnlyCollection<Category>> ReadAsync()
         {
             return await _context.Categorys.ToListAsync();

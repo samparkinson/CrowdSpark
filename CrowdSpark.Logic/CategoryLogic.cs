@@ -6,28 +6,26 @@ using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Logic
 {
-    public class SkillLogic : ISkillLogic
+    public class CategoryLogic : ICategoryLogic
     {
-        ISkillRepository _repository;
-        IUserRepository _userRepository;
+        ICategoryRepository _repository;
         IProjectRepository _projectRepository;
 
-        public SkillLogic(ISkillRepository repository, IUserRepository userRepository, IProjectRepository projectRepository)
+        public CategoryLogic(ICategoryRepository repository, IProjectRepository projectRepository)
         {
             _repository = repository;
-            _userRepository = userRepository;
             _projectRepository = projectRepository;
         }
 
-        public async Task<ResponseLogic> CreateAsync(Skill skill)
+        public async Task<ResponseLogic> CreateAsync(CategoryCreateDTO category)
         {
-            var currentSkill = await _repository.FindAsync(skill.Name);
-            if (currentSkill != null)
+            var currentCategory = await _repository.FindAsync(category.Name);
+            if (currentCategory != null)
             {
                 return ResponseLogic.SUCCESS;
             }
 
-            var createdId = await _repository.CreateAsync(skill);
+            var createdId = await _repository.CreateAsync(category);
             if (createdId > 0)
             {
                 return ResponseLogic.SUCCESS;
@@ -35,38 +33,38 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_CREATING;
         }
 
-        public async Task<IEnumerable<Skill>> FindAsync(string searchString)
+        public async Task<IEnumerable<Category>> FindAsync(string searchString)
         {
             return await _repository.FindWildcardAsync(searchString);
         }
 
-        public async Task<Skill> FindExactAsync(string searchString)
+        public async Task<Category> FindExactAsync(string searchString)
         {
             return await _repository.FindAsync(searchString);
         }
 
-        public async Task<IEnumerable<Skill>> GetAsync()
+        public async Task<IEnumerable<Category>> GetAsync()
         {
             return await _repository.ReadAsync();
         }
 
-        public async Task<Skill> GetAsync(int skillId)
+        public async Task<Category> GetAsync(int categoryId)
         {
-            return await _repository.FindAsync(skillId);
+            return await _repository.FindAsync(categoryId);
         }
 
-        public async Task<ResponseLogic> UpdateAsync(Skill skill)
+        public async Task<ResponseLogic> UpdateAsync(Category category)
         {
-            var currentSkill = await _repository.FindAsync(skill.Id);
+            var currentCategory = await _repository.FindAsync(category.Id);
 
-            if (currentSkill is null)
+            if (currentCategory is null)
             {
                 return ResponseLogic.NOT_FOUND;
             }
 
-            currentSkill.Name = skill.Name;
+            currentCategory.Name = category.Name;
 
-            var success = await _repository.UpdateAsync(currentSkill);
+            var success = await _repository.UpdateAsync(currentCategory);
 
             if (success)
             {
@@ -75,28 +73,21 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_UPDATING;
         }
 
-        public async Task<ResponseLogic> RemoveAsync(Skill skill)
+        public async Task<ResponseLogic> RemoveAsync(Category category)
         {
-            var foundSkill = await _repository.FindAsync(skill.Id);
+            var foundCategory = await _repository.FindAsync(category.Id);
 
-            if (foundSkill is null)
+            if (foundCategory is null)
             {
                 return ResponseLogic.NOT_FOUND;
             }
 
-            var users = await _userRepository.ReadAsync();
             var projects = await _projectRepository.ReadAsync();
             var occurrences = 0;
 
-            foreach (var user in users) //TODO, make this run parallel
-            {
-                if (user.Skills.Contains(skill))
-                    occurrences++;
-            }
-
             foreach (var project in projects) //TODO, make this run parallel
             {
-                if (project.Skills.Contains(skill))
+                if (project.Category.Id == category.Id)
                     occurrences++;
             }
 
@@ -105,7 +96,7 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.SUCCESS;
             }
 
-            var success = await _repository.DeleteAsync(skill.Id);
+            var success = await _repository.DeleteAsync(category.Id);
             if (success)
             {
                 return ResponseLogic.SUCCESS;
@@ -113,28 +104,21 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_DELETING;
         }
 
-        public async Task<ResponseLogic> DeleteAsync(int skillId)
+        public async Task<ResponseLogic> DeleteAsync(int categoryId)
         {
-            var skill = await _repository.FindAsync(skillId);
+            var category = await _repository.FindAsync(categoryId);
 
-            if (skill is null)
+            if (category is null)
             {
                 return ResponseLogic.NOT_FOUND;
             }
 
-            var users = await _userRepository.ReadAsync();
             var projects = await _projectRepository.ReadAsync();
             var occurrences = 0;
 
-            foreach (var user in users) //TODO, make this run parallel
-            {
-                if (user.Skills.Contains(skill))
-                    occurrences++;
-            }
-
             foreach (var project in projects) //TODO, make this run parallel
             {
-                if (project.Skills.Contains(skill))
+                if (project.Category.Id == categoryId)
                     occurrences++;
             }
 
@@ -143,7 +127,7 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.SUCCESS;
             }
 
-            var success = await _repository.DeleteAsync(skillId);
+            var success = await _repository.DeleteAsync(categoryId);
             if (success)
             {
                 return ResponseLogic.SUCCESS;

@@ -12,6 +12,10 @@ namespace CrowdSpark.Common
      
         Task<Category> FindAsync(int categoryId);
 
+        Task<Category> FindAsync(string categoryName);
+
+        Task<IEnumerable<Category>> FindWildcardAsync(string categoryName);
+
         Task<IReadOnlyCollection<Category>> ReadAsync();
 
         Task<bool> UpdateAsync(Category details);

@@ -61,6 +61,7 @@ namespace CrowdSpark
 
             // Injection
             services.AddScoped<ICrowdSparkContext, CrowdSparkContext>();
+
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -68,8 +69,11 @@ namespace CrowdSpark
             services.AddScoped<ILocationRepository, LocationRepository>();
             services.AddScoped<IAttachmentRepository, AttachmentRepository>();
             services.AddScoped<ISparkRepository, SparkReposiory>();
+
             services.AddScoped<IUserLogic, UserLogic>();
             services.AddScoped<IProjectLogic, ProjectLogic>();
+            services.AddScoped<ISkillLogic, SkillLogic>();
+            services.AddScoped<ICategoryLogic, CategoryLogic>();
 
             var options = new AzureAdOptions();
             Configuration.Bind("AzureAd", options);
