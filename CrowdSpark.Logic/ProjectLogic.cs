@@ -12,12 +12,14 @@ namespace CrowdSpark.Logic
         private readonly IProjectRepository _repository;
         private readonly ILocationRepository _locationRepository;
         private readonly ISkillLogic _skillLogic;
+        private readonly ISparkLogic _sparkLogic;
 
-        public ProjectLogic(IProjectRepository repository, ILocationRepository locationRepository, ISkillLogic skillLogic)
+        public ProjectLogic(IProjectRepository repository, ILocationRepository locationRepository, ISkillLogic skillLogic, ISparkLogic sparkLogic)
         {
             _repository = repository;
             _locationRepository = locationRepository;
             _skillLogic = skillLogic;
+            _sparkLogic = sparkLogic;
         }
 
         public async Task<IEnumerable<ProjectSummaryDTO>> GetAsync()
@@ -184,7 +186,9 @@ namespace CrowdSpark.Logic
             foreach (var skill in project.Skills)
             {
                 await _skillLogic.RemoveAsync(skill); //TODO, make run in parallel
-            } 
+            }
+
+            await _sparkLogic.DeleteForProjectAsync(projectId);
 
             var success = await _repository.DeleteAsync(projectId);
 

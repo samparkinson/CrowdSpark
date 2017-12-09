@@ -14,6 +14,10 @@ namespace CrowdSpark.Common
 
         Task<IReadOnlyCollection<Spark>> ReadAsync();
 
+        Task<IReadOnlyCollection<Spark>> ReadForProjectAsync(int projectId);
+
+        Task<IReadOnlyCollection<Spark>> ReadForUserAsync(int userId);
+
         Task<bool> UpdateAsync(Spark details);
 
         Task<bool> DeleteAsync(int projectId, int userId);

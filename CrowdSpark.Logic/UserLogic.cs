@@ -10,12 +10,14 @@ namespace CrowdSpark.Logic
     public class UserLogic : IUserLogic
     {
         private readonly IUserRepository _repository;
+        private readonly ISparkLogic _sparkLogic;
         private readonly ISkillLogic _skillLogic;
 
-        public UserLogic(IUserRepository repository, ISkillLogic skillLogic)
+        public UserLogic(IUserRepository repository, ISkillLogic skillLogic, ISparkLogic sparkLogic)
         {
             _repository = repository;
             _skillLogic = skillLogic;
+            _sparkLogic = sparkLogic;
         }
 
         public async Task<IEnumerable<UserDTO>> GetAsync()
@@ -109,7 +111,9 @@ namespace CrowdSpark.Logic
             foreach (var skill in user.Skills)
             {
                 await _skillLogic.RemoveAsync(skill);
-            } 
+            }
+
+            await _sparkLogic.DeleteForUserAsync(userId);
 
             var success = await _repository.DeleteAsync(userId);
 
