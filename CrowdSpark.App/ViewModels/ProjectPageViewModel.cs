@@ -35,7 +35,6 @@ namespace CrowdSpark.App.ViewModels
         
         public void Initialize(ProjectViewModel projectViewModel)
         {
-
             Id = projectViewModel.Id;
 
             Title = projectViewModel.Title;

@@ -82,5 +82,9 @@ namespace CrowdSpark.App
             throw new NotImplementedException();
         }
 
+        private void Profile_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(UserPage), null);
+        }
     }
 }
