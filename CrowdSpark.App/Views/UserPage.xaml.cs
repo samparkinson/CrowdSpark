@@ -1,21 +1,10 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using Microsoft.Extensions.DependencyInjection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -31,7 +20,7 @@ namespace CrowdSpark.App.Views
 
         public UserPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             _vm = App.ServiceProvider.GetService<UserPageViewModel>();
 
@@ -40,16 +29,25 @@ namespace CrowdSpark.App.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var _user = e.Parameter as UserViewModel;
+            //if not signed in
+            if (e.Parameter == null)
+            {
 
-            _vm.Initialize(_user);
-            CountryFlagImage.Source = _vm.CountryFlag;
+            }
+            //await _vm.Initialize();
 
             var rootFrame = Window.Current.Content as Frame;
-            //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
+        }
+
+
+        //Handle hamburger menu open/close 
+        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
         }
 
         public void OptionsList_ItemClick(object sender, ItemClickEventArgs e)
@@ -57,22 +55,30 @@ namespace CrowdSpark.App.Views
             //Convert e to MenuOption
             var clickedOption = (MenuOption)e.ClickedItem;
 
+            var currentFrame = Window.Current.Content as Frame;
+            var currentPage = currentFrame.SourcePageType;
+
             switch (clickedOption.Icon)
             {
                 case "Account":
-                    //this.Frame.Navigate(typeof(SearchPage), args.QueryText);
+                    if (currentPage != typeof(UserPage))
+                    {
+                        //Navigate to user page, send account details
+                        Frame.Navigate(typeof(UserPage), CommonAttributes.account);
+                    }
                     break;
                 case "Page":
-                    //MainPage doesn't need arguments
-                    this.Frame.Navigate(typeof(MainPage), null);
+                    if (currentPage != typeof(MainPage))
+                    {
+                        //MainPage doesn't need arguments
+                        Frame.Navigate(typeof(MainPage));
+                    }
                     break;
                 case "Setting":
                     break;
                 case "Message":
                     break;
             }
-
-            Debug.WriteLine("Text: " + clickedOption.Text);
         }
 
         public void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)

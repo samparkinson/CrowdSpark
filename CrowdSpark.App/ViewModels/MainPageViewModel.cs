@@ -4,6 +4,7 @@ using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Security.Credentials;
@@ -18,15 +19,14 @@ namespace CrowdSpark.App.ViewModels
         //To set the height of scroll view
         public int ScrollViewHeight { get; set; }
 
-        // login
-        private static WebAccount account;
+        //store login information
+        private WebAccount account;
 
         private readonly IAuthenticationHelper helper;
 
         public ICommand SignInOutCommand { get; }
-
-
-        public MainPageViewModel()
+        
+        public MainPageViewModel(IAuthenticationHelper _helper)
         {
             Projects = new ObservableCollection<ProjectViewModel>();
 
@@ -34,8 +34,8 @@ namespace CrowdSpark.App.ViewModels
 
             ScrollViewHeight = Projects.Count * 60;
 
-            MenuOptions = new HamburgerMenuOptionsFactory().MenuOptions;
-
+            helper = _helper;
+            
             SignInOutCommand = new RelayCommand(async o =>
             {
                 if (account != null)
@@ -49,19 +49,28 @@ namespace CrowdSpark.App.ViewModels
                     account = await helper.SignInAsync();
                     if (account != null)
                     {
+                        Debug.WriteLine("Sign in successfull");
                         await Initialize();
                     }
                 }
             });
+            
+            MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
+
+            //Store the stuff in a static class
+            CommonAttributes.MenuOptions = MenuOptions;
+            CommonAttributes.account = account;
         }
 
 
         public async Task Initialize()
         {
-            account = await helper.GetAccountAsync();
 
+            account = await helper.GetAccountAsync();
+            
             if (account != null)
             {
+                Debug.WriteLine("Signed in as " + account.UserName);
               // var characters = await _repository.ReadAsync();
 
     /*            foreach (var character in characters.Select(c => new CharacterViewModel(c)))
@@ -71,8 +80,7 @@ namespace CrowdSpark.App.ViewModels
                 */
             }
         }
-
-
+        
         private void initDummy()
         {
             var _location = new Location { Id = 1, City = "Copenhagen", Country = "Denmark" };

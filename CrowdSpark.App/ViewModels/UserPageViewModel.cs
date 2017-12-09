@@ -1,11 +1,14 @@
-﻿using CrowdSpark.Common;
+﻿using CrowdSpark.App.Helpers;
+using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -30,6 +33,11 @@ namespace CrowdSpark.App.ViewModels
 
         public ImageSource CountryFlag { get; set; }
 
+        public UserPageViewModel()
+        {
+            MenuOptions = CommonAttributes.MenuOptions;
+        }
+
         public void Initialize(UserViewModel userViewModel)
         {
             Firstname = userViewModel.Firstname;
@@ -41,15 +49,8 @@ namespace CrowdSpark.App.ViewModels
             Location = userViewModel.Location;
 
             CountryFlag = GetCountryFlag(Location.Country);
-
-            /*Firstname = "Firstname";
-            Surname = "Surname";
-            Mail = "mail@itu.dk";
-            var _location = new Location { Id = 1, City = "Copenhagen", Country = "Denmark" };
-            Location = _location;
-            CountryFlag = GetCountryFlag(Location.Country); // dummy*/
         }
-
+        
         private ImageSource GetCountryFlag(string Country)
         {
             CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);

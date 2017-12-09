@@ -62,6 +62,33 @@ namespace CrowdSpark.Models.Tests
         }
 
         [Fact]
+        public async void CreateAsync_GivenValidUserDeletesIt_ReturnsSuccess()
+        {
+            var user = new UserDTO
+            {
+                Firstname = "Bob",
+                Surname = "Smith",
+                Mail = "bobsmith@example.com"
+            };
+
+            using (var repository = new UserRepository(context))
+            {
+                var id = await repository.CreateAsync(user);
+                Assert.Equal((await context.Users.FirstAsync()).Id, id);
+                Assert.True( await repository.DeleteAsync(id) );
+            }
+        }
+
+        [Fact]
+        public async void DeleteAsync_GivenInvalidUserId_ReturnsFailed()
+        {
+            using (var repository = new UserRepository(context))
+            {
+                Assert.False(await repository.DeleteAsync(-1));
+            }
+        }
+
+        [Fact]
         public async void CreateAsync_GivenDatabaseSaveError_ReturnsDbUpdateException()
         {
             //TODO, see what excpetion will actually be thrown if that DB is offline

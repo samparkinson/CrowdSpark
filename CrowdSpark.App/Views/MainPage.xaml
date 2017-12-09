@@ -16,7 +16,7 @@
                 <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
                      Width="45" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
 
-                <ListView x:Name="OptionsList" HorizontalAlignment="Stretch" IsItemClickEnabled="True" VerticalAlignment="Top" SelectionMode="None" ItemClick="OptionsList_ItemClick" ItemsSource="{Binding MenuOptions}" >
+                <ListView x:Name="OptionsList" HorizontalAlignment="Stretch" IsItemClickEnabled="True" VerticalAlignment="Top" SelectionMode="Single" ItemClick="OptionsList_ItemClick" ItemsSource="{Binding MenuOptions}" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Margin="-12,0">
@@ -25,18 +25,6 @@
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-
-                    <!--<ListViewItem Grid.Row="1">
-                            -->
-                    <!--Log in/out button-->
-                    <!--
-                            <StackPanel Background="Gray">
-                                <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="LogButton" Click="LogButton_Click" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;" Width="48" Height="50" Background="Transparent" />
-                                    <TextBlock Text="{Binding LogStatusText}" FontSize="18" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </StackPanel>
-                        </ListViewItem>-->
                 </ListView>
             </StackPanel>
         </SplitView.Pane>
@@ -51,7 +39,7 @@
                 <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Gray" Margin="10">
                     <SearchBox FocusOnKeyboardInput="True" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="What would you want to do?"/>
                     <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
-                    <Button Content="Profile" Click="Profile_Click" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
+                    <Button Content="Profile" HorizontalAlignment="Right" Command="{Binding SignInOutCommand}" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Grid.Column="0" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >

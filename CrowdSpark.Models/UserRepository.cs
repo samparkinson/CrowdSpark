@@ -29,7 +29,7 @@ namespace CrowdSpark.Models
             };
 
             _context.Users.Add(userToCreate);
-            if (await _context.SaveChangesAsync() > 0)
+            if (await saveContextChanges() > 0)
             {
                 return userToCreate.Id;
             }
@@ -39,9 +39,10 @@ namespace CrowdSpark.Models
         public async Task<bool> DeleteAsync(int userId)
         {
             var user = await _context.Users.FindAsync(userId);
+            if (user is null) return false;
             _context.Users.Remove(user);
 
-            return ( await _context.SaveChangesAsync() > 0 );
+            return ( await saveContextChanges() > 0 );
         }
 
         public async Task<UserDTO> FindAsync(int userId)
@@ -85,7 +86,19 @@ namespace CrowdSpark.Models
             userToUpdate.Location = user.Location;
             userToUpdate.Skills = user.Skills;    
 
-            return (await _context.SaveChangesAsync() > 0);
+            return (await saveContextChanges() > 0);
+        }
+
+        async Task<int> saveContextChanges()
+        {
+            try
+            {
+                return await _context.SaveChangesAsync();
+            }
+            catch (System.Data.DataException e)
+            {
+                throw new DbUpdateException("Error modifying user collection", e);
+            }
         }
 
         public void Dispose()
