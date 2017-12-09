@@ -28,7 +28,8 @@ namespace CrowdSpark.Models
                 Project = project,
                 UserId = user.Id,
                 User = user,
-                Status = 0 //TODO, set this with the enum
+                Status = 0, //TODO, set this with the enum
+                CreatedDate = spark.CreatedDate
             };
 
             _context.Sparks.Add(sparkToCreate);
@@ -72,7 +73,7 @@ namespace CrowdSpark.Models
             var sparkToUpdate = await _context.Sparks.FindAsync(details.ProjectId, details.UserId);
             _context.Sparks.Update(sparkToUpdate);
 
-            sparkToUpdate.Status = details.Status; //this is the only attribute on a spark that should ever change, the rest are Key objects
+            sparkToUpdate.Status = details.Status; //this is the only attribute on a spark that should ever change
 
             return (await _context.SaveChangesAsync() > 0);
         }
