@@ -49,52 +49,56 @@
                 <!--Body-->
                 <StackPanel Grid.Row="1" Background="#FFB7B5B5" HorizontalAlignment="Stretch" Margin="25,25,25,25" VerticalAlignment="Stretch" >
                     <Grid>
-
+                        <!--Grid for the big two column-->
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
 
-
-                        <!--Title and details-->
+                        <!--LEFT COLUMN: Title and description part-->
                         <StackPanel Margin ="25,25,0,25" Grid.Column="0" Background="#FF716F6F" >
-                            <!-- Set group profile/main picture as a background -->
+                            <!-- TODO: set group profile/main picture as a background -->
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <!--For Post title and details-->
+                                    <!--For Post title-->
                                     <RowDefinition Height="Auto"/>
-                                    <!--Location-->
+                                    <!--Detail-->
                                     <RowDefinition Height="Auto" />
-                                    <!--Participants-->
+                                    <!--Recent Posts-->
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
+                                
                                 <StackPanel Grid.Row="0"  Margin="25" Background="#33FFFFFF">
                                     <Grid>
                                         <TextBlock Margin="25" Text="{Binding Title}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
                                     </Grid>
                                 </StackPanel>
-                            </Grid>
-                            <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#33FFFFFF">
-                                <Grid>
-                                    <TextBlock Margin="25" Foreground="White" Text="{Binding Description}" FontSize="24" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
+                            
+                                <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#33FFFFFF">
+                                    <Grid>
+                                        <TextBlock Margin="25" Foreground="White" Text="{Binding Description}" FontSize="24" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
+                                    </Grid>
+                                </StackPanel>
+                                
+                                <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#33FFFFFF">
+                                    <Grid>
+                                        <TextBlock Margin="25" Foreground="White" Text="RECENT POSTS" FontSize="40" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
+                                    </Grid>
+                                </StackPanel>
                                 </Grid>
                             </StackPanel>
-                            <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#33FFFFFF">
-                                <Grid>
-                                    <TextBlock Margin="25" Foreground="White" Text="RECENT POSTS" FontSize="40" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
-                                </Grid>
-                            </StackPanel>
-                        </StackPanel>
 
-                        <!--Location-->
+                        <!--RIGHT COLUMN-->
                         <StackPanel Grid.Column="1">
+                            <!--Grid for Row definition in Right column-->
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-
+                                
+                                <!--Location-->
                                 <StackPanel DataContext="{Binding Location}" Margin="25" Grid.Row="0" Background="White">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
