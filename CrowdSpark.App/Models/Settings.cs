@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using Windows.Security.Authentication.Web;
 
 namespace CrowdSpark.App.Models
@@ -10,7 +8,7 @@ namespace CrowdSpark.App.Models
 
         public string Tenant => "ituniversity.onmicrosoft.com";
 
-        public string ClientId => "";
+        public string ClientId => "3b85a201-bf78-4d99-96f3-a605f0b7ed88";
 
         public string RedirectUri => $"ms-appx-web://Microsoft.AAD.BrokerPlugIn/{WebAuthenticationBroker.GetCurrentApplicationCallbackUri().Host.ToUpper()}";
 
@@ -18,7 +16,7 @@ namespace CrowdSpark.App.Models
 
         public string WebAccountProviderId => "https://login.microsoft.com";
 
-        public string ApiResource => "https://ituniversity.onmicrosoft.com/crowdspark";
+        public string ApiResource => "https://ituniversity.onmicrosoft.com/crowdspark.Web";
 
         public Uri ApiBaseAddress => new Uri("https://crowdsparkwebapp.azurewebsites.net/");
 
