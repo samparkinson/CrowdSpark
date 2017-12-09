@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -33,6 +34,8 @@ namespace CrowdSpark.Web.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
+            var userId = HttpContext.User.Identity.GetUserId();
+
             return Ok(await _userLogic.GetAsync(id)); //TODO, decided if users can look at the profile of other users
         }
 
