@@ -64,6 +64,7 @@ namespace CrowdSpark.App
             //Convert e to MenuOption
             var clickedOption = (MenuOption)e.ClickedItem;
 
+            //get current page type
             var currentFrame = Window.Current.Content as Frame;
             var currentPage = currentFrame.SourcePageType;
 
@@ -88,8 +89,6 @@ namespace CrowdSpark.App
                 case "Message":
                     break;
             }
-
-            //Debug.WriteLine("Text: " + clickedOption.Text);
         }
 
         private async Task SignIn()

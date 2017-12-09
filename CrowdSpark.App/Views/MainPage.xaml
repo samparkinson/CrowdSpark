@@ -36,13 +36,14 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
+                <!--App bar-->
                 <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Gray" Margin="10">
-                    <SearchBox FocusOnKeyboardInput="True" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="What would you want to do?"/>
+                    <SearchBox FocusOnKeyboardInput="True" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
                     <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                     <Button Content="Profile" HorizontalAlignment="Right" Command="{Binding SignInOutCommand}" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                 </StackPanel>
 
-                <StackPanel Grid.Row="1" Grid.Column="0" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                <StackPanel Grid.Row="1" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
                     <ScrollViewer Name="ProjectsScrollView" Height="{Binding ScrollViewHeight}" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
                         <ListView x:Name="projectsListView" ItemsSource="{Binding Projects}" SelectionMode="None" 
                   VerticalAlignment="Center" IsItemClickEnabled="True"  ItemClick="projectsListView_ItemClick">

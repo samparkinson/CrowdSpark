@@ -2,10 +2,8 @@
 using CrowdSpark.Entitites;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -52,6 +50,7 @@ namespace CrowdSpark.App.ViewModels
 
             string CountryCode = cInfo.Name.Split("-")[1].ToLower();
 
+            //get from db?
             var fileLocation = new Uri(String.Format(@"ms-appx:Assets\flags\{0}.png", CountryCode));
             
             return new BitmapImage(fileLocation);

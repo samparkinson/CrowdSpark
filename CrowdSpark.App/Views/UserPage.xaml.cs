@@ -29,10 +29,10 @@ namespace CrowdSpark.App.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //if not signed in
+            //if user not signed in
             if (e.Parameter == null)
             {
-
+                _vm.SignInOutCommand.Execute(null);
             }
             //await _vm.Initialize();
 

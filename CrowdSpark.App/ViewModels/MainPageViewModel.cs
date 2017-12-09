@@ -19,12 +19,11 @@ namespace CrowdSpark.App.ViewModels
         //To set the height of scroll view
         public int ScrollViewHeight { get; set; }
 
-        //store login information
+        //store login information, 
+        //should this be in base class or common attributes static class??
         private WebAccount account;
 
         private readonly IAuthenticationHelper helper;
-
-        public ICommand SignInOutCommand { get; }
         
         public MainPageViewModel(IAuthenticationHelper _helper)
         {

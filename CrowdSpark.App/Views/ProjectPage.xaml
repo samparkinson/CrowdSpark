@@ -38,16 +38,15 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-
                 <!--Top bar-->
-                <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Gray" Margin="25,25,25,0">
-                    <SearchBox x:Name="SearchBox" FocusOnKeyboardInput="True" Margin="25, 10, 10, 10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?" FontFamily="Roboto Condensed Light" FontStyle="Italic" />
-                    <Button Content="FILTER" HorizontalAlignment="Right" Background="#A5FFFFFF"></Button>
-                    <Button Content="PROFILE" HorizontalAlignment="Right" Background="#A5FFFFFF"></Button>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Gray" Margin="10">
+                    <SearchBox FocusOnKeyboardInput="True" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
+                    <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
+                    <Button Content="Profile" HorizontalAlignment="Right" Command="{Binding SignInOutCommand}" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                 </StackPanel>
 
                 <!--Body-->
-                <StackPanel Grid.Row="1" Background="#FFB7B5B5" HorizontalAlignment="Stretch" Margin="25,25,25,25" VerticalAlignment="Stretch" >
+                <StackPanel Grid.Row="1" Background="#FFB7B5B5" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
                     <Grid>
                         <!--Grid for the big two column-->
                         <Grid.ColumnDefinitions>
@@ -107,7 +106,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <StackPanel Margin="25,25,0,25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Image x:Name="CountryFlagImage"  Source="{Binding CountryFlag}" Height="60" Width="90" HorizontalAlignment="Left" Stretch="UniformToFill"/>
+                                            <Image x:Name="CountryFlagImage"  Source="{Binding CountryFlag}" Height="40" Width="60" HorizontalAlignment="Left"/>
                                         </StackPanel>
                                         <StackPanel Margin="0,25,0,25" Grid.Column="1">
                                             <TextBlock Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
@@ -117,11 +116,15 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
-                                    <TextBlock Margin="25" Text="CONTRIBUTORS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+                                        <TextBlock Margin="25" Text="CONTRIBUTORS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                    </Button>
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#FF6C6C6C">
-                                    <TextBlock Margin="25" Text="SPARK THIS PROJECT" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+                                        <TextBlock Margin="25" Text="SPARK THIS PROJECT" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                    </Button>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
