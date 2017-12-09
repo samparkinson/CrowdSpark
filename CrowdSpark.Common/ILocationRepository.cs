@@ -12,6 +12,12 @@ namespace CrowdSpark.Common
      
         Task<Location> FindAsync(int locationId);
 
+        Task<Location> FindAsync(string searchCity, string searchCountry);
+
+        Task<IEnumerable<Location>> FindWildcardAsync(string city, string country);
+
+        Task<IEnumerable<Location>> FindWildcardAsync(string city);
+
         Task<IReadOnlyCollection<Location>> ReadAsync();
 
         Task<bool> UpdateAsync(Location details);
