@@ -10,7 +10,6 @@
         <!--Left side menu-->
         <SplitView.Pane>
             <Grid>
-
                 <StackPanel Background="Gray">
                     <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
                      Width="45" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
@@ -39,61 +38,94 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
+
                 <!--Top bar-->
-                <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Gray" Margin="10">
-                    <SearchBox x:Name="SearchBox" FocusOnKeyboardInput="True" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="What would you want to do?"/>
-                    <Button Content="Filter" HorizontalAlignment="Right"></Button>
-                    <Button Content="Profile" HorizontalAlignment="Right"></Button>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Gray" Margin="25,25,25,0">
+                    <SearchBox x:Name="SearchBox" FocusOnKeyboardInput="True" Margin="25, 10, 10, 10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?" FontFamily="Roboto Condensed Light" FontStyle="Italic" />
+                    <Button Content="FILTER" HorizontalAlignment="Right" Background="#A5FFFFFF"></Button>
+                    <Button Content="PROFILE" HorizontalAlignment="Right" Background="#A5FFFFFF"></Button>
                 </StackPanel>
 
                 <!--Body-->
-                <StackPanel Grid.Row="1" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                <StackPanel Grid.Row="1" Background="#FFB7B5B5" HorizontalAlignment="Stretch" Margin="25,25,25,25" VerticalAlignment="Stretch" >
                     <Grid>
-                        <Grid.RowDefinitions>
-                            <!--For Post title and details-->
-                            <RowDefinition Height="Auto"/>
-                            <!--Location-->
-                            <RowDefinition Height="Auto" />
-                            <!--Participants-->
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
 
                         <!--Title and details-->
-                        <StackPanel Grid.Row="0">
+                        <StackPanel Margin ="25,25,0,25" Grid.Column="0" Background="#FF716F6F" >
+                            <!-- Set group profile/main picture as a background -->
                             <Grid>
-                                <TextBlock Margin="25" Text="{Binding Title}" FontSize="40" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" VerticalAlignment="Top" />
+                                <Grid.RowDefinitions>
+                                    <!--For Post title and details-->
+                                    <RowDefinition Height="Auto"/>
+                                    <!--Location-->
+                                    <RowDefinition Height="Auto" />
+                                    <!--Participants-->
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0"  Margin="25" Background="#33FFFFFF">
+                                    <Grid>
+                                        <TextBlock Margin="25" Text="{Binding Title}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
+                                    </Grid>
+                                </StackPanel>
                             </Grid>
-
-                            <Grid>
-                                <TextBlock Margin="25,0,25,25" Text="{Binding Description}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" VerticalAlignment="Bottom" />
-                            </Grid>
+                            <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#33FFFFFF">
+                                <Grid>
+                                    <TextBlock Margin="25" Foreground="White" Text="{Binding Description}" FontSize="24" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#33FFFFFF">
+                                <Grid>
+                                    <TextBlock Margin="25" Foreground="White" Text="RECENT POSTS" FontSize="40" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
+                                </Grid>
+                            </StackPanel>
                         </StackPanel>
 
                         <!--Location-->
-                        <StackPanel Grid.Row="1" DataContext="{Binding Location}">
+                        <StackPanel Grid.Column="1">
                             <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="85"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <!--{Binding CountryFlag}-->
-                                <StackPanel Grid.Column="0" >
-                                    <Image x:Name="CountryFlagImage" Margin="25,12,0,0" Source="{Binding CountryFlag}" Height="40" Width="60" HorizontalAlignment="Center" Stretch="Fill"/>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel DataContext="{Binding Location}" Margin="25" Grid.Row="0" Background="White">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Margin="25,25,0,25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Image x:Name="CountryFlagImage"  Source="{Binding CountryFlag}" Height="60" Width="90" HorizontalAlignment="Left" Stretch="UniformToFill"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="0,25,0,25" Grid.Column="1">
+                                            <TextBlock Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
+                                            <TextBlock Margin="25,5,0,0" Text="{Binding Country}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
+                                        </StackPanel>
+                                    </Grid>
                                 </StackPanel>
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock Margin="25,5,0,0" Text="{Binding City}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
-                                    <TextBlock Margin="25,5,0,0" Text="{Binding Country}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
+
+                                <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
+                                    <TextBlock Margin="25" Text="CONTRIBUTORS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#FF6C6C6C">
+                                    <TextBlock Margin="25" Text="SPARK THIS PROJECT" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
                                 </StackPanel>
                             </Grid>
-                        </StackPanel>
-
-                        
-                        <StackPanel Grid.Row="2">
-                            <TextBlock Margin="25,25,25,0" FontSize="24" Text="Contributors" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
             </Grid>
         </SplitView.Content>
-        </SplitView>
+    </SplitView>
 </Page>
+    
+                    
