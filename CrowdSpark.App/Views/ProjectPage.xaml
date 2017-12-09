@@ -61,27 +61,35 @@
                         <!--Title and details-->
                         <StackPanel Grid.Row="0">
                             <Grid>
-                                <TextBlock Margin="25" Text="{Binding Title}" FontSize="40" VerticalAlignment="Top" />
+                                <TextBlock Margin="25" Text="{Binding Title}" FontSize="40" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" VerticalAlignment="Top" />
                             </Grid>
 
                             <Grid>
-                                <TextBlock Margin="25" Text="{Binding Description}" FontSize="24" VerticalAlignment="Bottom" />
+                                <TextBlock Margin="25,0,25,25" Text="{Binding Description}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" VerticalAlignment="Bottom" />
                             </Grid>
                         </StackPanel>
 
                         <!--Location-->
                         <StackPanel Grid.Row="1" DataContext="{Binding Location}">
                             <Grid>
-                                <TextBlock Margin="10,0,0,0" Text="{Binding City}" FontSize="40" VerticalAlignment="Top"/>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
                                 <!--{Binding CountryFlag}-->
-                                <Image x:Name="CountryFlagImage" Margin="40,0,0,0" Source="{Binding CountryFlag}" Height="20" Width="30" HorizontalAlignment="Left"/>
-                                <TextBlock Margin="70,70" Text="{Binding Country}" FontSize="24"/>
+                                <StackPanel Grid.Column="0" >
+                                    <Image x:Name="CountryFlagImage" Margin="25,12,0,0" Source="{Binding CountryFlag}" Height="40" Width="60" HorizontalAlignment="Center" Stretch="Fill"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Margin="25,5,0,0" Text="{Binding City}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
+                                    <TextBlock Margin="25,5,0,0" Text="{Binding Country}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
+                                </StackPanel>
                             </Grid>
                         </StackPanel>
 
                         
                         <StackPanel Grid.Row="2">
-                            <TextBlock Text="Contributors"></TextBlock>
+                            <TextBlock Margin="25,25,25,0" FontSize="24" Text="Contributors" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

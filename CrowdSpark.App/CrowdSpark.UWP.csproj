@@ -132,6 +132,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\Fonts\RobotoCondensed-Light.ttf" />
     <None Include="CrowdSpark.App_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
