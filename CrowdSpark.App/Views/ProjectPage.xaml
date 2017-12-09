@@ -15,7 +15,7 @@
                     <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
                      Width="45" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
 
-                    <ListView x:Name="OptionsList" HorizontalAlignment="Stretch" IsItemClickEnabled="True" VerticalAlignment="Top" SelectionMode="None" ItemClick="OptionsList_ItemClick" ItemsSource="{Binding MenuOptions}" >
+                    <ListView x:Name="OptionsList" HorizontalAlignment="Stretch" IsItemClickEnabled="True" VerticalAlignment="Top" SelectionMode="Single" ItemClick="OptionsList_ItemClick" ItemsSource="{Binding MenuOptions}" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="-12,0">

@@ -4,9 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace CrowdSpark.App.Models
 {
     class IoCContainer
@@ -16,11 +13,15 @@ namespace CrowdSpark.App.Models
         private static IServiceProvider ConfigureServices()
         {
             IServiceCollection services = new ServiceCollection();
-
-            //services.AddScoped<ICharacterRepository, RestCharacterRepository>();
+            
             services.AddScoped<HttpClient>();
             services.AddScoped<MainPageViewModel>();
+            services.AddScoped<UserPageViewModel>();
             services.AddScoped<ProjectPageViewModel>();
+            services.AddScoped<SearchPageViewModel>();
+            services.AddScoped<ISettings, Settings>();
+            services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
+            services.AddScoped<DelegatingHandler, AuthorizedHandler>();
 
             return services.BuildServiceProvider();
         }

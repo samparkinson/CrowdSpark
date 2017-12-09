@@ -15,7 +15,7 @@ namespace CrowdSpark.App.ViewModels
         
         public void Initialize(string Query)
         {
-            MenuOptions = new HamburgerMenuOptionsFactory().MenuOptions;
+
         }
 
 
