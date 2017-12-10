@@ -26,8 +26,6 @@ namespace CrowdSpark.App.ViewModels
         public ICollection<Spark> _sparks;
         public ICollection<Spark> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
         
-        public ImageSource CountryFlag { get; set; }
-        
         public void Initialize(ProjectViewModel projectViewModel)
         {
             Id = projectViewModel.Id;
@@ -38,22 +36,7 @@ namespace CrowdSpark.App.ViewModels
 
             Location = projectViewModel.Location;
             
-            CountryFlag = GetCountryFlag(Location.Country);
-
             MenuOptions = CommonAttributes.MenuOptions;
-        }
-
-        private ImageSource GetCountryFlag(string Country)
-        {
-            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-            CultureInfo cInfo = cultures.FirstOrDefault(culture => new RegionInfo(culture.LCID).EnglishName == Country);
-
-            string CountryCode = cInfo.Name.Split("-")[1].ToLower();
-
-            //get from db?
-            var fileLocation = new Uri(String.Format(@"ms-appx:Assets\flags\{0}.png", CountryCode));
-            
-            return new BitmapImage(fileLocation);
         }
     }
 }

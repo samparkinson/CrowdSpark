@@ -95,6 +95,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BorderConverter.cs" />
+    <Compile Include="Converters\CountryFlagConverter.cs" />
     <Compile Include="Helpers\CommonAttributes.cs" />
     <Compile Include="Helpers\IAppPage.cs" />
     <Compile Include="Helpers\HamburgerMenuOptionsFactory.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="Models\ISettings.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\IoCContainer.cs" />
+    <Compile Include="ViewModels\AddProjectPageViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\UserPageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -397,6 +400,7 @@
       <Name>CrowdSpark.Entitites</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

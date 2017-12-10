@@ -1,31 +1,36 @@
 ﻿using CrowdSpark.App.Helpers;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using CrowdSpark.App.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
+using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace CrowdSpark.App.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class AddProjectPage : Page, IAppPage
     {
+        private readonly AddProjectPageViewModel _vm;
+
         public AddProjectPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            _vm = App.ServiceProvider.GetService<AddProjectPageViewModel>();
+            
+            DataContext = _vm;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            var rootFrame = Window.Current.Content as Frame;
+
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
+                ? AppViewBackButtonVisibility.Visible
+                : AppViewBackButtonVisibility.Collapsed;
         }
 
         public void HamburgerButton_Click(object sender, RoutedEventArgs e)
@@ -70,5 +75,64 @@ namespace CrowdSpark.App.Views
             // navigate to SearchResultPage
             this.Frame.Navigate(typeof(SearchPage), args.QueryText);
         }
+
+        public void PostProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            var flag = true;
+            var ProjectTitle = projectTitleTextBox.Text;
+            if (ProjectTitle == "")
+            {
+                projectTitleTextBox.BorderThickness = new Thickness(2);
+                projectTitleTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
+                flag = false;
+            }
+            else
+            {
+                projectTitleTextBox.BorderThickness = new Thickness(2);
+                projectTitleTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
+            }
+            var ProjectDescription = projectDescriptionTextBox.Text;
+            if (ProjectDescription == "")
+            {
+                projectDescriptionTextBox.BorderThickness = new Thickness(2);
+                projectDescriptionTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
+                flag = false;
+            }
+            else
+            {
+                projectDescriptionTextBox.BorderThickness = new Thickness(2);
+                projectDescriptionTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
+            }
+            var Country = CountryComboBox.SelectedItem;
+            if (Country == null)
+            {
+                CountryComboBox.BorderBrush = new SolidColorBrush(Colors.Red);
+                flag = false;
+            }
+            else
+            {
+                CountryComboBox.BorderBrush = new SolidColorBrush(Colors.Green);
+            }
+            var City = CityComboBox.SelectedItem;
+            if (City == null)
+            {
+                CityComboBox.BorderBrush = new SolidColorBrush(Colors.Red);
+                flag = false;
+            }
+            else
+            {
+                CityComboBox.BorderBrush = new SolidColorBrush(Colors.Green);
+            }
+            
+            if (flag)
+            {
+                Debug.WriteLine("City: " + City);
+                Debug.WriteLine("Country: " + Country);
+                Debug.WriteLine("Description: " + ProjectDescription);
+                Debug.WriteLine("Title: " + ProjectTitle);
+                //send project details to relevant function
+            }
+        }
+        
     }
 }

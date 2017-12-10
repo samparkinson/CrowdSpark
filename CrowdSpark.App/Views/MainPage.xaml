@@ -52,7 +52,7 @@
                     </StackPanel>
 
                     <!--Add Project Button-->
-                    <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Blue" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center">
+                    <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center">
                         <Button Click="AddProjectButton_Click" VerticalAlignment="Center">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -91,7 +91,6 @@
                     </ScrollViewer>
                 </StackPanel>
             </Grid>
-
         </SplitView.Content>
     </SplitView>
 </Page>

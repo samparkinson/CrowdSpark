@@ -3,9 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:CrowdSpark.App.Views"
+    xmlns:l="using:CrowdSpark.App.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <l:BorderConverter x:Key="borderConverter" />
+    </Page.Resources>
 
     <SplitView x:Name="MainSplitView" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">
         <!--Hamburger menu-->
@@ -47,20 +52,6 @@
                         <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                         <Button Content="Profile" HorizontalAlignment="Right" Command="{Binding SignInOutCommand}" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                     </StackPanel>
-
-                    <!--Add Project Button-->
-                    <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Blue" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center">
-                        <Button  Command="{Binding AddProjectCommand}" VerticalAlignment="Center">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Add Project" Grid.Column="0"/>
-                                <SymbolIcon Symbol="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                            </Grid>
-                        </Button>
-                    </StackPanel>
                 </Grid>
 
                 <StackPanel Grid.Row="1" Background="#FFB7B5B5" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
@@ -70,20 +61,19 @@
                             <ColumnDefinition Width="2*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-
-                        <Grid Grid.Column="0" Background="#FF716F6F" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                        <Grid Grid.Column="0" Background="#FF716F6F" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
-                            
+
                             <StackPanel Grid.Row="0">
-                                <TextBox Margin="25" Height="50" Background="#33FFFFFF" FontSize="25" PlaceholderText="project_title"></TextBox>
+                                <TextBox x:Name="projectTitleTextBox" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}"  BorderThickness="2" Margin="25" Height="50" Background="#33FFFFFF" FontSize="25" PlaceholderText="project_title"></TextBox>
                             </StackPanel>
 
                             <StackPanel Grid.Row="1">
-                                <TextBox Margin="25" Height="100" Background="#33FFFFFF" PlaceholderText="project_description"></TextBox>
+                                <TextBox x:Name="projectDescriptionTextBox" AcceptsReturn="True" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" TextWrapping="Wrap" BorderThickness="2" Margin="25" Height="100" Background="#33FFFFFF" PlaceholderText="project_description"></TextBox>
                             </StackPanel>
 
                             <!--Add attachment-->
@@ -103,6 +93,41 @@
                                 <Button Margin="10">
                                     <SymbolIcon Margin="10" Symbol="Add"></SymbolIcon>
                                 </Button>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Column="1" Background="#FF716F6F" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <!--Location-->
+                            <Grid Background="#33FFFFFF" Margin="25">
+                                <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                <!--BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" -->
+                                <ComboBox x:Name="CountryComboBox" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" BorderThickness="2" Margin="10" HorizontalAlignment="Stretch" PlaceholderText="Country" Grid.Column="0" ItemsSource="{Binding Countries}"></ComboBox>
+                                <ComboBox x:Name="CityComboBox" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" BorderThickness="2" Margin="10" PlaceholderText="City" HorizontalAlignment="Stretch" Grid.Column="1" ItemsSource="{Binding Cities}"></ComboBox>
+                            </Grid>
+
+                            <StackPanel Grid.Row="2" VerticalAlignment="Bottom">
+                                <!--Add Project Button-->
+                                <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center">
+                                    <Button Click="PostProjectButton_Click" VerticalAlignment="Center">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Post Project" Grid.Column="0"/>
+                                            <SymbolIcon Symbol="Forward" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Button>
+                                </StackPanel>
                             </StackPanel>
                         </Grid>
                     </Grid>
