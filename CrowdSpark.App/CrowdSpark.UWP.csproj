@@ -115,6 +115,9 @@
     <Compile Include="ViewModels\SearchPageViewModel.cs" />
     <Compile Include="ViewModels\ProjectPageViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="Views\AddProjectPage.xaml.cs">
+      <DependentUpon>AddProjectPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -126,6 +129,9 @@
     </Compile>
     <Compile Include="Views\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewComponents\AppBar.xaml.cs">
+      <DependentUpon>AppBar.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -348,6 +354,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\AddProjectPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -363,6 +373,10 @@
     <Page Include="Views\UserPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ViewComponents\AppBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

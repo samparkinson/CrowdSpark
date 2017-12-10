@@ -25,6 +25,8 @@ namespace CrowdSpark.App
             _vm = App.ServiceProvider.GetService<MainPageViewModel>();
 
             DataContext = _vm;
+
+            _vm.frame = Frame;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -36,6 +38,8 @@ namespace CrowdSpark.App
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
+
+            //OptionsList.Items[1].Selected = true;
         }
 
         //Navigate to the associated project page

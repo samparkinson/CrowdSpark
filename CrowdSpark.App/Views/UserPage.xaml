@@ -10,7 +10,7 @@
         <SplitView x:Name="MainSplitView" Background="Gray" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">
             <!--Left side menu-->
             <SplitView.Pane>
-                <Grid>
+                <StackPanel Background="Gray" HorizontalAlignment="Stretch">
                     <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
                      Width="45" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
 
@@ -26,9 +26,7 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </StackPanel>
-
-                  
-                </Grid>
+                </StackPanel>
             </SplitView.Pane>
 
             <!--All except left side menu-->
@@ -43,48 +41,97 @@
 
                     <!--Top bar-->
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Gray" Margin="10">
-                        <SearchBox FocusOnKeyboardInput="True" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="What would you want to do?"/>
+                        <SearchBox FocusOnKeyboardInput="True" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
                         <Button Content="Filter" HorizontalAlignment="Right"></Button>
                         <Button Content="Profile" HorizontalAlignment="Right"></Button>
                     </StackPanel>
 
                     <!--Body-->
-                    <StackPanel Grid.Row="1" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                    <StackPanel Grid.Row="1" Background="#FFB7B5B5" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="4*"/>
                                 <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <!--For Post title and details-->
-                                <RowDefinition Height="Auto"/>
-                                <!--Location-->
-                                <RowDefinition Height="Auto" />
-                                <!--Participants-->
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
 
-                            <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,0">
+                            <!--LEFT COLUMN: Title and description part-->
+                            <StackPanel Margin ="25,25,0,25" Grid.Column="0" Background="#FF716F6F" >
+                                <!-- TODO: set group profile/main picture as a background -->
                                 <Grid>
-                                    <TextBlock HorizontalAlignment="Left" Width ="Auto" Height="Auto" Margin="15,15,0,0" Text="{Binding Firstname}" FontSize="24" TextWrapping="Wrap" MaxWidth="400" FontStyle="Italic"/>
-                                    <TextBlock HorizontalAlignment="Left" Width ="Auto" Height="Auto" Margin="15,0,0,0" Text="{Binding Surname}" FontSize="24" TextWrapping="Wrap" MaxWidth="400" FontStyle="Italic"/>
-                                </Grid>
-                                <Grid>
-                                    <TextBlock Margin="15" Text="{Binding Mail}" FontSize="24"/>
-                                </Grid>
-                            </StackPanel>
-                            <StackPanel DataContext="{Binding Location}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,0">
-                                <Grid>
-                                    <Image x:Name="CountryFlagImage" Margin="40,0,0,0" Source="{Binding CountryFlag}" Height="20" Width="30" HorizontalAlignment="Left"/>
-                                    <TextBlock Margin="70" Text="{Binding Country}" FontSize="24"/>
-                                </Grid>
-                            </StackPanel>
-                            <StackPanel Grid.Row="1" Grid.Column="0" >
-                                <Grid>
-                                    <Button Content=">EDIT USER PROFILE" Height="48" Margin="15,15" VerticalAlignment="Top" Width="177" Background="#33FFFFFF" FontSize="15" FontStyle="Italic" />
+                                    <Grid.RowDefinitions>
+                                        <!--For Post title-->
+                                        <RowDefinition Height="Auto"/>
+                                        <!--Detail-->
+                                        <RowDefinition Height="Auto" />
+                                        <!--Recent Posts-->
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Grid.Row="0"  Margin="25" Background="#33FFFFFF">
+                                        <Grid>
+                                            <TextBlock Margin="25" Text="{Binding Firstname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
+                                            <TextBlock Margin="25" Text="{Binding Surname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#33FFFFFF">
+                                        <Grid>
+                                            <TextBlock Margin="25" Foreground="White" Text="{Binding Mail}" FontSize="24" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#33FFFFFF">
+                                        <Grid>
+                                            <TextBlock Margin="25" Foreground="White" Text="RECENT POSTS" FontSize="40" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
+                                        </Grid>
+                                    </StackPanel>
                                 </Grid>
                             </StackPanel>
 
+                            <!--RIGHT COLUMN-->
+                            <StackPanel Grid.Column="1">
+                                <!--Grid for Row definition in Right column-->
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!--Location-->
+                                    <StackPanel DataContext="{Binding Location}" Margin="25" Grid.Row="0" Background="White">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Margin="25,25,0,25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Image x:Name="CountryFlagImage"  Source="{Binding CountryFlag}" Height="40" Width="60" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="0,25,0,25" Grid.Column="1">
+                                                <TextBlock Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
+                                                <TextBlock Margin="25,5,0,0" Text="{Binding Country}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
+                                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+                                            <TextBlock Margin="25" Text="SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                        </Button>
+                                        <ListView>
+
+                                        </ListView>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="2">
+                                        <Grid>
+                                            <Button Content=">EDIT USER PROFILE" Height="48" Margin="15,15" VerticalAlignment="Top" Width="177" Background="#33FFFFFF" FontSize="15" FontStyle="Italic" />
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Grid>

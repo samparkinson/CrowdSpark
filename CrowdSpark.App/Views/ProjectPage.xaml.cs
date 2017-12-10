@@ -54,14 +54,25 @@ namespace CrowdSpark.App.Views
             //Convert e to MenuOption
             var clickedOption = (MenuOption)e.ClickedItem;
 
+            //get current page type
+            var currentFrame = Window.Current.Content as Frame;
+            var currentPage = currentFrame.SourcePageType;
+
             switch (clickedOption.Icon)
             {
                 case "Account":
-                    //this.Frame.Navigate(typeof(SearchPage), args.QueryText);
+                    if (currentPage != typeof(UserPage))
+                    {
+                        //Navigate to user page, send account details
+                        Frame.Navigate(typeof(UserPage), CommonAttributes.account);
+                    }
                     break;
                 case "Page":
-                    //MainPage doesn't need arguments
-                    this.Frame.Navigate(typeof(MainPage), null);
+                    if (currentPage != typeof(MainPage))
+                    {
+                        //MainPage doesn't need arguments
+                        Frame.Navigate(typeof(MainPage));
+                    }
                     break;
                 case "Setting":
                     break;
