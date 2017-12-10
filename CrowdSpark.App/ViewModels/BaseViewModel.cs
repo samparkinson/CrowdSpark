@@ -19,9 +19,7 @@ namespace CrowdSpark.App.ViewModels
 
         //Every page should have a sign in out functionality
         public ICommand SignInOutCommand { get; set; }
-
-        public ICommand AddProjectCommand { get; set; }
-
+        
         public void OnPropertyChanged([CallerMemberName]string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

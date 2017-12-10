@@ -37,18 +37,7 @@ namespace CrowdSpark.App.Views
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
         }
-
-        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
-        }
         
-        
-        private void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
-        {
-            this.Frame.Navigate(typeof(MainPage), args.QueryText); // navigate to SearchResultPage
-        }
-
         public void OptionsList_ItemClick(object sender, ItemClickEventArgs e)
         {
             //Convert e to MenuOption
@@ -83,9 +72,14 @@ namespace CrowdSpark.App.Views
             Debug.WriteLine("Text: " + clickedOption.Text);
         }
 
-        void IAppPage.SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
+        public void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
-            throw new NotImplementedException();
+            this.Frame.Navigate(typeof(MainPage), args.QueryText); // navigate to SearchResultPage
+        }
+
+        public void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
         }
     }
 }

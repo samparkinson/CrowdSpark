@@ -2,6 +2,7 @@
 using CrowdSpark.App.Models;
 using CrowdSpark.Entitites;
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -30,7 +31,10 @@ namespace CrowdSpark.App.ViewModels
         public ImageSource CountryFlag { get; set; }
 
         private readonly IAuthenticationHelper helper;
-        
+
+        //List of skills 
+        public ObservableCollection<Skill> Skills { get; set; }
+
         public UserPageViewModel(IAuthenticationHelper _helper)
         {
             MenuOptions = CommonAttributes.MenuOptions;
@@ -66,6 +70,9 @@ namespace CrowdSpark.App.ViewModels
             Mail = userViewModel.Mail;
 
             Location = userViewModel.Location;
+
+            //Not sure
+            Skills = (ObservableCollection<Skill>) userViewModel.Skills;
 
             CountryFlag = GetCountryFlag(Location.Country);
         }

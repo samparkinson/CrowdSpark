@@ -7,7 +7,108 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <SplitView x:Name="MainSplitView" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">
+        <!--Hamburger menu-->
+        <SplitView.Pane>
+            <StackPanel Background="Gray" HorizontalAlignment="Stretch">
 
-    </Grid>
+                <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
+                     Width="45" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
+
+                <ListView x:Name="OptionsList" HorizontalAlignment="Stretch" IsItemClickEnabled="True" VerticalAlignment="Top" SelectionMode="Single" ItemClick="OptionsList_ItemClick" ItemsSource="{Binding MenuOptions}" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="-12,0">
+                                <SymbolIcon Symbol="{Binding Icon}" Width="48" Height="50"/>
+                                <TextBlock FontStyle="Italic" FontSize="18" VerticalAlignment="Center" Text="{Binding Text}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </SplitView.Pane>
+
+        <SplitView.Content>
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--App bar-->
+                <Grid Grid.Row="0" Background="Gray" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal">
+                        <SearchBox FocusOnKeyboardInput="False" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
+                        <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
+                        <Button Content="Profile" HorizontalAlignment="Right" Command="{Binding SignInOutCommand}" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
+                    </StackPanel>
+
+                    <!--Add Project Button-->
+                    <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Blue" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center">
+                        <Button  Command="{Binding AddProjectCommand}" VerticalAlignment="Center">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Add Project" Grid.Column="0"/>
+                                <SymbolIcon Symbol="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Grid.Row="1" Background="#FFB7B5B5" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+
+                        <Grid Grid.Column="0" Background="#FF716F6F" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            
+                            <StackPanel Grid.Row="0">
+                                <TextBox Margin="25" Height="50" Background="#33FFFFFF" FontSize="25" PlaceholderText="project_title"></TextBox>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1">
+                                <TextBox Margin="25" Height="100" Background="#33FFFFFF" PlaceholderText="project_description"></TextBox>
+                            </StackPanel>
+
+                            <!--Add attachment-->
+                            <StackPanel Orientation="Horizontal" Margin="25,25" HorizontalAlignment="Left" Grid.Row="2">
+                                <Button Margin="10">
+                                    <SymbolIcon Margin="10" Symbol="Add"></SymbolIcon>
+                                </Button>
+                                <Button Margin="10">
+                                    <SymbolIcon Margin="10" Symbol="Add"></SymbolIcon>
+                                </Button>
+                                <Button Margin="10">
+                                    <SymbolIcon Margin="10" Symbol="Add"></SymbolIcon>
+                                </Button>
+                                <Button Margin="10">
+                                    <SymbolIcon Margin="10" Symbol="Add"></SymbolIcon>
+                                </Button>
+                                <Button Margin="10">
+                                    <SymbolIcon Margin="10" Symbol="Add"></SymbolIcon>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+        </SplitView.Content>
+    </SplitView>
 </Page>

@@ -10,6 +10,7 @@
     mc:Ignorable="d">
 
     <SplitView x:Name="MainSplitView" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">
+        <!--Hamburger menu-->
         <SplitView.Pane>
             <StackPanel Background="Gray" HorizontalAlignment="Stretch">
 
@@ -45,21 +46,21 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
-                        <SearchBox FocusOnKeyboardInput="True" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
+                        <SearchBox FocusOnKeyboardInput="False" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
                         <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                         <Button Content="Profile" HorizontalAlignment="Right" Command="{Binding SignInOutCommand}" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                     </StackPanel>
 
                     <!--Add Project Button-->
-                    <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Blue" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <Button  Command="{Binding AddProjectCommand}" VerticalAlignment="Center">
+                    <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Blue" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center">
+                        <Button Click="AddProjectButton_Click" VerticalAlignment="Center">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <SymbolIcon Symbol="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"></SymbolIcon>
-                                <TextBlock Text="Add Project" Grid.Column="0"></TextBlock>
+                                <TextBlock Text="Add Project" Grid.Column="0"/>
+                                <SymbolIcon Symbol="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
                     </StackPanel>

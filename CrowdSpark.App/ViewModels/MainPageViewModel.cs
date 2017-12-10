@@ -21,9 +21,7 @@ namespace CrowdSpark.App.ViewModels
 
         //To set the height of scroll view
         public int ScrollViewHeight { get; set; }
-
-        public Frame frame { get; set; }
-
+        
         //store login information, 
         //should this be in base class or common attributes static class??
         private WebAccount account;
@@ -47,23 +45,6 @@ namespace CrowdSpark.App.ViewModels
                     await helper.SignOutAsync(account);
                     account = null;
                    // Characters.Clear();
-                }
-                else
-                {
-                    account = await helper.SignInAsync();
-                    if (account != null)
-                    {
-                        Debug.WriteLine("Sign in successfull");
-                        await Initialize();
-                    }
-                }
-            });
-
-            AddProjectCommand = new RelayCommand(async o =>
-            {
-                if (account != null)
-                {
-                    frame.Navigate(typeof(AddProjectPage), CommonAttributes.account);
                 }
                 else
                 {
