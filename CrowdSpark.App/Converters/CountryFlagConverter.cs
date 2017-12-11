@@ -15,7 +15,7 @@ namespace CrowdSpark.App.Converters
         {
             if (value == null)
             {
-                return null;
+                return default(BitmapImage);
             }
 
             CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
