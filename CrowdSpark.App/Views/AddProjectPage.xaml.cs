@@ -1,6 +1,8 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Windows.UI;
 using Windows.UI.Core;
@@ -14,6 +16,7 @@ namespace CrowdSpark.App.Views
     public sealed partial class AddProjectPage : Page, IAppPage
     {
         private readonly AddProjectPageViewModel _vm;
+        private List<string> SkillsList { get; set; }
 
         public AddProjectPage()
         {
@@ -22,6 +25,8 @@ namespace CrowdSpark.App.Views
             _vm = App.ServiceProvider.GetService<AddProjectPageViewModel>();
             
             DataContext = _vm;
+
+            SkillsList = new List<string>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -78,61 +83,59 @@ namespace CrowdSpark.App.Views
 
         public void PostProjectButton_Click(object sender, RoutedEventArgs e)
         {
-            var flag = true;
             var ProjectTitle = projectTitleTextBox.Text;
-            if (ProjectTitle == "")
-            {
-                projectTitleTextBox.BorderThickness = new Thickness(2);
-                projectTitleTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
-                flag = false;
-            }
-            else
-            {
-                projectTitleTextBox.BorderThickness = new Thickness(2);
-                projectTitleTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
-            }
             var ProjectDescription = projectDescriptionTextBox.Text;
-            if (ProjectDescription == "")
-            {
-                projectDescriptionTextBox.BorderThickness = new Thickness(2);
-                projectDescriptionTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
-                flag = false;
-            }
-            else
-            {
-                projectDescriptionTextBox.BorderThickness = new Thickness(2);
-                projectDescriptionTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
-            }
             var Country = CountryComboBox.SelectedItem;
-            if (Country == null)
-            {
-                CountryComboBox.BorderBrush = new SolidColorBrush(Colors.Red);
-                flag = false;
-            }
-            else
-            {
-                CountryComboBox.BorderBrush = new SolidColorBrush(Colors.Green);
-            }
             var City = CityComboBox.SelectedItem;
-            if (City == null)
+
+            Debug.WriteLine("City: " + City);
+            Debug.WriteLine("Country: " + Country);
+            Debug.WriteLine("Description: " + ProjectDescription);
+            Debug.WriteLine("Title: " + ProjectTitle);
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var allFull = true;
+
+            //reset the skill list everytime 
+            SkillsList.Clear();
+
+            foreach (var UIElement in SkillsPanel.Children)
             {
-                CityComboBox.BorderBrush = new SolidColorBrush(Colors.Red);
-                flag = false;
+                if (UIElement is TextBox)
+                {
+                    var textBox = (TextBox)UIElement;
+                    var text = textBox.Text;
+                    if (!String.IsNullOrEmpty(text))
+                    {
+                        SkillsList.Add(text);
+                        //set the border color back to normal
+                        textBox.BorderBrush = null;
+                    }
+                    else
+                    {
+                        //if the current textbox is empty remove it 
+                        if (sender.Equals(textBox))
+                        {
+                            SkillsPanel.Children.Remove(textBox);
+                        }
+                        allFull = false;
+                        break;
+                    }
+                }
             }
-            else
+
+            //add a new textbox if all the text boxes are filled in
+            if (allFull)
             {
-                CityComboBox.BorderBrush = new SolidColorBrush(Colors.Green);
-            }
-            
-            if (flag)
-            {
-                Debug.WriteLine("City: " + City);
-                Debug.WriteLine("Country: " + Country);
-                Debug.WriteLine("Description: " + ProjectDescription);
-                Debug.WriteLine("Title: " + ProjectTitle);
-                //send project details to relevant function
+                TextBox textBox = new TextBox();
+                textBox.PlaceholderText = "TYPE IN A SKILL";
+                textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+                textBox.TextChanged += new TextChangedEventHandler(TextBox_TextChanged);
+
+                SkillsPanel.Children.Add(textBox);
             }
         }
-        
     }
 }
