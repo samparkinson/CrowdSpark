@@ -39,22 +39,24 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void CreateAsync_GivenValidProject_ReturnsNewProjectID()
         {
-            var loc = new Location()
+            var loc = new LocationDTO()
             {
                 City = "Copenhagen",
                 Country = "Denmark"
             };
-
-            var project = new ProjectDTO
-            {
-                Id = 0,
-                Title = "Super hot flaming bicycle",
-                Description = "This project is about creating the coolest bike ever.",                    
-                Location = loc
-            };
+            
             using (var repo = new LocationRepository(context))
             {
                 var id = await repo.CreateAsync(loc);
+                var location = await repo.FindAsync(id);
+
+                var project = new ProjectDTO
+                {
+                    Id = 0,
+                    Title = "Super hot flaming bicycle",
+                    Description = "This project is about creating the coolest bike ever.",
+                    Location = location
+                };
 
                 using (var repo1 = new ProjectRepository(context))
                 {
@@ -67,23 +69,24 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void CreateAsync_GivenValidInformation_CheckIfProjectWasCreatedThenDelete()
         {
-            var loc = new Location()
+            var loc = new LocationDTO()
             {
                 City = "Copenhagen",
                 Country = "Denmark"
             };
 
-            var project = new ProjectDTO
-            {
-                Id = 0,
-                Title = "Super hot flaming bicycle",
-                Description = "This project is about creating the coolest bike ever.",
-                Location = loc
-            };
-
             using (var repo = new LocationRepository(context))
             {
                 var id = await repo.CreateAsync(loc);
+                var location = await repo.FindAsync(id);
+
+                var project = new ProjectDTO
+                {
+                    Id = 0,
+                    Title = "Super hot flaming bicycle",
+                    Description = "This project is about creating the coolest bike ever.",
+                    Location = location
+                };
 
                 using (var repo1 = new ProjectRepository(context))
                 {

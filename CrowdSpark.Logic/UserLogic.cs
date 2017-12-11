@@ -45,7 +45,7 @@ namespace CrowdSpark.Logic
             {
                 foreach (var skill in skills)
                 {
-                    await _skillLogic.RemoveAsync(skill); //TODO, need to convert this to a parallel for each
+                    await _skillLogic.RemoveWithObjectAsync(skill); //TODO, need to convert this to a parallel for each
                 }
 
                 return ResponseLogic.ERROR_CREATING;
@@ -75,7 +75,7 @@ namespace CrowdSpark.Logic
             }
             foreach (var skill in skillsToRemove)
             {
-                await _skillLogic.RemoveAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.RemoveWithObjectAsync(skill); //TODO, need to convert this to a parallel for each
             }
             
             var success = await _repository.UpdateAsync(userId, user);
@@ -88,7 +88,7 @@ namespace CrowdSpark.Logic
             // roll back skill changes 
             foreach (var skill in skillsToAdd)
             {
-                await _skillLogic.RemoveAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.RemoveWithObjectAsync(skill); //TODO, need to convert this to a parallel for each
             }
             foreach (var skill in skillsToRemove)
             {
@@ -110,7 +110,7 @@ namespace CrowdSpark.Logic
 
             foreach (var skill in user.Skills)
             {
-                await _skillLogic.RemoveAsync(skill);
+                await _skillLogic.RemoveWithObjectAsync(skill);
             }
 
             await _sparkLogic.DeleteForUserAsync(userId);

@@ -20,7 +20,7 @@ namespace CrowdSpark.Logic
 
         Task<ResponseLogic> UpdateAsync(Location loc);
 
-        Task<ResponseLogic> RemoveAsync(Location loc);
+        Task<ResponseLogic> RemoveWithObjectAsync(Location loc); //TODO, consider if this is actually needed for location, it probaly isn't
 
         Task<ResponseLogic> DeleteAsync(int locationId);
     }

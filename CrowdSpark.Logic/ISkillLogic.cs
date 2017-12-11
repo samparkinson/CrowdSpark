@@ -20,7 +20,7 @@ namespace CrowdSpark.Logic
 
         Task<ResponseLogic> UpdateAsync(Skill skill);
 
-        Task<ResponseLogic> RemoveAsync(Skill skill);
+        Task<ResponseLogic> RemoveWithObjectAsync(Skill skill);
 
         Task<ResponseLogic> DeleteAsync(int skillId);
     }

@@ -9,10 +9,14 @@ namespace CrowdSpark.Logic
     public class LocationLogic : ILocationLogic
     {
         ILocationRepository _repository;
+        IUserRepository _userRepository;
+        IProjectRepository _projectRepository;
 
-        public LocationLogic(ILocationRepository repository)
+        public LocationLogic(ILocationRepository repository, IUserRepository userRepository, IProjectRepository projectRepository)
         {
             _repository = repository;
+            _userRepository = userRepository;
+            _projectRepository = projectRepository;
         }
 
         public async Task<IEnumerable<Location>> GetAsync()
@@ -42,23 +46,71 @@ namespace CrowdSpark.Logic
 
         public async Task<ResponseLogic> CreateAsync(LocationDTO loc)
         {
-            //      var id = await _repository.CreateAsync(loc);   
-            return ResponseLogic.SUCCESS;    
+            var id = await _repository.CreateAsync(loc);
+            if (id == 0 )
+            {
+                return ResponseLogic.ERROR_CREATING;
+            }
+            else return ResponseLogic.SUCCESS;    
         }
      
         public async Task<ResponseLogic> UpdateAsync(Location loc)
         {
-            return ResponseLogic.SUCCESS;
+            var foundLocation = await _repository.FindAsync(loc.Id);
+            if (foundLocation is null) return ResponseLogic.NOT_FOUND;
+
+            foundLocation.City = loc.City;
+            foundLocation.Country = loc.Country;
+
+            var success = await _repository.UpdateAsync(foundLocation);
+
+            if (success) return ResponseLogic.SUCCESS;
+            else return ResponseLogic.ERROR_UPDATING;
         }
 
-        public async Task<ResponseLogic> RemoveAsync(Location loc)
+        public async Task<ResponseLogic> RemoveWithObjectAsync(Location loc)
         {
-            return ResponseLogic.SUCCESS;
+            var foundLocation = await _repository.FindAsync(loc.Id);
+            if (foundLocation is null) return ResponseLogic.NOT_FOUND;
+
+            // Need to check if it is being used in other places?
+
+            var users = await _userRepository.ReadAsync();
+            var projects = await _projectRepository.ReadAsync();
+            var occurrences = 0;
+
+            foreach (var user in users) //TODO, make this run parallel
+            {
+                if (user.Location == loc) //TODO, consider moving this into the repo for more efficiency
+                    occurrences++;
+            }
+
+            foreach (var project in projects) //TODO, make this run parallel
+            {
+                if (project.LocationId == loc.Id)
+                    occurrences++;
+            }
+
+            if (occurrences > 1)
+            {
+                return ResponseLogic.SUCCESS;
+            }
+
+            var success = await _repository.DeleteAsync(loc.Id);
+
+            if (success) return ResponseLogic.SUCCESS;
+            else return ResponseLogic.ERROR_DELETING;
         }
 
         public async Task<ResponseLogic> DeleteAsync(int locationId)
         {
-            return ResponseLogic.SUCCESS;
+            var foundLocation = await _repository.FindAsync(locationId);
+            if (foundLocation is null) return ResponseLogic.NOT_FOUND;
+
+            var success = await _repository.DeleteAsync(locationId);
+
+            if (success) return ResponseLogic.SUCCESS;
+            else return ResponseLogic.ERROR_DELETING;
         }
 
     }

@@ -8,7 +8,7 @@ namespace CrowdSpark.Common
 {
     public interface ILocationRepository : IDisposable
     {
-        Task<int> CreateAsync(Location skill);
+        Task<int> CreateAsync(LocationDTO location);
      
         Task<Location> FindAsync(int locationId);
 

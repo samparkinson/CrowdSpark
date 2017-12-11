@@ -75,7 +75,7 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_UPDATING;
         }
 
-        public async Task<ResponseLogic> RemoveAsync(Skill skill)
+        public async Task<ResponseLogic> RemoveWithObjectAsync(Skill skill)
         {
             var foundSkill = await _repository.FindAsync(skill.Id);
 
@@ -84,7 +84,7 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.NOT_FOUND;
             }
 
-            var users = await _userRepository.ReadAsync();
+            var users = await _userRepository.ReadAsync();  //TODO, consider moving this into the repo for more efficiency
             var projects = await _projectRepository.ReadAsync();
             var occurrences = 0;
 

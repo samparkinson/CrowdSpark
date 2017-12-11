@@ -17,12 +17,18 @@ namespace CrowdSpark.Models
             _context = context;
         }
 
-        public async Task<int> CreateAsync(Location location)
+        public async Task<int> CreateAsync(LocationDTO location)
         {
-            _context.Locations.Add(location);
+            var locationToCreate = new Location
+            {
+                City = location.City,
+                Country = location.Country
+            };
+
+            _context.Locations.Add(locationToCreate);
             if (await _context.SaveChangesAsync() > 0)
             {
-                return location.Id;
+                return locationToCreate.Id;
             }
             else throw new DbUpdateException("Error creating location", (Exception)null);
         }
