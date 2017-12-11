@@ -18,9 +18,9 @@ namespace CrowdSpark.Logic
 
         Task<Location> FindExactAsync(string city, string country);
 
-        Task<ResponseLogic> CreateAsync(Location skill);
+        Task<ResponseLogic> CreateAsync(Location location);
 
-        Task<ResponseLogic> UpdateAsync(Location skill);
+        Task<ResponseLogic> UpdateAsync(Location location);
 
         Task<ResponseLogic> DeleteAsync(int locationId);
     }
