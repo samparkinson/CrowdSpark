@@ -12,15 +12,15 @@ namespace CrowdSpark.Logic
 
         Task<Location> GetAsync(int locationId);
 
-        Task<IEnumerable<Location>> FindAsync(string city, string country);
+        Task<IEnumerable<Location>> FindAsync(string searchCity, string searchCountry);
 
-        Task<IEnumerable<Location>> FindAsync(string city);
+        Task<Location> FindExactAsync(string searchCity, string searchCountry);
 
-        Task<Location> FindExactAsync(string city, string country);
+        Task<ResponseLogic> CreateAsync(LocationDTO loc);
 
-        Task<ResponseLogic> CreateAsync(Location location);
+        Task<ResponseLogic> UpdateAsync(Location loc);
 
-        Task<ResponseLogic> UpdateAsync(Location location);
+        Task<ResponseLogic> RemoveAsync(Location loc);
 
         Task<ResponseLogic> DeleteAsync(int locationId);
     }

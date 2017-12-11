@@ -36,6 +36,8 @@ namespace CrowdSpark.Logic
         {
             var project = await _repository.FindAsync(projectId);
 
+            if (project is null) return null;
+
             return new ProjectSummaryDTO {
                 Id = project.Id,
                 Title = project.Title,

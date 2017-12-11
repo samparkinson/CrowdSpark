@@ -29,10 +29,10 @@ namespace CrowdSpark.App.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //if not signed in
+            //if user not signed in
             if (e.Parameter == null)
             {
-
+                _vm.SignInOutCommand.Execute(null);
             }
             //await _vm.Initialize();
 
@@ -42,14 +42,7 @@ namespace CrowdSpark.App.Views
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
         }
-
-
-        //Handle hamburger menu open/close 
-        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
-        }
-
+        
         public void OptionsList_ItemClick(object sender, ItemClickEventArgs e)
         {
             //Convert e to MenuOption
@@ -83,7 +76,12 @@ namespace CrowdSpark.App.Views
 
         public void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
-            throw new NotImplementedException();
+            this.Frame.Navigate(typeof(MainPage), args.QueryText); // navigate to SearchResultPage
+        }
+
+        public void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
         }
     }
 }

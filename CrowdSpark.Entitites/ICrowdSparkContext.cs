@@ -9,7 +9,7 @@ namespace CrowdSpark.Entitites
     {
         DbSet<Attachment> Attachments { get; set; }
 
-        DbSet<Category> Categorys { get; set; }
+        DbSet<Category> Categories { get; set; }
 
         DbSet<Project> Projects { get; set; }
 

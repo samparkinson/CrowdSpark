@@ -10,6 +10,7 @@
     mc:Ignorable="d">
 
     <SplitView x:Name="MainSplitView" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">
+        <!--Hamburger menu-->
         <SplitView.Pane>
             <StackPanel Background="Gray" HorizontalAlignment="Stretch">
 
@@ -36,13 +37,36 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Gray" Margin="10">
-                    <SearchBox FocusOnKeyboardInput="True" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="What would you want to do?"/>
-                    <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
-                    <Button Content="Profile" HorizontalAlignment="Right" Command="{Binding SignInOutCommand}" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
-                </StackPanel>
+                <!--App bar-->
+                <Grid Grid.Row="0" Background="Gray" Margin="10">
 
-                <StackPanel Grid.Row="1" Grid.Column="0" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal">
+                        <SearchBox FocusOnKeyboardInput="False" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
+                        <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
+                        <Button Content="Profile" HorizontalAlignment="Right" Command="{Binding SignInOutCommand}" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
+                    </StackPanel>
+
+                    <!--Add Project Button-->
+                    <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center">
+                        <Button Click="AddProjectButton_Click" VerticalAlignment="Center">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Add Project" Grid.Column="0"/>
+                                <SymbolIcon Symbol="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Grid.Row="1" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
                     <ScrollViewer Name="ProjectsScrollView" Height="{Binding ScrollViewHeight}" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
                         <ListView x:Name="projectsListView" ItemsSource="{Binding Projects}" SelectionMode="None" 
                   VerticalAlignment="Center" IsItemClickEnabled="True"  ItemClick="projectsListView_ItemClick">
@@ -67,7 +91,6 @@
                     </ScrollViewer>
                 </StackPanel>
             </Grid>
-
         </SplitView.Content>
     </SplitView>
 </Page>

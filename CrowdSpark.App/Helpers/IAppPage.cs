@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace CrowdSpark.App.Helpers
@@ -11,5 +12,8 @@ namespace CrowdSpark.App.Helpers
 
         //Search 
         void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args);
+
+        //hamburger menu button
+        void HamburgerButton_Click(object sender, RoutedEventArgs e);
     }
 }

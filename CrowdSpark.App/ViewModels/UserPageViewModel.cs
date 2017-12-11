@@ -1,14 +1,11 @@
 ﻿using CrowdSpark.App.Helpers;
-using CrowdSpark.Common;
+using CrowdSpark.App.Models;
 using CrowdSpark.Entitites;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -33,9 +30,35 @@ namespace CrowdSpark.App.ViewModels
 
         public ImageSource CountryFlag { get; set; }
 
-        public UserPageViewModel()
+        private readonly IAuthenticationHelper helper;
+
+        //List of skills 
+        public ObservableCollection<Skill> Skills { get; set; }
+
+        public UserPageViewModel(IAuthenticationHelper _helper)
         {
             MenuOptions = CommonAttributes.MenuOptions;
+
+            helper = _helper;
+
+            SignInOutCommand = new RelayCommand(async o =>
+            {
+                if (CommonAttributes.account != null)
+                {
+                    await helper.SignOutAsync(CommonAttributes.account);
+                    CommonAttributes.account = null;
+                    // Characters.Clear();
+                }
+                else
+                {
+                    CommonAttributes.account = await helper.SignInAsync();
+                    if (CommonAttributes.account != null)
+                    {
+                        Debug.WriteLine("Sign in successfull");
+                        //Initialize();
+                    }
+                }
+            });
         }
 
         public void Initialize(UserViewModel userViewModel)
@@ -47,6 +70,9 @@ namespace CrowdSpark.App.ViewModels
             Mail = userViewModel.Mail;
 
             Location = userViewModel.Location;
+
+            //Not sure
+            Skills = (ObservableCollection<Skill>) userViewModel.Skills;
 
             CountryFlag = GetCountryFlag(Location.Country);
         }

@@ -1,5 +1,6 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.Models;
+using CrowdSpark.App.Views;
 using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Security.Credentials;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace CrowdSpark.App.ViewModels
 {
@@ -18,13 +21,12 @@ namespace CrowdSpark.App.ViewModels
 
         //To set the height of scroll view
         public int ScrollViewHeight { get; set; }
-
-        //store login information
+        
+        //store login information, 
+        //should this be in base class or common attributes static class??
         private WebAccount account;
 
         private readonly IAuthenticationHelper helper;
-
-        public ICommand SignInOutCommand { get; }
         
         public MainPageViewModel(IAuthenticationHelper _helper)
         {
@@ -61,7 +63,6 @@ namespace CrowdSpark.App.ViewModels
             CommonAttributes.MenuOptions = MenuOptions;
             CommonAttributes.account = account;
         }
-
 
         public async Task Initialize()
         {

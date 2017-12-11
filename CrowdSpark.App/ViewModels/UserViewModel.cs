@@ -25,10 +25,11 @@ namespace CrowdSpark.App.ViewModels
         private ICollection<Spark> _sparks;
         public ICollection<Spark> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
 
+        private ICollection<Skill> _skills;
+        public ICollection<Skill> Skills { get => _skills; set { if (!value.Equals(_skills)) { _skills = value; OnPropertyChanged(); } } }
+
         public UserViewModel(UserDTO UserDTO)
         {
-            //Id = UserDTO.Id;
-
             Firstname = UserDTO.Firstname;
 
             Surname = UserDTO.Surname;
@@ -37,7 +38,7 @@ namespace CrowdSpark.App.ViewModels
 
             Location = UserDTO.Location;
 
-            //Sparks = UserDTO.Sparks; --??
+            Skills = UserDTO.Skills;
         }
     }
 }

@@ -8,44 +8,58 @@ namespace CrowdSpark.Logic
 {
     public class LocationLogic : ILocationLogic
     {
-        public async Task<ResponseLogic> CreateAsync(Location skill)
-        {
-            throw new NotImplementedException();
-        }
+        ILocationRepository _repository;
 
-        public async Task<ResponseLogic> DeleteAsync(int locationId)
+        public LocationLogic(ILocationRepository repository)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<Location>> FindAsync(string city, string country)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<Location>> FindAsync(string city)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Location> FindExactAsync(string city, string country)
-        {
-            throw new NotImplementedException();
+            _repository = repository;
         }
 
         public async Task<IEnumerable<Location>> GetAsync()
         {
-            throw new NotImplementedException();
+            return await _repository.ReadAsync();
         }
 
         public async Task<Location> GetAsync(int locationId)
         {
-            throw new NotImplementedException();
+            return await _repository.FindAsync(locationId);
         }
 
-        public async Task<ResponseLogic> UpdateAsync(Location skill)
+        public async Task<IEnumerable<Location>> FindAsync(string searchCity, string searchCountry)
         {
-            throw new NotImplementedException();
+            return await _repository.FindWildcardAsync(searchCity, searchCountry);
         }
+
+        public async Task<IEnumerable<Location>> FindAsync(string searchCity)
+        {
+            return await _repository.FindWildcardAsync(searchCity);
+        }
+
+        public async Task<Location> FindExactAsync(string searchCity, string searchCountry)
+        {
+            return await _repository.FindAsync(searchCity, searchCountry);         
+        }
+
+        public async Task<ResponseLogic> CreateAsync(LocationDTO loc)
+        {
+            //      var id = await _repository.CreateAsync(loc);   
+            return ResponseLogic.SUCCESS;    
+        }
+     
+        public async Task<ResponseLogic> UpdateAsync(Location loc)
+        {
+            return ResponseLogic.SUCCESS;
+        }
+
+        public async Task<ResponseLogic> RemoveAsync(Location loc)
+        {
+            return ResponseLogic.SUCCESS;
+        }
+
+        public async Task<ResponseLogic> DeleteAsync(int locationId)
+        {
+            return ResponseLogic.SUCCESS;
+        }
+
     }
 }

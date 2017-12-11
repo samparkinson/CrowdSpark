@@ -23,7 +23,7 @@ namespace CrowdSpark.App
             InitializeComponent();
 
             _vm = App.ServiceProvider.GetService<MainPageViewModel>();
-
+            
             DataContext = _vm;
         }
 
@@ -36,6 +36,8 @@ namespace CrowdSpark.App
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
+
+            //OptionsList.Items[1].Selected = true;
         }
 
         //Navigate to the associated project page
@@ -46,24 +48,13 @@ namespace CrowdSpark.App
 
             Frame.Navigate(typeof(ProjectPage), clickedProject);
         }
-
-        //Handle hamburger menu open/close 
-        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
-        }
-        
-        private void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
-        {
-            // navigate to SearchResultPage
-            this.Frame.Navigate(typeof(SearchPage), args.QueryText); 
-        }
         
         public void OptionsList_ItemClick(object sender, ItemClickEventArgs e)
         {
             //Convert e to MenuOption
             var clickedOption = (MenuOption)e.ClickedItem;
 
+            //get current page type
             var currentFrame = Window.Current.Content as Frame;
             var currentPage = currentFrame.SourcePageType;
 
@@ -88,8 +79,6 @@ namespace CrowdSpark.App
                 case "Message":
                     break;
             }
-
-            //Debug.WriteLine("Text: " + clickedOption.Text);
         }
 
         private async Task SignIn()
@@ -97,14 +86,25 @@ namespace CrowdSpark.App
             await new AuthenticationHelper(new Settings()).SignInAsync();
         }
 
-        void IAppPage.SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
+        public void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
-            throw new NotImplementedException();
+            // navigate to SearchResultPage
+            this.Frame.Navigate(typeof(SearchPage), args.QueryText);
         }
 
         private void Profile_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(UserPage), null);
+        }
+
+        public void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
+        }
+
+        private void AddProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AddProjectPage), CommonAttributes.account);
         }
     }
 }
