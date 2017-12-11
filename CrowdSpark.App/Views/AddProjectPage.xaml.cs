@@ -1,5 +1,7 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.ViewModels;
+using CrowdSpark.Common;
+using CrowdSpark.Entitites;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,7 @@ namespace CrowdSpark.App.Views
     public sealed partial class AddProjectPage : Page, IAppPage
     {
         private readonly AddProjectPageViewModel _vm;
-        private List<string> SkillsList { get; set; }
+        private List<Skill> SkillsList { get; set; }
 
         public AddProjectPage()
         {
@@ -26,7 +28,7 @@ namespace CrowdSpark.App.Views
             
             DataContext = _vm;
 
-            SkillsList = new List<string>();
+            SkillsList = new List<Skill>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -83,15 +85,24 @@ namespace CrowdSpark.App.Views
 
         public void PostProjectButton_Click(object sender, RoutedEventArgs e)
         {
-            var ProjectTitle = projectTitleTextBox.Text;
-            var ProjectDescription = projectDescriptionTextBox.Text;
-            var Country = CountryComboBox.SelectedItem;
-            var City = CityComboBox.SelectedItem;
+            //should implement a null checker for these
+            var ProjectTitle = TitleTextBox.Text;
+            var ProjectDescription = DescriptionTextBox.Text;
+            var ProjectCategoryText = CategoryTextBox.Text;
+            var ProjectCountry = CountryComboBox.SelectedItem.ToString();
+            var ProjectCity = CityComboBox.SelectedItem.ToString();
+            Location ProjectLocation = new Location { Country = ProjectCountry, City = ProjectCity };
+            var ProjectCategory = new Category { Name = ProjectCategoryText};
 
-            Debug.WriteLine("City: " + City);
-            Debug.WriteLine("Country: " + Country);
-            Debug.WriteLine("Description: " + ProjectDescription);
-            Debug.WriteLine("Title: " + ProjectTitle);
+            //TODO:needs work
+            var SparkList = new List<Spark>();
+            SparkList.Add(new Spark());
+            
+            var projectDTO = new ProjectDTO { Title = ProjectTitle, Description = ProjectDescription,
+                Location = ProjectLocation, Skills = SkillsList, Category = ProjectCategory, CreatedDate = DateTime.Now, Sparks = SparkList};
+
+            //TODO:Use the ProjectLogic class to post the project
+            //await ProjectLogic().CreateAsync(projectDTO);
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -109,9 +120,7 @@ namespace CrowdSpark.App.Views
                     var text = textBox.Text;
                     if (!String.IsNullOrEmpty(text))
                     {
-                        SkillsList.Add(text);
-                        //set the border color back to normal
-                        textBox.BorderBrush = null;
+                        SkillsList.Add(new Skill { Name = text});
                     }
                     else
                     {
@@ -129,6 +138,7 @@ namespace CrowdSpark.App.Views
             //add a new textbox if all the text boxes are filled in
             if (allFull)
             {
+                //set up and add a new textbox
                 TextBox textBox = new TextBox();
                 textBox.PlaceholderText = "TYPE IN A SKILL";
                 textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
