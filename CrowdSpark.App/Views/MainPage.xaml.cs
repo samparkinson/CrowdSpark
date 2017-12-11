@@ -2,13 +2,16 @@
 using CrowdSpark.App.Models;
 using CrowdSpark.App.ViewModels;
 using CrowdSpark.App.Views;
+using CrowdSpark.Entitites;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace CrowdSpark.App
@@ -38,6 +41,8 @@ namespace CrowdSpark.App
                 : AppViewBackButtonVisibility.Collapsed;
 
             //OptionsList.Items[1].Selected = true;
+
+            RecentTab.Background = new SolidColorBrush(Colors.DimGray);
         }
 
         //Navigate to the associated project page
@@ -105,6 +110,29 @@ namespace CrowdSpark.App
         private void AddProjectButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(AddProjectPage), CommonAttributes.account);
+        }
+
+        private void RecentTabButton_Click(object sender, RoutedEventArgs e)
+        {
+            CategoriesTab.Background = new SolidColorBrush(Colors.Transparent);
+            RecentTab.Background = new SolidColorBrush(Colors.DimGray);
+            ProjectsListStackPanel.Visibility = Visibility.Visible;
+            CategoriesListStackPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void CategoriesTabButton_Click(object sender, RoutedEventArgs e)
+        {
+            CategoriesTab.Background = new SolidColorBrush(Colors.DimGray);
+            RecentTab.Background = new SolidColorBrush(Colors.Transparent); 
+            ProjectsListStackPanel.Visibility = Visibility.Collapsed;
+            CategoriesListStackPanel.Visibility = Visibility.Visible;
+        }
+
+        private void CategoriesListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            //Convert arg into projects
+            var clickedCategory = (Category)e.ClickedItem;
+            Frame.Navigate(typeof(SearchPage), clickedCategory.Name);
         }
     }
 }
