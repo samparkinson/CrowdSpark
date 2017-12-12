@@ -21,19 +21,24 @@
 
     // Set up ADAL
     var authContext = new AuthenticationContext(config);
-    var baseUrl = "https://crowdsparkapp.azurewebsites.net/"
+    var baseUrl = "https://localhost:44369/"
 
     // Make an AJAX request to the Microsoft Graph API and print the response as JSON.
     var getCharacters = function (access_token) {
         document.getElementById('api-response').textContent = 'Calling API...';
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', baseUrl + 'api/characters', true);
+        xhr.open('GET', baseUrl + 'api/users/43', true);
         xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
         xhr.onreadystatechange = function () {
+            console.log(xhr.response); //Outputs a DOMString by default
             if (xhr.readyState === 4 && xhr.status === 200) {
                 // Do something with the response
                 document.getElementById('api-response').textContent =
-                    JSON.stringify(JSON.parse(xhr.responseText), null, '  ');
+                    'ERROR:\n\n' + xhr.responseText;
+                err = xhr;
+
+                //           document.getElementById('api-response').textContent =
+     //               JSON.stringify(JSON.parse(xhr.responseText), null, '  ');
             } else {
                 // TODO: Do something with the error (or non-200 responses)
                 document.getElementById('api-response').textContent =

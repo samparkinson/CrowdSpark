@@ -46,9 +46,17 @@ namespace CrowdSpark.Web.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             string st = userId;
             Console.WriteLine(st);
-
-            return Ok(await _userLogic.GetAsync(id)); //TODO, decided if users can look at the profile of other users
+            return Ok(st);
+           // return Ok(await _userLogic.GetAsync(id)); //TODO, decided if users can look at the profile of other users
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetToken()
+        {
+            return Ok(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        }
+
 
         // POST api/users
         [HttpPost]
