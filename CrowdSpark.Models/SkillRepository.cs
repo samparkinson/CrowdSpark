@@ -32,7 +32,7 @@ namespace CrowdSpark.Models
             }
 
             _context.Skills.Add(skillToCreate);
-            if (await _context.SaveChangesAsync() > 0)
+            if (await saveContextChanges() > 0)
             {
                 return skillToCreate.Id;
             }
@@ -44,7 +44,7 @@ namespace CrowdSpark.Models
             var skill = await _context.Skills.FindAsync(skillId);
             _context.Skills.Remove(skill);
 
-            return ( await _context.SaveChangesAsync() > 0 );
+            return ( await saveContextChanges() > 0 );
         }
 
         public async Task<Skill> FindAsync(int skillId)
@@ -74,7 +74,19 @@ namespace CrowdSpark.Models
 
             skillToUpdate.Name = details.Name;
 
-            return (await _context.SaveChangesAsync() > 0);
+            return (await saveContextChanges() > 0);
+        }
+
+        async Task<int> saveContextChanges()
+        {
+            try
+            {
+                return await _context.SaveChangesAsync();
+            }
+            catch (System.Data.DataException e)
+            {
+                throw new DbUpdateException("Error modifying skill collection", e);
+            }
         }
 
         public void Dispose()

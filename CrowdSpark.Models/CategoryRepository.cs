@@ -25,7 +25,7 @@ namespace CrowdSpark.Models
             };
 
             _context.Categories.Add(categoryToCreate);
-            if (await _context.SaveChangesAsync() > 0)
+            if (await saveContextChanges() > 0)
             {
                 return categoryToCreate.Id;
             }
@@ -37,7 +37,7 @@ namespace CrowdSpark.Models
             var category = await _context.Categories.FindAsync(categoryId);
             _context.Categories.Remove(category);
 
-            return ( await _context.SaveChangesAsync() > 0 );
+            return ( await saveContextChanges() > 0 );
         }
 
         public async Task<Category> FindAsync(int categoryId)
@@ -67,7 +67,19 @@ namespace CrowdSpark.Models
 
             categoryToUpdate.Name = details.Name;
 
-            return (await _context.SaveChangesAsync() > 0);
+            return (await saveContextChanges() > 0);
+        }
+
+        async Task<int> saveContextChanges()
+        {
+            try
+            {
+                return await _context.SaveChangesAsync();
+            }
+            catch (System.Data.DataException e)
+            {
+                throw new DbUpdateException("Error modifying category collection", e);
+            }
         }
 
         public void Dispose()

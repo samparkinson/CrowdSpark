@@ -31,7 +31,7 @@ namespace CrowdSpark.Models
             };
 
             _context.Projects.Add(projectToCreate);
-            if (await _context.SaveChangesAsync() > 0)
+            if (await saveContextChanges() > 0)
             {
                 return projectToCreate.Id;
             }
@@ -43,7 +43,7 @@ namespace CrowdSpark.Models
             var project = await _context.Projects.FindAsync(projectId);
             _context.Projects.Remove(project);
 
-            return (await _context.SaveChangesAsync() > 0);
+            return (await saveContextChanges() > 0);
         }
 
         public async Task<ProjectDTO> FindAsync(int projectId)
@@ -99,7 +99,19 @@ namespace CrowdSpark.Models
             
             //Not updating created date as it should never be updated
 
-            return (await _context.SaveChangesAsync() > 0);
+            return (await saveContextChanges() > 0);
+        }
+
+        async Task<int> saveContextChanges()
+        {
+            try
+            {
+                return await _context.SaveChangesAsync();
+            }
+            catch (System.Data.DataException e)
+            {
+                throw new DbUpdateException("Error modifying project collection", e);
+            }
         }
 
         public void Dispose()

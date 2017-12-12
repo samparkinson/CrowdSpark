@@ -57,6 +57,7 @@ namespace CrowdSpark.Models.Tests
             }
         }
 
+        [Fact]
         public async void CreateAsync_GivenTwoValidSkills_ReturnsTwoNewSkillIDs()
         {
             var skill1 = new Skill
@@ -68,7 +69,7 @@ namespace CrowdSpark.Models.Tests
             {
                 Id = -1,
                 Name = "Dancing"
-            };
+            };  
             //var contextMock = new Mock<ICrowdSparkContext>();
 
             //contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ReturnsAsync(1);

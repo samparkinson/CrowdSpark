@@ -33,7 +33,7 @@ namespace CrowdSpark.Models
             };
 
             _context.Sparks.Add(sparkToCreate);
-            if (await _context.SaveChangesAsync() > 0)
+            if (await saveContextChanges() > 0)
             {
                 return (sparkToCreate.ProjectId, sparkToCreate.UserId);
             }
@@ -45,7 +45,7 @@ namespace CrowdSpark.Models
             var spark = await _context.Sparks.FindAsync(projectId, userId);
             _context.Sparks.Remove(spark);
 
-            return ( await _context.SaveChangesAsync() > 0 );
+            return ( await saveContextChanges() > 0 );
         }
 
         public async Task<Spark> FindAsync(int projectId, int userId)
@@ -75,7 +75,19 @@ namespace CrowdSpark.Models
 
             sparkToUpdate.Status = details.Status; //this is the only attribute on a spark that should ever change
 
-            return (await _context.SaveChangesAsync() > 0);
+            return (await saveContextChanges() > 0);
+        }
+
+        async Task<int> saveContextChanges()
+        {
+            try
+            {
+                return await _context.SaveChangesAsync();
+            }
+            catch (System.Data.DataException e)
+            {
+                throw new DbUpdateException("Error modifying spark collection", e);
+            }
         }
 
         public void Dispose()

@@ -26,7 +26,7 @@ namespace CrowdSpark.Models
             };
 
             _context.Locations.Add(locationToCreate);
-            if (await _context.SaveChangesAsync() > 0)
+            if (await saveContextChanges() > 0)
             {
                 return locationToCreate.Id;
             }
@@ -49,7 +49,7 @@ namespace CrowdSpark.Models
             var location = await _context.Locations.FindAsync(locationId);
             _context.Locations.Remove(location);
 
-            return (await _context.SaveChangesAsync() > 0);
+            return (await saveContextChanges() > 0);
         }
 
         public async Task<Location> FindAsync(int locationId)
@@ -75,7 +75,19 @@ namespace CrowdSpark.Models
             locationToUpdate.City = details.City;
             locationToUpdate.Country = details.Country;
 
-            return (await _context.SaveChangesAsync() > 0);
+            return (await saveContextChanges() > 0);
+        }
+
+        async Task<int> saveContextChanges()
+        {
+            try
+            {
+                return await _context.SaveChangesAsync();
+            }
+            catch (System.Data.DataException e)
+            {
+                throw new DbUpdateException("Error modifying location collection", e);
+            }
         }
 
         public void Dispose()

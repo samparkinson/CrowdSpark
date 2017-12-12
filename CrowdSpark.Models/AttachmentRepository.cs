@@ -27,7 +27,7 @@ namespace CrowdSpark.Models
             };
 
             _context.Attachments.Add(attachmentToCreate);
-            if (await _context.SaveChangesAsync() > 0)
+            if (await saveContextChanges() > 0)
             {
                 return attachmentToCreate.Id;
             }
@@ -39,7 +39,7 @@ namespace CrowdSpark.Models
             var attachment = await _context.Attachments.FindAsync(attachmentId);
             _context.Attachments.Remove(attachment);
 
-            return ( await _context.SaveChangesAsync() > 0 );
+            return ( await saveContextChanges() > 0 );
         }
 
         public async Task<Attachment> FindAsync(int attachmentId)
@@ -61,7 +61,19 @@ namespace CrowdSpark.Models
             attachmentToUpdate.Data = details.Data;
             attachmentToUpdate.Type = details.Type;
 
-            return (await _context.SaveChangesAsync() > 0);
+            return (await saveContextChanges() > 0);
+        }
+
+        async Task<int> saveContextChanges()
+        {
+            try
+            {
+                return await _context.SaveChangesAsync();
+            }
+            catch (System.Data.DataException e)
+            {
+                throw new DbUpdateException("Error modifying attachment collection", e);
+            }
         }
 
         public void Dispose()

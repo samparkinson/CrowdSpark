@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using CrowdSpark.Common;
@@ -100,7 +101,7 @@ namespace CrowdSpark.Models.Tests
             };
             var contextMock = new Mock<ICrowdSparkContext>();
 
-            contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ThrowsAsync(new Exception("error"));
+            contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ThrowsAsync(new DataException("error"));
             contextMock.Setup(c => c.Users.Add(It.IsAny<User>()));
 
             using (var repository = new UserRepository(contextMock.Object))
