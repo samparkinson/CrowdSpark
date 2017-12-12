@@ -13,6 +13,8 @@ namespace CrowdSpark.App.Models
 
         Task<IReadOnlyCollection<ProjectDTO>> GetAllSparked();
 
+        Task<IReadOnlyCollection<ProjectDTO>> GetBySearch(string searchString);
+
         Task<ProjectDTO> Get(int projectID);
 
         Task<bool> AddSkill(int projectID, string skill);
