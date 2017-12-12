@@ -67,7 +67,9 @@ namespace CrowdSpark.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var success = await _userLogic.CreateAsync(user);
+            var azureUId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var success = await _userLogic.CreateAsync(user, azureUId);
 
             var userId = 0; //TODO, get userID from auth
 

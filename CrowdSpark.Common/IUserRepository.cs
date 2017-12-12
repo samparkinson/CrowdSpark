@@ -8,9 +8,13 @@ namespace CrowdSpark.Common
 {
     public interface IUserRepository : IDisposable
     {
-        Task<int> CreateAsync(UserDTO user);
+        Task<int> CreateAsync(UserDTO user, string azureUId);
 
         Task<UserDTO> FindAsync(int userId);
+
+        Task<int> GetIdAsync(string azureUId);
+
+        Task<UserDTO> FindFromAzureUIdAsync(string azureUId);
 
         Task<IReadOnlyCollection<UserDTO>> ReadAsync();
 

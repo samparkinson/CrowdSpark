@@ -28,5 +28,8 @@ namespace CrowdSpark.Entitites
 
         public ICollection<Spark> Sparks { get; set; }
 
+        [Required]
+        [StringLength(60)]
+        public string AzureUId { get; set; }
     }
 }

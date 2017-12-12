@@ -151,7 +151,7 @@ namespace CrowdSpark.Models.Tests
         }
 
         [Fact]
-        public async void DeleteAsync_GivenSaveChangesError_ReturnsDbUpdateException()
+        public async void DeleteAsync_GivenSaveChangesError_ReturnFalse()
         {
             var existingAttachment = new Attachment
             {
@@ -171,9 +171,9 @@ namespace CrowdSpark.Models.Tests
             //SanityCheck
             Assert.NotNull(context.Attachments.Find(attachment.Entity.Id));
 
-            using (var repository = new AttachmentRepository(context))
+            using (var repository = new AttachmentRepository(contextMock.Object))
             {
-                await Assert.ThrowsAsync<DbUpdateException>(async () => await repository.DeleteAsync(attachment.Entity.Id));
+                 Assert.False( await repository.DeleteAsync(attachment.Entity.Id));
             }
         }
 

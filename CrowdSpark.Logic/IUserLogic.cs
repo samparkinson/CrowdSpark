@@ -12,7 +12,9 @@ namespace CrowdSpark.Logic
 
         Task<UserDTO> GetAsync(int userId);
 
-        Task<ResponseLogic> CreateAsync(UserDTO user);
+        Task<int> GetIdAsync(string azureUId);
+
+        Task<ResponseLogic> CreateAsync(UserDTO user, string azureUId);
 
         Task<ResponseLogic> UpdateAsync(int userId, UserDTO user);
 
