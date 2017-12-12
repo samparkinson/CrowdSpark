@@ -9,6 +9,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
+using System.Data;
 
 namespace CrowdSpark.Models.Tests
 {
@@ -92,7 +93,102 @@ namespace CrowdSpark.Models.Tests
                 Type = (int)AttachmentTypes.BITMAP
             };
 
-            //var contextMoq = new Moq
+            var contextMock = new Mock<ICrowdSparkContext>();
+
+            contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ReturnsAsync(0);
+            contextMock.Setup(c => c.Attachments.Add(It.IsAny<Attachment>()));
+
+            using (var repository = new AttachmentRepository(contextMock.Object))
+            {
+                await Assert.ThrowsAsync<DbUpdateException>(async () => await repository.CreateAsync(attachmentToCreate));
+            }
+        }
+
+        [Fact]
+        public async void CreateAsync_GivenSaveChangesError_ReturnsDbUpdateException()
+        {
+            var attachmentToCreate = new AttachmentCreateDTO
+            {
+                Description = "An example attachment",
+                Data = "fuvwygwiu gbuywgykaguygdchjbaeiuyxgciuyadhviu bwrhjdsiyeabfcuyuw wyadvfjcvyut3er78t2euabdcbeaiyc eqdcgfw",
+                Type = (int)AttachmentTypes.BITMAP
+            };
+
+            var contextMock = new Mock<ICrowdSparkContext>();
+
+            contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ThrowsAsync(new DataException("error"));
+            contextMock.Setup(c => c.Attachments.Add(It.IsAny<Attachment>()));
+
+            using (var repository = new AttachmentRepository(contextMock.Object))
+            {
+                await Assert.ThrowsAsync<DbUpdateException>(async () => await repository.CreateAsync(attachmentToCreate));
+            }
+        }
+
+        [Fact]
+        public async void DeleteAsync_GivenAttachmentExists_DeletesAttachmentAndReturnsSuccess()
+        {
+            var existingAttachment = new Attachment
+            {
+                Data = "sgivehfuihvuaeirhvuhrsuvinfi",
+                Description = "Attachment",
+                Type = (int)AttachmentTypes.BITMAP
+            };
+
+            var attachment = context.Attachments.Add(existingAttachment);
+            context.SaveChanges();
+
+            //SanityCheck
+            Assert.NotNull(context.Attachments.Find(attachment.Entity.Id));
+
+            using (var repository = new AttachmentRepository(context))
+            {
+                var success = await repository.DeleteAsync(attachment.Entity.Id);
+
+                Assert.True(success);
+                Assert.Null(context.Attachments.Find(attachment.Entity.Id));
+            }
+        }
+
+        [Fact]
+        public async void DeleteAsync_GivenSaveChangesError_ReturnsDbUpdateException()
+        {
+            var existingAttachment = new Attachment
+            {
+                Data = "sgivehfuihvuaeirhvuhrsuvinfi",
+                Description = "Attachment",
+                Type = (int)AttachmentTypes.BITMAP
+            };
+
+            var attachment = context.Attachments.Add(existingAttachment);
+            context.SaveChanges();
+
+            var contextMock = new Mock<ICrowdSparkContext>();
+
+            contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ReturnsAsync(0);
+            contextMock.Setup(c => c.Attachments.Remove(It.IsAny<Attachment>()));
+
+            //SanityCheck
+            Assert.NotNull(context.Attachments.Find(attachment.Entity.Id));
+
+            using (var repository = new AttachmentRepository(context))
+            {
+                await Assert.ThrowsAsync<DbUpdateException>(async () => await repository.DeleteAsync(attachment.Entity.Id));
+            }
+        }
+
+        [Fact]
+        public async void DeleteAsync_GivenAttachmentDoesNotExist_ReturnsFalse()
+        { 
+            //SanityCheck
+            Assert.NotNull(context.Attachments.Find(1));
+
+            using (var repository = new AttachmentRepository(context))
+            {
+                var success = await repository.DeleteAsync(1);
+
+                Assert.False(success);
+            }
         }
     }
 }
