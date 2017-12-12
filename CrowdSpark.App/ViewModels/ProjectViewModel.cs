@@ -1,5 +1,6 @@
 ﻿using CrowdSpark.Common;
 using CrowdSpark.Entitites;
+using System;
 using System.Collections.Generic;
 
 namespace CrowdSpark.App.ViewModels
@@ -26,6 +27,9 @@ namespace CrowdSpark.App.ViewModels
 
         public ICollection<Spark> _sparks;
         public ICollection<Spark> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
+        
+        public DateTime _createdDate;
+        public DateTime CreatedDate { get => _createdDate; set { if (!value.Equals(_createdDate)) { _createdDate = value; OnPropertyChanged(); } } }
 
         public ProjectViewModel(ProjectDTO ProjectDTO)
         {
@@ -40,8 +44,25 @@ namespace CrowdSpark.App.ViewModels
             //Skills = ProjectDTO.Skills;
 
             Category = ProjectDTO.Category;
-
+             
             //Sparks = ProjectDTO.Sparks; 
+        }
+
+        public ProjectViewModel(ProjectSummaryDTO projectSummaryDTO)
+        {
+            Id = projectSummaryDTO.Id;
+
+            Title = projectSummaryDTO.Title;
+
+            Description = projectSummaryDTO.Description;
+
+            Skills = projectSummaryDTO.Skills;
+
+            Location.Id = projectSummaryDTO.Id;
+
+            Category = projectSummaryDTO.Category;
+
+            CreatedDate = projectSummaryDTO.CreatedDate;
         }
     }
 }
