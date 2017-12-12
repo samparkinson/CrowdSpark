@@ -16,7 +16,7 @@ namespace CrowdSpark.App.Models
 
         public string WebAccountProviderId => "https://login.microsoft.com";
 
-        public string ApiResource => "https://ituniversity.onmicrosoft.com/crowdspark.Web";
+        public string ApiResource => "https://ituniversity.onmicrosoft.com/crowdspark.web";
 
         public Uri ApiBaseAddress => new Uri("https://crowdsparkwebapp.azurewebsites.net/");
 
