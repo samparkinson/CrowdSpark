@@ -33,7 +33,7 @@
         <SplitView.Content>
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="80" />
+                    <RowDefinition Height="140" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
@@ -45,10 +45,46 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Orientation="Horizontal">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="0">
                         <SearchBox FocusOnKeyboardInput="False" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
                         <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                         <Button Content="Profile" HorizontalAlignment="Right" Command="{Binding SignInOutCommand}" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
+                    </StackPanel>
+
+                    <!--Tabs-->
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                        <!--Recent Tab-->
+                        <StackPanel Margin="10,0" x:Name="RecentTab" BorderThickness="2">
+                            <Button Background="Transparent"  Command="{Binding RepopulateContentCommand}" Click="RecentTabButton_Click" HorizontalAlignment="Left">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Recent" Grid.Column="1" Margin="10,0,0,0" />
+                                    <SymbolIcon Symbol="Calendar" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Button>
+                        </StackPanel>
+                        
+                        <!--Categories tab-->
+                        <StackPanel x:Name="CategoriesTab" BorderThickness="2">
+                            <Button Background="Transparent" Command="{Binding RepopulateContentCommand}" Click="CategoriesTabButton_Click" HorizontalAlignment="Center">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Categories" Grid.Column="1" Margin="10,0,0,0" />
+                                    <SymbolIcon Symbol="ViewAll" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
 
                     <!--Add Project Button-->
@@ -66,10 +102,10 @@
                     </StackPanel>
                 </Grid>
 
-                <StackPanel Grid.Row="1" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                <StackPanel x:Name="ProjectsListStackPanel" Grid.Row="1" Visibility="Visible" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
                     <ScrollViewer Name="ProjectsScrollView" Height="{Binding ScrollViewHeight}" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-                        <ListView x:Name="projectsListView" ItemsSource="{Binding Projects}" SelectionMode="None" 
-                  VerticalAlignment="Center" IsItemClickEnabled="True"  ItemClick="projectsListView_ItemClick">
+                        <ListView x:Name="projectsListView" ItemsSource="{Binding Content}" SelectionMode="None" 
+                  VerticalAlignment="Center" IsItemClickEnabled="True" ItemClick="projectsListView_ItemClick">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -83,6 +119,30 @@
                                         <StackPanel Margin="20" Grid.Column="1" >
                                             <TextBlock Text="{Binding Title}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"/>
                                             <TextBlock Text="{Binding Description}" FontSize="15" MaxHeight="60"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </ScrollViewer>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" x:Name="CategoriesListStackPanel" Visibility="Collapsed" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                    <ScrollViewer Name="CategoriesScrollView" Height="{Binding ScrollViewHeight}" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                        <ListView x:Name="CategoriesListView" ItemsSource="{Binding Categories}" SelectionMode="None" 
+                  VerticalAlignment="Center" IsItemClickEnabled="True" ItemClick="CategoriesListView_ItemClick">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image Source="ms-appx:///Assets/logo-blackwhite.png" Width="32" Height="32" HorizontalAlignment="Left" Grid.Column="0"/>
+
+                                        <StackPanel Margin="20" Grid.Column="1" >
+                                            <TextBlock Text="{Binding Name}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"/>
                                         </StackPanel>
                                     </Grid>
                                 </DataTemplate>

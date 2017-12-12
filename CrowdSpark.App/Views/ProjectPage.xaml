@@ -60,7 +60,7 @@
 
                     <!--Add Project Button-->
                     <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center">
-                        <Button  Command="{Binding AddProjectCommand}" VerticalAlignment="Center">
+                        <Button Click="AddProjectButton_Click" VerticalAlignment="Center">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -123,6 +123,8 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 
                                 <!--Location-->
@@ -130,11 +132,12 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
+                                        <!--{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}-->
                                         <StackPanel Margin="25,25,0,25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Image x:Name="CountryFlagImage" Height="40" Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}"  Width="60" HorizontalAlignment="Left"/>
+                                            <Image x:Name="CountryFlagImage" Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}" Height="40" Width="60" HorizontalAlignment="Left"/>
                                         </StackPanel>
                                         <StackPanel Margin="0,25,0,25" Grid.Column="1">
                                             <TextBlock Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
@@ -143,15 +146,35 @@
                                     </Grid>
                                 </StackPanel>
 
+                                <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#FF6C6C6C">
+                                    <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
+                                        <StackPanel Orientation="Horizontal" DataContext="{Binding Category}">
+                                            <TextBlock Margin="25, 25, -15, 25" Text="CATEGORY:" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
+                                            <TextBlock Margin="25" Text="{Binding Name}" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                                
                                 <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
+                                    <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
+                                        <TextBlock Margin="25" Text="REQUIRED SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
+                                    </Button>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="3" Margin="25,0,25,25" Background="#FF6C6C6C">
                                     <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
                                         <TextBlock Margin="25" Text="CONTRIBUTORS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
                                     </Button>
                                 </StackPanel>
 
-                                <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#FF6C6C6C">
+                                <StackPanel Grid.Row="4"  Margin="25,0,25,25" Background="#FF6C6C6C">
                                     <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
-                                        <TextBlock Margin="25" Text="SPARK THIS PROJECT" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <SymbolIcon Symbol="Accept" HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                                            
+                                            <TextBlock Margin="25" Text="SPARK THIS PROJECT" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                        </StackPanel>
+                                        
                                     </Button>
                                 </StackPanel>
                             </Grid>

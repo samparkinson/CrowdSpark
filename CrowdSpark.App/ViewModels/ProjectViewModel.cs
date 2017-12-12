@@ -18,6 +18,12 @@ namespace CrowdSpark.App.ViewModels
         public string _description;
         public string Description { get => _description; set { if (value != _description) { _description = value; OnPropertyChanged(); } } }
 
+        public Category _category;
+        public Category Category{ get => _category; set { if (value != _category) { _category = value; OnPropertyChanged(); } } }
+        
+        public ICollection<Skill> _skills { get; set; }
+        public ICollection<Skill> Skills { get => _skills; set { if (!value.Equals(_skills)) { _skills = value; OnPropertyChanged(); } } }
+
         public ICollection<Spark> _sparks;
         public ICollection<Spark> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
 
@@ -31,7 +37,11 @@ namespace CrowdSpark.App.ViewModels
 
             Description = ProjectDTO.Description;
 
-            //Sparks = PostDTO.Sparks; --??
+            //Skills = ProjectDTO.Skills;
+
+            Category = ProjectDTO.Category;
+
+            //Sparks = ProjectDTO.Sparks; 
         }
     }
 }

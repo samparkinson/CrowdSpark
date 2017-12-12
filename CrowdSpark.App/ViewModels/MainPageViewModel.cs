@@ -17,7 +17,11 @@ namespace CrowdSpark.App.ViewModels
     class MainPageViewModel : BaseViewModel
     {
         //get values from db
-        public ObservableCollection<ProjectViewModel> Projects { get; set; }
+        //projects list
+        public ObservableCollection<ProjectViewModel> Content { get; set; }
+
+        //categories list
+        public ObservableCollection<Category> Categories { get; set; }
 
         //To set the height of scroll view
         public int ScrollViewHeight { get; set; }
@@ -27,14 +31,22 @@ namespace CrowdSpark.App.ViewModels
         private WebAccount account;
 
         private readonly IAuthenticationHelper helper;
-        
+
+        //command to repopulate the content of main page
+        public ICommand RepopulateContentCommand { get; set; }
+
+
         public MainPageViewModel(IAuthenticationHelper _helper)
         {
-            Projects = new ObservableCollection<ProjectViewModel>();
+            Content = new ObservableCollection<ProjectViewModel>();
 
-            initDummy();
+            initDummyProjects();
 
-            ScrollViewHeight = Projects.Count * 60;
+            Categories = new ObservableCollection<Category>();
+
+            initDummyCategories();
+
+            ScrollViewHeight = Content.Count * 60;
 
             helper = _helper;
             
@@ -55,6 +67,12 @@ namespace CrowdSpark.App.ViewModels
                         await Initialize();
                     }
                 }
+            });
+
+            //TODO: use this somehow
+            RepopulateContentCommand = new RelayCommand((tab) => 
+            {
+
             });
             
             MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
@@ -81,21 +99,37 @@ namespace CrowdSpark.App.ViewModels
                 */
             }
         }
-        
-        private void initDummy()
+
+
+        private void initDummyCategories()
         {
+            Categories.Clear();
+
+            var category = new Category { Name="Programming", Id=0};
+
+            for (int i = 0; i < 20; i++)
+            {
+                Categories.Add(new Category { Name = "Cat " + i, Id = i });
+            }
+        }
+
+        
+        private void initDummyProjects()
+        {
+            Content.Clear();
+
             var _location = new Location { Id = 1, City = "Copenhagen", Country = "Denmark" };
 
-            var dummyProjects = new List<ProjectDTO>();
+            var _dummyProjects = new List<ProjectDTO>();
             
             for (int i = 0; i < 20; i++)
             {
-                dummyProjects.Add(new ProjectDTO { Id = i, Title = "Project " + i, Location = _location, Description = "Description " + i });
+                _dummyProjects.Add(new ProjectDTO { Id = i, Title = "Project " + i, Location = _location, Description = "Description " + i, Category = new Category { Name = "Programming" } });
             }
 
-            foreach (var p in dummyProjects)
+            foreach (var p in _dummyProjects)
             {
-                Projects.Add(new ProjectViewModel(p));
+                Content.Add(new ProjectViewModel(p));
             }
         }
     }
