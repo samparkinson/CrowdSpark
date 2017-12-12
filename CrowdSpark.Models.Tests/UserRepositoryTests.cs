@@ -57,7 +57,7 @@ namespace CrowdSpark.Models.Tests
 
             using (var repository = new UserRepository(context))
             {
-                var id = await repository.CreateAsync(user);
+                var id = await repository.CreateAsync(user, "abcd");
                 Assert.Equal((await context.Users.FirstAsync()).Id, id);
             }
         }
@@ -74,7 +74,7 @@ namespace CrowdSpark.Models.Tests
 
             using (var repository = new UserRepository(context))
             {
-                var id = await repository.CreateAsync(user);
+                var id = await repository.CreateAsync(user, "abcd");
                 Assert.Equal((await context.Users.FirstAsync()).Id, id);
                 Assert.True( await repository.DeleteAsync(id) );
             }
@@ -106,7 +106,7 @@ namespace CrowdSpark.Models.Tests
 
             using (var repository = new UserRepository(contextMock.Object))
             {
-                await Assert.ThrowsAsync<DbUpdateException>(async () => { await repository.CreateAsync(user); });
+                await Assert.ThrowsAsync<DbUpdateException>(async () => { await repository.CreateAsync(user, "abcd"); });
             }
         }
 
@@ -127,7 +127,7 @@ namespace CrowdSpark.Models.Tests
 
             using (var repository = new UserRepository(contextMock.Object))
             {
-                await Assert.ThrowsAsync<DbUpdateException>(async () => await repository.CreateAsync(userDTO));
+                await Assert.ThrowsAsync<DbUpdateException>(async () => await repository.CreateAsync(userDTO, "abcd"));
             }
         }
 
