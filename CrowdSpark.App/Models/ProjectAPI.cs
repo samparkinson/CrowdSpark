@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using CrowdSpark.Common;
 
 namespace CrowdSpark.App.Models
 {
@@ -18,34 +23,39 @@ namespace CrowdSpark.App.Models
             _client = client;
         }
 
-        public async Task<IReadOnlyCollection<ProjecDTO>> GetAll()
+        Task<IReadOnlyCollection<ProjectDTO>> IProjectAPI.GetAll()
         {
-            return NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public async Task<IReadOnlyCollection<ProjectDTO>> GetAllFollowed()
+        Task<IReadOnlyCollection<ProjectDTO>> IProjectAPI.GetAllFollowed()
         {
-            return NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public async Task<IReadOnlyCollection<ProjectDTO>> GetAllSparked()
+        Task<IReadOnlyCollection<ProjectDTO>> IProjectAPI.GetAllSparked()
         {
-            return NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public async Task<IReadOnlyCollection<ProjectDTO>> GetBySearch(string searchString)
+        Task<IReadOnlyCollection<ProjectDTO>> IProjectAPI.GetBySearch(string searchString)
         {
-            return NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public async Task<ProjectDTO> Get(int projectID)
+        Task<ProjectDTO> IProjectAPI.Get(int projectID)
         {
-            return NotImplementedException(); 
+            throw new NotImplementedException();
         }
 
-        public async Task<bool> AddSkill(int projectID, string skill)
+        Task<bool> IProjectAPI.AddSkill(int projectID, string skill)
         {
-            return NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
 
     }

@@ -106,7 +106,9 @@
     <Compile Include="Models\AuthorizedHandler.cs" />
     <Compile Include="Models\CurrentUser.cs" />
     <Compile Include="Models\IAuthenticationHelper.cs" />
+    <Compile Include="Models\IProjectAPI.cs" />
     <Compile Include="Models\ISettings.cs" />
+    <Compile Include="Models\ProjectAPI.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\IoCContainer.cs" />
     <Compile Include="ViewModels\AddProjectPageViewModel.cs" />
