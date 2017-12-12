@@ -55,13 +55,15 @@
 
                         <StackPanel Orientation="Horizontal">
                             <SearchBox FocusOnKeyboardInput="False" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
-                            <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
-                            <Button Content="Profile" HorizontalAlignment="Right" Command="{Binding SignInOutCommand}" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
+                           
                         </StackPanel>
 
-                        <!--Add Project Button-->
-                        <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center">
-                            <Button  Command="{Binding AddProjectCommand}" VerticalAlignment="Center">
+                        <Grid Grid.Column="1" BorderThickness="2" HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Button Click="AddProjectButton_Click" Grid.Column="0" Background="#FF6C6C6C" HorizontalAlignment="Right" BorderBrush="Black" VerticalAlignment="Center">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -71,7 +73,22 @@
                                     <SymbolIcon Symbol="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                 </Grid>
                             </Button>
-                        </StackPanel>
+
+                            <Button Grid.Column="1" Background="#FF6C6C6C" HorizontalAlignment="Right" BorderBrush="Black" VerticalAlignment="Center">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock x:Name="SignInOutButtonText" Text="{Binding SignInOutButtonText}" Grid.Column="0"/>
+                                    <SymbolIcon Symbol="{Binding ElementName=SignInOutButtonText, Path=Text, Converter={StaticResource SignInOutButtonConverter}}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Button>
+
+                            <StackPanel VerticalAlignment="Center" Resources="{Binding account}" Grid.Column="1" HorizontalAlignment="Right">
+                                <TextBlock FontSize="24" Text="{Binding UserName}"></TextBlock>
+                            </StackPanel>
+                        </Grid>
                     </Grid>
 
                     <!--Body-->
