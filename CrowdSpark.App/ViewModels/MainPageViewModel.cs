@@ -63,7 +63,7 @@ namespace CrowdSpark.App.ViewModels
                     account = await helper.SignInAsync();
                     if (account != null)
                     {
-                        Debug.WriteLine("Sign in successfull");
+                        Debug.WriteLine("Sign in successfull!");
                         await Initialize();
                     }
                 }
