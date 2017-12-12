@@ -9,8 +9,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Security.Credentials;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace CrowdSpark.App.ViewModels
 {
@@ -31,13 +29,37 @@ namespace CrowdSpark.App.ViewModels
         private WebAccount account;
 
         private readonly IAuthenticationHelper helper;
-
+        private readonly IProjectRepository repository;
+        
         //command to repopulate the content of main page
         public ICommand RepopulateContentCommand { get; set; }
 
-
-        public MainPageViewModel(IAuthenticationHelper _helper)
+        //Command to initialize the login on app opening
+        private ICommand SignInCommand { get; set; }
+        
+        public MainPageViewModel(IAuthenticationHelper _helper, IProjectRepository _repository)
         {
+            //init the helper
+            helper = _helper;
+            repository = _repository;
+
+            //pop up the login screen if user is not logged in
+            SignInCommand = new RelayCommand(async o =>
+            {
+                if (account == null)
+                {
+                    account = await helper.SignInAsync();
+
+                    if (account != null)
+                    {
+                        Debug.WriteLine("Sign in successfull!");
+                        await Initialize();
+                    }
+                }
+            });
+
+            SignInCommand.Execute(null);
+
             Content = new ObservableCollection<ProjectViewModel>();
 
             initDummyProjects();
@@ -47,8 +69,6 @@ namespace CrowdSpark.App.ViewModels
             initDummyCategories();
 
             ScrollViewHeight = Content.Count * 60;
-
-            helper = _helper;
             
             SignInOutCommand = new RelayCommand(async o =>
             {
@@ -56,7 +76,6 @@ namespace CrowdSpark.App.ViewModels
                 {
                     await helper.SignOutAsync(account);
                     account = null;
-                   // Characters.Clear();
                 }
                 else
                 {
@@ -84,12 +103,12 @@ namespace CrowdSpark.App.ViewModels
 
         public async Task Initialize()
         {
-
             account = await helper.GetAccountAsync();
             
             if (account != null)
             {
                 Debug.WriteLine("Signed in as " + account.UserName);
+                
               // var characters = await _repository.ReadAsync();
 
     /*            foreach (var character in characters.Select(c => new CharacterViewModel(c)))
