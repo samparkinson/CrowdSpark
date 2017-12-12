@@ -51,6 +51,7 @@ namespace CrowdSpark.App.ViewModels
 
             CategoryString = Category.Name.ToUpper();
 
+            account = CommonAttributes.account;
             MenuOptions = CommonAttributes.MenuOptions;
         }
     }

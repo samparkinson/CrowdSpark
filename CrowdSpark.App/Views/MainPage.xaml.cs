@@ -32,7 +32,7 @@ namespace CrowdSpark.App
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            await _vm.Initialize();
+            await _vm.GetRecentProjects();
 
             var rootFrame = Window.Current.Content as Frame;
             
