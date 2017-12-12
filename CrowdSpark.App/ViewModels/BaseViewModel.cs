@@ -27,7 +27,7 @@ namespace CrowdSpark.App.ViewModels
         //store login information, 
         //should this be in base class or common attributes static class??
         public WebAccount account;
-
+        
         public void OnPropertyChanged([CallerMemberName]string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

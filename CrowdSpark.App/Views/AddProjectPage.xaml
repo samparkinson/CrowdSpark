@@ -99,7 +99,6 @@
                                     </Button>
                                 </StackPanel>
                             </StackPanel>
-
                         </Grid>
 
                         <Grid Grid.Column="1" Background="#FF716F6F" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Center">

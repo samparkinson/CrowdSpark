@@ -4,8 +4,6 @@ using CrowdSpark.App.ViewModels;
 using CrowdSpark.App.Views;
 using CrowdSpark.Entitites;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Core;
@@ -39,9 +37,7 @@ namespace CrowdSpark.App
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
-
-            //OptionsList.Items[1].Selected = true;
-
+            
             RecentTab.Background = new SolidColorBrush(Colors.DimGray);
         }
 

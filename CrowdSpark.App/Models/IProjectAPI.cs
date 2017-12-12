@@ -7,7 +7,9 @@ namespace CrowdSpark.App.Models
 {
     public interface IProjectAPI : IDisposable
     {
-        Task<IReadOnlyCollection<ProjecDTO>> GetAll();
+        Task<IReadOnlyCollection<ProjectDTO>> GetAll();
+
+        Task<IReadOnlyCollection<CategoryCreateDTO>> GetAllCategories();
 
         Task<IReadOnlyCollection<ProjectDTO>> GetAllFollowed();
 
