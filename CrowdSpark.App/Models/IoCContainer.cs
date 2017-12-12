@@ -21,6 +21,8 @@ namespace CrowdSpark.App.Models
             services.AddScoped<SearchPageViewModel>();
             services.AddScoped<AddProjectPageViewModel>();
             services.AddScoped<ISettings, Settings>();
+            //add the logic here
+            //services.AddScoped<IProjectAPI>();
             services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
             services.AddScoped<DelegatingHandler, AuthorizedHandler>();
 

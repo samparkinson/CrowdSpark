@@ -25,8 +25,8 @@ namespace CrowdSpark.App.ViewModels
         public int ScrollViewHeight { get; set; }
 
         private readonly IAuthenticationHelper helper;
-        private readonly IProjectRepository projectRepository;
-        private readonly ICategoryRepository categoryRepository;
+
+        private readonly IProjectAPI projectAPI;
 
         //command to repopulate the content of main page
         public ICommand RepopulateContentCommand { get; set; }
@@ -34,17 +34,18 @@ namespace CrowdSpark.App.ViewModels
         //Command to initialize the login on app opening
         private ICommand SignInCommand { get; set; }
         
-        public MainPageViewModel(IAuthenticationHelper _helper, IProjectRepository _projectRepository, ICategoryRepository _categoryRepository)
+        public MainPageViewModel(IAuthenticationHelper _helper)
         {
             //init the helper
             helper = _helper;
-            //init the repo for projects
-            projectRepository = _projectRepository;
-            categoryRepository = _categoryRepository;
+           
+            //recently implemented juicy api
+            //, IProjectAPI _projectAPI
+            //projectAPI = _projectAPI;
             
             Content = new ObservableCollection<ProjectViewModel>();
 
-            //initDummyProjects();
+            initDummyProjects();
 
             Categories = new ObservableCollection<Category>();
 
@@ -65,7 +66,7 @@ namespace CrowdSpark.App.ViewModels
                 }
             });
 
-            SignInCommand.Execute(null);
+            //SignInCommand.Execute(null);
             
             SignInOutCommand = new RelayCommand(async o =>
             {
@@ -99,8 +100,8 @@ namespace CrowdSpark.App.ViewModels
                         break;
                 }
             });
-            
 
+            SignInOutButtonText = "Fuck You";
             MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
 
             ScrollViewHeight = Content.Count * 60;
@@ -108,6 +109,8 @@ namespace CrowdSpark.App.ViewModels
             //Store the stuff in a static class
             CommonAttributes.MenuOptions = MenuOptions;
             CommonAttributes.account = account;
+            initDummyProjects();
+
         }
 
         public async Task GetRecentProjects()
@@ -117,14 +120,17 @@ namespace CrowdSpark.App.ViewModels
             
             if (account != null)
             {
-                var recentProjects = await projectRepository.ReadAsync();
+                var recentProjects = await projectAPI.GetAll();
                 
                 //p is ProjectSummaryDTO
-                foreach (var project in recentProjects.Select(p => new ProjectViewModel(p)))
+                //take command is experimental
+                foreach (var project in recentProjects.Select(p => new ProjectViewModel(p)).Take(10))
                 {
                     Content.Add(project);
                 }
             }
+            initDummyProjects();
+
         }
 
         public async Task GetCategories()
@@ -134,10 +140,10 @@ namespace CrowdSpark.App.ViewModels
 
             if (account != null)
             {
-                var categories = await categoryRepository.ReadAsync();
+                var categories = await projectAPI.GetAllCategories();
 
                 //p is ProjectSummaryDTO
-                foreach (var category in categories.Select(c => new Category { Name = c.Name, Id = c.Id }))
+                foreach (var category in categories.Select(c => new Category { Name = c.Name }))
                 {
                     Categories.Add(category);
                 }

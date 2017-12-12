@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace CrowdSpark.App.Converters
 {
@@ -13,7 +14,7 @@ namespace CrowdSpark.App.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             //change the icons 
-            return value.ToString() == "Sign In" ? Symbol.Next : Symbol.Preview;
+            return value.ToString() == "Sign In" ? new BitmapImage(new Uri(@"ms-appx:Assets\icons\login.png")) : new BitmapImage(new Uri(@"ms-appx:Assets\icons\logout.png"));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

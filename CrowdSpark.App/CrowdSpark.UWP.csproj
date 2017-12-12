@@ -344,6 +344,12 @@
     <Content Include="Assets\flags\za.png" />
     <Content Include="Assets\flags\zm.png" />
     <Content Include="Assets\flags\zw.png" />
+    <Content Include="Assets\icons\help.png" />
+    <Content Include="Assets\icons\login.png" />
+    <Content Include="Assets\icons\logo-blackwhite.png" />
+    <Content Include="Assets\icons\logout.png" />
+    <Content Include="Assets\icons\profile.png" />
+    <Content Include="Assets\icons\Settings.png" />
     <Content Include="Assets\logo-blackwhite.png" />
     <Content Include="Assets\project-image.jpg" />
     <Content Include="Properties\Default.rd.xml" />
