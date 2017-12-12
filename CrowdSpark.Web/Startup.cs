@@ -56,8 +56,8 @@ namespace CrowdSpark
 
             services.AddMvc();
 
-            services.AddDbContext<CrowdSparkContext>( o =>
-                o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+//            services.AddDbContext<CrowdSparkContext>( o =>
+  //              o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // Injection
             services.AddScoped<ICrowdSparkContext, CrowdSparkContext>();

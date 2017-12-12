@@ -9,17 +9,25 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using CrowdSpark.Common;
 using CrowdSpark.Logic;
 using CrowdSpark.Entitites;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CrowdSpark.Web.Controllers
 {
     [Produces("application/json")]
-    [Route("api/users/[controller]")]
+    [Route("api/users")]
     public class UsersController : Controller
     {
+        class UserIdentity : IdentityUser
+        {
+
+        }
+
         private readonly IUserLogic _userLogic;
 
-        public UsersController(IUserLogic userLogic)
+        public UsersController(IUserLogic userLogic/*, UserManager<UserIdentity> userman */)
         {
+         //   _userManager = userman;
             _userLogic = userLogic;
         }
 
@@ -32,9 +40,12 @@ namespace CrowdSpark.Web.Controllers
 
         // GET api/users/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> Get(int id)
         {
-            //var userId = HttpContext.User.Identity.GetUserId();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string st = userId;
+            Console.WriteLine(st);
 
             return Ok(await _userLogic.GetAsync(id)); //TODO, decided if users can look at the profile of other users
         }
@@ -143,5 +154,6 @@ namespace CrowdSpark.Web.Controllers
             else return StatusCode(500);
         }
     }
+
 
 }

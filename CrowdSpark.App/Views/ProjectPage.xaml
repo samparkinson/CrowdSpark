@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    
+
     <Page.Resources>
         <c:CountryFlagConverter x:Key="CountryFlagConverter" />
     </Page.Resources>
@@ -59,8 +59,12 @@
                     </StackPanel>
 
                     <!--Add Project Button-->
-                    <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center">
-                        <Button Click="AddProjectButton_Click" VerticalAlignment="Center">
+                    <Grid Grid.Column="1" BorderThickness="2" HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Click="AddProjectButton_Click" Grid.Column="0" Background="#FF6C6C6C" HorizontalAlignment="Right" BorderBrush="Black" VerticalAlignment="Center">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -70,7 +74,11 @@
                                 <SymbolIcon Symbol="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
-                    </StackPanel>
+
+                        <StackPanel VerticalAlignment="Center" Resources="{Binding account}" Grid.Column="1" HorizontalAlignment="Right">
+                            <TextBlock FontSize="24" Text="{Binding UserName}"></TextBlock>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
 
                 <!--Body-->
@@ -94,26 +102,26 @@
                                     <!--Recent Posts-->
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                
+
                                 <StackPanel Grid.Row="0"  Margin="25" Background="#33FFFFFF">
                                     <Grid>
                                         <TextBlock Margin="25" Text="{Binding Title}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
                                     </Grid>
                                 </StackPanel>
-                            
+
                                 <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#33FFFFFF">
                                     <Grid>
                                         <TextBlock Margin="25" Foreground="White" Text="{Binding Description}" FontSize="24" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
                                     </Grid>
                                 </StackPanel>
-                                
+
                                 <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#33FFFFFF">
                                     <Grid>
                                         <TextBlock Margin="25" Foreground="White" Text="RECENT POSTS" FontSize="40" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
                                     </Grid>
                                 </StackPanel>
-                                </Grid>
-                            </StackPanel>
+                            </Grid>
+                        </StackPanel>
 
                         <!--RIGHT COLUMN-->
                         <StackPanel Grid.Column="1">
@@ -126,7 +134,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                
+
                                 <!--Location-->
                                 <StackPanel DataContext="{Binding Location}" Margin="25" Grid.Row="0" Background="White">
                                     <Grid>
@@ -135,9 +143,9 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <!--{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}-->
+                                        <!--Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}"-->
                                         <StackPanel Margin="25,25,0,25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Image x:Name="CountryFlagImage" Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}" Height="40" Width="60" HorizontalAlignment="Left"/>
+                                            <Image x:Name="CountryFlagImage" Height="40" Width="60" HorizontalAlignment="Left"/>
                                         </StackPanel>
                                         <StackPanel Margin="0,25,0,25" Grid.Column="1">
                                             <TextBlock Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
@@ -154,7 +162,7 @@
                                         </StackPanel>
                                     </Button>
                                 </StackPanel>
-                                
+
                                 <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
                                     <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
                                         <TextBlock Margin="25" Text="REQUIRED SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
@@ -171,10 +179,10 @@
                                     <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                             <SymbolIcon Symbol="Accept" HorizontalAlignment="Left"  VerticalAlignment="Center"/>
-                                            
+
                                             <TextBlock Margin="25" Text="SPARK THIS PROJECT" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
                                         </StackPanel>
-                                        
+
                                     </Button>
                                 </StackPanel>
                             </Grid>
@@ -185,5 +193,3 @@
         </SplitView.Content>
     </SplitView>
 </Page>
-    
-                    

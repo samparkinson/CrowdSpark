@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Windows.Security.Credentials;
 
 namespace CrowdSpark.App.ViewModels
 {
@@ -19,7 +20,14 @@ namespace CrowdSpark.App.ViewModels
 
         //Every page should have a sign in out functionality
         public ICommand SignInOutCommand { get; set; }
-        
+
+        //set button text on top left
+        public string SignInOutButtonText { get; set; }
+
+        //store login information, 
+        //should this be in base class or common attributes static class??
+        public WebAccount account;
+
         public void OnPropertyChanged([CallerMemberName]string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

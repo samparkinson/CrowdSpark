@@ -5,10 +5,15 @@
     xmlns:local="using:CrowdSpark.App"
     xmlns:ms="http://namespaces.mindscape.co.nz/wpf"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:c="using:CrowdSpark.App.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local1="using:CrowdSpark.App.Helpers"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <c:SignInOutButtonConverter x:Key="SignInOutButtonConverter"></c:SignInOutButtonConverter>
+    </Page.Resources>
+    
     <SplitView x:Name="MainSplitView" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">
         <!--Hamburger menu-->
         <SplitView.Pane>
@@ -60,7 +65,7 @@
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
                         <!--Recent Tab-->
                         <StackPanel Margin="10,0" x:Name="RecentTab" BorderThickness="2">
-                            <Button Background="Transparent"  Command="{Binding RepopulateContentCommand}" Click="RecentTabButton_Click" HorizontalAlignment="Left">
+                            <Button Background="Transparent" CommandParameter="{Binding ElementName=RecentTab, Path=Name}" Command="{Binding RepopulateContentCommand}" Click="RecentTabButton_Click" HorizontalAlignment="Left">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -74,7 +79,7 @@
                         
                         <!--Categories tab-->
                         <StackPanel x:Name="CategoriesTab" BorderThickness="2">
-                            <Button Background="Transparent" Command="{Binding RepopulateContentCommand}" Click="CategoriesTabButton_Click" HorizontalAlignment="Center">
+                            <Button Background="Transparent" CommandParameter="{Binding ElementName=RecentTab, Path=Name}" Command="{Binding RepopulateContentCommand}"  Click="CategoriesTabButton_Click" HorizontalAlignment="Center">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -87,9 +92,13 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <!--Add Project Button-->
-                    <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center">
-                        <Button Click="AddProjectButton_Click" VerticalAlignment="Center">
+                    <!--Add Project and sign out Button-->
+                    <Grid Grid.Column="1" BorderThickness="2" HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Click="AddProjectButton_Click" Grid.Column="0" Background="#FF6C6C6C" HorizontalAlignment="Right" BorderBrush="Black" VerticalAlignment="Center">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -99,7 +108,22 @@
                                 <SymbolIcon Symbol="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
-                    </StackPanel>
+
+                        <Button Click="AddProjectButton_Click" Grid.Column="1" Background="#FF6C6C6C" HorizontalAlignment="Right" BorderBrush="Black" VerticalAlignment="Center">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Name="SignInOutButtonText" Text="{Binding SignInOutButtonText}" Grid.Column="0"/>
+                                <SymbolIcon Symbol="{Binding ElementName=SignInOutButtonText, Path=Text, Converter={StaticResource SignInOutButtonConverter}}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+
+                        <StackPanel VerticalAlignment="Center" Resources="{Binding account}" Grid.Column="1" HorizontalAlignment="Right">
+                            <TextBlock FontSize="24" Text="{Binding UserName}"></TextBlock>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
 
                 <StackPanel x:Name="ProjectsListStackPanel" Grid.Row="1" Visibility="Visible" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >

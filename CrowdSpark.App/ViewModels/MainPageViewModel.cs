@@ -1,11 +1,11 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.Models;
-using CrowdSpark.App.Views;
 using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Security.Credentials;
@@ -23,26 +23,33 @@ namespace CrowdSpark.App.ViewModels
 
         //To set the height of scroll view
         public int ScrollViewHeight { get; set; }
-        
-        //store login information, 
-        //should this be in base class or common attributes static class??
-        private WebAccount account;
 
         private readonly IAuthenticationHelper helper;
-        private readonly IProjectRepository repository;
-        
+        private readonly IProjectRepository projectRepository;
+        private readonly ICategoryRepository categoryRepository;
+
         //command to repopulate the content of main page
         public ICommand RepopulateContentCommand { get; set; }
 
         //Command to initialize the login on app opening
         private ICommand SignInCommand { get; set; }
         
-        public MainPageViewModel(IAuthenticationHelper _helper, IProjectRepository _repository)
+        public MainPageViewModel(IAuthenticationHelper _helper, IProjectRepository _projectRepository, ICategoryRepository _categoryRepository)
         {
             //init the helper
             helper = _helper;
-            repository = _repository;
+            //init the repo for projects
+            projectRepository = _projectRepository;
+            categoryRepository = _categoryRepository;
+            
+            Content = new ObservableCollection<ProjectViewModel>();
 
+            //initDummyProjects();
+
+            Categories = new ObservableCollection<Category>();
+
+            initDummyCategories();
+            
             //pop up the login screen if user is not logged in
             SignInCommand = new RelayCommand(async o =>
             {
@@ -53,22 +60,12 @@ namespace CrowdSpark.App.ViewModels
                     if (account != null)
                     {
                         Debug.WriteLine("Sign in successfull!");
-                        await Initialize();
+                        await GetRecentProjects();
                     }
                 }
             });
 
             SignInCommand.Execute(null);
-
-            Content = new ObservableCollection<ProjectViewModel>();
-
-            initDummyProjects();
-
-            Categories = new ObservableCollection<Category>();
-
-            initDummyCategories();
-
-            ScrollViewHeight = Content.Count * 60;
             
             SignInOutCommand = new RelayCommand(async o =>
             {
@@ -76,6 +73,7 @@ namespace CrowdSpark.App.ViewModels
                 {
                     await helper.SignOutAsync(account);
                     account = null;
+                    Content.Clear();
                 }
                 else
                 {
@@ -83,42 +81,68 @@ namespace CrowdSpark.App.ViewModels
                     if (account != null)
                     {
                         Debug.WriteLine("Sign in successfull!");
-                        await Initialize();
+                        await GetRecentProjects();
                     }
                 }
             });
 
             //TODO: use this somehow
-            RepopulateContentCommand = new RelayCommand((tab) => 
+            RepopulateContentCommand = new RelayCommand(async (tabName) => 
             {
-
+                switch (tabName)
+                {
+                    case "Recent":
+                        await GetRecentProjects();
+                        break;
+                    case "Categories":
+                        await GetCategories();
+                        break;
+                }
             });
             
+
             MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
+
+            ScrollViewHeight = Content.Count * 60;
 
             //Store the stuff in a static class
             CommonAttributes.MenuOptions = MenuOptions;
             CommonAttributes.account = account;
         }
 
-        public async Task Initialize()
+        public async Task GetRecentProjects()
         {
+            Content.Clear();
             account = await helper.GetAccountAsync();
             
             if (account != null)
             {
-                Debug.WriteLine("Signed in as " + account.UserName);
+                var recentProjects = await projectRepository.ReadAsync();
                 
-              // var characters = await _repository.ReadAsync();
-
-    /*            foreach (var character in characters.Select(c => new CharacterViewModel(c)))
+                //p is ProjectSummaryDTO
+                foreach (var project in recentProjects.Select(p => new ProjectViewModel(p)))
                 {
-                    Characters.Add(character);
+                    Content.Add(project);
                 }
-                */
             }
         }
 
+        public async Task GetCategories()
+        {
+            Categories.Clear();
+            account = await helper.GetAccountAsync();
+
+            if (account != null)
+            {
+                var categories = await categoryRepository.ReadAsync();
+
+                //p is ProjectSummaryDTO
+                foreach (var category in categories.Select(c => new Category { Name = c.Name, Id = c.Id }))
+                {
+                    Categories.Add(category);
+                }
+            }
+        }
 
         private void initDummyCategories()
         {
