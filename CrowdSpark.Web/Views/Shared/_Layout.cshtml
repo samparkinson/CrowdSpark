@@ -32,8 +32,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Web" asp-action="Projects">Projects</a></li>
                     <li><a asp-area="" asp-controller="Web" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Web" asp-action="Contact">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li> <a id="username"></a> </li>
+                    <li> <a id="signinBtn" href="#" onclick="authContext.login(); return false">Sign In</a></li>
+                    <li> <a id="logoutBtn" href="#" onclick="authContext.logOut(); return false;">Log out</a></li>
                 </ul>
             </div>
         </div>
@@ -46,6 +51,54 @@
         </footer>
     </div>
 
+    <script type="text/javascript">
+            // Set up ADAL
+            var authContext = new AuthenticationContext(config);
+            var baseUrl = "https://localhost:44369/"
+
+            if (authContext.isCallback(window.location.hash)) {
+
+                // Handle redirect after token requests
+                authContext.handleWindowCallback();
+                var err = authContext.getLoginError();
+                if (err) {
+                    // TODO: Handle errors signing in and getting tokens
+                    //            document.getElementById('api-response').textContent =
+                    //                'ERROR:\n\n' + err;
+                }
+
+            } else {
+
+                // If logged in, get access token and make an API request
+                var user = authContext.getCachedUser();
+                if (user) {                   
+                    document.getElementById('username').textContent = 'Signed in as: ' + user.userName;
+                    document.getElementById('signinBtn').style.display = 'none';
+                    document.getElementById('logoutBtn').style.display = 'visible';
+
+                    // Get an access token to the API
+                    authContext.acquireToken(
+                        config.apiResourceId,
+                        function (error, token) {
+
+                            if (error || !token) {
+                                // TODO: Handle error obtaining access token
+                                //          document.getElementById('api-response').textContent = 'ERROR:\n\n' + error;
+                                return;
+                            }
+                            // Use the access token
+                            //        document.getElementById('api-token').textContent = token;
+                            //     getCharacters(token);
+                        }
+                    );
+
+                } else {
+                    document.getElementById('signinBtn').style.display = 'visible';
+                    document.getElementById('logoutBtn').style.display = 'none';
+                    document.getElementById('username').textContent = '';
+                }
+            }
+    </script>
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

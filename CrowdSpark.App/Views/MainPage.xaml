@@ -94,19 +94,9 @@
                     <!--Add Project and sign out Button-->
                     <Grid Grid.Column="1" BorderThickness="2" HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="5*"></ColumnDefinition>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button Click="AddProjectButton_Click" Grid.Column="0" Background="#FF6C6C6C" HorizontalAlignment="Right" BorderBrush="Black" VerticalAlignment="Center">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Add Project" Grid.Column="0"/>
-                                <SymbolIcon Symbol="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                            </Grid>
-                        </Button>
 
                         <Button Grid.Column="1" Background="#FF6C6C6C" HorizontalAlignment="Right" BorderBrush="Black" VerticalAlignment="Center">
                             <Grid>
@@ -114,13 +104,24 @@
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock x:Name="SignInOutButtonText" Text="{Binding SignInOutButtonText}" Grid.Column="0"/>
-                                <SymbolIcon Symbol="{Binding ElementName=SignInOutButtonText, Path=Text, Converter={StaticResource SignInOutButtonConverter}}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="SignInOutButtonText" VerticalAlignment="Center" Text="{Binding SignInOutButtonText}" Grid.Column="0"/>
+                                <Image Height="30" Width="30" Source="{Binding ElementName=SignInOutButtonText, Path=Text, Converter={StaticResource SignInOutButtonConverter}}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
 
-                        <StackPanel VerticalAlignment="Center" Resources="{Binding account}" Grid.Column="1" HorizontalAlignment="Right">
-                            <TextBlock FontSize="24" Text="{Binding UserName}"></TextBlock>
+                        <StackPanel Orientation="Horizontal" Grid.Column="0">
+                            <Button Click="AddProjectButton_Click" Background="#FF6C6C6C" HorizontalAlignment="Left" BorderBrush="Black" VerticalAlignment="Center">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Add Project" Grid.Column="0"/>
+                                    <SymbolIcon Symbol="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Button>
+
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25,0" FontSize="24" Text="Loggen in as"></TextBlock>
                         </StackPanel>
                     </Grid>
                 </Grid>

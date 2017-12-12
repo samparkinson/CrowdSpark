@@ -119,7 +119,6 @@
                                     </Button>
                                 </StackPanel>
                             </StackPanel>
-
                         </Grid>
 
                         <Grid Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top">

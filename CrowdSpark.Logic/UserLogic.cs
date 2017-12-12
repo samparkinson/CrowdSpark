@@ -30,11 +30,23 @@ namespace CrowdSpark.Logic
             return await _repository.FindAsync(userId);
         }
 
-        public async Task<ResponseLogic> CreateAsync(UserDTO user)
+        public async Task<int> GetIdAsync(string azureUId)
         {
+            return await _repository.GetIdAsync(azureUId);
+        }
+
+        public async Task<ResponseLogic> CreateAsync(UserDTO user, string azureUId)
+        {
+            var existing = await _repository.FindFromAzureUIdAsync(azureUId);
+
+            if (existing != null)
+            {
+                return ResponseLogic.ALREADY_EXISTS;
+            }
+
             var skills = user.Skills;
 
-            var id = await _repository.CreateAsync(user);
+            var id = await _repository.CreateAsync(user, azureUId);
 
             foreach (var skill in skills)
             {

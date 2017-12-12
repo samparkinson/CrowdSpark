@@ -17,7 +17,7 @@ namespace CrowdSpark.Models
             _context = context;
         }
 
-        public async Task<int> CreateAsync(UserDTO user)
+        public async Task<int> CreateAsync(UserDTO user, string azureUIDd)
         {
             var userToCreate = new User
             {
@@ -25,7 +25,8 @@ namespace CrowdSpark.Models
                 Surname = user.Surname,
                 Mail = user.Mail,
                 LocationId = user.Location?.Id,
-                Skills = user.Skills
+                Skills = user.Skills,
+                AzureUId = azureUIDd
             };
 
             _context.Users.Add(userToCreate);
@@ -48,6 +49,33 @@ namespace CrowdSpark.Models
         public async Task<UserDTO> FindAsync(int userId)
         {
             var user =  await _context.Users.FindAsync(userId);
+
+            if (user is null) return null;
+
+            return new UserDTO
+            {
+                Firstname = user.Firstname,
+                Surname = user.Surname,
+                Mail = user.Mail,
+                Location = user.Location,
+                Skills = user.Skills
+            };
+        }
+
+        public async Task<int> GetIdAsync(string azureUId)
+        {
+            var user = await _context.Users.Where(u => u.AzureUId == azureUId).FirstOrDefaultAsync();
+
+            if (user is null) return -1;
+
+            return user.Id;
+        }
+
+        public async Task<UserDTO> FindFromAzureUIdAsync(string azureUId)
+        {
+            var user = await _context.Users.Where(u => u.AzureUId == azureUId).FirstOrDefaultAsync();
+
+            if (user is null) return null;
 
             return new UserDTO
             {

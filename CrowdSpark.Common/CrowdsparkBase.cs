@@ -42,7 +42,8 @@ namespace CrowdSpark.Common
         ERROR_CREATING,
         ERROR_UPDATING,
         ERROR_DELETING,
-        NOT_FOUND
+        NOT_FOUND,
+        ALREADY_EXISTS
     }
     
 }

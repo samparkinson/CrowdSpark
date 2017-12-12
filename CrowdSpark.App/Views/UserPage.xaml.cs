@@ -88,5 +88,10 @@ namespace CrowdSpark.App.Views
         {
             MainSplitView.IsPaneOpen = !MainSplitView.IsPaneOpen;
         }
+
+        private void AddProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AddProjectPage), CommonAttributes.account);
+        }
     }
 }
