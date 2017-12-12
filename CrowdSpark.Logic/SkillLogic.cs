@@ -85,7 +85,7 @@ namespace CrowdSpark.Logic
             }
 
             var users = await _userRepository.ReadAsync();  //TODO, consider moving this into the repo for more efficiency
-            var projects = await _projectRepository.ReadAsync();
+            var projects = await _projectRepository.ReadDetailedAsync();
             var occurrences = 0;
 
             foreach (var user in users) //TODO, make this run parallel
@@ -123,7 +123,7 @@ namespace CrowdSpark.Logic
             }
 
             var users = await _userRepository.ReadAsync();
-            var projects = await _projectRepository.ReadAsync();
+            var projects = await _projectRepository.ReadDetailedAsync();
             var occurrences = 0;
 
             foreach (var user in users) //TODO, make this run parallel

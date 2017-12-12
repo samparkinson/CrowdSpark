@@ -56,13 +56,9 @@ namespace CrowdSpark.App.ViewModels
 
             Description = projectSummaryDTO.Description;
 
-            Skills = projectSummaryDTO.Skills;
-
             Location.Id = projectSummaryDTO.Id;
 
             Category = projectSummaryDTO.Category;
-
-            CreatedDate = projectSummaryDTO.CreatedDate;
         }
     }
 }

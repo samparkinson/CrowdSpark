@@ -76,10 +76,26 @@ namespace CrowdSpark.Models
                                  Title = p.Title,
                                  Description = p.Description,
                                  LocationId = p.LocationId,
-                                 Skills = p.Skills,
-                                 Category = p.Category,
-                                 CreatedDate = p.CreatedDate
+                                 Category = p.Category
                              };
+
+            return await projects.ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<ProjectDTO>> ReadDetailedAsync()
+        {
+            var projects = from p in _context.Projects
+                           select new ProjectDTO
+                           {
+                               Id = p.Id,
+                               Title = p.Title,
+                               Description = p.Description,
+                               Location = p.Location,
+                               Skills = p.Skills,
+                               Sparks = p.Sparks,
+                               CreatedDate = p.CreatedDate,
+                               Category = p.Category
+                           };
 
             return await projects.ToListAsync();
         }

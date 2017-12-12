@@ -17,11 +17,6 @@ namespace CrowdSpark.Common
 
         public int? LocationId { get; set; }
 
-        public ICollection<Skill> Skills { get; set; }
-
         public Category Category { get; set; }
-
-        [Required]
-        public DateTime CreatedDate { get; set; }
     }
 }

@@ -43,9 +43,7 @@ namespace CrowdSpark.Logic
                 Title = project.Title,
                 Description = project.Description,
                 LocationId = project.Location.Id,
-                Skills = project.Skills,
-                Category = project.Category,
-                CreatedDate = project.CreatedDate
+                Category = project.Category
             };
         }
 
@@ -127,21 +125,6 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.NOT_FOUND;
             }
 
-            var currentSkills = currentProject.Skills;
-            var skills = project.Skills;
-
-            var skillsToAdd = skills.Where(s => !currentSkills.Contains(s));
-            var skillsToRemove = currentSkills.Where(s => !skills.Contains(s));
-
-            foreach (var skill in skillsToAdd)
-            {
-                await _skillLogic.CreateAsync(skill); //TODO, need to convert this to a parallel for each
-            }
-            foreach (var skill in skillsToRemove)
-            {
-                await _skillLogic.RemoveWithObjectAsync(skill); //TODO, need to convert this to a parallel for each
-            }
-
             var location = new Location();
 
             if (project.LocationId is null)
@@ -153,7 +136,6 @@ namespace CrowdSpark.Logic
             currentProject.Title = project.Title;
             currentProject.Description = project.Description;
             currentProject.Location = location;
-            currentProject.Skills = project.Skills;
             currentProject.Category = project.Category;
 
             var success = await _repository.UpdateAsync(currentProject);
@@ -161,16 +143,6 @@ namespace CrowdSpark.Logic
             if (success)
             {
                 return ResponseLogic.SUCCESS;
-            }
-
-            // roll back skill changes 
-            foreach (var skill in skillsToAdd)
-            {
-                await _skillLogic.RemoveWithObjectAsync(skill); //TODO, need to convert this to a parallel for each
-            }
-            foreach (var skill in skillsToRemove)
-            {
-                await _skillLogic.CreateAsync(skill); //TODO, need to convert this to a parallel for each
             }
 
             return ResponseLogic.ERROR_UPDATING;
