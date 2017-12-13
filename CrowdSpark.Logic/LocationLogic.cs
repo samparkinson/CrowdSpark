@@ -46,6 +46,10 @@ namespace CrowdSpark.Logic
 
         public async Task<ResponseLogic> CreateAsync(LocationDTO loc)
         {
+            var existingLocation = await _repository.FindAsync(loc.City, loc.Country);
+
+            if (existingLocation != null) return ResponseLogic.SUCCESS;
+
             var id = await _repository.CreateAsync(loc);
             if (id == 0 )
             {
