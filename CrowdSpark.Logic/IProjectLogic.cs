@@ -6,7 +6,7 @@ using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Logic
 {
-    public interface IProjectLogic
+    public interface IProjectLogic : IDisposable
     {
         Task<IEnumerable<ProjectSummaryDTO>> GetAsync();
 

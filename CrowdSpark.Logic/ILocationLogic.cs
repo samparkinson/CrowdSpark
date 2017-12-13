@@ -6,7 +6,7 @@ using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Logic
 {
-    public interface ILocationLogic
+    public interface ILocationLogic : IDisposable
     {
         Task<IEnumerable<Location>> GetAsync();
 

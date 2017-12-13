@@ -6,7 +6,7 @@ using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Logic
 {
-    public interface ISparkLogic
+    public interface ISparkLogic : IDisposable
     {
         Task<IEnumerable<Spark>> GetAsync();
 

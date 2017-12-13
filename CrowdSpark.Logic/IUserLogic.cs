@@ -6,7 +6,7 @@ using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Logic
 {
-    public interface IUserLogic
+    public interface IUserLogic : IDisposable
     {
         Task<IEnumerable<UserDTO>> GetAsync();
 

@@ -6,7 +6,7 @@ using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Logic
 {
-    public interface ICategoryLogic
+    public interface ICategoryLogic : IDisposable
     {
         Task<IEnumerable<Category>> GetAsync();
 

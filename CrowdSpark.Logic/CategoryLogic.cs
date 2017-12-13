@@ -134,5 +134,11 @@ namespace CrowdSpark.Logic
             }
             else return ResponseLogic.ERROR_DELETING;
         }
+
+        public void Dispose()
+        {
+            _repository.Dispose();
+            _projectRepository.Dispose();
+        }
     }
 }

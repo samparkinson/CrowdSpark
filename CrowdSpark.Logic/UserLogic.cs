@@ -164,5 +164,11 @@ namespace CrowdSpark.Logic
             return await UpdateAsync(userId, user);
         }
 
+        public void Dispose()
+        {
+            _repository.Dispose();
+            _sparkLogic.Dispose();
+            _skillLogic.Dispose();
+        }
     }
 }

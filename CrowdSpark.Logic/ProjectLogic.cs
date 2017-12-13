@@ -9,10 +9,10 @@ namespace CrowdSpark.Logic
 {
     public class ProjectLogic : IProjectLogic
     {
-        private readonly IProjectRepository _repository;
-        private readonly ILocationRepository _locationRepository;
-        private readonly ISkillLogic _skillLogic;
-        private readonly ISparkLogic _sparkLogic;
+        IProjectRepository _repository;
+        ILocationRepository _locationRepository;
+        ISkillLogic _skillLogic;
+        ISparkLogic _sparkLogic;
 
         public ProjectLogic(IProjectRepository repository, ILocationRepository locationRepository, ISkillLogic skillLogic, ISparkLogic sparkLogic)
         {
@@ -207,6 +207,14 @@ namespace CrowdSpark.Logic
             project.Skills.Remove(skill);
 
             return await UpdateAsync(project);
+        }
+
+        public void Dispose()
+        {
+            _repository.Dispose();
+            _locationRepository.Dispose();
+            _skillLogic.Dispose();
+            _sparkLogic.Dispose();
         }
     }
 }

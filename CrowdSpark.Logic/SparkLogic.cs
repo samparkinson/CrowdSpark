@@ -98,5 +98,10 @@ namespace CrowdSpark.Logic
             return ResponseLogic.SUCCESS;
 
         }
+
+        public void Dispose()
+        {
+            _repository.Dispose();
+        }
     }
 }
