@@ -62,9 +62,7 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.NOT_FOUND;
             }
 
-            currentCategory.Name = category.Name;
-
-            var success = await _repository.UpdateAsync(currentCategory);
+            var success = await _repository.UpdateAsync(category);
 
             if (success)
             {
@@ -82,12 +80,12 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.NOT_FOUND;
             }
 
-            var projects = await _projectRepository.ReadAsync();
+            var projects = await _projectRepository.ReadAsync(); //TODO, push this right
             var occurrences = 0;
 
             foreach (var project in projects) //TODO, make this run parallel
             {
-                if (project.Category.Id == category.Id)
+                if (project.Category?.Id == category.Id)
                     occurrences++;
             }
 
@@ -106,25 +104,13 @@ namespace CrowdSpark.Logic
 
         public async Task<ResponseLogic> DeleteAsync(int categoryId)
         {
+            // This methods delets a category regardless if it is being used or not
+
             var category = await _repository.FindAsync(categoryId);
 
             if (category is null)
             {
                 return ResponseLogic.NOT_FOUND;
-            }
-
-            var projects = await _projectRepository.ReadAsync();
-            var occurrences = 0;
-
-            foreach (var project in projects) //TODO, make this run parallel
-            {
-                if (project.Category.Id == categoryId)
-                    occurrences++;
-            }
-
-            if (occurrences > 1)
-            {
-                return ResponseLogic.SUCCESS;
             }
 
             var success = await _repository.DeleteAsync(categoryId);
