@@ -110,6 +110,43 @@ namespace CrowdSpark.Logic.Tests
             }
         }
 
+        [Fact]
+        public async void GetAsync_GivenLocationsExist_ReturnsEnumerableLocations()
+        {
+            var locationsToReturn = new Location[]
+            {
+                new Location { Id = 1, City = "Sydney", Country = "Australia" },
+                new Location { Id = 2, City = "Melbourne", Country = "Australia" },
+                new Location { Id = 3, City = "Brisbane", Country = "Australia" }
+            };
+
+            locationRepositoryMock.Setup(c => c.ReadAsync()).ReturnsAsync(locationsToReturn);
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var results = await logic.GetAsync();
+
+                Assert.Equal(locationsToReturn, results);
+                locationRepositoryMock.Verify(c => c.ReadAsync());
+            }
+        }
+
+        [Fact]
+        public async void GetAsync_GivenExistingLocationId_ReturnsLocation()
+        {
+            var locationToReturn = new Location { Id = 3, City = "Brisbane", Country = "Australia" };
+
+            locationRepositoryMock.Setup(c => c.FindAsync(3)).ReturnsAsync(locationToReturn);
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var result = await logic.GetAsync(3);
+
+                Assert.Equal(locationToReturn, result);
+                locationRepositoryMock.Verify(c => c.FindAsync(3));
+            }
+        }
+
         #endregion
     }
 }

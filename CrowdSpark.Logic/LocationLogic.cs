@@ -19,6 +19,20 @@ namespace CrowdSpark.Logic
             _projectRepository = projectRepository;
         }
 
+        public async Task<ResponseLogic> CreateAsync(LocationDTO loc)
+        {
+            var existingLocation = await _repository.FindAsync(loc.City, loc.Country);
+
+            if (existingLocation != null) return ResponseLogic.SUCCESS;
+
+            var id = await _repository.CreateAsync(loc);
+            if (id == 0)
+            {
+                return ResponseLogic.ERROR_CREATING;
+            }
+            else return ResponseLogic.SUCCESS;
+        }
+
         public async Task<IEnumerable<Location>> GetAsync()
         {
             return await _repository.ReadAsync();
@@ -42,20 +56,6 @@ namespace CrowdSpark.Logic
         public async Task<Location> FindExactAsync(string searchCity, string searchCountry)
         {
             return await _repository.FindAsync(searchCity, searchCountry);         
-        }
-
-        public async Task<ResponseLogic> CreateAsync(LocationDTO loc)
-        {
-            var existingLocation = await _repository.FindAsync(loc.City, loc.Country);
-
-            if (existingLocation != null) return ResponseLogic.SUCCESS;
-
-            var id = await _repository.CreateAsync(loc);
-            if (id == 0 )
-            {
-                return ResponseLogic.ERROR_CREATING;
-            }
-            else return ResponseLogic.SUCCESS;    
         }
      
         public async Task<ResponseLogic> UpdateAsync(Location loc)
