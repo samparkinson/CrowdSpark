@@ -366,6 +366,28 @@ namespace CrowdSpark.Logic.Tests
         }
 
         [Fact]
+        public async void RemoveAsync_GivenCategoryDoesNotExist_ReturnsNOT_FOUND()
+        {
+            var categoryToDelete = new Category
+            {
+                Id = 1,
+                Name = "Category"
+            };
+
+            categoryRepositoryMock.Setup(c => c.FindAsync(categoryToDelete.Id)).ReturnsAsync(default(Category));
+
+            using (var logic = new CategoryLogic(categoryRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.RemoveAsync(categoryToDelete);
+
+                Assert.Equal(ResponseLogic.NOT_FOUND, response);
+                categoryRepositoryMock.Verify(c => c.FindAsync(categoryToDelete.Id));
+                categoryRepositoryMock.Verify(c => c.DeleteAsync(It.IsAny<int>()), Times.Never());
+                projectRepositoryMock.Verify(p => p.ReadAsync(), Times.Never());
+            }
+        }
+
+        [Fact]
         public async void DeleteAsync_GivenDatabaseError_ReturnsERROR_DELETING()
         {
             var categoryToDelete = new Category
