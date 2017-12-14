@@ -47,14 +47,28 @@ namespace CrowdSpark.App.Models
             return new List<ProjectSummaryDTO>().AsReadOnly();
         }
 
-        public Task<IReadOnlyCollection<ProjectSummaryDTO>> GetByCategory(int categoryID)
+        public async Task<IReadOnlyCollection<ProjectSummaryDTO>> GetByCategory(int categoryID)
         {
-            throw new NotImplementedException();
+            var response = await _client.GetAsync($"api/projects?category={categoryID}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.To<IReadOnlyCollection<ProjectSummaryDTO>>();
+            }
+
+            return new List<ProjectSummaryDTO>().AsReadOnly();
         }
 
-        public async Task<ProjectDTO> Get(int projectID)
+        public async Task<ProjectDTO> Get(int projectId)
         {
-            throw new NotImplementedException();
+            var response = await _client.GetAsync($"api/projects/{projectId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.To<ProjectDTO>();
+            }
+
+            return null;
         }
 
         public async Task<bool> AddSkill(int projectID, string skill)
