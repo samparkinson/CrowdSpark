@@ -9,11 +9,9 @@ namespace CrowdSpark.App.Models
     {
         Task<IReadOnlyCollection<ProjectSummaryDTO>> GetAll();
 
-        Task<IReadOnlyCollection<ProjectSummaryDTO>> GetAllFollowed();
-
-        Task<IReadOnlyCollection<ProjectSummaryDTO>> GetAllSparked();
-
         Task<IReadOnlyCollection<ProjectSummaryDTO>> GetBySearch(string searchString);
+
+        Task<IReadOnlyCollection<ProjectSummaryDTO>> GetByCategory(int categoryID);
 
         Task<ProjectDTO> Get(int projectID);
 
