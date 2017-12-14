@@ -28,10 +28,8 @@ namespace CrowdSpark.App
             DataContext = _vm;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            await _vm.GetRecentProjects();
-
             var rootFrame = Window.Current.Content as Frame;
             
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack

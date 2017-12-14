@@ -189,7 +189,103 @@ namespace CrowdSpark.Logic.Tests
             }
         }
 
+        [Fact]
+        public async void FindExactAsync_GivenLocationExists_ReturnsLocation()
+        {
+            var locationToReturn = new Location { Id = 1, City = "Sydney", Country = "Australia" };
 
+            locationRepositoryMock.Setup(c => c.FindAsync("Sydney", "Australia")).ReturnsAsync(locationToReturn);
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var result = await logic.FindExactAsync("Sydney", "Australia");
+
+                Assert.Equal(locationToReturn, result);
+                locationRepositoryMock.Verify(c => c.FindAsync("Sydney", "Australia"));
+            }
+        }
+
+        [Fact]
+        public async void UpdateAsync_GivenLocationExists_ReturnsSuccess()
+        {
+            var locationToUpdate = new Location
+            {
+                Id = 1,
+                City = "Sydne",
+                Country = "Australia"
+            };
+
+            var locationToUpdateWithChanges = new Location
+            {
+                Id = 1,
+                City = "Sydney",
+                Country = "Australia"
+            };
+
+            locationRepositoryMock.Setup(c => c.FindAsync(locationToUpdateWithChanges.Id)).ReturnsAsync(locationToUpdate);
+            locationRepositoryMock.Setup(c => c.UpdateAsync(locationToUpdateWithChanges)).ReturnsAsync(true);
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.UpdateAsync(locationToUpdateWithChanges);
+
+                Assert.Equal(ResponseLogic.SUCCESS, response);
+                locationRepositoryMock.Verify(c => c.FindAsync(locationToUpdateWithChanges.Id));
+                locationRepositoryMock.Verify(c => c.UpdateAsync(locationToUpdateWithChanges));
+            }
+        }
+
+        [Fact]
+        public async void UpdateAsync_GivenLocationDoesNotExist_ReturnsNOT_FOUND()
+        {
+            var locationToUpdateWithChanges = new Location
+            {
+                Id = 1,
+                City = "Sydney",
+                Country = "Australia"
+            };
+
+            locationRepositoryMock.Setup(c => c.FindAsync(locationToUpdateWithChanges.Id)).ReturnsAsync(default(Location));
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.UpdateAsync(locationToUpdateWithChanges);
+
+                Assert.Equal(ResponseLogic.NOT_FOUND, response);
+                locationRepositoryMock.Verify(c => c.FindAsync(locationToUpdateWithChanges.Id));
+                locationRepositoryMock.Verify(c => c.UpdateAsync(It.IsAny<Location>()), Times.Never());
+            }
+        }
+
+        [Fact]
+        public async void UpdateAsync_GivenErrorUpdating_ReturnsERROR_UPDATING()
+        {
+            var locationToUpdate = new Location
+            {
+                Id = 1,
+                City = "Sydne",
+                Country = "Australia"
+            };
+
+            var locationToUpdateWithChanges = new Location
+            {
+                Id = 1,
+                City = "Sydney",
+                Country = "Australia"
+            };
+
+            locationRepositoryMock.Setup(c => c.FindAsync(locationToUpdateWithChanges.Id)).ReturnsAsync(locationToUpdate);
+            locationRepositoryMock.Setup(c => c.UpdateAsync(locationToUpdateWithChanges)).ReturnsAsync(false);
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.UpdateAsync(locationToUpdateWithChanges);
+
+                Assert.Equal(ResponseLogic.ERROR_UPDATING, response);
+                locationRepositoryMock.Verify(c => c.FindAsync(locationToUpdateWithChanges.Id));
+                locationRepositoryMock.Verify(c => c.UpdateAsync(locationToUpdateWithChanges));
+            }
+        }
         #endregion
     }
 }

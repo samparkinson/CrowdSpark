@@ -34,22 +34,21 @@ namespace CrowdSpark.App.ViewModels
         //Command to initialize the login on app opening
         private ICommand SignInCommand { get; set; }
         
-        public MainPageViewModel(IAuthenticationHelper _helper)
+        public MainPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI)
         {
             //init the helper
             helper = _helper;
            
             //recently implemented juicy api
-            //, IProjectAPI _projectAPI
-            //projectAPI = _projectAPI;
+            projectAPI = _projectAPI;
             
             Content = new ObservableCollection<ProjectViewModel>();
 
-            initDummyProjects();
+            //initDummyProjects();
 
             Categories = new ObservableCollection<Category>();
 
-            initDummyCategories();
+            //initDummyCategories();
             
             //pop up the login screen if user is not logged in
             SignInCommand = new RelayCommand(async o =>
@@ -61,12 +60,18 @@ namespace CrowdSpark.App.ViewModels
                     if (account != null)
                     {
                         Debug.WriteLine("Sign in successfull!");
-                        await GetRecentProjects();
+
+                        initDummyProjects();
+
+                        CommonAttributes.account = account;
+
+                        UserName = account.UserName;
+                        //await GetRecentProjects();
                     }
                 }
             });
 
-            //SignInCommand.Execute(null);
+            SignInCommand.Execute(null);
             
             SignInOutCommand = new RelayCommand(async o =>
             {
@@ -75,6 +80,7 @@ namespace CrowdSpark.App.ViewModels
                     await helper.SignOutAsync(account);
                     account = null;
                     Content.Clear();
+                    SignInOutButtonText = "Sign In";
                 }
                 else
                 {
@@ -82,7 +88,16 @@ namespace CrowdSpark.App.ViewModels
                     if (account != null)
                     {
                         Debug.WriteLine("Sign in successfull!");
-                        await GetRecentProjects();
+
+                        initDummyProjects();
+
+                        //await GetRecentProjects();
+
+                        CommonAttributes.account = account;
+
+                        UserName = account.UserName;
+                        
+                        SignInOutButtonText = "Sign Out";
                     }
                 }
             });
@@ -96,21 +111,17 @@ namespace CrowdSpark.App.ViewModels
                         await GetRecentProjects();
                         break;
                     case "Categories":
-                        await GetCategories();
+                        initDummyCategories();
                         break;
                 }
             });
 
-            SignInOutButtonText = "Fuck You";
             MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
 
             ScrollViewHeight = Content.Count * 60;
 
             //Store the stuff in a static class
             CommonAttributes.MenuOptions = MenuOptions;
-            CommonAttributes.account = account;
-            initDummyProjects();
-
         }
 
         public async Task GetRecentProjects()
@@ -129,8 +140,6 @@ namespace CrowdSpark.App.ViewModels
                     Content.Add(project);
                 }
             }
-            initDummyProjects();
-
         }
 
         public async Task GetCategories()
@@ -140,10 +149,11 @@ namespace CrowdSpark.App.ViewModels
 
             if (account != null)
             {
-                var categories = await projectAPI.GetAllCategories();
+                //should be projectAPI.GetCategories();
+                var categories = await projectAPI.GetAll();
 
-                //p is ProjectSummaryDTO
-                foreach (var category in categories.Select(c => new Category { Name = c.Name }))
+                //TODO: change to category
+                foreach (var category in categories.Select(c => new Category { Name = c.Title }))
                 {
                     Categories.Add(category);
                 }

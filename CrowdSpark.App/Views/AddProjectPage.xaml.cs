@@ -5,12 +5,9 @@ using CrowdSpark.Entitites;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace CrowdSpark.App.Views
@@ -105,7 +102,7 @@ namespace CrowdSpark.App.Views
             //await ProjectLogic().CreateAsync(projectDTO);
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)  
         {
             var allFull = true;
 
