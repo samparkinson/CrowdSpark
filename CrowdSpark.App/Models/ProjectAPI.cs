@@ -23,32 +23,34 @@ namespace CrowdSpark.App.Models
             _client = client;
         }
 
-        Task<IReadOnlyCollection<ProjectSummaryDTO>> IProjectAPI.GetAll()
+        public async Task<IReadOnlyCollection<ProjectSummaryDTO>> GetAll()
+        {
+            var response = await _client.GetAsync("api/projects");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.To<IReadOnlyCollection<ProjectSummaryDTO>>();
+            }
+
+            return new List<ProjectSummaryDTO>().AsReadOnly();
+        }
+
+        public async Task<IReadOnlyCollection<ProjectSummaryDTO>> GetBySearch(string searchString)
         {
             throw new NotImplementedException();
         }
 
-        Task<IReadOnlyCollection<ProjectSummaryDTO>> IProjectAPI.GetAllFollowed()
+        public Task<IReadOnlyCollection<ProjectSummaryDTO>> GetByCategory(int categoryID)
         {
             throw new NotImplementedException();
         }
 
-        Task<IReadOnlyCollection<ProjectSummaryDTO>> IProjectAPI.GetAllSparked()
+        public async Task<ProjectDTO> Get(int projectID)
         {
             throw new NotImplementedException();
         }
 
-        Task<IReadOnlyCollection<ProjectSummaryDTO>> IProjectAPI.GetBySearch(string searchString)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<ProjectDTO> IProjectAPI.Get(int projectID)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<bool> IProjectAPI.AddSkill(int projectID, string skill)
+        public async Task<bool> AddSkill(int projectID, string skill)
         {
             throw new NotImplementedException();
         }
