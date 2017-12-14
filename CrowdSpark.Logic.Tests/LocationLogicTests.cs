@@ -147,6 +147,49 @@ namespace CrowdSpark.Logic.Tests
             }
         }
 
+        [Fact]
+        public async void FindAsyncWithCityAndCountry_GivenLocationsExist_ReturnsEnumerableLocations()
+        {
+            var locationsToReturn = new Location[]
+            {
+                new Location { Id = 1, City = "Sydney", Country = "Australia" },
+                new Location { Id = 2, City = "Melbourne", Country = "Australia" },
+                new Location { Id = 3, City = "Brisbane", Country = "Australia" }
+            };
+
+            locationRepositoryMock.Setup(c => c.FindWildcardAsync("e", "Australia")).ReturnsAsync(locationsToReturn);
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var results = await logic.FindAsync("e", "Australia");
+
+                Assert.Equal(locationsToReturn, results);
+                locationRepositoryMock.Verify(c => c.FindWildcardAsync("e", "Australia"));
+            }
+        }
+
+        [Fact]
+        public async void FindAsyncWithCity_GivenLocationsExist_ReturnsEnumerableLocations()
+        {
+            var locationsToReturn = new Location[]
+            {
+                new Location { Id = 1, City = "Sydney", Country = "Australia" },
+                new Location { Id = 2, City = "Melbourne", Country = "Australia" },
+                new Location { Id = 3, City = "Brisbane", Country = "Australia" }
+            };
+
+            locationRepositoryMock.Setup(c => c.FindWildcardAsync("e")).ReturnsAsync(locationsToReturn);
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var results = await logic.FindAsync("e");
+
+                Assert.Equal(locationsToReturn, results);
+                locationRepositoryMock.Verify(c => c.FindWildcardAsync("e"));
+            }
+        }
+
+
         #endregion
     }
 }
