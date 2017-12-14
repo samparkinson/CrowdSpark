@@ -63,10 +63,7 @@ namespace CrowdSpark.Logic
             var foundLocation = await _repository.FindAsync(loc.Id);
             if (foundLocation is null) return ResponseLogic.NOT_FOUND;
 
-            foundLocation.City = loc.City;
-            foundLocation.Country = loc.Country;
-
-            var success = await _repository.UpdateAsync(foundLocation);
+            var success = await _repository.UpdateAsync(loc);
 
             if (success) return ResponseLogic.SUCCESS;
             else return ResponseLogic.ERROR_UPDATING;

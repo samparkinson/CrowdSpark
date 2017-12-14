@@ -227,6 +227,7 @@ namespace CrowdSpark.Logic.Tests
 
                 Assert.Equal(ResponseLogic.NOT_FOUND, response);
                 categoryRepositoryMock.Verify(c => c.FindAsync(categoryToUpdateWithChanges.Id));
+                categoryRepositoryMock.Verify(c => c.UpdateAsync(It.IsAny<Category>()), Times.Never());
             }
         }
 
