@@ -2,6 +2,8 @@ using System;
 using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using CrowdSpark.Models;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 
@@ -293,7 +295,7 @@ namespace CrowdSpark.Logic.Tests
             var locationToDelete = new Location
             {
                 Id = 1,
-                City = "Sydne",
+                City = "Sydney",
                 Country = "Australia"
             };
 
@@ -320,7 +322,7 @@ namespace CrowdSpark.Logic.Tests
             var locationToDelete = new Location
             {
                 Id = 1,
-                City = "Sydne",
+                City = "Sydney",
                 Country = "Australia"
             };
 
@@ -352,7 +354,7 @@ namespace CrowdSpark.Logic.Tests
             var locationToDelete = new Location
             {
                 Id = 1,
-                City = "Sydne",
+                City = "Sydney",
                 Country = "Australia"
             };
 
@@ -384,7 +386,7 @@ namespace CrowdSpark.Logic.Tests
             var locationToDelete = new Location
             {
                 Id = 1,
-                City = "Sydne",
+                City = "Sydney",
                 Country = "Australia"
             };
 
@@ -411,7 +413,7 @@ namespace CrowdSpark.Logic.Tests
             var locationToDelete = new Location
             {
                 Id = 1,
-                City = "Sydne",
+                City = "Sydney",
                 Country = "Australia"
             };
 
@@ -427,6 +429,113 @@ namespace CrowdSpark.Logic.Tests
                 projectRepositoryMock.Verify(p => p.ReadAsync(), Times.Never());
                 userRepositoryMock.Verify(u => u.ReadAsync(), Times.Never());
             }
+        }
+
+        [Fact]
+        public async void DeleteAsync_GivenDatabaseError_ReturnsERROR_DELETING()
+        {
+            var locationToDelete = new Location
+            {
+                Id = 1,
+                City = "Sydney",
+                Country = "Australia"
+            };
+
+            locationRepositoryMock.Setup(c => c.FindAsync(locationToDelete.Id)).ReturnsAsync(locationToDelete);
+            locationRepositoryMock.Setup(c => c.DeleteAsync(locationToDelete.Id)).ReturnsAsync(false);
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.DeleteAsync(locationToDelete.Id);
+
+                Assert.Equal(ResponseLogic.ERROR_DELETING, response);
+                locationRepositoryMock.Verify(c => c.FindAsync(locationToDelete.Id));
+                locationRepositoryMock.Verify(c => c.DeleteAsync(locationToDelete.Id));
+            }
+        }
+
+        #endregion
+
+        #region IntegrationTests
+
+        [Fact]
+        public async void DeleteAsync_GivenCategoryExistsAndInNoProjects_ReturnsSuccess()
+        {
+            var locationToDelete = new Location
+            {
+                Id = 1,
+                City = "Sydney",
+                Country = "Australia"
+            };
+
+            locationRepository = new LocationRepository(setupContextForIntegrationTests());
+
+            context.Locations.Add(locationToDelete);
+            context.SaveChanges();
+
+            //Sanity Check
+            Assert.NotNull(context.Locations.Find(locationToDelete.Id));
+            Assert.Empty(await context.Projects.ToArrayAsync());
+
+            using (var logic = new LocationLogic(locationRepository, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.DeleteAsync(locationToDelete.Id);
+
+                Assert.Equal(ResponseLogic.SUCCESS, response);
+            }
+        }
+
+        [Fact]
+        public async void DeleteAsync_GivenCategoryExistsAndInProjects_ReturnsSuccess()
+        {
+            var locationToDelete = new Location
+            {
+                Id = 1,
+                City = "Sydney",
+                Country = "Australia"
+            }; ;
+
+            var projects = new Project[]
+            {
+                new Project{ Title = "Project1", Location = locationToDelete, LocationId = locationToDelete.Id, CreatedDate = DateTime.Now, Description = "abcd"},
+                new Project{ Title = "Project2", Location = locationToDelete, LocationId = locationToDelete.Id, CreatedDate = DateTime.Now, Description = "abcd"}
+            };
+
+            locationRepository = new LocationRepository(setupContextForIntegrationTests());
+
+            context.Locations.Add(locationToDelete);
+            context.Projects.AddRange(projects);
+            context.SaveChanges();
+
+            //Sanity Check
+            Assert.NotNull(context.Locations.Find(locationToDelete.Id));
+            Assert.Equal(2, (await context.Projects.ToArrayAsync()).Length);
+
+            using (var logic = new LocationLogic(locationRepository, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.DeleteAsync(locationToDelete.Id);
+
+                Assert.Equal(ResponseLogic.SUCCESS, response);
+                foreach (var project in await context.Projects.ToArrayAsync())
+                {
+                    Assert.Null(project.Category);
+                }
+            }
+        }
+
+        private CrowdSparkContext setupContextForIntegrationTests()
+        {
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            var builder = new DbContextOptionsBuilder<CrowdSparkContext>()
+                .UseSqlite(connection);
+
+            context = new CrowdSparkContext(builder.Options);
+            context.Database.EnsureCreated();
+            context.Database.BeginTransaction();
+
+            return context;
         }
 
         #endregion
