@@ -47,6 +47,7 @@ namespace CrowdSpark.Models
         public async Task<bool> DeleteAsync(int locationId)
         {
             var location = await _context.Locations.FindAsync(locationId);
+            if (location is null) return false;
             _context.Locations.Remove(location);
 
             return (await saveContextChanges() > 0);
@@ -60,6 +61,11 @@ namespace CrowdSpark.Models
         public async Task<Location> FindAsync(string searchCity, string searchCountry)
         {
             return await _context.Locations.FindAsync(searchCity, searchCountry);
+        }
+
+        public async Task<IReadOnlyCollection<Location>> ReadOrderedAsync()
+        {
+            return await _context.Locations.OrderBy(item => item.Country ).ThenBy(n => n.City).ToListAsync();
         }
 
         public async Task<IReadOnlyCollection<Location>> ReadAsync()

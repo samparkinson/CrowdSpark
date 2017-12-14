@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdSpark.Logic", "CrowdSp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdSpark.Logic.Tests", "CrowdSpark.Logic.Tests\CrowdSpark.Logic.Tests.csproj", "{25E28148-7663-4E2E-8EDA-C0BF6C1A4363}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ED715FB7-E072-4CAE-8F79-64FA75E10CA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -12,7 +12,7 @@ using CrowdSpark.Entitites;
 namespace CrowdSpark.Web.Controllers
 {
     [Produces("application/json")]
-    [Route("api/skills/[controller]")]
+    [Route("api/skills")]
     public class SkillController : Controller
     {
         private readonly ISkillLogic _skillLogic;

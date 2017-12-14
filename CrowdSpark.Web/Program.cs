@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using CrowdSpark.Entitites;
 using CrowdSpark.Common;
+using System.Diagnostics;
 
 namespace CrowdSpark
 {
@@ -20,15 +21,24 @@ namespace CrowdSpark
             {
                 //var user = context.User.FirstOrDefault();
 
-         //       Console.WriteLine(user.Firstname);
+                //       Console.WriteLine(user.Firstname);
             }
 
             BuildWebHost(args).Run();
         }
-
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();
     }
+
+    /*  public static IWebHost BuildWebHost(string[] args) =>
+           WebHost.CreateDefaultBuilder(args)
+              .UseKestrel()
+              .UseContentRoot(pathToContentRoot)
+              .UseIISIntegration()
+              .UseStartup<Startup>()
+              .UseApplicationInsights()
+              .Build();
+  }*/
 }

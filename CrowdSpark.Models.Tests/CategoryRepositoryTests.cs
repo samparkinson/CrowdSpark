@@ -52,23 +52,6 @@ namespace CrowdSpark.Models.Tests
                 Assert.NotNull(await context.Categories.FindAsync(id));
             }
         }
-        /* Move to Logic test
-        [Fact]
-        public async void CreateAsyncTwice_ReturnsSameID()
-        {
-            var cat = new CategoryCreateDTO
-            {
-                Name = "Programming"
-            };
-
-            using (var repository = new CategoryRepository(context))
-            {
-                var id = await repository.CreateAsync(cat);
-                var id2 = await repository.CreateAsync(cat);
-                Assert.Equal(id, id2);
-            }
-        }
-        */
 
         [Fact]
         public async void CreateManyCategories_GetThemBackSorted()

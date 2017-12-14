@@ -11,9 +11,35 @@ The purpose of the system is to make it easier for people with peculiar hobbies 
 We intend to create a web based project organizing tool with social features. New users assign themselves some skills, upon which they get existing project recommendations for and follow them if interested. Users then can join **spark** these projects later on or right away. Users can also create whole new projects. Sparking behaves like a friend request on Facebook. Once a project owner approves of a spark, the requester can start contributing to the project. 
 
 ## Building
+Open up Crowdspark.sln in a recent Visual Studio, as the project relies on dotnetcore 2.
 
-Building for portable linux.
-  dotnet publish CrowdSpark.sln --runtime=linux-x64  --configuration=Release --self-contained
+### Release
+Start with compiling the project 
+Building for portable windows 'win-x64'.
+Building for portable linux 'linux-x64'.
+```sh
+dotnet publish CrowdSpark.sln --runtime=[PLATFORM]  --configuration=Release --self-contained
+```
+
+### Docker
+First open up and debug CrowdSparkDockerized.sln in Visual Studio 2017 as cli is not supported, and make sure you have docker installed on your system.
+
+Initial build may take some time.
+
+List the running images with
+
+```sh
+docker ps
+```
+
+Currently windows containers must be run directly by ip, so get the ip by.
+
+```sh
+docker exec 'NAME' ipconfig
+```
+
+Open up the ip in your browser.
+
 
 ## [License](LICENSE.md)
 

@@ -114,8 +114,8 @@ namespace CrowdSpark
                 app.UseExceptionHandler("/Web/Error");
             }
 
-            var options = new RewriteOptions().AddRedirectToHttps();
-            app.UseRewriter(options);
+ //           var options = new RewriteOptions().AddRedirectToHttps();
+  //          app.UseRewriter(options);
 
             app.UseAuthentication();
 

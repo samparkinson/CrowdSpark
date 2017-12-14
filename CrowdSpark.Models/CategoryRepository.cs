@@ -35,6 +35,7 @@ namespace CrowdSpark.Models
         public async Task<bool> DeleteAsync(int categoryId)
         {
             var category = await _context.Categories.FindAsync(categoryId);
+            if (category is null) return false;
             _context.Categories.Remove(category);
 
             return ( await saveContextChanges() > 0 );
