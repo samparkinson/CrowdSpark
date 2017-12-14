@@ -7,13 +7,13 @@ namespace CrowdSpark.App.Models
 {
     public interface IProjectAPI : IDisposable
     {
-        Task<IReadOnlyCollection<ProjectDTO>> GetAll();
+        Task<IReadOnlyCollection<ProjectSummaryDTO>> GetAll();
 
-        Task<IReadOnlyCollection<ProjectDTO>> GetAllFollowed();
+        Task<IReadOnlyCollection<ProjectSummaryDTO>> GetAllFollowed();
 
-        Task<IReadOnlyCollection<ProjectDTO>> GetAllSparked();
+        Task<IReadOnlyCollection<ProjectSummaryDTO>> GetAllSparked();
 
-        Task<IReadOnlyCollection<ProjectDTO>> GetBySearch(string searchString);
+        Task<IReadOnlyCollection<ProjectSummaryDTO>> GetBySearch(string searchString);
 
         Task<ProjectDTO> Get(int projectID);
 
