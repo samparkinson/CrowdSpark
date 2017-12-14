@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net.Http;
 namespace CrowdSpark.App.Models
 {
-    class IoCContainer
+    public class IoCContainer
     {
         public static IServiceProvider Create() => ConfigureServices();
 
@@ -21,10 +21,12 @@ namespace CrowdSpark.App.Models
             services.AddScoped<SearchPageViewModel>();
             services.AddScoped<AddProjectPageViewModel>();
             services.AddScoped<ISettings, Settings>();
-            //add the logic here
-            //services.AddScoped<IProjectAPI>();
             services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
             services.AddScoped<DelegatingHandler, AuthorizedHandler>();
+
+            // logic
+            services.AddScoped<IProjectAPI, ProjectAPI>();
+            //services.AddScoped<ISparkAPI, SparkAPI>();
 
             return services.BuildServiceProvider();
         }
