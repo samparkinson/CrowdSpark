@@ -20,13 +20,13 @@ namespace CrowdSpark.App.ViewModels
 
         //Every page should have a sign in out functionality
         public ICommand SignInOutCommand { get; set; }
-
-        //set button text on top left
-        public string SignInOutButtonText { get; set; }
-
+        
         //store login information, 
         //should this be in base class or common attributes static class??
         public WebAccount account { get; set; }
+        
+        //set button text on top left, Sign In as default
+        public string SignInOutButtonText { get; set; }
 
         //store user name
         public string UserName { get; set; }

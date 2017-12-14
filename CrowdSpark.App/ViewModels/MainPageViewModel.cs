@@ -8,12 +8,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Security.Credentials;
 
 namespace CrowdSpark.App.ViewModels
 {
     class MainPageViewModel : BaseViewModel
     {
+
         //get values from db
         //projects list
         public ObservableCollection<ProjectViewModel> Content { get; set; }
@@ -43,14 +43,11 @@ namespace CrowdSpark.App.ViewModels
             projectAPI = _projectAPI;
             
             Content = new ObservableCollection<ProjectViewModel>();
-
-            //initDummyProjects();
-
+            
             Categories = new ObservableCollection<Category>();
-
-            //initDummyCategories();
             
             //pop up the login screen if user is not logged in
+            //called only on startup
             SignInCommand = new RelayCommand(async o =>
             {
                 if (account == null)
@@ -59,19 +56,24 @@ namespace CrowdSpark.App.ViewModels
 
                     if (account != null)
                     {
-                        Debug.WriteLine("Sign in successfull!");
-
                         initDummyProjects();
 
                         CommonAttributes.account = account;
 
                         UserName = account.UserName;
                         //await GetRecentProjects();
+
+                        SignInOutButtonText = "Sign In";
                     }
                 }
-            });
+                else
+                {
+                    initDummyProjects();
+                    //await GetRecentProjects();
 
-            SignInCommand.Execute(null);
+                    SignInOutButtonText = "Sign Out";
+                }
+            });
             
             SignInOutCommand = new RelayCommand(async o =>
             {
@@ -81,6 +83,8 @@ namespace CrowdSpark.App.ViewModels
                     account = null;
                     Content.Clear();
                     SignInOutButtonText = "Sign In";
+                    
+                    Debug.WriteLine("Signed out!");
                 }
                 else
                 {
@@ -89,9 +93,9 @@ namespace CrowdSpark.App.ViewModels
                     {
                         Debug.WriteLine("Sign in successfull!");
 
-                        initDummyProjects();
+                        //initDummyProjects();
 
-                        //await GetRecentProjects();
+                        await GetRecentProjects();
 
                         CommonAttributes.account = account;
 
@@ -101,17 +105,31 @@ namespace CrowdSpark.App.ViewModels
                     }
                 }
             });
-
-            //TODO: use this somehow
+            
             RepopulateContentCommand = new RelayCommand(async (tabName) => 
             {
+                //require log in to display content
                 switch (tabName)
                 {
                     case "Recent":
-                        await GetRecentProjects();
+                        if (account != null)
+                        {
+                            await GetRecentProjects();
+                        }
+                        else
+                        {
+                            SignInOutCommand.Execute(null);
+                        }
                         break;
                     case "Categories":
-                        initDummyCategories();
+                        if (account != null)
+                        {
+                            initDummyCategories();
+                        }
+                        else
+                        {
+                            SignInOutCommand.Execute(null);
+                        }
                         break;
                 }
             });
@@ -119,6 +137,8 @@ namespace CrowdSpark.App.ViewModels
             MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
 
             ScrollViewHeight = Content.Count * 60;
+            
+            SignInCommand.Execute(null);
 
             //Store the stuff in a static class
             CommonAttributes.MenuOptions = MenuOptions;
@@ -132,10 +152,11 @@ namespace CrowdSpark.App.ViewModels
             if (account != null)
             {
                 var recentProjects = await projectAPI.GetAll();
-                
+                Debug.WriteLine("Getting projects");
+
                 //p is ProjectSummaryDTO
                 //take command is experimental
-                foreach (var project in recentProjects.Select(p => new ProjectViewModel(p)).Take(10))
+                foreach (var project in recentProjects.Select(p => new ProjectViewModel(p)))
                 {
                     Content.Add(project);
                 }

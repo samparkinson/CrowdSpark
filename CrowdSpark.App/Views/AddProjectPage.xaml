@@ -9,7 +9,8 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <l:BorderConverter x:Key="borderConverter" />
+        <l:BorderConverter x:Key="borderConverter"/>
+        <l:SignInOutButtonConverter x:Key="SignInOutButtonConverter"/>
     </Page.Resources>
 
     <SplitView x:Name="MainSplitView" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">

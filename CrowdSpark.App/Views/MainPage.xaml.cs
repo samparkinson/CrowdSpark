@@ -106,6 +106,7 @@ namespace CrowdSpark.App
             Frame.Navigate(typeof(AddProjectPage), CommonAttributes.account);
         }
 
+        //do UI stuff
         private void RecentTabButton_Click(object sender, RoutedEventArgs e)
         {
             CategoriesTab.Background = new SolidColorBrush(Colors.Transparent);
@@ -114,6 +115,7 @@ namespace CrowdSpark.App
             CategoriesListStackPanel.Visibility = Visibility.Collapsed;
         }
 
+        //do UI stuff
         private void CategoriesTabButton_Click(object sender, RoutedEventArgs e)
         {
             CategoriesTab.Background = new SolidColorBrush(Colors.DimGray);
