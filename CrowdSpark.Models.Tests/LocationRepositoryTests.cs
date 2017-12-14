@@ -41,7 +41,7 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void CreateAsync_GivenValidLocation_ReturnsNewLocationID()
         {
-            var loc = new LocationDTO
+            var loc = new LocationCreateDTO
             {
                 City = "Copenhagen",
                 Country = "Denmark"
@@ -57,7 +57,7 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void CreateAsync_GivenValidLocationDeletesIt_ReturnsSuccess()
         {
-            var loc = new LocationDTO
+            var loc = new LocationCreateDTO
             {
                 City = "Copenhagen",
                 Country = "Denmark"
@@ -83,25 +83,25 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void FindWildCardAsyncAsync_GivenStrings_ReturnsLocationsOrNull()
         {
-            var cop = new LocationDTO
+            var cop = new LocationCreateDTO
             {
                 City = "Copenhagen",
                 Country = "Denmark"
             };
 
-            var ber = new LocationDTO
+            var ber = new LocationCreateDTO
             {
                 City = "Berlin",
                 Country = "Germany"
             };
 
-            var war = new LocationDTO
+            var war = new LocationCreateDTO
             {
                 City = "Warszawa",
                 Country = "Poland"
             };
 
-            var krak = new LocationDTO
+            var krak = new LocationCreateDTO
             {
                 City = "Krakow",
                 Country = "Poland"
@@ -119,7 +119,7 @@ namespace CrowdSpark.Models.Tests
                 {
                     Assert.Equal(war.City, item.City);
                 }
-                var rese = new List<Location>(await repository.FindWildcardAsync("e"));
+                var rese = new List<LocationDTO>(await repository.FindWildcardAsync("e"));
                 Assert.Equal(2, rese.Count);
 
                 // We dont want to optimize for alphabet.
@@ -128,33 +128,33 @@ namespace CrowdSpark.Models.Tests
                 Assert.Equal("Berlin", rese[1].City);
                 Assert.Equal("Germany", rese[1].Country);
 
-                var empty = new List<Location>(await repository.FindWildcardAsync("e", "Sweden"));
-                Assert.Equal(0, rese.Count);
+                var expectedEmpty = new List<LocationDTO>(await repository.FindWildcardAsync("e", "Sweden"));
+                Assert.Equal(0, expectedEmpty.Count);
             }
         }
 
         [Fact]
         public async void ReadOrderedAsync_GivenLocations_ReturnsOrderedArray()
         {
-            var cop = new LocationDTO
+            var cop = new LocationCreateDTO
             {
                 City = "Copenhagen",
                 Country = "Denmark"
             };
 
-            var ber = new LocationDTO
+            var ber = new LocationCreateDTO
             {
                 City = "Berlin",
                 Country = "Germany"
             };
 
-            var war = new LocationDTO
+            var war = new LocationCreateDTO
             {
                 City = "Warszawa",
                 Country = "Poland"
             };
 
-            var krak = new LocationDTO
+            var krak = new LocationCreateDTO
             {
                 City = "Krakow",
                 Country = "Poland"
@@ -167,7 +167,7 @@ namespace CrowdSpark.Models.Tests
                 await repository.CreateAsync(cop);
                 await repository.CreateAsync(ber);
 
-                var rese = new List<Location>( await repository.ReadOrderedAsync());
+                var rese = new List<LocationDTO>( await repository.ReadOrderedAsync());
                 Assert.Equal(4, rese.Count);
 
                 // We dont want to optimize for alphabet.

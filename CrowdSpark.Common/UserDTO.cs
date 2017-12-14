@@ -18,8 +18,8 @@ namespace CrowdSpark.Common
         [StringLength(255)]
         public string Mail { get; set; }
 
-        public Location Location { get; set; }
+        public LocationDTO Location { get; set; }
 
-        public ICollection<Skill> Skills { get; set; }
+        public ICollection<SkillDTO> Skills { get; set; }
     }
 }

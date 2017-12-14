@@ -44,7 +44,7 @@ namespace CrowdSpark.Web.Controllers
 
         // POST api/skills
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Skill skill)
+        public async Task<IActionResult> Post([FromBody]SkillCreateDTO skill)
         {
             if (!ModelState.IsValid)
             {
@@ -63,7 +63,7 @@ namespace CrowdSpark.Web.Controllers
 
         // PUT api/skills/
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]Skill skill)
+        public async Task<IActionResult> Put([FromBody]SkillDTO skill)
         {
             if (!ModelState.IsValid)
             {

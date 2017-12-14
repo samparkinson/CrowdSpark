@@ -14,7 +14,7 @@ namespace CrowdSpark.Logic
 
         Task<ProjectSummaryDTO> GetAsync(int projectID);
 
-        Task<ResponseLogic> CreateAsync(ProjectDTO project);
+        Task<ResponseLogic> CreateAsync(CreateProjectDTO project);
 
         Task<ResponseLogic> UpdateAsync(ProjectDTO project);
 
@@ -22,9 +22,9 @@ namespace CrowdSpark.Logic
 
         Task<ResponseLogic> DeleteAsync(int projectId);
 
-        Task<ResponseLogic> AddSkillAsync(int projectId, Skill skill);
+        Task<ResponseLogic> AddSkillAsync(int projectId, SkillDTO skill);
 
-        Task<ResponseLogic> RemoveSkillAsync(int projectId, Skill skill);
+        Task<ResponseLogic> RemoveSkillAsync(int projectId, SkillDTO skill);
 
     }
 }

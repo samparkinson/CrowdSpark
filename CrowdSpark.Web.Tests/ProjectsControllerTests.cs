@@ -41,7 +41,7 @@ namespace CrowdSpark.Web.Tests
         [Fact]
         public async Task Post_given_project_returns_createdAt()
         {
-            var project = new ProjectDTO { Id = 1 };
+            var project = new CreateProjectDTO { Title = "Title", Description = "Description" };
 
             var repository = new Mock<IProjectLogic>();
 

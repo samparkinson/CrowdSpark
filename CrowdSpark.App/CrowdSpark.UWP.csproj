@@ -407,10 +407,6 @@
       <Project>{42717617-47A3-4540-9848-80C736D2581E}</Project>
       <Name>CrowdSpark.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CrowdSpark.Entitites\CrowdSpark.Entitites.csproj">
-      <Project>{9388D7DD-81D8-4717-8E2A-50A7FF99D90A}</Project>
-      <Name>CrowdSpark.Entitites</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

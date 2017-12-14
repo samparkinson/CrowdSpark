@@ -19,7 +19,7 @@ namespace CrowdSpark.Logic
             _projectRepository = projectRepository;
         }
 
-        public async Task<ResponseLogic> CreateAsync(LocationDTO loc)
+        public async Task<ResponseLogic> CreateAsync(LocationCreateDTO loc)
         {
             var existingLocation = await _repository.FindAsync(loc.City, loc.Country);
 
@@ -33,32 +33,32 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.SUCCESS;
         }
 
-        public async Task<IEnumerable<Location>> GetAsync()
+        public async Task<IEnumerable<LocationDTO>> GetAsync()
         {
             return await _repository.ReadAsync();
         }
 
-        public async Task<Location> GetAsync(int locationId)
+        public async Task<LocationDTO> GetAsync(int locationId)
         {
             return await _repository.FindAsync(locationId);
         }
 
-        public async Task<IEnumerable<Location>> FindAsync(string searchCity, string searchCountry)
+        public async Task<IEnumerable<LocationDTO>> FindAsync(string searchCity, string searchCountry)
         {
             return await _repository.FindWildcardAsync(searchCity, searchCountry);
         }
 
-        public async Task<IEnumerable<Location>> FindAsync(string searchCity)
+        public async Task<IEnumerable<LocationDTO>> FindAsync(string searchCity)
         {
             return await _repository.FindWildcardAsync(searchCity);
         }
 
-        public async Task<Location> FindExactAsync(string searchCity, string searchCountry)
+        public async Task<LocationDTO> FindExactAsync(string searchCity, string searchCountry)
         {
             return await _repository.FindAsync(searchCity, searchCountry);         
         }
      
-        public async Task<ResponseLogic> UpdateAsync(Location loc)
+        public async Task<ResponseLogic> UpdateAsync(LocationDTO loc)
         {
             var foundLocation = await _repository.FindAsync(loc.Id);
             if (foundLocation is null) return ResponseLogic.NOT_FOUND;
@@ -69,7 +69,7 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_UPDATING;
         }
 
-        public async Task<ResponseLogic> RemoveWithObjectAsync(Location loc)
+        public async Task<ResponseLogic> RemoveWithObjectAsync(LocationDTO loc)
         {
             var foundLocation = await _repository.FindAsync(loc.Id);
             if (foundLocation is null) return ResponseLogic.NOT_FOUND;

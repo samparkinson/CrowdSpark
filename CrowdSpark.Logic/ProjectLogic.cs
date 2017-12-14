@@ -47,7 +47,7 @@ namespace CrowdSpark.Logic
             };
         }
 
-        public async Task<ResponseLogic> CreateAsync(ProjectDTO project)
+        public async Task<ResponseLogic> CreateAsync(CreateProjectDTO project)
         {
             var skills = project.Skills;
 
@@ -55,7 +55,7 @@ namespace CrowdSpark.Logic
 
             foreach (var skill in skills)
             {
-                await _skillLogic.CreateAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name }); //TODO, need to convert this to a parallel for each
             }
 
             if (id == 0)
@@ -88,7 +88,7 @@ namespace CrowdSpark.Logic
 
             foreach (var skill in skillsToAdd)
             {
-                await _skillLogic.CreateAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name }); //TODO, need to convert this to a parallel for each
             }
             foreach (var skill in skillsToRemove)
             {
@@ -109,7 +109,7 @@ namespace CrowdSpark.Logic
             }
             foreach (var skill in skillsToRemove)
             {
-                await _skillLogic.CreateAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name }); //TODO, need to convert this to a parallel for each
             }
 
             return ResponseLogic.ERROR_UPDATING;
@@ -125,13 +125,7 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.NOT_FOUND;
             }
 
-            var location = new Location();
-
-            if (project.LocationId is null)
-            {
-                location = null;
-            }
-            else location = await _locationRepository.FindAsync(project.LocationId.Value);
+            var location = (project.LocationId is null) ? null : (await _locationRepository.FindAsync(project.LocationId.Value));
 
             currentProject.Title = project.Title;
             currentProject.Description = project.Description;
@@ -174,14 +168,14 @@ namespace CrowdSpark.Logic
             {
                 foreach (var skill in project.Skills)
                 {
-                    await _skillLogic.CreateAsync(skill); //TODO, make run in parallel
+                    await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name }); //TODO, make run in parallel
                 }
 
                 return ResponseLogic.ERROR_DELETING;
             }
         }
 
-        public async Task<ResponseLogic> AddSkillAsync(int projectId, Skill skill)
+        public async Task<ResponseLogic> AddSkillAsync(int projectId, SkillDTO skill)
         {
             var project = await _repository.FindAsync(projectId);
 
@@ -195,7 +189,7 @@ namespace CrowdSpark.Logic
             return await UpdateAsync(project);
         }
 
-        public async Task<ResponseLogic> RemoveSkillAsync(int projectId, Skill skill)
+        public async Task<ResponseLogic> RemoveSkillAsync(int projectId, SkillDTO skill)
         {
             var project = await _repository.FindAsync(projectId);
 

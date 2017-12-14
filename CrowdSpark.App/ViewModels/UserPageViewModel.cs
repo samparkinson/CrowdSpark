@@ -1,6 +1,6 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.Models;
-using CrowdSpark.Entitites;
+using CrowdSpark.Common;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -25,15 +25,15 @@ namespace CrowdSpark.App.ViewModels
         private string _mail;
         public string Mail { get => _mail; set { if (value != _mail) { _mail = value; OnPropertyChanged(); } } }
 
-        private Location _location;
-        public Location Location { get => _location; set { if (!value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
+        private LocationDTO _location;
+        public LocationDTO Location { get => _location; set { if (!value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
 
         public ImageSource CountryFlag { get; set; }
 
         private readonly IAuthenticationHelper helper;
 
         //List of skills 
-        public ObservableCollection<Skill> Skills { get; set; }
+        public ObservableCollection<SkillDTO> Skills { get; set; }
 
         public UserPageViewModel(IAuthenticationHelper _helper)
         {
@@ -72,7 +72,7 @@ namespace CrowdSpark.App.ViewModels
             Location = userViewModel.Location;
 
             //Not sure
-            Skills = (ObservableCollection<Skill>) userViewModel.Skills;
+            Skills = (ObservableCollection<SkillDTO>) userViewModel.Skills;
 
             CountryFlag = GetCountryFlag(Location.Country);
         }

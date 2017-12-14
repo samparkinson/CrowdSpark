@@ -17,17 +17,17 @@ namespace CrowdSpark.Models
             _context = context;
         }
 
-        public async Task<int> CreateAsync(ProjectDTO project)
+        public async Task<int> CreateAsync(CreateProjectDTO project)
         {
             var projectToCreate = new Project
             {
                 Title = project.Title,
                 Description = project.Description,
-                LocationId = project.Location.Id,
-                Location = project.Location,
-                Skills = project.Skills,
-                Category = project.Category,
-                CreatedDate = project.CreatedDate
+                LocationId = project.Location?.Id,
+                Location = (project.Location is null) ? null : new Location() { Id = project.Location.Id, City = project.Location.City, Country = project.Location.Country },
+                Skills = EntityConversionHelper.ConvertSkillDTOsToSkills(project.Skills),
+                Category = (project.Category is null) ? null : new Category() { Id = project.Category.Id, Name = project.Category.Name },
+                CreatedDate = System.DateTime.UtcNow
             };
 
             _context.Projects.Add(projectToCreate);
@@ -59,10 +59,10 @@ namespace CrowdSpark.Models
                 Id = project.Id,
                 Title = project.Title,
                 Description = project.Description,
-                Location = project.Location,
-                Skills = project.Skills,
-                Sparks = project.Sparks,
-                Category = project.Category,
+                Location = (project.Location is null) ? null : new LocationDTO() { Id = project.Location.Id, City = project.Location.City, Country = project.Location.Country },
+                Skills = EntityConversionHelper.ConvertSkillsToSkillDTOs(project.Skills),
+                Sparks = EntityConversionHelper.ConvertSparksToSparkDTOs(project.Sparks),
+                Category = (project.Category is null) ? null : new CategoryDTO() { Id = project.Category.Id, Name = project.Category.Name },
                 CreatedDate = project.CreatedDate
             };
         }
@@ -76,7 +76,7 @@ namespace CrowdSpark.Models
                                  Title = p.Title,
                                  Description = p.Description,
                                  LocationId = p.LocationId,
-                                 Category = p.Category
+                                 Category = (p.Category == null) ? null : new CategoryDTO() { Id = p.Category.Id, Name = p.Category.Name }
                              };
 
             return await projects.ToListAsync();
@@ -90,11 +90,11 @@ namespace CrowdSpark.Models
                                Id = p.Id,
                                Title = p.Title,
                                Description = p.Description,
-                               Location = p.Location,
-                               Skills = p.Skills,
-                               Sparks = p.Sparks,
+                               Location = (p.Location == null) ? null : new LocationDTO() { Id = p.Location.Id, City = p.Location.City, Country = p.Location.Country },
+                               Skills = EntityConversionHelper.ConvertSkillsToSkillDTOs(p.Skills),
+                               Sparks = EntityConversionHelper.ConvertSparksToSparkDTOs(p.Sparks),
                                CreatedDate = p.CreatedDate,
-                               Category = p.Category
+                               Category = (p.Category == null) ? null : new CategoryDTO() { Id = p.Category.Id, Name = p.Category.Name }
                            };
 
             return await projects.ToListAsync();
@@ -107,13 +107,11 @@ namespace CrowdSpark.Models
 
             projectToUpdate.Title = details.Title;
             projectToUpdate.Description = details.Description;
-            projectToUpdate.LocationId = details.Location.Id;
-            projectToUpdate.Location = details.Location;
-            projectToUpdate.Skills = details.Skills;
-            projectToUpdate.Sparks = details.Sparks;
-            projectToUpdate.Category = details.Category;
-            
-            //Not updating created date as it should never be updated
+            projectToUpdate.LocationId = details.Location?.Id;
+            projectToUpdate.Location = (details.Location is null) ? null : new Location() { Id = details.Location.Id, City = details.Location.City, Country = details.Location.Country };
+            projectToUpdate.Skills = EntityConversionHelper.ConvertSkillDTOsToSkills(details.Skills);
+            projectToUpdate.Sparks = EntityConversionHelper.ConvertSparkDTOsToSparks(details.Sparks);
+            projectToUpdate.Category = (details.Category is null) ? null : new Category() { Id = details.Category.Id, Name = details.Category.Name };
 
             return (await saveContextChanges() > 0);
         }

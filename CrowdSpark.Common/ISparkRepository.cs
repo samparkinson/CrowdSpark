@@ -8,17 +8,17 @@ namespace CrowdSpark.Common
 {
     public interface ISparkRepository : IDisposable
     {
-        Task<(int, int)> CreateAsync(SparkDTO spark, int userId); // returns the Project Id and the UserId which combined are the key
+        Task<(int, int)> CreateAsync(int projectId, int userId); // returns the Project Id and the UserId which combined are the key
      
-        Task<Spark> FindAsync(int projectId, int userId);
+        Task<SparkDTO> FindAsync(int projectId, int userId);
 
-        Task<IReadOnlyCollection<Spark>> ReadAsync();
+        Task<IReadOnlyCollection<SparkDTO>> ReadAsync();
 
-        Task<IReadOnlyCollection<Spark>> ReadForProjectAsync(int projectId);
+        Task<IReadOnlyCollection<SparkDTO>> ReadForProjectAsync(int projectId);
 
-        Task<IReadOnlyCollection<Spark>> ReadForUserAsync(int userId);
+        Task<IReadOnlyCollection<SparkDTO>> ReadForUserAsync(int userId);
 
-        Task<bool> UpdateAsync(Spark details);
+        Task<bool> UpdateAsync(SparkDTO details);
 
         Task<bool> DeleteAsync(int projectId, int userId);
     }

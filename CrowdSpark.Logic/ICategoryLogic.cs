@@ -8,19 +8,19 @@ namespace CrowdSpark.Logic
 {
     public interface ICategoryLogic : IDisposable
     {
-        Task<IEnumerable<Category>> GetAsync();
+        Task<IEnumerable<CategoryDTO>> GetAsync();
 
-        Task<Category> GetAsync(int categoryId);
+        Task<CategoryDTO> GetAsync(int categoryId);
 
-        Task<IEnumerable<Category>> FindAsync(string searchString);
+        Task<IEnumerable<CategoryDTO>> FindAsync(string searchString);
 
-        Task<Category> FindExactAsync(string searchString);
+        Task<CategoryDTO> FindExactAsync(string searchString);
 
         Task<ResponseLogic> CreateAsync(CategoryCreateDTO category);
 
-        Task<ResponseLogic> UpdateAsync(Category category);
+        Task<ResponseLogic> UpdateAsync(CategoryDTO category);
 
-        Task<ResponseLogic> RemoveAsync(Category category);
+        Task<ResponseLogic> RemoveAsync(CategoryDTO category);
 
         Task<ResponseLogic> DeleteAsync(int categoryId);
     }

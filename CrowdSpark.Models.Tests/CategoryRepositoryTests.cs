@@ -87,7 +87,7 @@ namespace CrowdSpark.Models.Tests
 
                 // Check to see if we get categories sorted.
                 var sorted_list = await repository.ReadAsync();
-                var listToCheck = new List<Category>(sorted_list);
+                var listToCheck = new List<CategoryDTO>(sorted_list);
 
                 Assert.Equal(list.Count, sorted_list.Count);
                 list.Sort((CategoryCreateDTO x, CategoryCreateDTO y) => x.Name.CompareTo(y.Name));

@@ -1,4 +1,5 @@
 ﻿using System;
+using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -39,9 +40,8 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void CreateAsync_GivenValidSkill_ReturnsNewSkillID()
         {
-            var skill = new Skill
+            var skill = new SkillCreateDTO
             {
-                Id = -1,
                 Name = "Cooking"
             };
             //var contextMock = new Mock<ICrowdSparkContext>();
@@ -60,14 +60,12 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void CreateAsync_GivenTwoValidSkills_ReturnsTwoNewSkillIDs()
         {
-            var skill1 = new Skill
+            var skill1 = new SkillCreateDTO
             {
-                Id = -1,
                 Name = "Cooking"
             };
-            var skill2 = new Skill
+            var skill2 = new SkillCreateDTO
             {
-                Id = -1,
                 Name = "Dancing"
             };  
             //var contextMock = new Mock<ICrowdSparkContext>();

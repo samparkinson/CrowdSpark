@@ -10,15 +10,15 @@ namespace CrowdSpark.Common
     {
         Task<int> CreateAsync(CategoryCreateDTO category);
      
-        Task<Category> FindAsync(int categoryId);
+        Task<CategoryDTO> FindAsync(int categoryId);
 
-        Task<Category> FindAsync(string categoryName);
+        Task<CategoryDTO> FindAsync(string categoryName);
 
-        Task<IEnumerable<Category>> FindWildcardAsync(string categoryName);
+        Task<IEnumerable<CategoryDTO>> FindWildcardAsync(string categoryName);
 
-        Task<IReadOnlyCollection<Category>> ReadAsync();
+        Task<IReadOnlyCollection<CategoryDTO>> ReadAsync();
 
-        Task<bool> UpdateAsync(Category details);
+        Task<bool> UpdateAsync(CategoryDTO details);
 
         Task<bool> DeleteAsync(int categoryId);
     }

@@ -1,7 +1,6 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.ViewModels;
 using CrowdSpark.Common;
-using CrowdSpark.Entitites;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace CrowdSpark.App.Views
     public sealed partial class AddProjectPage : Page, IAppPage
     {
         private readonly AddProjectPageViewModel _vm;
-        private List<Skill> SkillsList { get; set; }
+        private List<SkillDTO> SkillsList { get; set; }
 
         public AddProjectPage()
         {
@@ -25,7 +24,7 @@ namespace CrowdSpark.App.Views
             
             DataContext = _vm;
 
-            SkillsList = new List<Skill>();
+            SkillsList = new List<SkillDTO>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -88,12 +87,12 @@ namespace CrowdSpark.App.Views
             var ProjectCategoryText = CategoryTextBox.Text;
             var ProjectCountry = CountryComboBox.SelectedItem.ToString();
             var ProjectCity = CityComboBox.SelectedItem.ToString();
-            Location ProjectLocation = new Location { Country = ProjectCountry, City = ProjectCity };
-            var ProjectCategory = new Category { Name = ProjectCategoryText};
+            var ProjectLocation = new LocationDTO { Country = ProjectCountry, City = ProjectCity };
+            var ProjectCategory = new CategoryDTO { Name = ProjectCategoryText};
 
             //TODO:needs work
-            var SparkList = new List<Spark>();
-            SparkList.Add(new Spark());
+            var SparkList = new List<SparkDTO>();
+            SparkList.Add(new SparkDTO());
             
             var projectDTO = new ProjectDTO { Title = ProjectTitle, Description = ProjectDescription,
                 Location = ProjectLocation, Skills = SkillsList, Category = ProjectCategory, CreatedDate = DateTime.Now, Sparks = SparkList};
@@ -117,7 +116,7 @@ namespace CrowdSpark.App.Views
                     var text = textBox.Text;
                     if (!String.IsNullOrEmpty(text))
                     {
-                        SkillsList.Add(new Skill { Name = text});
+                        SkillsList.Add(new SkillDTO { Name = text});
                     }
                     else
                     {

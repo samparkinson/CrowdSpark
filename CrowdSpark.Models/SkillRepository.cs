@@ -17,7 +17,7 @@ namespace CrowdSpark.Models
             _context = context;
         }
 
-        public async Task<int> CreateAsync(Skill skill)
+        public async Task<int> CreateAsync(SkillCreateDTO skill)
         {
             var skillToCreate = new Skill
             {
@@ -47,27 +47,35 @@ namespace CrowdSpark.Models
             return ( await saveContextChanges() > 0 );
         }
 
-        public async Task<Skill> FindAsync(int skillId)
+        public async Task<SkillDTO> FindAsync(int skillId)
         {
-            return await _context.Skills.FindAsync(skillId);
+            var skill = await _context.Skills.FindAsync(skillId);
+
+            return new SkillDTO() { Id = skill.Id, Name = skill.Name };
         }
 
-        public async Task<Skill> FindAsync(string skillName)
+        public async Task<SkillDTO> FindAsync(string skillName)
         {
-            return await _context.Skills.Where(s => s.Name.ToLower() == skillName.ToLower()).FirstOrDefaultAsync();
+            var skill = await _context.Skills.Where(s => s.Name.ToLower() == skillName.ToLower()).FirstOrDefaultAsync();
+
+            return new SkillDTO() { Id = skill.Id, Name = skill.Name };
         }
 
-        public async Task<IEnumerable<Skill>> FindWildcardAsync(string skillName)
+        public async Task<IEnumerable<SkillDTO>> FindWildcardAsync(string skillName)
         {
-            return await _context.Skills.Where(s => s.Name.ToLower().Contains(skillName.ToLower())).ToArrayAsync();
+            return await _context.Skills.Where(s => s.Name.ToLower().Contains(skillName.ToLower()))
+                .Select(s => new SkillDTO() { Id = s.Id, Name = s.Name })
+                .ToArrayAsync();
         }
 
-        public async Task<IReadOnlyCollection<Skill>> ReadAsync()
+        public async Task<IReadOnlyCollection<SkillDTO>> ReadAsync()
         {
-            return await _context.Skills.ToListAsync();
+            return await _context.Skills
+                .Select(s => new SkillDTO() { Id = s.Id, Name = s.Name })
+                .ToListAsync();
         }
 
-        public async Task<bool> UpdateAsync(Skill details)
+        public async Task<bool> UpdateAsync(SkillDTO details)
         {
             var skillToUpdate = await _context.Skills.FindAsync(details.Id);
             _context.Skills.Update(skillToUpdate);

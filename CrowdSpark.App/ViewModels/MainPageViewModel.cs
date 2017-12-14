@@ -1,7 +1,6 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.Models;
 using CrowdSpark.Common;
-using CrowdSpark.Entitites;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -19,7 +18,7 @@ namespace CrowdSpark.App.ViewModels
         public ObservableCollection<ProjectViewModel> Content { get; set; }
 
         //categories list
-        public ObservableCollection<Category> Categories { get; set; }
+        public ObservableCollection<CategoryDTO> Categories { get; set; }
 
         //To set the height of scroll view
         public int ScrollViewHeight { get; set; }
@@ -46,7 +45,7 @@ namespace CrowdSpark.App.ViewModels
 
             //initDummyProjects();
 
-            Categories = new ObservableCollection<Category>();
+            Categories = new ObservableCollection<CategoryDTO>();
 
             //initDummyCategories();
             
@@ -153,7 +152,7 @@ namespace CrowdSpark.App.ViewModels
                 var categories = await projectAPI.GetAll();
 
                 //TODO: change to category
-                foreach (var category in categories.Select(c => new Category { Name = c.Title }))
+                foreach (var category in categories.Select(c => new CategoryDTO { Name = c.Title }))
                 {
                     Categories.Add(category);
                 }
@@ -164,11 +163,11 @@ namespace CrowdSpark.App.ViewModels
         {
             Categories.Clear();
 
-            var category = new Category { Name="Programming", Id=0};
+            var category = new CategoryDTO { Name="Programming", Id=0};
 
             for (int i = 0; i < 20; i++)
             {
-                Categories.Add(new Category { Name = "Cat " + i, Id = i });
+                Categories.Add(new CategoryDTO { Name = "Cat " + i, Id = i });
             }
         }
 
@@ -177,13 +176,13 @@ namespace CrowdSpark.App.ViewModels
         {
             Content.Clear();
 
-            var _location = new Location { Id = 1, City = "Copenhagen", Country = "Denmark" };
+            var _location = new LocationDTO { Id = 1, City = "Copenhagen", Country = "Denmark" };
 
             var _dummyProjects = new List<ProjectDTO>();
             
             for (int i = 0; i < 20; i++)
             {
-                _dummyProjects.Add(new ProjectDTO { Id = i, Title = "Project " + i, Location = _location, Description = "Description " + i, Category = new Category { Name = "Programming" } });
+                _dummyProjects.Add(new ProjectDTO { Id = i, Title = "Project " + i, Location = _location, Description = "Description " + i, Category = new CategoryDTO { Name = "Programming" } });
             }
 
             foreach (var p in _dummyProjects)

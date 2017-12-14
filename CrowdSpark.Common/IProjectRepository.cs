@@ -7,7 +7,7 @@ namespace CrowdSpark.Common
 {
     public interface IProjectRepository : IDisposable
     {
-        Task<int> CreateAsync(ProjectDTO project);
+        Task<int> CreateAsync(CreateProjectDTO project);
      
         Task<ProjectDTO> FindAsync(int projectId);
 

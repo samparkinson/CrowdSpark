@@ -53,7 +53,7 @@ namespace CrowdSpark.Web.Controllers
         [HttpPost]
         [Authorize]
         //     public async Task<IActionResult> Post([FromBody]CreateProjectDTO project)
-        public async Task<IActionResult> Post([FromBody]ProjectDTO project)
+        public async Task<IActionResult> Post([FromBody]CreateProjectDTO project)
         {
             if (!ModelState.IsValid)
             {

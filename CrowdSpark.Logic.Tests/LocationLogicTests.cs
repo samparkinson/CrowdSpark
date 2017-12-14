@@ -43,13 +43,13 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void CreateAsync_GivenValidLocation_ReturnsSUCCESS()
         {
-            var locationToCreate = new LocationDTO
+            var locationToCreate = new LocationCreateDTO
             {
                 City = "Sydney",
                 Country = "Australia"
             };
 
-            locationRepositoryMock.Setup(c => c.FindAsync(locationToCreate.City, locationToCreate.Country)).ReturnsAsync(default(Location));
+            locationRepositoryMock.Setup(c => c.FindAsync(locationToCreate.City, locationToCreate.Country)).ReturnsAsync(default(LocationDTO));
             locationRepositoryMock.Setup(c => c.CreateAsync(locationToCreate)).ReturnsAsync(1);
 
             using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object,  projectRepositoryMock.Object))
@@ -65,13 +65,13 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void CreateAsync_GivenLocationyExists_ReturnsSUCCESS()
         {
-            var locationToCreate = new LocationDTO
+            var locationToCreate = new LocationCreateDTO
             {
                 City = "Sydney",
                 Country = "Australia"
             };
 
-            var existingLocation = new Location
+            var existingLocation = new LocationDTO
             {
                 Id = 1,
                 City = "Sydney",
@@ -86,20 +86,20 @@ namespace CrowdSpark.Logic.Tests
 
                 Assert.Equal(ResponseLogic.SUCCESS, response);
                 locationRepositoryMock.Verify(c => c.FindAsync(locationToCreate.City, locationToCreate.Country));
-                locationRepositoryMock.Verify(c => c.CreateAsync(It.IsAny<LocationDTO>()), Times.Never());
+                locationRepositoryMock.Verify(c => c.CreateAsync(It.IsAny<LocationCreateDTO>()), Times.Never());
             }
         }
 
         [Fact]
         public async void CreateAsync_GivenNothingCreated_ReturnsERROR_CREATING()
         {
-            var locationToCreate = new LocationDTO
+            var locationToCreate = new LocationCreateDTO
             {
                 City = "Sydney",
                 Country = "Australia"
             };
 
-            locationRepositoryMock.Setup(c => c.FindAsync(locationToCreate.City, locationToCreate.Country)).ReturnsAsync(default(Location));
+            locationRepositoryMock.Setup(c => c.FindAsync(locationToCreate.City, locationToCreate.Country)).ReturnsAsync(default(LocationDTO));
             locationRepositoryMock.Setup(c => c.CreateAsync(locationToCreate)).ReturnsAsync(0);
 
             using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
@@ -115,11 +115,11 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void GetAsync_GivenLocationsExist_ReturnsEnumerableLocations()
         {
-            var locationsToReturn = new Location[]
+            var locationsToReturn = new LocationDTO[]
             {
-                new Location { Id = 1, City = "Sydney", Country = "Australia" },
-                new Location { Id = 2, City = "Melbourne", Country = "Australia" },
-                new Location { Id = 3, City = "Brisbane", Country = "Australia" }
+                new LocationDTO { Id = 1, City = "Sydney", Country = "Australia" },
+                new LocationDTO { Id = 2, City = "Melbourne", Country = "Australia" },
+                new LocationDTO { Id = 3, City = "Brisbane", Country = "Australia" }
             };
 
             locationRepositoryMock.Setup(c => c.ReadAsync()).ReturnsAsync(locationsToReturn);
@@ -136,7 +136,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void GetAsync_GivenExistingLocationId_ReturnsLocation()
         {
-            var locationToReturn = new Location { Id = 3, City = "Brisbane", Country = "Australia" };
+            var locationToReturn = new LocationDTO { Id = 3, City = "Brisbane", Country = "Australia" };
 
             locationRepositoryMock.Setup(c => c.FindAsync(3)).ReturnsAsync(locationToReturn);
 
@@ -152,11 +152,11 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void FindAsyncWithCityAndCountry_GivenLocationsExist_ReturnsEnumerableLocations()
         {
-            var locationsToReturn = new Location[]
+            var locationsToReturn = new LocationDTO[]
             {
-                new Location { Id = 1, City = "Sydney", Country = "Australia" },
-                new Location { Id = 2, City = "Melbourne", Country = "Australia" },
-                new Location { Id = 3, City = "Brisbane", Country = "Australia" }
+                new LocationDTO { Id = 1, City = "Sydney", Country = "Australia" },
+                new LocationDTO { Id = 2, City = "Melbourne", Country = "Australia" },
+                new LocationDTO { Id = 3, City = "Brisbane", Country = "Australia" }
             };
 
             locationRepositoryMock.Setup(c => c.FindWildcardAsync("e", "Australia")).ReturnsAsync(locationsToReturn);
@@ -173,11 +173,11 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void FindAsyncWithCity_GivenLocationsExist_ReturnsEnumerableLocations()
         {
-            var locationsToReturn = new Location[]
+            var locationsToReturn = new LocationDTO[]
             {
-                new Location { Id = 1, City = "Sydney", Country = "Australia" },
-                new Location { Id = 2, City = "Melbourne", Country = "Australia" },
-                new Location { Id = 3, City = "Brisbane", Country = "Australia" }
+                new LocationDTO { Id = 1, City = "Sydney", Country = "Australia" },
+                new LocationDTO { Id = 2, City = "Melbourne", Country = "Australia" },
+                new LocationDTO { Id = 3, City = "Brisbane", Country = "Australia" }
             };
 
             locationRepositoryMock.Setup(c => c.FindWildcardAsync("e")).ReturnsAsync(locationsToReturn);
@@ -194,7 +194,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void FindExactAsync_GivenLocationExists_ReturnsLocation()
         {
-            var locationToReturn = new Location { Id = 1, City = "Sydney", Country = "Australia" };
+            var locationToReturn = new LocationDTO { Id = 1, City = "Sydney", Country = "Australia" };
 
             locationRepositoryMock.Setup(c => c.FindAsync("Sydney", "Australia")).ReturnsAsync(locationToReturn);
 
@@ -210,14 +210,14 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void UpdateAsync_GivenLocationExists_ReturnsSuccess()
         {
-            var locationToUpdate = new Location
+            var locationToUpdate = new LocationDTO
             {
                 Id = 1,
                 City = "Sydne",
                 Country = "Australia"
             };
 
-            var locationToUpdateWithChanges = new Location
+            var locationToUpdateWithChanges = new LocationDTO
             {
                 Id = 1,
                 City = "Sydney",
@@ -240,14 +240,14 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void UpdateAsync_GivenLocationDoesNotExist_ReturnsNOT_FOUND()
         {
-            var locationToUpdateWithChanges = new Location
+            var locationToUpdateWithChanges = new LocationDTO
             {
                 Id = 1,
                 City = "Sydney",
                 Country = "Australia"
             };
 
-            locationRepositoryMock.Setup(c => c.FindAsync(locationToUpdateWithChanges.Id)).ReturnsAsync(default(Location));
+            locationRepositoryMock.Setup(c => c.FindAsync(locationToUpdateWithChanges.Id)).ReturnsAsync(default(LocationDTO));
 
             using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
             {
@@ -255,21 +255,21 @@ namespace CrowdSpark.Logic.Tests
 
                 Assert.Equal(ResponseLogic.NOT_FOUND, response);
                 locationRepositoryMock.Verify(c => c.FindAsync(locationToUpdateWithChanges.Id));
-                locationRepositoryMock.Verify(c => c.UpdateAsync(It.IsAny<Location>()), Times.Never());
+                locationRepositoryMock.Verify(c => c.UpdateAsync(It.IsAny<LocationDTO>()), Times.Never());
             }
         }
 
         [Fact]
         public async void UpdateAsync_GivenErrorUpdating_ReturnsERROR_UPDATING()
         {
-            var locationToUpdate = new Location
+            var locationToUpdate = new LocationDTO
             {
                 Id = 1,
                 City = "Sydne",
                 Country = "Australia"
             };
 
-            var locationToUpdateWithChanges = new Location
+            var locationToUpdateWithChanges = new LocationDTO
             {
                 Id = 1,
                 City = "Sydney",
@@ -292,7 +292,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void RemoveWithObjectAsync_GivenLocationExistsAndInNoProjectsOrUsers_ReturnsSuccess()
         {
-            var locationToDelete = new Location
+            var locationToDelete = new LocationDTO
             {
                 Id = 1,
                 City = "Sydney",
@@ -319,7 +319,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void RemoveWithObjectAsync_GivenLocationExistsAndInOneProjectOrUser_ReturnsSuccess()
         {
-            var locationToDelete = new Location
+            var locationToDelete = new LocationDTO
             {
                 Id = 1,
                 City = "Sydney",
@@ -351,7 +351,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void RemoveWithObjectAsync_GivenLocationExistsInMoreThanOneProjectAndUser_ReturnsSuccess()
         {
-            var locationToDelete = new Location
+            var locationToDelete = new LocationDTO
             {
                 Id = 1,
                 City = "Sydney",
@@ -383,7 +383,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void RemoveWithObjectAsync_GivenDatabaseError_ReturnsERROR_DELETING()
         {
-            var locationToDelete = new Location
+            var locationToDelete = new LocationDTO
             {
                 Id = 1,
                 City = "Sydney",
@@ -410,14 +410,14 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void RemoveWithObjectAsync_GivenLocationDoesNotExist_ReturnsNOT_FOUND()
         {
-            var locationToDelete = new Location
+            var locationToDelete = new LocationDTO
             {
                 Id = 1,
                 City = "Sydney",
                 Country = "Australia"
             };
 
-            locationRepositoryMock.Setup(l => l.FindAsync(locationToDelete.Id)).ReturnsAsync(default(Location));
+            locationRepositoryMock.Setup(l => l.FindAsync(locationToDelete.Id)).ReturnsAsync(default(LocationDTO));
 
             using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
             {
@@ -434,7 +434,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void DeleteAsync_GivenDatabaseError_ReturnsERROR_DELETING()
         {
-            var locationToDelete = new Location
+            var locationToDelete = new LocationDTO
             {
                 Id = 1,
                 City = "Sydney",

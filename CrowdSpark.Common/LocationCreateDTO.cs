@@ -1,10 +1,8 @@
 ﻿using System;
 namespace CrowdSpark.Common
 {
-    public class LocationDTO
+    public class LocationCreateDTO
     {
-        public int Id { get; set; }
-
         public string City { get; set; }
 
         public string Country { get; set; }

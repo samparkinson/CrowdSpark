@@ -5,12 +5,16 @@ using System.Text;
 
 namespace CrowdSpark.Common
 {
-    public class CategoryDTO
+    public class AttachmentDTO
     {
         public int Id { get; set; }
 
+        public string Description { get; set; }
+
         [Required]
-        [StringLength(30)]
-        public string Name { get; set; }
+        public string Data { get; set; }
+
+        [Required]
+        public int Type { get; set; }
     }
 }

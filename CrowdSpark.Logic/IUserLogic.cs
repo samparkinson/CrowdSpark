@@ -20,9 +20,9 @@ namespace CrowdSpark.Logic
 
         Task<ResponseLogic> DeleteAsync(int userId);
 
-        Task<ResponseLogic> AddSkillAsync(int userId, Skill skill);
+        Task<ResponseLogic> AddSkillAsync(int userId, SkillDTO skill);
 
-        Task<ResponseLogic> RemoveSkillAsync(int userId, Skill skill);
+        Task<ResponseLogic> RemoveSkillAsync(int userId, SkillDTO skill);
 
     }
 }

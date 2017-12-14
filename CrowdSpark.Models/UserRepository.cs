@@ -25,7 +25,7 @@ namespace CrowdSpark.Models
                 Surname = user.Surname,
                 Mail = user.Mail,
                 LocationId = user.Location?.Id,
-                Skills = user.Skills,
+                Skills = EntityConversionHelper.ConvertSkillDTOsToSkills(user.Skills),
                 AzureUId = azureUIDd
             };
 
@@ -57,8 +57,8 @@ namespace CrowdSpark.Models
                 Firstname = user.Firstname,
                 Surname = user.Surname,
                 Mail = user.Mail,
-                Location = user.Location,
-                Skills = user.Skills
+                Location = (user.Location == null) ? null : new LocationDTO() { Id = user.Location.Id, City = user.Location.City, Country = user.Location.Country },
+                Skills = EntityConversionHelper.ConvertSkillsToSkillDTOs(user.Skills)
             };
         }
 
@@ -82,8 +82,8 @@ namespace CrowdSpark.Models
                 Firstname = user.Firstname,
                 Surname = user.Surname,
                 Mail = user.Mail,
-                Location = user.Location,
-                Skills = user.Skills
+                Location = (user.Location == null) ? null : new LocationDTO() { Id = user.Location.Id, City = user.Location.City, Country = user.Location.Country },
+                Skills = EntityConversionHelper.ConvertSkillsToSkillDTOs(user.Skills)
             };
         }
 
@@ -95,8 +95,8 @@ namespace CrowdSpark.Models
                                Firstname = u.Firstname,
                                Surname = u.Surname,
                                Mail = u.Mail,
-                               Location = u.Location,
-                               Skills = u.Skills
+                               Location = (u.Location == null) ? null : new LocationDTO() { Id = u.Location.Id, City = u.Location.City, Country = u.Location.Country },
+                               Skills = EntityConversionHelper.ConvertSkillsToSkillDTOs(u.Skills)
                            };
 
             return await users.ToListAsync();
@@ -110,9 +110,9 @@ namespace CrowdSpark.Models
             userToUpdate.Firstname = user.Firstname;
             userToUpdate.Surname = user.Surname;
             userToUpdate.Mail = user.Mail;
-            userToUpdate.LocationId = user.Location.Id;
-            userToUpdate.Location = user.Location;
-            userToUpdate.Skills = user.Skills;    
+            userToUpdate.LocationId = user.Location?.Id;
+            userToUpdate.Location = (user.Location == null) ? null : new Location() { Id = user.Location.Id, City = user.Location.City, Country = user.Location.Country };
+            userToUpdate.Skills = EntityConversionHelper.ConvertSkillDTOsToSkills(user.Skills);    
 
             return (await saveContextChanges() > 0);
         }

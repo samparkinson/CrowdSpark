@@ -12,7 +12,7 @@ namespace CrowdSpark.Common
 
         public string Description { get; set; }
 
-        public Location Location { get; set; }
+        public LocationDTO Location { get; set; }
 
         public ICollection<SkillDTO> Skills { get; set; }
 
