@@ -98,7 +98,7 @@
                             <ColumnDefinition Width="2*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="1" Background="#FF6C6C6C" HorizontalAlignment="Right" BorderBrush="Black" VerticalAlignment="Center">
+                        <Button Grid.Column="1" Background="#FF6C6C6C" Command="{Binding SignInOutCommand}" HorizontalAlignment="Right" BorderBrush="Black" VerticalAlignment="Center">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -121,7 +121,8 @@
                                 </Grid>
                             </Button>
 
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25,0" FontSize="24" Text="Loggen in as"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25,0,-20,0" FontSize="18" Text="Logged in as:"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25,0" FontSize="18" Text="{Binding UserName}"></TextBlock>
                         </StackPanel>
                     </Grid>
                 </Grid>

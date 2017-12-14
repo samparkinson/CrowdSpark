@@ -42,12 +42,7 @@ namespace CrowdSpark.App.Views
                 ? AppViewBackButtonVisibility.Visible
                 : AppViewBackButtonVisibility.Collapsed;
         }
-
-        private void AddProjectButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(AddProjectPage), CommonAttributes.account);
-        }
-
+       
         public void OptionsList_ItemClick(object sender, ItemClickEventArgs e)
         {
             //Convert e to MenuOption

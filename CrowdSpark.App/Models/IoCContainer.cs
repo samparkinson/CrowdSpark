@@ -26,7 +26,7 @@ namespace CrowdSpark.App.Models
 
             // logic
             services.AddScoped<IProjectAPI, ProjectAPI>();
-            services.AddScoped<ISparkAPI, SparkAPI>();
+            //services.AddScoped<ISparkAPI, SparkAPI>();
 
             return services.BuildServiceProvider();
         }
