@@ -286,6 +286,149 @@ namespace CrowdSpark.Logic.Tests
                 locationRepositoryMock.Verify(c => c.UpdateAsync(locationToUpdateWithChanges));
             }
         }
+
+        [Fact]
+        public async void RemoveWithObjectAsync_GivenLocationExistsAndInNoProjectsOrUsers_ReturnsSuccess()
+        {
+            var locationToDelete = new Location
+            {
+                Id = 1,
+                City = "Sydne",
+                Country = "Australia"
+            };
+
+            locationRepositoryMock.Setup(c => c.FindAsync(locationToDelete.Id)).ReturnsAsync(locationToDelete);
+            locationRepositoryMock.Setup(c => c.DeleteAsync(locationToDelete.Id)).ReturnsAsync(true);
+            projectRepositoryMock.Setup(p => p.ReadAsync()).ReturnsAsync(new ProjectSummaryDTO[] { });
+            userRepositoryMock.Setup(u => u.ReadAsync()).ReturnsAsync(new UserDTO[] { });
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.RemoveWithObjectAsync(locationToDelete);
+
+                Assert.Equal(ResponseLogic.SUCCESS, response);
+                locationRepositoryMock.Verify(c => c.FindAsync(locationToDelete.Id));
+                locationRepositoryMock.Verify(c => c.DeleteAsync(locationToDelete.Id));
+                projectRepositoryMock.Verify(p => p.ReadAsync());
+                userRepositoryMock.Verify(u => u.ReadAsync());
+            }
+        }
+
+        [Fact]
+        public async void RemoveWithObjectAsync_GivenLocationExistsAndInOneProjectOrUser_ReturnsSuccess()
+        {
+            var locationToDelete = new Location
+            {
+                Id = 1,
+                City = "Sydne",
+                Country = "Australia"
+            };
+
+            var projectsArray = new ProjectSummaryDTO[]
+            {
+                new ProjectSummaryDTO { Title = "Project1", LocationId = locationToDelete.Id }
+            };
+
+            locationRepositoryMock.Setup(c => c.FindAsync(locationToDelete.Id)).ReturnsAsync(locationToDelete);
+            locationRepositoryMock.Setup(c => c.DeleteAsync(locationToDelete.Id)).ReturnsAsync(true);
+            projectRepositoryMock.Setup(p => p.ReadAsync()).ReturnsAsync(projectsArray);
+            userRepositoryMock.Setup(u => u.ReadAsync()).ReturnsAsync(new UserDTO[] { });
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.RemoveWithObjectAsync(locationToDelete);
+
+                Assert.Equal(ResponseLogic.SUCCESS, response);
+                locationRepositoryMock.Verify(c => c.FindAsync(locationToDelete.Id));
+                locationRepositoryMock.Verify(c => c.DeleteAsync(locationToDelete.Id));
+                projectRepositoryMock.Verify(p => p.ReadAsync());
+                userRepositoryMock.Verify(u => u.ReadAsync());
+            }
+        }
+
+        [Fact]
+        public async void RemoveWithObjectAsync_GivenLocationExistsInMoreThanOneProjectAndUser_ReturnsSuccess()
+        {
+            var locationToDelete = new Location
+            {
+                Id = 1,
+                City = "Sydne",
+                Country = "Australia"
+            };
+
+            var projectsArray = new ProjectSummaryDTO[]
+            {
+                new ProjectSummaryDTO { Title = "Project1", LocationId = locationToDelete.Id },
+                new ProjectSummaryDTO { Title = "Project2", LocationId = locationToDelete.Id }
+            };
+
+            locationRepositoryMock.Setup(c => c.FindAsync(locationToDelete.Id)).ReturnsAsync(locationToDelete);
+            projectRepositoryMock.Setup(p => p.ReadAsync()).ReturnsAsync(projectsArray);
+            userRepositoryMock.Setup(u => u.ReadAsync()).ReturnsAsync(new UserDTO[] { });
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.RemoveWithObjectAsync(locationToDelete);
+
+                Assert.Equal(ResponseLogic.SUCCESS, response);
+                locationRepositoryMock.Verify(c => c.FindAsync(locationToDelete.Id));
+                locationRepositoryMock.Verify(c => c.DeleteAsync(It.IsAny<int>()), Times.Never());
+                projectRepositoryMock.Verify(p => p.ReadAsync());
+                userRepositoryMock.Verify(u => u.ReadAsync());
+            }
+        }
+
+        [Fact]
+        public async void RemoveWithObjectAsync_GivenDatabaseError_ReturnsERROR_DELETING()
+        {
+            var locationToDelete = new Location
+            {
+                Id = 1,
+                City = "Sydne",
+                Country = "Australia"
+            };
+
+            locationRepositoryMock.Setup(c => c.FindAsync(locationToDelete.Id)).ReturnsAsync(locationToDelete);
+            locationRepositoryMock.Setup(c => c.DeleteAsync(locationToDelete.Id)).ReturnsAsync(false);
+            projectRepositoryMock.Setup(p => p.ReadAsync()).ReturnsAsync(new ProjectSummaryDTO[] { });
+            userRepositoryMock.Setup(u => u.ReadAsync()).ReturnsAsync(new UserDTO[] { });
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.RemoveWithObjectAsync(locationToDelete);
+
+                Assert.Equal(ResponseLogic.ERROR_DELETING, response);
+                locationRepositoryMock.Verify(c => c.FindAsync(locationToDelete.Id));
+                locationRepositoryMock.Verify(c => c.DeleteAsync(locationToDelete.Id));
+                projectRepositoryMock.Verify(p => p.ReadAsync());
+                userRepositoryMock.Verify(u => u.ReadAsync());
+            }
+        }
+
+        [Fact]
+        public async void RemoveWithObjectAsync_GivenLocationDoesNotExist_ReturnsNOT_FOUND()
+        {
+            var locationToDelete = new Location
+            {
+                Id = 1,
+                City = "Sydne",
+                Country = "Australia"
+            };
+
+            locationRepositoryMock.Setup(l => l.FindAsync(locationToDelete.Id)).ReturnsAsync(default(Location));
+
+            using (var logic = new LocationLogic(locationRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.RemoveWithObjectAsync(locationToDelete);
+
+                Assert.Equal(ResponseLogic.NOT_FOUND, response);
+                locationRepositoryMock.Verify(c => c.FindAsync(locationToDelete.Id));
+                locationRepositoryMock.Verify(c => c.DeleteAsync(It.IsAny<int>()), Times.Never());
+                projectRepositoryMock.Verify(p => p.ReadAsync(), Times.Never());
+                userRepositoryMock.Verify(u => u.ReadAsync(), Times.Never());
+            }
+        }
+
         #endregion
     }
 }
