@@ -37,22 +37,42 @@ namespace CrowdSpark.Models
         public async Task<bool> DeleteAsync(int attachmentId)
         {
             var attachment = await _context.Attachments.FindAsync(attachmentId);
-            _context.Attachments.Remove(attachment);
+
+            if (attachment == null) return false;
+            else _context.Attachments.Remove(attachment);
 
             return ( await saveContextChanges() > 0 );
         }
 
-        public async Task<Attachment> FindAsync(int attachmentId)
+        public async Task<AttachmentDTO> FindAsync(int attachmentId)
         {
-            return await _context.Attachments.FindAsync(attachmentId);
+            var attachment =  await _context.Attachments.FindAsync(attachmentId);
+
+            if (attachment is null) return null;
+
+            return new AttachmentDTO()
+            {
+                Id = attachment.Id,
+                Description = attachment.Description,
+                Data = attachment.Data,
+                Type = attachment.Type
+            };
         }
 
-        public async Task<IReadOnlyCollection<Attachment>> ReadAsync()
+        public async Task<IReadOnlyCollection<AttachmentDTO>> ReadAsync()
         {
-            return await _context.Attachments.ToListAsync();
+            return await _context.Attachments
+                            .Select(a => new AttachmentDTO()
+                            {
+                                Id = a.Id,
+                                Description = a.Description,
+                                Data = a.Data,
+                                Type = a.Type
+                            })
+                            .ToArrayAsync();
         }
 
-        public async Task<bool> UpdateAsync(Attachment details)
+        public async Task<bool> UpdateAsync(AttachmentDTO details)
         {
             var attachmentToUpdate = await _context.Attachments.FindAsync(details.Id);
             _context.Attachments.Update(attachmentToUpdate);

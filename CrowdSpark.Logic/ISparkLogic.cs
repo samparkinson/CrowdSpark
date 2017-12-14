@@ -8,17 +8,17 @@ namespace CrowdSpark.Logic
 {
     public interface ISparkLogic : IDisposable
     {
-        Task<IEnumerable<Spark>> GetAsync();
+        Task<IEnumerable<SparkDTO>> GetAsync();
 
-        Task<Spark> GetAsync(int projectId, int userId);
+        Task<SparkDTO> GetAsync(int projectId, int userId);
 
-        Task<IEnumerable<Spark>> GetForProjectAsync(int projectId);
+        Task<IEnumerable<SparkDTO>> GetForProjectAsync(int projectId);
 
-        Task<IEnumerable<Spark>> GetForUserAsync(int userId);
+        Task<IEnumerable<SparkDTO>> GetForUserAsync(int userId);
 
-        Task<ResponseLogic> CreateAsync(SparkDTO spark);
+        Task<ResponseLogic> CreateAsync(int projectId, int userId);
 
-        Task<ResponseLogic> UpdateAsync(Spark spark);
+        Task<ResponseLogic> UpdateAsync(SparkDTO spark);
 
         Task<ResponseLogic> DeleteAsync(int projectId, int userId);
 

@@ -181,7 +181,7 @@ namespace CrowdSpark.Models.Tests
         public async void DeleteAsync_GivenAttachmentDoesNotExist_ReturnsFalse()
         { 
             //SanityCheck
-            Assert.NotNull(context.Attachments.Find(1));
+            Assert.Null(context.Attachments.Find(1));
 
             using (var repository = new AttachmentRepository(context))
             {

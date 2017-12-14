@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CrowdSpark.Common
 {
-    public class XXXXCategoryDTO
+    public class CategoryDTO
     {
         public int Id { get; set; }
 

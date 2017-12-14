@@ -41,27 +41,29 @@ namespace CrowdSpark.Models
             return ( await saveContextChanges() > 0 );
         }
 
-        public async Task<Category> FindAsync(int categoryId)
+        public async Task<CategoryDTO> FindAsync(int categoryId)
         {
-            return await _context.Categories.FindAsync(categoryId);
+            var category = await _context.Categories.FindAsync(categoryId);
+
+            return new CategoryDTO() { Id = category.Id, Name = category.Name};
         }
 
-        public async Task<Category> FindAsync(string searchString)
+        public async Task<CategoryDTO> FindAsync(string searchString)
         {
-            return await _context.Categories.Where(c => c.Name.ToLower() == searchString.ToLower()).FirstOrDefaultAsync();
+            return await _context.Categories.Where(c => c.Name.ToLower() == searchString.ToLower()).Select(c => new CategoryDTO() { Id = c.Id, Name = c.Name }).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Category>> FindWildcardAsync(string searchString)
+        public async Task<IEnumerable<CategoryDTO>> FindWildcardAsync(string searchString)
         {
-            return await _context.Categories.Where(c => c.Name.ToLower().Contains(searchString.ToLower())).ToArrayAsync();
+            return await _context.Categories.Where(c => c.Name.ToLower().Contains(searchString.ToLower())).Select(c => new CategoryDTO() { Id = c.Id, Name = c.Name }).ToArrayAsync();
         }
 
-        public async Task<IReadOnlyCollection<Category>> ReadAsync()
+        public async Task<IReadOnlyCollection<CategoryDTO>> ReadAsync()
         {
-            return await _context.Categories.OrderBy(item => item.Name).ToListAsync();
+            return await _context.Categories.OrderBy(item => item.Name).Select(c => new CategoryDTO() { Id = c.Id, Name = c.Name }).ToListAsync();
         }
 
-        public async Task<bool> UpdateAsync(Category details)
+        public async Task<bool> UpdateAsync(CategoryDTO details)
         {
             var categoryToUpdate = await _context.Categories.FindAsync(details.Id);
             _context.Categories.Update(categoryToUpdate);

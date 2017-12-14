@@ -48,7 +48,7 @@ namespace CrowdSpark.Logic.Tests
                 Name = "New Category"
             };
 
-            categoryRepositoryMock.Setup(c => c.FindAsync(categoryToCreate.Name)).ReturnsAsync(default(Category));
+            categoryRepositoryMock.Setup(c => c.FindAsync(categoryToCreate.Name)).ReturnsAsync(default(CategoryDTO));
             categoryRepositoryMock.Setup(c => c.CreateAsync(categoryToCreate)).ReturnsAsync(1);
 
             using (var logic = new CategoryLogic(categoryRepositoryMock.Object, projectRepositoryMock.Object))
@@ -69,7 +69,7 @@ namespace CrowdSpark.Logic.Tests
                 Name = "New Category"
             };
 
-            var existingCategory = new Category
+            var existingCategory = new CategoryDTO
             {
                 Id = 1,
                 Name = "New Category"
@@ -95,7 +95,7 @@ namespace CrowdSpark.Logic.Tests
                 Name = "New Category"
             };
 
-            categoryRepositoryMock.Setup(c => c.FindAsync(categoryToCreate.Name)).ReturnsAsync(default(Category));
+            categoryRepositoryMock.Setup(c => c.FindAsync(categoryToCreate.Name)).ReturnsAsync(default(CategoryDTO));
             categoryRepositoryMock.Setup(c => c.CreateAsync(categoryToCreate)).ReturnsAsync(0);
 
             using (var logic = new CategoryLogic(categoryRepositoryMock.Object, projectRepositoryMock.Object))
@@ -111,11 +111,11 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void FindAsync_GivenCategoriesExist_ReturnsEnumerableCategories()
         {
-            var categoriesToReturn = new Category[]
+            var categoriesToReturn = new CategoryDTO[]
             {
-                new Category { Id = 1, Name = "This is the first" },
-                new Category { Id = 2, Name = "This is the second" },
-                new Category { Id = 3, Name = "This is the third" }
+                new CategoryDTO { Id = 1, Name = "This is the first" },
+                new CategoryDTO { Id = 2, Name = "This is the second" },
+                new CategoryDTO { Id = 3, Name = "This is the third" }
             };
 
             categoryRepositoryMock.Setup(c => c.FindWildcardAsync("this")).ReturnsAsync(categoriesToReturn);
@@ -132,7 +132,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void FindExactAsync_GivenCategoryExists_ReturnsCategory()
         {
-            var categoryToReturn = new Category { Id = 1, Name = "This is the first" };
+            var categoryToReturn = new CategoryDTO { Id = 1, Name = "This is the first" };
 
             categoryRepositoryMock.Setup(c => c.FindAsync("This is the first")).ReturnsAsync(categoryToReturn);
 
@@ -148,11 +148,11 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void GetAsync_GivenCategoriesExist_ReturnsEnumerableCategories()
         {
-            var categoriesToReturn = new Category[]
+            var categoriesToReturn = new CategoryDTO[]
             {
-                new Category { Id = 1, Name = "This is the first" },
-                new Category { Id = 2, Name = "This is the second" },
-                new Category { Id = 3, Name = "This is the third" }
+                new CategoryDTO { Id = 1, Name = "This is the first" },
+                new CategoryDTO { Id = 2, Name = "This is the second" },
+                new CategoryDTO { Id = 3, Name = "This is the third" }
             };
 
             categoryRepositoryMock.Setup(c => c.ReadAsync()).ReturnsAsync(categoriesToReturn);
@@ -169,7 +169,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void GetAsync_GivenExistingCategoryId_ReturnsCategory()
         {
-            var categoryToReturn = new Category { Id = 3, Name = "This is a Category" };
+            var categoryToReturn = new CategoryDTO { Id = 3, Name = "This is a Category" };
 
             categoryRepositoryMock.Setup(c => c.FindAsync(3)).ReturnsAsync(categoryToReturn);
 
@@ -185,13 +185,13 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void UpdateAsync_GivenCategoryExists_ReturnsSuccess()
         {
-            var categoryToUpdate = new Category
+            var categoryToUpdate = new CategoryDTO
             {
                 Id = 1,
                 Name = "Category"
             };
 
-            var categoryToUpdateWithChanges = new Category
+            var categoryToUpdateWithChanges = new CategoryDTO
             {
                 Id = 1,
                 Name = "Category123"
@@ -213,13 +213,13 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void UpdateAsync_GivenCategoryDoesNotExist_ReturnsNOT_FOUND()
         {
-            var categoryToUpdateWithChanges = new Category
+            var categoryToUpdateWithChanges = new CategoryDTO
             {
                 Id = 1,
                 Name = "Category123"
             };
 
-            categoryRepositoryMock.Setup(c => c.FindAsync(categoryToUpdateWithChanges.Id)).ReturnsAsync(default(Category));
+            categoryRepositoryMock.Setup(c => c.FindAsync(categoryToUpdateWithChanges.Id)).ReturnsAsync(default(CategoryDTO));
 
             using (var logic = new CategoryLogic(categoryRepositoryMock.Object, projectRepositoryMock.Object))
             {
@@ -227,20 +227,20 @@ namespace CrowdSpark.Logic.Tests
 
                 Assert.Equal(ResponseLogic.NOT_FOUND, response);
                 categoryRepositoryMock.Verify(c => c.FindAsync(categoryToUpdateWithChanges.Id));
-                categoryRepositoryMock.Verify(c => c.UpdateAsync(It.IsAny<Category>()), Times.Never());
+                categoryRepositoryMock.Verify(c => c.UpdateAsync(It.IsAny<CategoryDTO>()), Times.Never());
             }
         }
 
         [Fact]
         public async void UpdateAsync_GivenErrorUpdating_ReturnsERROR_UPDATING()
         {
-            var categoryToUpdate = new Category
+            var categoryToUpdate = new CategoryDTO
             {
                 Id = 1,
                 Name = "Category"
             };
 
-            var categoryToUpdateWithChanges = new Category
+            var categoryToUpdateWithChanges = new CategoryDTO
             {
                 Id = 1,
                 Name = "Category123"
@@ -262,7 +262,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void RemoveAsync_GivenCategoryExistsAndInNoProjects_ReturnsSuccess()
         {
-            var categoryToDelete = new Category
+            var categoryToDelete = new CategoryDTO
             {
                 Id = 1,
                 Name = "Category"
@@ -286,7 +286,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void RemoveAsync_GivenCategoryExistsAndInOneProject_ReturnsSuccess()
         {
-            var categoryToDelete = new Category
+            var categoryToDelete = new CategoryDTO
             {
                 Id = 1,
                 Name = "Category"
@@ -315,7 +315,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void RemoveAsync_GivenCategoryExistsAndMoreThanOneProject_ReturnsSuccess()
         {
-            var categoryToDelete = new Category
+            var categoryToDelete = new CategoryDTO
             {
                 Id = 1,
                 Name = "Category"
@@ -344,7 +344,7 @@ namespace CrowdSpark.Logic.Tests
         [Fact]
         public async void RemoveAsync_GivenDatabaseError_ReturnsERROR_DELETING()
         {
-            var categoryToDelete = new Category
+            var categoryToDelete = new CategoryDTO
             {
                 Id = 1,
                 Name = "Category"
@@ -366,9 +366,31 @@ namespace CrowdSpark.Logic.Tests
         }
 
         [Fact]
+        public async void RemoveAsync_GivenCategoryDoesNotExist_ReturnsNOT_FOUND()
+        {
+            var categoryToDelete = new CategoryDTO
+            {
+                Id = 1,
+                Name = "Category"
+            };
+
+            categoryRepositoryMock.Setup(c => c.FindAsync(categoryToDelete.Id)).ReturnsAsync(default(CategoryDTO));
+
+            using (var logic = new CategoryLogic(categoryRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.RemoveAsync(categoryToDelete);
+
+                Assert.Equal(ResponseLogic.NOT_FOUND, response);
+                categoryRepositoryMock.Verify(c => c.FindAsync(categoryToDelete.Id));
+                categoryRepositoryMock.Verify(c => c.DeleteAsync(It.IsAny<int>()), Times.Never());
+                projectRepositoryMock.Verify(p => p.ReadAsync(), Times.Never());
+            }
+        }
+
+        [Fact]
         public async void DeleteAsync_GivenDatabaseError_ReturnsERROR_DELETING()
         {
-            var categoryToDelete = new Category
+            var categoryToDelete = new CategoryDTO
             {
                 Id = 1,
                 Name = "Category"

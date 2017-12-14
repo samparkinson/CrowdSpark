@@ -1,4 +1,4 @@
-﻿using CrowdSpark.Entitites;
+﻿using CrowdSpark.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +22,11 @@ namespace CrowdSpark.App.Models
 
         public int? LocationId { get; set; }
 
-        public Location Location { get; set; }
+        public LocationDTO Location { get; set; }
 
-        public ICollection<Skill> Skills { get; set; }
+        public ICollection<SkillDTO> Skills { get; set; }
 
-        public ICollection<Spark> Sparks { get; set; }
+        public ICollection<SparkDTO> Sparks { get; set; }
 
         public CurrentUser()
         {

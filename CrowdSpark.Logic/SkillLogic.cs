@@ -19,7 +19,7 @@ namespace CrowdSpark.Logic
             _projectRepository = projectRepository;
         }
 
-        public async Task<ResponseLogic> CreateAsync(Skill skill)
+        public async Task<ResponseLogic> CreateAsync(SkillCreateDTO skill)
         {
             var currentSkill = await _repository.FindAsync(skill.Name);
             if (currentSkill != null)
@@ -35,27 +35,27 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_CREATING;
         }
 
-        public async Task<IEnumerable<Skill>> FindAsync(string searchString)
+        public async Task<IEnumerable<SkillDTO>> FindAsync(string searchString)
         {
             return await _repository.FindWildcardAsync(searchString);
         }
 
-        public async Task<Skill> FindExactAsync(string searchString)
+        public async Task<SkillDTO> FindExactAsync(string searchString)
         {
             return await _repository.FindAsync(searchString);
         }
 
-        public async Task<IEnumerable<Skill>> GetAsync()
+        public async Task<IEnumerable<SkillDTO>> GetAsync()
         {
             return await _repository.ReadAsync();
         }
 
-        public async Task<Skill> GetAsync(int skillId)
+        public async Task<SkillDTO> GetAsync(int skillId)
         {
             return await _repository.FindAsync(skillId);
         }
 
-        public async Task<ResponseLogic> UpdateAsync(Skill skill)
+        public async Task<ResponseLogic> UpdateAsync(SkillDTO skill)
         {
             var currentSkill = await _repository.FindAsync(skill.Id);
 
@@ -75,7 +75,7 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_UPDATING;
         }
 
-        public async Task<ResponseLogic> RemoveWithObjectAsync(Skill skill)
+        public async Task<ResponseLogic> RemoveWithObjectAsync(SkillDTO skill)
         {
             var foundSkill = await _repository.FindAsync(skill.Id);
 

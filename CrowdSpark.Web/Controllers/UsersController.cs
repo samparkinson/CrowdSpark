@@ -144,7 +144,7 @@ namespace CrowdSpark.Web.Controllers
         //[HttpPost("skills{name}")]
         [Route("skills")] //NOTE,Is this to create a skill for the user or to create a new skill in our skill db??
         [HttpPost]
-        public async Task<IActionResult> PostSkill([FromBody]Skill skill)
+        public async Task<IActionResult> PostSkill([FromBody]SkillDTO skill)
         {
             if (!ModelState.IsValid)
             {

@@ -33,27 +33,27 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_CREATING;
         }
 
-        public async Task<IEnumerable<Category>> FindAsync(string searchString)
+        public async Task<IEnumerable<CategoryDTO>> FindAsync(string searchString)
         {
             return await _repository.FindWildcardAsync(searchString);
         }
 
-        public async Task<Category> FindExactAsync(string searchString)
+        public async Task<CategoryDTO> FindExactAsync(string searchString)
         {
             return await _repository.FindAsync(searchString);
         }
 
-        public async Task<IEnumerable<Category>> GetAsync()
+        public async Task<IEnumerable<CategoryDTO>> GetAsync()
         {
             return await _repository.ReadAsync();
         }
 
-        public async Task<Category> GetAsync(int categoryId)
+        public async Task<CategoryDTO> GetAsync(int categoryId)
         {
             return await _repository.FindAsync(categoryId);
         }
 
-        public async Task<ResponseLogic> UpdateAsync(Category category)
+        public async Task<ResponseLogic> UpdateAsync(CategoryDTO category)
         {
             var currentCategory = await _repository.FindAsync(category.Id);
 
@@ -71,7 +71,7 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_UPDATING;
         }
 
-        public async Task<ResponseLogic> RemoveAsync(Category category)
+        public async Task<ResponseLogic> RemoveAsync(CategoryDTO category)
         {
             var foundCategory = await _repository.FindAsync(category.Id);
 

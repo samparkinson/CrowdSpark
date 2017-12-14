@@ -15,14 +15,12 @@ namespace CrowdSpark.Logic
             _repository = repository;
         }
 
-        public async Task<ResponseLogic> CreateAsync(SparkDTO spark)
+        public async Task<ResponseLogic> CreateAsync(int projectId, int userId)
         {
-            var userId = 0; // TODO, get user id from auth
-
             //Check if already exists
-            if ((await _repository.FindAsync(spark.PId, userId)) != null) return ResponseLogic.SUCCESS;
+            if ((await _repository.FindAsync(projectId, userId)) != null) return ResponseLogic.SUCCESS;
 
-            if (_repository.CreateAsync(spark, userId) != null) return ResponseLogic.SUCCESS;
+            if (_repository.CreateAsync(projectId, userId) != null) return ResponseLogic.SUCCESS;
             else return ResponseLogic.ERROR_CREATING;
         }
 
@@ -34,29 +32,29 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_DELETING;
         }
 
-        public async Task<IEnumerable<Spark>> GetAsync()
+        public async Task<IEnumerable<SparkDTO>> GetAsync()
         {
             return await _repository.ReadAsync();
         }
 
-        public async Task<Spark> GetAsync(int projectId, int userId)
+        public async Task<SparkDTO> GetAsync(int projectId, int userId)
         {
             return await _repository.FindAsync(projectId, userId);
         }
 
-        public async Task<IEnumerable<Spark>> GetForProjectAsync(int projectId)
+        public async Task<IEnumerable<SparkDTO>> GetForProjectAsync(int projectId)
         {
             return await _repository.ReadForProjectAsync(projectId);
         }
 
-        public async Task<IEnumerable<Spark>> GetForUserAsync(int userId)
+        public async Task<IEnumerable<SparkDTO>> GetForUserAsync(int userId)
         {
             return await _repository.ReadForUserAsync(userId);
         }
 
-        public async Task<ResponseLogic> UpdateAsync(Spark spark)
+        public async Task<ResponseLogic> UpdateAsync(SparkDTO spark)
         {
-            var currentSpark = await _repository.FindAsync(spark.ProjectId, spark.UserId);
+            var currentSpark = await _repository.FindAsync(spark.PId, spark.UId);
 
             if (currentSpark is null)
             {
@@ -80,7 +78,7 @@ namespace CrowdSpark.Logic
 
             foreach (var spark in sparks)
             {
-                if (!await _repository.DeleteAsync(spark.ProjectId, spark.UserId)) return ResponseLogic.ERROR_DELETING;
+                if (!await _repository.DeleteAsync(spark.PId, spark.UId)) return ResponseLogic.ERROR_DELETING;
             }
 
             return ResponseLogic.SUCCESS;
@@ -92,7 +90,7 @@ namespace CrowdSpark.Logic
 
             foreach (var spark in sparks)
             {
-                if (!await _repository.DeleteAsync(spark.ProjectId, spark.UserId)) return ResponseLogic.ERROR_DELETING;
+                if (!await _repository.DeleteAsync(spark.PId, spark.UId)) return ResponseLogic.ERROR_DELETING;
             }
 
             return ResponseLogic.SUCCESS;

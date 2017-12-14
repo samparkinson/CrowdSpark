@@ -8,19 +8,19 @@ namespace CrowdSpark.Common
 {
     public interface ILocationRepository : IDisposable
     {
-        Task<int> CreateAsync(LocationDTO location);
+        Task<int> CreateAsync(LocationCreateDTO location);
      
-        Task<Location> FindAsync(int locationId);
+        Task<LocationDTO> FindAsync(int locationId);
 
-        Task<Location> FindAsync(string searchCity, string searchCountry);
+        Task<LocationDTO> FindAsync(string searchCity, string searchCountry);
 
-        Task<IEnumerable<Location>> FindWildcardAsync(string city, string country);
+        Task<IEnumerable<LocationDTO>> FindWildcardAsync(string city, string country);
 
-        Task<IEnumerable<Location>> FindWildcardAsync(string city);
+        Task<IEnumerable<LocationDTO>> FindWildcardAsync(string city);
 
-        Task<IReadOnlyCollection<Location>> ReadAsync();
+        Task<IReadOnlyCollection<LocationDTO>> ReadAsync();
 
-        Task<bool> UpdateAsync(Location details);
+        Task<bool> UpdateAsync(LocationDTO details);
 
         Task<bool> DeleteAsync(int locationId);
     }

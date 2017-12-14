@@ -53,7 +53,7 @@ namespace CrowdSpark.Web.Controllers
         [HttpPost]
         [Authorize]
         //     public async Task<IActionResult> Post([FromBody]CreateProjectDTO project)
-        public async Task<IActionResult> Post([FromBody]ProjectDTO project)
+        public async Task<IActionResult> Post([FromBody]CreateProjectDTO project)
         {
             if (!ModelState.IsValid)
             {
@@ -110,6 +110,18 @@ namespace CrowdSpark.Web.Controllers
                 return NotFound();
             }
             else return StatusCode(500);
+        }
+
+        [Authorize]
+        [HttpPost("{projectId}")]
+        public async Task<IActionResult> CreateSpark(int projectId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            throw new NotImplementedException();
         }
     }
 }

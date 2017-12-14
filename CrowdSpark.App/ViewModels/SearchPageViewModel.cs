@@ -1,6 +1,5 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.Common;
-using CrowdSpark.Entitites;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,13 +27,13 @@ namespace CrowdSpark.App.ViewModels
         {
             Results.Clear();
 
-            var _location = new Location { Id = 1, City = "Copenhagen", Country = "Denmark" };
+            var _location = new LocationDTO { Id = 1, City = "Copenhagen", Country = "Denmark" };
 
             var _dummyProjects = new List<ProjectDTO>();
 
             for (int i = 0; i < 20; i++)
             {
-                _dummyProjects.Add(new ProjectDTO { Id = i, Title = "Project " + i, Location = _location, Description = "Description " + i, Category = new Category { Name = "Programming" } });
+                _dummyProjects.Add(new ProjectDTO { Id = i, Title = "Project " + i, Location = _location, Description = "Description " + i, Category = new CategoryDTO { Name = "Programming" } });
             }
 
             foreach (var p in _dummyProjects)
@@ -49,13 +48,13 @@ namespace CrowdSpark.App.ViewModels
             Results.Clear();
             
             //for testing purposes
-            var _location = new Location { Id = 1, City = "Helsinki", Country = "Finland" };
+            var _location = new LocationDTO { Id = 1, City = "Helsinki", Country = "Finland" };
 
             var _dummyProjects = new List<ProjectDTO>();
 
             for (int i = 0; i < 20; i++)
             {
-                _dummyProjects.Add(new ProjectDTO { Id = i, Title = Query + " " + i, Location = _location, Description = "Description " + i, Category = new Category { Name = "Programming" } });
+                _dummyProjects.Add(new ProjectDTO { Id = i, Title = Query + " " + i, Location = _location, Description = "Description " + i, Category = new CategoryDTO { Name = "Programming" } });
             }
 
             foreach (var p in _dummyProjects)

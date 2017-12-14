@@ -39,7 +39,7 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void CreateAsync_GivenValidProject_ReturnsNewProjectID()
         {
-            var loc = new LocationDTO()
+            var loc = new LocationCreateDTO()
             {
                 City = "Copenhagen",
                 Country = "Denmark"
@@ -50,9 +50,8 @@ namespace CrowdSpark.Models.Tests
                 var id = await repo.CreateAsync(loc);
                 var location = await repo.FindAsync(id);
 
-                var project = new ProjectDTO
+                var project = new CreateProjectDTO
                 {
-                    Id = 0,
                     Title = "Super hot flaming bicycle",
                     Description = "This project is about creating the coolest bike ever.",
                     Location = location
@@ -69,7 +68,7 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void CreateAsync_GivenValidInformation_CheckIfProjectWasCreatedThenDelete()
         {
-            var loc = new LocationDTO()
+            var loc = new LocationCreateDTO()
             {
                 City = "Copenhagen",
                 Country = "Denmark"
@@ -80,9 +79,8 @@ namespace CrowdSpark.Models.Tests
                 var id = await repo.CreateAsync(loc);
                 var location = await repo.FindAsync(id);
 
-                var project = new ProjectDTO
+                var project = new CreateProjectDTO
                 {
-                    Id = 0,
                     Title = "Super hot flaming bicycle",
                     Description = "This project is about creating the coolest bike ever.",
                     Location = location

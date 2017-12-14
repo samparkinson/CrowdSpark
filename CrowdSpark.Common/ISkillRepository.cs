@@ -8,17 +8,17 @@ namespace CrowdSpark.Common
 {
     public interface ISkillRepository : IDisposable
     {
-        Task<int> CreateAsync(Skill skill);
+        Task<int> CreateAsync(SkillCreateDTO skill);
      
-        Task<Skill> FindAsync(int skillId);
+        Task<SkillDTO> FindAsync(int skillId);
 
-        Task<Skill> FindAsync(string skillName);
+        Task<SkillDTO> FindAsync(string skillName);
 
-        Task<IEnumerable<Skill>> FindWildcardAsync(string skillName);
+        Task<IEnumerable<SkillDTO>> FindWildcardAsync(string skillName);
 
-        Task<IReadOnlyCollection<Skill>> ReadAsync();
+        Task<IReadOnlyCollection<SkillDTO>> ReadAsync();
 
-        Task<bool> UpdateAsync(Skill details);
+        Task<bool> UpdateAsync(SkillDTO details);
 
         Task<bool> DeleteAsync(int skillId);
     }

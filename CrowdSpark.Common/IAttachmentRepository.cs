@@ -10,11 +10,11 @@ namespace CrowdSpark.Common
     {
         Task<int> CreateAsync(AttachmentCreateDTO attatchment);
      
-        Task<Attachment> FindAsync(int attachmentId);
+        Task<AttachmentDTO> FindAsync(int attachmentId);
 
-        Task<IReadOnlyCollection<Attachment>> ReadAsync();
+        Task<IReadOnlyCollection<AttachmentDTO>> ReadAsync();
 
-        Task<bool> UpdateAsync(Attachment details);
+        Task<bool> UpdateAsync(AttachmentDTO details);
 
         Task<bool> DeleteAsync(int attachmentId);
     }

@@ -8,19 +8,19 @@ namespace CrowdSpark.Logic
 {
     public interface ISkillLogic : IDisposable
     {
-        Task<IEnumerable<Skill>> GetAsync();
+        Task<IEnumerable<SkillDTO>> GetAsync();
 
-        Task<Skill> GetAsync(int skillId);
+        Task<SkillDTO> GetAsync(int skillId);
 
-        Task<IEnumerable<Skill>> FindAsync(string searchString);
+        Task<IEnumerable<SkillDTO>> FindAsync(string searchString);
 
-        Task<Skill> FindExactAsync(string searchString);
+        Task<SkillDTO> FindExactAsync(string searchString);
 
-        Task<ResponseLogic> CreateAsync(Skill skill);
+        Task<ResponseLogic> CreateAsync(SkillCreateDTO skill);
 
-        Task<ResponseLogic> UpdateAsync(Skill skill);
+        Task<ResponseLogic> UpdateAsync(SkillDTO skill);
 
-        Task<ResponseLogic> RemoveWithObjectAsync(Skill skill);
+        Task<ResponseLogic> RemoveWithObjectAsync(SkillDTO skill);
 
         Task<ResponseLogic> DeleteAsync(int skillId);
     }

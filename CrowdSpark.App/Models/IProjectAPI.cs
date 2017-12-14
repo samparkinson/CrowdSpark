@@ -11,10 +11,10 @@ namespace CrowdSpark.App.Models
 
         Task<IReadOnlyCollection<ProjectSummaryDTO>> GetBySearch(string searchString);
 
-        Task<IReadOnlyCollection<ProjectSummaryDTO>> GetByCategory(int categoryID);
+        Task<IReadOnlyCollection<ProjectSummaryDTO>> GetByCategory(int categoryId);
 
-        Task<ProjectDTO> Get(int projectID);
+        Task<ProjectDTO> Get(int projectId);
 
-        Task<bool> AddSkill(int projectID, string skill);
+        Task<bool> AddSkill(int projectId, string skill);
     }
 }

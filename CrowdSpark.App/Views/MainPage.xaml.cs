@@ -2,7 +2,7 @@
 using CrowdSpark.App.Models;
 using CrowdSpark.App.ViewModels;
 using CrowdSpark.App.Views;
-using CrowdSpark.Entitites;
+using CrowdSpark.Common;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using Windows.UI;
@@ -127,7 +127,7 @@ namespace CrowdSpark.App
         private void CategoriesListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             //Convert arg into projects
-            var clickedCategory = (Category)e.ClickedItem;
+            var clickedCategory = (CategoryDTO)e.ClickedItem;
             Frame.Navigate(typeof(SearchPage), clickedCategory.Name);
         }
     }
