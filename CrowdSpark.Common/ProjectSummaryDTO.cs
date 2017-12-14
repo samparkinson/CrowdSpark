@@ -17,6 +17,6 @@ namespace CrowdSpark.Common
 
         public int? LocationId { get; set; }
 
-        public Category Category { get; set; }
+        public CategoryDTO Category { get; set; }
     }
 }

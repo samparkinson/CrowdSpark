@@ -37,7 +37,14 @@ namespace CrowdSpark.App.Models
 
         public async Task<IReadOnlyCollection<ProjectSummaryDTO>> GetBySearch(string searchString)
         {
-            throw new NotImplementedException();
+            var response = await _client.GetAsync($"api/projects?search={searchString}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.To<IReadOnlyCollection<ProjectSummaryDTO>>();
+            }
+
+            return new List<ProjectSummaryDTO>().AsReadOnly();
         }
 
         public Task<IReadOnlyCollection<ProjectSummaryDTO>> GetByCategory(int categoryID)
