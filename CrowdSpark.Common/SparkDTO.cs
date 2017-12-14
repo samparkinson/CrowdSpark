@@ -11,6 +11,12 @@ namespace CrowdSpark.Common
         public int PId { get; set; }
 
         [Required]
+        public int UId { get; set; }
+
+        [Required]
+        public int Status { get; set; }
+
+        [Required]
         public DateTime CreatedDate { get; set; }
     }
 }

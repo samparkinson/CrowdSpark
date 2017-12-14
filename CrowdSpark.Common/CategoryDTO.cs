@@ -5,10 +5,8 @@ using System.Text;
 
 namespace CrowdSpark.Common
 {
-    public class XXXXSkillDTO
+    public class CategoryDTO
     {
-        public int Id { get; set; }
-
         [Required]
         [StringLength(30)]
         public string Name { get; set; }

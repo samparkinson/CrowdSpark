@@ -111,5 +111,17 @@ namespace CrowdSpark.Web.Controllers
             }
             else return StatusCode(500);
         }
+
+        [Authorize]
+        [HttpPost("{projectId}")]
+        public async Task<IActionResult> CreateSpark(int projectId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            throw new NotImplementedException();
+        }
     }
 }
