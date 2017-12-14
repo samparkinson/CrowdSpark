@@ -14,11 +14,11 @@ namespace CrowdSpark.Common
 
         public Location Location { get; set; }
 
-        public ICollection<Skill> Skills { get; set; }
+        public ICollection<SkillDTO> Skills { get; set; }
 
-        public ICollection<Spark> Sparks { get; set; }
+        public ICollection<SparkDTO> Sparks { get; set; }
 
-        public Category Category { get; set; }
+        public CategoryDTO Category { get; set; }
 
         public DateTime CreatedDate { get; set; }
     }
