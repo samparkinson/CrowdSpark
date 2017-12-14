@@ -52,7 +52,7 @@ namespace CrowdSpark.Web.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetToken()
+        public IActionResult GetToken()
         {
             return Ok(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
@@ -81,6 +81,7 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // PUT api/users/
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]UserDTO user)
         {
@@ -105,6 +106,7 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // DELETE api/users/
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete()
         {
@@ -114,7 +116,7 @@ namespace CrowdSpark.Web.Controllers
 
             if (success == ResponseLogic.SUCCESS)
             {
-                return NoContent();
+                return Ok();
             }
             else if (success == ResponseLogic.NOT_FOUND)
             {
@@ -164,6 +166,4 @@ namespace CrowdSpark.Web.Controllers
             else return StatusCode(500);
         }
     }
-
-
 }

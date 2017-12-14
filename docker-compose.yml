@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  crowdsparkserver:
+  crowdspark:
     image: crowdspark
     build:
-      context: ./CrowdSpark
+      context: ./CrowdSpark.Web
       dockerfile: Dockerfile

@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using CrowdSpark.Web.Models;
+using Microsoft.AspNetCore.Http;
 using CrowdSpark.Common;
 using CrowdSpark.Logic;
+using Microsoft.AspNetCore.Authorization;
 
-namespace CrowdSpark.Controllers
+namespace CrowdSpark.Web.Controllers
 {
     [Produces("application/json")]
-    [Route("api/projects/[controller]")]
+    [Route("api/projects")]
     public class ProjectsController : Controller
     {
         private readonly IProjectLogic _logic;
@@ -47,6 +51,8 @@ namespace CrowdSpark.Controllers
 
         // POST api/projects
         [HttpPost]
+        [Authorize]
+        //     public async Task<IActionResult> Post([FromBody]CreateProjectDTO project)
         public async Task<IActionResult> Post([FromBody]ProjectDTO project)
         {
             if (!ModelState.IsValid)
@@ -60,6 +66,7 @@ namespace CrowdSpark.Controllers
         }
 
         // PUT api/projects/42
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody]ProjectSummaryDTO project)
         {
@@ -77,7 +84,7 @@ namespace CrowdSpark.Controllers
 
             if (success == ResponseLogic.SUCCESS)
             {
-                return NoContent();
+                return Ok();
             }
             else if (success == ResponseLogic.NOT_FOUND)
             {
@@ -87,14 +94,16 @@ namespace CrowdSpark.Controllers
         }
 
         // DELETE api/projects/42
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            // TODO check that the signed in user has permission
             var success = await _logic.DeleteAsync(id);
 
             if (success == ResponseLogic.SUCCESS)
             {
-                return NoContent();
+                return Ok();
             }
             else if (success == ResponseLogic.NOT_FOUND)
             {
