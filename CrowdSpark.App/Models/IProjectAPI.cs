@@ -19,6 +19,8 @@ namespace CrowdSpark.App.Models
 
         Task<bool> Update(int projectId, ProjectSummaryDTO project);
 
-        Task<bool> AddSkill(int projectId, string skill);
+        Task<bool> AddSkill(int projectId, SkillCreateDTO skill);
+
+        Task<IReadOnlyCollection<SkillDTO>> GetSkills(int projectId);
     }
 }

@@ -85,9 +85,23 @@ namespace CrowdSpark.App.Models
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> AddSkill(int projectID, string skill)
+        public async Task<bool> AddSkill(int projectId, SkillCreateDTO skill)
         {
-            throw new NotImplementedException();
+            var response = await _client.PostAsync($"api/projects/skills/{projectId}", skill.ToHttpContent());
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<IReadOnlyCollection<SkillDTO>>GetSkills(int projectId)
+        {   
+            var response = await _client.GetAsync($"api/projects/skills/{projectId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.To<IReadOnlyCollection<SkillDTO>>();
+            }
+
+            return new List<SkillDTO>().AsReadOnly();
         }
 
         #region IDisposable Support
