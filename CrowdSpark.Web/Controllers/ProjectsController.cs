@@ -138,6 +138,23 @@ namespace CrowdSpark.Web.Controllers
         }
 
         [Authorize]
+        [Route("skills")]
+        [HttpPost("{projectId}")]
+        public async Task<IActionResult> AddSkill(int projectId, [FromBody] SkillCreateDTO skill)
+        {
+            // if skill.Name does not exist in Skill DB, create new SkillDTO with new Id;
+            throw new NotImplementedException();
+        }
+
+        [Route("skills")]
+        [HttpGet("{projectId}")]
+        public async Task<IActionResult> GetSkills(int projectId)
+        {
+            throw new NotImplementedException();
+            //return Ok(new SkillDTO());
+        }
+
+        [Authorize]
         [HttpPost("{projectId}")]
         public async Task<IActionResult> CreateSpark(int projectId)
         {
