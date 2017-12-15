@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using CrowdSpark.Common;
 
 namespace CrowdSpark.App.Models
 {
@@ -22,6 +23,42 @@ namespace CrowdSpark.App.Models
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             _client = client;
+        }
+
+        public async Task<UserDTO> Get(int userId)
+        {
+            var response = await _client.GetAsync($"api/v1/users/{userId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.To<UserDTO>();
+            }
+
+            return null;
+        }
+
+        public async Task<bool> Create(UserDTO user)
+        {
+            var response = await _client.PostAsync("api/v1/users", user.ToHttpContent());
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> Update(UserDTO user)
+        {
+            var response = await _client.PutAsync("api/v1/users", user.ToHttpContent());
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> AddSkill(SkillCreateDTO skill)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IReadOnlyCollection<SkillDTO>> GetSkills()
+        {
+            throw new NotImplementedException();
         }
 
         #region IDisposable Support
