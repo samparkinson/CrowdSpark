@@ -155,6 +155,7 @@ namespace CrowdSpark.Web.Controllers
         }
 
         [Authorize]
+        [Route("spark")]
         [HttpPost("{projectId}")]
         public async Task<IActionResult> CreateSpark(int projectId)
         {

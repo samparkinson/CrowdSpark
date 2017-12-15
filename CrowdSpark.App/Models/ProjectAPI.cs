@@ -104,6 +104,13 @@ namespace CrowdSpark.App.Models
             return new List<SkillDTO>().AsReadOnly();
         }
 
+        public async Task<bool> CreateSpark(int projectId)
+        {
+            var response = await _client.PostAsync($"api/v1/projects/spark/{projectId}", null);
+
+            return response.IsSuccessStatusCode;
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
