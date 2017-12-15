@@ -50,8 +50,8 @@ namespace CrowdSpark.Web.Controllers
         }
 
         
-        [HttpGet("{searchString}")]
-        public async Task<IActionResult> GetFromSearch(string searchString)
+        [HttpGet("{searchString}", Name = "search")]
+        public async Task<IActionResult> GetFromSearch([FromQuery] string searchString)
         {
             var projects = await _logic.SearchAsync(searchString);
 
@@ -62,8 +62,8 @@ namespace CrowdSpark.Web.Controllers
             else return Ok(projects);
         }
 
-        [HttpGet("{categoryId}")]
-        public async Task<IActionResult> GetForCategory(int categoryId)
+        [HttpGet("{categoryId}", Name = "category")]
+        public async Task<IActionResult> GetFromCategory([FromQuery] int categoryId)
         {
             var projects = await _logic.SearchAsync(categoryId);
 
