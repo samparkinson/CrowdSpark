@@ -1,9 +1,11 @@
 ﻿using CrowdSpark.App.Helpers;
+using CrowdSpark.App.Models;
 using CrowdSpark.Common;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -34,7 +36,39 @@ namespace CrowdSpark.App.ViewModels
 
         public ICollection<SparkDTO> _sparks;
         public ICollection<SparkDTO> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
+
+        //Command to initialize the login on app opening
+        private ICommand SignInCommand { get; set; }
+
+        private readonly IAuthenticationHelper helper;
         
+        public ProjectPageViewModel(IAuthenticationHelper _helper)
+        {
+            helper = _helper;
+
+            SignInOutCommand = new RelayCommand(async o =>
+            {
+                if (account != null)
+                {
+                    await helper.SignOutAsync(account);
+                    account = null;
+                    SignInOutButtonText = "Sign In";
+                }
+                else
+                {
+                    account = await helper.SignInAsync();
+                    if (account != null)
+                    {
+                        CommonAttributes.account = account;
+
+                        UserName = account.UserName;
+
+                        SignInOutButtonText = "Sign Out";
+                    }
+                }
+            });
+        }
+
         public void Initialize(ProjectViewModel projectViewModel)
         {
             Id = projectViewModel.Id;

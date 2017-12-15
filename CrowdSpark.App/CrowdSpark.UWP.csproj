@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Converters\BorderConverter.cs" />
     <Compile Include="Converters\CountryFlagConverter.cs" />
+    <Compile Include="Converters\ItemAvailableConverter.cs" />
     <Compile Include="Converters\SignInOutButtonConverter.cs" />
     <Compile Include="Helpers\CommonAttributes.cs" />
     <Compile Include="Helpers\IAppPage.cs" />

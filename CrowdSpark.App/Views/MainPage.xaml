@@ -11,7 +11,8 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <c:SignInOutButtonConverter x:Key="SignInOutButtonConverter"></c:SignInOutButtonConverter>
+        <c:SignInOutButtonConverter x:Key="SignInOutButtonConverter"/>
+        <c:ItemAvailableConverter x:Key="ItemAvailableConverter"/>
     </Page.Resources>
     
     <SplitView x:Name="MainSplitView" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">
@@ -51,8 +52,8 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="80"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <StackPanel Orientation="Horizontal" Grid.Row="0">
@@ -67,8 +68,8 @@
                             <Button Background="Transparent" CommandParameter="{Binding ElementName=RecentTab, Path=Name}" Command="{Binding RepopulateContentCommand}" Click="RecentTabButton_Click" HorizontalAlignment="Left">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="Recent" Grid.Column="1" Margin="10,0,0,0" />
                                     <SymbolIcon Symbol="Calendar" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -81,8 +82,8 @@
                             <Button Background="Transparent" CommandParameter="{Binding ElementName=RecentTab, Path=Name}" Command="{Binding RepopulateContentCommand}"  Click="CategoriesTabButton_Click" HorizontalAlignment="Center">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="Categories" Grid.Column="1" Margin="10,0,0,0" />
                                     <SymbolIcon Symbol="ViewAll" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -94,36 +95,37 @@
                     <!--Add Project and sign out Button-->
                     <Grid Grid.Column="1" BorderThickness="2" HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="5*"></ColumnDefinition>
-                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
 
                         <Button Grid.Column="1" Background="#FF6C6C6C" Command="{Binding SignInOutCommand}" HorizontalAlignment="Right" BorderBrush="Black" VerticalAlignment="Center">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <!--{Binding SignInOutButtonText}-->
-                                <TextBlock x:Name="SignInOutButtonTextBlock" VerticalAlignment="Center" Text="{Binding SignInOutButtonText,  UpdateSourceTrigger = PropertyChanged, Mode=OneWay}" Grid.Column="0"/>
+                                <TextBlock x:Name="SignInOutButtonTextBlock" Text="{Binding SignInOutButtonText}"  VerticalAlignment="Center" Grid.Column="0"></TextBlock>
                                 <Image Height="30" Width="30" Source="{Binding ElementName=SignInOutButtonTextBlock, Path=Text, Converter={StaticResource SignInOutButtonConverter}}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="0">
-                            <Button Click="AddProjectButton_Click" Background="#FF6C6C6C" HorizontalAlignment="Left" BorderBrush="Black" VerticalAlignment="Center">
+                            <Button Click="AddProjectButton_Click" Background="#FF6C6C6C" IsEnabled="{Binding ElementName=SignInOutButtonTextBlock, Path=Text, Converter={StaticResource ItemAvailableConverter}}" HorizontalAlignment="Left" BorderBrush="Black" VerticalAlignment="Center">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="Add Project" Grid.Column="0"/>
                                     <SymbolIcon Symbol="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                 </Grid>
                             </Button>
 
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25,0,-20,0" FontSize="18" Text="Logged in as:"></TextBlock>
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25,0" FontSize="18" Text="{Binding UserName}"></TextBlock>
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding ElementName=SignInOutButtonTextBlock, Path=Text, Converter={StaticResource ItemAvailableConverter}}">
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25,0,-20,0" FontSize="18" Text="Logged in as:"/>
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25,0" FontSize="18" Text="{Binding UserName}"/>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
                 </Grid>

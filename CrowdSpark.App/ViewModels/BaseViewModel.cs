@@ -9,7 +9,6 @@ namespace CrowdSpark.App.ViewModels
 {
     class BaseViewModel : INotifyPropertyChanged
     {
-        //what is this??? --Ken
         public event PropertyChangedEventHandler PropertyChanged;
 
         //Options for hamburger menu, every page has a hamburger menu
@@ -26,10 +25,23 @@ namespace CrowdSpark.App.ViewModels
         public WebAccount account { get; set; }
         
         //set button text on top left, Sign In as default
-        public string SignInOutButtonText { get; set; }
+        private string _signInOutButtonText;
+        public string SignInOutButtonText {
+            get { return _signInOutButtonText; }
+            set {
+                _signInOutButtonText = value;
+                OnPropertyChanged();
+            }
+        }
 
         //store user name
-        public string UserName { get; set; }
+        private string _userName;
+        public string UserName {
+            get { return _userName; }
+            set {
+                _userName = value;
+                OnPropertyChanged();
+            } }
 
         public void OnPropertyChanged([CallerMemberName]string propertyName = null)
         {
