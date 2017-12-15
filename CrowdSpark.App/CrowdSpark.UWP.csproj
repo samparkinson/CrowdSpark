@@ -110,11 +110,11 @@
     <Compile Include="Models\IAuthenticationHelper.cs" />
     <Compile Include="Models\IProjectAPI.cs" />
     <Compile Include="Models\ISettings.cs" />
-    <Compile Include="Models\ISparkAPI.cs" />
+    <Compile Include="Models\IUserAPI.cs" />
     <Compile Include="Models\ProjectAPI.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\IoCContainer.cs" />
-    <Compile Include="Models\SparkAPI.cs" />
+    <Compile Include="Models\UserAPI.cs" />
     <Compile Include="ViewModels\AddProjectPageViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\UserPageViewModel.cs" />

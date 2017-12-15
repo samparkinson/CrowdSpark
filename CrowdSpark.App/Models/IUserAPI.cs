@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CrowdSpark.Common;
 
 namespace CrowdSpark.App.Models
 {
-    public interface ISparkAPI : IDisposable
+    public interface IUserAPI : IDisposable
     {
-        Task<IReadOnlyCollection<SparkDTO>> GetSparks();
+
     }
 }

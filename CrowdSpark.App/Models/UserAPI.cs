@@ -5,15 +5,14 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using CrowdSpark.Common;
 
 namespace CrowdSpark.App.Models
 {
-    public class SparkAPI : ISparkAPI
+    public class UserAPI : IUserAPI
     {
         private readonly HttpClient _client;
 
-        public SparkAPI(ISettings settings, DelegatingHandler handler)
+        public UserAPI(ISettings settings, DelegatingHandler handler)
         {
             var client = new HttpClient(handler)
             {
@@ -23,10 +22,6 @@ namespace CrowdSpark.App.Models
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             _client = client;
-        }
-        public Task<IReadOnlyCollection<SparkDTO>> GetSparks()
-        {
-            throw new NotImplementedException();
         }
 
         #region IDisposable Support
@@ -49,7 +44,7 @@ namespace CrowdSpark.App.Models
         }
 
         // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~SparkAPI() {
+        // ~UserAPI() {
         //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
         //   Dispose(false);
         // }
@@ -63,7 +58,6 @@ namespace CrowdSpark.App.Models
             // GC.SuppressFinalize(this);
         }
         #endregion
-
 
     }
 }
