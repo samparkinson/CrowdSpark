@@ -17,8 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CrowdSpark.Common\CrowdSpark.Common.csproj" />
-    <ProjectReference Include="..\CrowdSpark.Entitites\CrowdSpark.Entitites.csproj" />
     <ProjectReference Include="..\CrowdSpark.Logic\CrowdSpark.Logic.csproj" />
     <ProjectReference Include="..\CrowdSpark.Models\CrowdSpark.Models.csproj" />
   </ItemGroup>
