@@ -1,7 +1,6 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.Models;
 using CrowdSpark.Common;
-using CrowdSpark.Entitites;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -16,10 +15,32 @@ namespace CrowdSpark.App.ViewModels
 
         //get values from db
         //projects list
-        public ObservableCollection<ProjectViewModel> Content { get; set; }
+        private ObservableCollection<ProjectViewModel> _content;
+        public ObservableCollection<ProjectViewModel> Content {
+            get
+            {
+                return _content;
+            }
+            set
+            {
+                _content = value;
+                OnPropertyChanged();
+            }
+        }
 
         //categories list
-        public ObservableCollection<Category> Categories { get; set; }
+        private ObservableCollection<CategoryDTO> _categories;
+        public ObservableCollection<CategoryDTO> Categories {
+            get
+            {
+                return _categories;
+            }
+            set
+            {
+                _categories = value;
+                OnPropertyChanged();
+            }
+        }
 
         //To set the height of scroll view
         public int ScrollViewHeight { get; set; }
@@ -36,15 +57,12 @@ namespace CrowdSpark.App.ViewModels
         
         public MainPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI)
         {
-            //init the helper
             helper = _helper;
-           
+
             //recently implemented juicy api
             projectAPI = _projectAPI;
             
-            Content = new ObservableCollection<ProjectViewModel>();
-            
-            Categories = new ObservableCollection<Category>();
+            Categories = new ObservableCollection<CategoryDTO>();
             
             //pop up the login screen if user is not logged in
             //called only on startup
@@ -52,6 +70,8 @@ namespace CrowdSpark.App.ViewModels
             {
                 if (account == null)
                 {
+                    SignInOutButtonText = "Sign In";
+                    
                     account = await helper.SignInAsync();
 
                     if (account != null)
@@ -63,7 +83,7 @@ namespace CrowdSpark.App.ViewModels
                         UserName = account.UserName;
                         //await GetRecentProjects();
 
-                        SignInOutButtonText = "Sign In";
+                        SignInOutButtonText = "Sign Out";
                     }
                 }
                 else
@@ -77,22 +97,19 @@ namespace CrowdSpark.App.ViewModels
             
             SignInOutCommand = new RelayCommand(async o =>
             {
+                //sign out
                 if (account != null)
                 {
                     await helper.SignOutAsync(account);
                     account = null;
                     Content.Clear();
                     SignInOutButtonText = "Sign In";
-                    
-                    Debug.WriteLine("Signed out!");
                 }
-                else
+                else //sign in
                 {
                     account = await helper.SignInAsync();
                     if (account != null)
                     {
-                        Debug.WriteLine("Sign in successfull!");
-
                         //initDummyProjects();
 
                         await GetRecentProjects();
@@ -114,7 +131,8 @@ namespace CrowdSpark.App.ViewModels
                     case "Recent":
                         if (account != null)
                         {
-                            await GetRecentProjects();
+                            initDummyProjects();
+                            //await GetRecentProjects();
                         }
                         else
                         {
@@ -133,20 +151,18 @@ namespace CrowdSpark.App.ViewModels
                         break;
                 }
             });
-
-            MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
-
-            ScrollViewHeight = Content.Count * 60;
             
+            //pop up sign in page on startup
             SignInCommand.Execute(null);
 
             //Store the stuff in a static class
-            CommonAttributes.MenuOptions = MenuOptions;
+            MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
+            CommonAttributes.MenuOptions = MenuOptions;   
         }
 
         public async Task GetRecentProjects()
         {
-            Content.Clear();
+            //Content.Clear();
             account = await helper.GetAccountAsync();
             
             if (account != null)
@@ -174,7 +190,7 @@ namespace CrowdSpark.App.ViewModels
                 var categories = await projectAPI.GetAll();
 
                 //TODO: change to category
-                foreach (var category in categories.Select(c => new Category { Name = c.Title }))
+                foreach (var category in categories.Select(c => new CategoryDTO { Name = c.Title }))
                 {
                     Categories.Add(category);
                 }
@@ -185,32 +201,35 @@ namespace CrowdSpark.App.ViewModels
         {
             Categories.Clear();
 
-            var category = new Category { Name="Programming", Id=0};
+            var category = new CategoryDTO { Name="Programming", Id=0};
 
             for (int i = 0; i < 20; i++)
             {
-                Categories.Add(new Category { Name = "Cat " + i, Id = i });
+                Categories.Add(new CategoryDTO { Name = "Cat " + i, Id = i });
             }
         }
 
         
         private void initDummyProjects()
         {
-            Content.Clear();
-
-            var _location = new Location { Id = 1, City = "Copenhagen", Country = "Denmark" };
+            Content = null;
+            Content = new ObservableCollection<ProjectViewModel>();
+            
+            var _location = new LocationDTO { Id = 1, City = "Copenhagen", Country = "Denmark" };
 
             var _dummyProjects = new List<ProjectDTO>();
             
             for (int i = 0; i < 20; i++)
             {
-                _dummyProjects.Add(new ProjectDTO { Id = i, Title = "Project " + i, Location = _location, Description = "Description " + i, Category = new Category { Name = "Programming" } });
+                _dummyProjects.Add(new ProjectDTO { Title = "Project " + i, Location = _location, Description = "Description " + i, Category = new CategoryDTO { Name = "Programming" } });
             }
-
+            
             foreach (var p in _dummyProjects)
             {
                 Content.Add(new ProjectViewModel(p));
             }
+
+            ScrollViewHeight = Content.Count * 60;
         }
     }
 }
