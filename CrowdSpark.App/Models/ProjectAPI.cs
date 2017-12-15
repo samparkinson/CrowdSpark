@@ -78,6 +78,13 @@ namespace CrowdSpark.App.Models
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<bool> Update(int projectId, ProjectSummaryDTO project)
+        {
+            var response = await _client.PutAsync($"api/projects/{projectId}", project.ToHttpContent());
+
+            return response.IsSuccessStatusCode;
+        }
+
         public async Task<bool> AddSkill(int projectID, string skill)
         {
             throw new NotImplementedException();
