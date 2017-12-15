@@ -67,6 +67,22 @@ namespace CrowdSpark.Models
             };
         }
 
+        public async Task<IEnumerable<ProjectSummaryDTO>> SearchAsync(string searchString)
+        {
+            var projects = from p in _context.Projects
+                           where (p.Title.ToLower().Contains(searchString.ToLower()) || p.Description.ToLower().Contains(searchString.ToLower()))
+                           select new ProjectSummaryDTO
+                           {
+                               Id = p.Id,
+                               Title = p.Title,
+                               Description = p.Description,
+                               LocationId = p.LocationId,
+                               Category = (p.Category == null) ? null : new CategoryDTO() { Id = p.Category.Id, Name = p.Category.Name }
+                           };
+
+            return await projects.ToListAsync();
+        }
+
         public async Task<IReadOnlyCollection<ProjectSummaryDTO>> ReadAsync()
         {
             var projects = from p in _context.Projects
