@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace CrowdSpark.Web.Controllers
 {
     [Produces("application/json")]
-    [Route("api/users")]
+    [Route("api/v1/users")]
     public class UsersController : Controller
     {
         class UserIdentity : IdentityUser
@@ -31,14 +31,14 @@ namespace CrowdSpark.Web.Controllers
             _userLogic = userLogic;
         }
 
-        // GET api/users
+        // GET api/v1/users
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             return Ok(await _userLogic.GetAsync()); // users can never be null as calling user must be logged in, thus in the db
         }
 
-        // GET api/users/5
+        // GET api/v1/users/5
         [HttpGet("{id}")]
         [Authorize]
         public async Task<IActionResult> Get(int id)
@@ -58,7 +58,7 @@ namespace CrowdSpark.Web.Controllers
         }
 
 
-        // POST api/users
+        // POST api/v1/users
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]UserDTO user)
         {
@@ -80,7 +80,7 @@ namespace CrowdSpark.Web.Controllers
             else return StatusCode(500);
         }
 
-        // PUT api/users/
+        // PUT api/v1/users/
         [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]UserDTO user)
@@ -105,7 +105,7 @@ namespace CrowdSpark.Web.Controllers
             else return StatusCode(500);
         }
 
-        // DELETE api/users/
+        // DELETE api/v1/users/
         [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete()
@@ -125,7 +125,7 @@ namespace CrowdSpark.Web.Controllers
             else return StatusCode(500);
         }
 
-        // GET api/users/skills
+        // GET api/v1/users/skills
         [Route("skills")]
         [HttpGet]
         public async Task<IActionResult> GetSkills()

@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace CrowdSpark.Web.Controllers
 {
     [Produces("application/json")]
-    [Route("api/projects")]
+    [Route("api/v1/projects")]
     public class ProjectsController : Controller
     {
         private readonly IProjectLogic _logic;
@@ -23,7 +23,7 @@ namespace CrowdSpark.Web.Controllers
             _logic = logic;
         }
 
-        // GET api/projects
+        // GET api/v1/projects
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -36,7 +36,7 @@ namespace CrowdSpark.Web.Controllers
             else return Ok(projects);
         }
 
-        // GET api/projects/42
+        // GET api/v1/projects/42
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -74,7 +74,7 @@ namespace CrowdSpark.Web.Controllers
             else return Ok(projects);
         }
 
-        // POST api/projects
+        // POST api/v1/projects
         [HttpPost]
         [Authorize]
         //     public async Task<IActionResult> Post([FromBody]CreateProjectDTO project)
@@ -90,7 +90,7 @@ namespace CrowdSpark.Web.Controllers
             return CreatedAtAction(nameof(Get), new {projectId}, null);
         }
 
-        // PUT api/projects/42
+        // PUT api/v1/projects/42
         [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody]ProjectSummaryDTO project)
@@ -118,7 +118,7 @@ namespace CrowdSpark.Web.Controllers
             else return StatusCode(500);
         }
 
-        // DELETE api/projects/42
+        // DELETE api/v1/projects/42
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

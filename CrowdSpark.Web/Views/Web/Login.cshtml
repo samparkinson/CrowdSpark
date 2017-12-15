@@ -27,7 +27,7 @@
     var getCharacters = function (access_token) {
         document.getElementById('api-response').textContent = 'Calling API...';
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', baseUrl + 'api/users/43', true);
+        xhr.open('GET', baseUrl + 'api/v1/users/43', true);
         xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
         xhr.onreadystatechange = function () {
             console.log(xhr.response); //Outputs a DOMString by default

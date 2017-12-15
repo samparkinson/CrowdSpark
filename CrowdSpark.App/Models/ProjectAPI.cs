@@ -25,7 +25,7 @@ namespace CrowdSpark.App.Models
 
         public async Task<IReadOnlyCollection<ProjectSummaryDTO>> GetAll()
         {
-            var response = await _client.GetAsync("api/projects");
+            var response = await _client.GetAsync("api/v1/projects");
 
             if (response.IsSuccessStatusCode)
             {
@@ -37,7 +37,7 @@ namespace CrowdSpark.App.Models
 
         public async Task<IReadOnlyCollection<ProjectSummaryDTO>> GetBySearch(string searchString)
         {
-            var response = await _client.GetAsync($"api/projects?search={searchString}");
+            var response = await _client.GetAsync($"api/v1/projects?search={searchString}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -49,7 +49,7 @@ namespace CrowdSpark.App.Models
 
         public async Task<IReadOnlyCollection<ProjectSummaryDTO>> GetByCategory(int categoryID)
         {
-            var response = await _client.GetAsync($"api/projects?category={categoryID}");
+            var response = await _client.GetAsync($"api/v1/projects?category={categoryID}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -61,7 +61,7 @@ namespace CrowdSpark.App.Models
 
         public async Task<ProjectDTO> Get(int projectId)
         {
-            var response = await _client.GetAsync($"api/projects/{projectId}");
+            var response = await _client.GetAsync($"api/v1/projects/{projectId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -73,28 +73,28 @@ namespace CrowdSpark.App.Models
 
         public async Task<bool> Create(CreateProjectDTO project)
         {
-            var response = await _client.PostAsync("api/projects", project.ToHttpContent());
+            var response = await _client.PostAsync("api/v1/projects", project.ToHttpContent());
 
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> Update(int projectId, ProjectSummaryDTO project)
         {
-            var response = await _client.PutAsync($"api/projects/{projectId}", project.ToHttpContent());
+            var response = await _client.PutAsync($"api/v1/projects/{projectId}", project.ToHttpContent());
 
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> AddSkill(int projectId, SkillCreateDTO skill)
         {
-            var response = await _client.PostAsync($"api/projects/skills/{projectId}", skill.ToHttpContent());
+            var response = await _client.PostAsync($"api/v1/projects/skills/{projectId}", skill.ToHttpContent());
 
             return response.IsSuccessStatusCode;
         }
 
         public async Task<IReadOnlyCollection<SkillDTO>>GetSkills(int projectId)
         {   
-            var response = await _client.GetAsync($"api/projects/skills/{projectId}");
+            var response = await _client.GetAsync($"api/v1/projects/skills/{projectId}");
 
             if (response.IsSuccessStatusCode)
             {

@@ -12,7 +12,7 @@ using CrowdSpark.Entitites;
 namespace CrowdSpark.Web.Controllers
 {
     [Produces("application/json")]
-    [Route("api/skills")]
+    [Route("api/v1/skills")]
     public class SkillController : Controller
     {
         private readonly ISkillLogic _skillLogic;
@@ -22,14 +22,14 @@ namespace CrowdSpark.Web.Controllers
             _skillLogic = skillLogic;
         }
 
-        // GET api/skills
+        // GET api/v1/skills
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             return Ok(await _skillLogic.GetAsync());
         }
 
-        // GET api/skills/5
+        // GET api/v1/skills/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -42,7 +42,7 @@ namespace CrowdSpark.Web.Controllers
             return Ok(skill);
         }
 
-        // POST api/skills
+        // POST api/v1/skills
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]SkillCreateDTO skill)
         {
@@ -61,7 +61,7 @@ namespace CrowdSpark.Web.Controllers
             else return StatusCode(500);
         }
 
-        // PUT api/skills/
+        // PUT api/v1/skills/
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]SkillDTO skill)
         {
@@ -83,7 +83,7 @@ namespace CrowdSpark.Web.Controllers
             else return StatusCode(500);
         }
 
-        // DELETE api/skills/
+        // DELETE api/v1/skills/
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int skillId)
         {
