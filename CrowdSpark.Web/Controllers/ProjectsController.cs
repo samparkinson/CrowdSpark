@@ -49,17 +49,29 @@ namespace CrowdSpark.Web.Controllers
             else return Ok(project);
         }
 
-        // GET api/projects/42
+        
         [HttpGet("{searchString}")]
-        public async Task<IActionResult> Get(string searchString)
+        public async Task<IActionResult> GetFromSearch(string searchString)
         {
-            var project = await _logic.SearchAsync(searchString);
+            var projects = await _logic.SearchAsync(searchString);
 
-            if (project is null)
+            if (projects is null)
             {
                 return NotFound();
             }
-            else return Ok(project);
+            else return Ok(projects);
+        }
+
+        [HttpGet("{categoryId}")]
+        public async Task<IActionResult> GetForCategory(int categoryId)
+        {
+            var projects = await _logic.SearchAsync(categoryId);
+
+            if (projects is null)
+            {
+                return NotFound();
+            }
+            else return Ok(projects);
         }
 
         // POST api/projects

@@ -52,6 +52,11 @@ namespace CrowdSpark.Logic
             return await _repository.SearchAsync(searchString);
         }
 
+        public async Task<IEnumerable<ProjectSummaryDTO>> SearchAsync(int categoryId)
+        {
+            return await _repository.SearchAsync(categoryId);
+        }
+
         public async Task<ResponseLogic> CreateAsync(CreateProjectDTO project)
         {
             var skills = project.Skills;

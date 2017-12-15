@@ -97,7 +97,7 @@ namespace CrowdSpark.Models.Tests
         }
 
         [Fact]
-        public async void SearchAsync_GivenProjectsExist_ReturnsProjects()
+        public async void SearchAsyncWithSearchString_GivenProjectsExist_ReturnsProjects()
         {
             var projects = new Project[]
             {
@@ -119,6 +119,38 @@ namespace CrowdSpark.Models.Tests
                 Assert.Equal(2, results.Count());
                 Assert.Equal("TestOne", results.ToArray()[0].Title);
                 Assert.Equal("T3st", results.ToArray()[1].Title);
+            }
+        }
+
+        [Fact]
+        public async void SearchAsyncWithCategoryId_GivenProjectsExist_ReturnsProjects()
+        {
+            var category = new Category() { Id = 1, Name = "TestCategory"};
+
+            context.Categories.Add(category);
+            context.SaveChanges();
+
+            var projects = new Project[]
+            {
+                new Project() { Title = "TestOne", Description = "Descritpion", Category = null, CreatedDate = System.DateTime.UtcNow },
+                new Project() { Title = "T3st", Description = "TestTwo", Category = category, CreatedDate = System.DateTime.UtcNow },
+                new Project() { Title = "Title", Description = "Descritpion", Category = category, CreatedDate = System.DateTime.UtcNow }
+            };
+
+            context.Projects.AddRange(projects);
+            context.SaveChanges();
+
+            //SanityCheck
+            Assert.Equal(category, context.Categories.Find(category.Id));
+            Assert.Equal(3, await context.Projects.CountAsync());
+
+            using (var repo1 = new ProjectRepository(context))
+            {
+                var results = await repo1.SearchAsync(1);
+
+                Assert.Equal(2, results.Count());
+                Assert.Equal("T3st", results.ToArray()[0].Title);
+                Assert.Equal("Title", results.ToArray()[1].Title);
             }
         }
     }

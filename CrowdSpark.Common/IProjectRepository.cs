@@ -13,6 +13,8 @@ namespace CrowdSpark.Common
 
         Task<IEnumerable<ProjectSummaryDTO>> SearchAsync(string searchString);
 
+        Task<IEnumerable<ProjectSummaryDTO>> SearchAsync(int categoryId);
+
         Task<IReadOnlyCollection<ProjectSummaryDTO>> ReadAsync();
 
         Task<IReadOnlyCollection<ProjectDTO>> ReadDetailedAsync();
