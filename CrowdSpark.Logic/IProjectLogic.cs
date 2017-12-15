@@ -14,6 +14,8 @@ namespace CrowdSpark.Logic
 
         Task<ProjectSummaryDTO> GetAsync(int projectID);
 
+        Task<IEnumerable<ProjectSummaryDTO>> SearchAsync(string searchString);
+
         Task<ResponseLogic> CreateAsync(CreateProjectDTO project);
 
         Task<ResponseLogic> UpdateAsync(ProjectDTO project);

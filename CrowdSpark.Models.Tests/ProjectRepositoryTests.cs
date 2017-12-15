@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 using CrowdSpark.Common;
 using CrowdSpark.Entitites;
 using Microsoft.Data.Sqlite;
@@ -95,6 +96,30 @@ namespace CrowdSpark.Models.Tests
             }
         }
 
+        [Fact]
+        public async void SearchAsync_GivenProjectsExist_ReturnsProjects()
+        {
+            var projects = new Project[]
+            {
+                new Project() { Title = "TestOne", Description = "Descritpion", CreatedDate = System.DateTime.UtcNow },
+                new Project() { Title = "T3st", Description = "TestTwo", CreatedDate = System.DateTime.UtcNow },
+                new Project() { Title = "Title", Description = "Descritpion", CreatedDate = System.DateTime.UtcNow }
+            };
 
+            context.Projects.AddRange(projects);
+            context.SaveChanges();
+
+            //SanityCheck
+            Assert.Equal(3, await context.Projects.CountAsync());
+
+            using (var repo1 = new ProjectRepository(context))
+            {
+                var results = await repo1.SearchAsync("test");
+
+                Assert.Equal(2, results.Count());
+                Assert.Equal("TestOne", results.ToArray()[0].Title);
+                Assert.Equal("T3st", results.ToArray()[1].Title);
+            }
+        }
     }
 }
