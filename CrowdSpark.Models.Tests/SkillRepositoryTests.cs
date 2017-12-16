@@ -67,7 +67,7 @@ namespace CrowdSpark.Models.Tests
             var skill2 = new SkillCreateDTO
             {
                 Name = "Dancing"
-            };  
+            };
             //var contextMock = new Mock<ICrowdSparkContext>();
 
             //contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ReturnsAsync(1);

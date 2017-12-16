@@ -41,7 +41,8 @@ namespace CrowdSpark.App.ViewModels
             set {
                 _userName = value;
                 OnPropertyChanged();
-            } }
+            }
+        }
 
         public void OnPropertyChanged([CallerMemberName]string propertyName = null)
         {

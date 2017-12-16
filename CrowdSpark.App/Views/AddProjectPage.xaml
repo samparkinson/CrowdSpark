@@ -11,6 +11,7 @@
     <Page.Resources>
         <l:BorderConverter x:Key="borderConverter"/>
         <l:SignInOutButtonConverter x:Key="SignInOutButtonConverter"/>
+        <l:ItemAvailableConverter x:Key="ItemAvailableConverter"/>
     </Page.Resources>
 
     <SplitView x:Name="MainSplitView" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">
@@ -52,25 +53,29 @@
                         <SearchBox FocusOnKeyboardInput="False" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
                     </StackPanel>
 
+                    <!--Add Project and sign out Button-->
                     <Grid Grid.Column="1" BorderThickness="2" HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="1" Background="#FF6C6C6C" HorizontalAlignment="Right" BorderBrush="Black" VerticalAlignment="Center">
+                        <Button Grid.Column="1" Background="#FF6C6C6C" Command="{Binding SignInOutCommand}" HorizontalAlignment="Right" BorderBrush="Black" VerticalAlignment="Center">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock x:Name="SignInOutButtonText" Text="{Binding SignInOutButtonText}" Grid.Column="0"/>
-                                <SymbolIcon Symbol="{Binding ElementName=SignInOutButtonText, Path=Text, Converter={StaticResource SignInOutButtonConverter}}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="SignInOutButtonTextBlock" Text="{Binding SignInOutButtonText}"  VerticalAlignment="Center" Grid.Column="0"></TextBlock>
+                                <Image Height="30" Width="30" Source="{Binding ElementName=SignInOutButtonTextBlock, Path=Text, Converter={StaticResource SignInOutButtonConverter}}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
 
-                        <StackPanel VerticalAlignment="Center" Resources="{Binding account}" Grid.Column="1" HorizontalAlignment="Right">
-                            <TextBlock FontSize="24" Text="{Binding UserName}"></TextBlock>
+                        <StackPanel Orientation="Horizontal" Grid.Column="0">
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding ElementName=SignInOutButtonTextBlock, Path=Text, Converter={StaticResource ItemAvailableConverter}}">
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25,0,-20,0" FontSize="18" Text="Logged in as:"/>
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25,0" FontSize="18" Text="{Binding UserName}"/>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -163,7 +168,7 @@
                             <StackPanel Grid.Row="5" VerticalAlignment="Bottom">
                                 <!--Post Project Button-->
                                 <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Right" Margin="0,0,25,25" VerticalAlignment="Center">
-                                    <Button Click="PostProjectButton_Click" VerticalAlignment="Center">
+                                    <Button Click="PostProjectButton_Click" Command="{Binding PostProjectCommand}" VerticalAlignment="Center">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"></ColumnDefinition>
