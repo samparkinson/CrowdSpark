@@ -29,16 +29,35 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // GET api/v1/projects
+        // GET api/v1/projects?search=searchString
+        // GET api/v1/projects?category=42
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(
+            [FromQuery(Name = "search")] string searchString,
+            [FromQuery(Name = "category")] int categoryId)
         {
-            var projects = await _logic.GetAsync();
+            IEnumerable<ProjectSummaryDTO> projects;
+            bool queryParameterUsed = true;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                projects = await _logic.SearchAsync(searchString);
+            }
+            else if (categoryId != 0)
+            {
+                projects = await _logic.SearchAsync(categoryId);
+            }
+            else
+            {
+                projects = await _logic.GetAsync();
+                queryParameterUsed = false;
+            }
 
             if (projects is null)
             {
-                return Ok(new ProjectDTO[] { });
+                return queryParameterUsed ? (IActionResult) NotFound() : Ok(new ProjectDTO[] { });
             }
-            else return Ok(projects);
+            else return Ok(projects);            
         }
 
         // GET api/v1/projects/42
@@ -52,32 +71,7 @@ namespace CrowdSpark.Web.Controllers
                 return NotFound();
             }
             else return Ok(project);
-        }
-
-        
-        [HttpGet("{searchString}", Name = "search")]
-        public async Task<IActionResult> GetFromSearch([FromQuery] string searchString)
-        {
-            var projects = await _logic.SearchAsync(searchString);
-
-            if (projects is null)
-            {
-                return NotFound();
-            }
-            else return Ok(projects);
-        }
-
-        [HttpGet("{categoryId}", Name = "category")]
-        public async Task<IActionResult> GetFromCategory([FromQuery] int categoryId)
-        {
-            var projects = await _logic.SearchAsync(categoryId);
-
-            if (projects is null)
-            {
-                return NotFound();
-            }
-            else return Ok(projects);
-        }
+        }      
 
         // POST api/v1/projects
         [HttpPost]

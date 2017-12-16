@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using CrowdSpark.Common;
 using CrowdSpark.Logic;
 using CrowdSpark.Entitites;
+using System.Diagnostics;
 
 namespace CrowdSpark.Web.Controllers
 {
@@ -23,10 +24,22 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // GET api/v1/skills
+        // GET api/v1/skills?search=searchString
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery(Name = "search")] string searchString)
         {
-            return Ok(await _skillLogic.GetAsync());
+            if (string.IsNullOrEmpty(searchString))
+            {
+                return Ok(await _skillLogic.GetAsync());
+            }
+
+            var projects = await _skillLogic.SearchAsync(searchString);
+
+            if (projects is null)
+            {
+                return NotFound();
+            }
+            else return Ok(projects);
         }
 
         // GET api/v1/skills/5
@@ -40,19 +53,6 @@ namespace CrowdSpark.Web.Controllers
                 return NotFound();
             }
             return Ok(skill);
-        }
-
-        // GET api/v1/skills?search=searchString
-        [HttpGet("{searchString}", Name = "search")]
-        public async Task<IActionResult> GetFromSearch([FromQuery] string searchString)
-        {
-            var projects = await _skillLogic.SearchAsync(searchString);
-
-            if (projects is null)
-            {
-                return NotFound();
-            }
-            else return Ok(projects);
         }
 
         // POST api/v1/skills
