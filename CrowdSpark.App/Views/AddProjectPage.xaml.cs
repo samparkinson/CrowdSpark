@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -24,7 +25,7 @@ namespace CrowdSpark.App.Views
             InitializeComponent();
 
             _vm = App.ServiceProvider.GetService<AddProjectPageViewModel>();
-            
+
             DataContext = _vm;
 
             SkillsList = new List<SkillDTO>();
@@ -95,107 +96,112 @@ namespace CrowdSpark.App.Views
             {
                 ProjectCountry = CountryComboBox.SelectedItem.ToString(); checkList.Add(ProjectCountry);
             }
-            var ProjectCity = default(string); 
+            var ProjectCity = default(string);
             if (CityComboBox.SelectedItem != null)
             {
                 ProjectCity = CityComboBox.SelectedItem.ToString(); checkList.Add(ProjectCity);
             }
 
             var ProjectLocation = new LocationDTO { Country = ProjectCountry, City = ProjectCity };
-            var ProjectCategory = new CategoryDTO { Name = ProjectCategoryText};
-            
+            var ProjectCategory = new CategoryDTO { Name = ProjectCategoryText };
+
             //TODO:needs work
             var SparkList = new List<SparkDTO>();
             SparkList.Add(new SparkDTO());
 
-            foreach(var s in checkList)
+            foreach (var s in checkList)
             {
                 if (String.IsNullOrEmpty(s))
                 {
                     return;
                 }
-            }            
-            var projectDTO = new CreateProjectDTO { Title = ProjectTitle, Description = ProjectDescription,
-                Location = ProjectLocation, Skills = SkillsList, Category = ProjectCategory};
-            
+            }
+            var projectDTO = new CreateProjectDTO
+            {
+                Title = ProjectTitle,
+                Description = ProjectDescription,
+                Location = ProjectLocation,
+                Skills = SkillsList,
+                Category = ProjectCategory
+            };
+
             //TODO:Use the ProjectLogic class to post the project
             ((AddProjectPageViewModel)DataContext).PostProjectCommand.Execute(projectDTO);
-        }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        }
+        private string[] SkillsSuggestions = new string[] { "Music", "Guitar", "Piano" };
+
+        private void skillsAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var allFull = true;
-
-            //reset the skill list everytime 
-            SkillsList.Clear();
-
-            foreach (var UIElement in SkillsPanel.Children)
-            {
-                if (UIElement is TextBox)
-                {
-                    var textBox = (TextBox)UIElement;
-                    var text = textBox.Text;
-                    if (!String.IsNullOrEmpty(text))
-                    {
-                        SkillsList.Add(new SkillDTO { Name = text });
-                    }
-                    else
-                    {
-                        //if the current textbox is empty remove it 
-                        if (sender.Equals(textBox))
-                        {
-                            SkillsPanel.Children.Remove(textBox);
-                        }
-                        allFull = false;
-                        break;
-                    }
-                }
-            }
-
-            //add a new textbox if all the text boxes are filled in
-            if (allFull)
-            {
-                //set up and add a new textbox
-                TextBox textBox = new TextBox();
-                textBox.PlaceholderText = "TYPE IN A SKILL";
-                textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
-                textBox.BorderThickness = new Thickness(15);
-                textBox.Padding = new Thickness(10);
-                textBox.Background = new SolidColorBrush(Colors.White);
-                textBox.TextChanged += new TextChangedEventHandler(TextBox_TextChanged);
-
-                SkillsPanel.Children.Add(textBox);
-            }
-        }
-
-        private ObservableCollection<String> suggestions;
-
-        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        { 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                suggestions.Clear();
-                suggestions.Add(sender.Text + "1");
-                suggestions.Add(sender.Text + "2");
-                suggestions.Add(sender.Text + "3");
-                suggestions.Add(sender.Text + "4");
-                suggestions.Add(sender.Text + "5");
+                //CategorySuggestions.Clear();
 
-                sender.ItemsSource = suggestions;
+                var Suggestion = SkillsSuggestions.Where(p => p.StartsWith(sender.Text, StringComparison.OrdinalIgnoreCase)).ToArray();
+                sender.ItemsSource = Suggestion;
+            }
+           
+        }
+
+        private void skillsAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+                sender.Text = args.ChosenSuggestion.ToString();
+            else
+            {
+                categoryAutoSuggestBox.Text = sender.Text;
+                SkillsList.Add(new SkillDTO { Name = sender.Text });
+            }
+
+            AutoSuggestBox suggestBox = new AutoSuggestBox();
+            suggestBox.PlaceholderText = "TYPE IN A SKILL";
+            suggestBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            suggestBox.Margin = new Thickness(15,0,15,15);
+           
+            suggestBox.TextChanged += skillsAutoSuggestBox_TextChanged;
+            suggestBox.SuggestionChosen += skillsAutoSuggestBox_SuggestionChosen;
+            suggestBox.QuerySubmitted += skillsAutoSuggestBox_QuerySubmitted;
+
+            SkillsPanel.Children.Add(suggestBox);
+        }
+        
+
+        private void skillsAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            sender.Text = args.SelectedItem.ToString();
+        }
+
+        private string[] CategorySuggestions = new string[] { "Apple", "Banana", "Orange", "Strawberry" };
+
+        private void categoryAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //CategorySuggestions.Clear();
+
+                var Suggestion = CategorySuggestions.Where(p => p.StartsWith(sender.Text, StringComparison.OrdinalIgnoreCase)).ToArray();
+                sender.ItemsSource = Suggestion;
             }
         }
 
-        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void categoryAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion != null)
-                categoryAutoSuggestBox.Text = args.ChosenSuggestion.ToString();
+                sender.Text = args.ChosenSuggestion.ToString();
             else
+            {
                 categoryAutoSuggestBox.Text = sender.Text;
+                //CategoryList.Add(new CategoryDTO { Name = sender.Text });
+            }
         }
 
-        private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private void categoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            categoryAutoSuggestBox.Text = "Chosen";
+            sender.Text = args.SelectedItem.ToString();
         }
+
+        
     }
+
 }
