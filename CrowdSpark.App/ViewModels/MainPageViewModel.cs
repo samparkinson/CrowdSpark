@@ -76,8 +76,6 @@ namespace CrowdSpark.App.ViewModels
 
                     if (account != null)
                     {
-                        initDummyProjects();
-
                         CommonAttributes.account = account;
 
                         UserName = account.UserName;
@@ -88,7 +86,6 @@ namespace CrowdSpark.App.ViewModels
                 }
                 else
                 {
-                    initDummyProjects();
                     //await GetRecentProjects();
 
                     SignInOutButtonText = "Sign Out";
@@ -118,7 +115,10 @@ namespace CrowdSpark.App.ViewModels
                         CommonAttributes.account = account;
 
                         UserName = account.UserName;
-                        
+
+                        //Store the stuff in a static class
+                        MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
+
                         SignInOutButtonText = "Sign Out";
                     }
                 }

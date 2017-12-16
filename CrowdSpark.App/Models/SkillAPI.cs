@@ -9,11 +9,11 @@ using CrowdSpark.Common;
 
 namespace CrowdSpark.App.Models
 {
-    public class UserAPI : IUserAPI
+    public class SkillAPI : ISkillAPI
     {
         private readonly HttpClient _client;
 
-        public UserAPI(ISettings settings, DelegatingHandler handler)
+        public SkillAPI(ISettings settings, DelegatingHandler handler)
         {
             var client = new HttpClient(handler)
             {
@@ -25,54 +25,28 @@ namespace CrowdSpark.App.Models
             _client = client;
         }
 
-        public async Task<UserDTO> GetMyself()
+        public async Task<bool> Create(SkillCreateDTO skill)
         {
-            var response = await _client.GetAsync($"api/v1/users");
+            var response = await _client.PostAsync("api/v1/skills", skill.ToHttpContent());
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<IReadOnlyCollection<SkillDTO>> GetAll()
+        {
+            var response = await _client.GetAsync($"api/v1/skills");
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.To<UserDTO>();
+                return await response.Content.To<IReadOnlyCollection<SkillDTO>>();
             }
 
-            return null;
+            return new List<SkillDTO>().AsReadOnly();
         }
 
-        public async Task<UserDTO> Get(int userId)
+        public async Task<IReadOnlyCollection<SkillDTO>> GetBySearch(string searchString)
         {
-            var response = await _client.GetAsync($"api/v1/users/{userId}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.To<UserDTO>();
-            }
-
-            return null;
-        }
-
-        public async Task<bool> Create(UserDTO user)
-        {
-            var response = await _client.PostAsync("api/v1/users", user.ToHttpContent());
-
-            return response.IsSuccessStatusCode;
-        }
-
-        public async Task<bool> Update(UserDTO user)
-        {
-            var response = await _client.PutAsync("api/v1/users", user.ToHttpContent());
-
-            return response.IsSuccessStatusCode;
-        }
-
-        public async Task<bool> AddSkill(SkillDTO skill)
-        {
-            var response = await _client.PostAsync("api/v1/users/skills", skill.ToHttpContent());
-
-            return response.IsSuccessStatusCode;
-        }
-
-        public async Task<IReadOnlyCollection<SkillDTO>> GetSkills()
-        {
-            var response = await _client.GetAsync($"api/v1/users/skills");
+            var response = await _client.GetAsync($"api/v1/skills?search={searchString}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -102,7 +76,7 @@ namespace CrowdSpark.App.Models
         }
 
         // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~UserAPI() {
+        // ~SkillAPI() {
         //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
         //   Dispose(false);
         // }
@@ -116,6 +90,5 @@ namespace CrowdSpark.App.Models
             // GC.SuppressFinalize(this);
         }
         #endregion
-
     }
 }

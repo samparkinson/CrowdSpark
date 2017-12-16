@@ -162,7 +162,10 @@
                             </StackPanel>
 
                             <StackPanel Grid.Row="4" Margin="0,0,25,25" Background="#808080">
-                                <TextBox Margin="15" x:Name="CategoryTextBox" Background="White" PlaceholderText="TYPE IN A CATEGORY" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" HorizontalAlignment="Stretch" Padding="15"></TextBox>
+                                <AutoSuggestBox x:Name="categoryAutoSuggestBox" HorizontalAlignment="Stretch" Padding="15" Margin="15" PlaceholderText="TYPE IN A CATEGORY" 
+                TextChanged="AutoSuggestBox_TextChanged"
+                QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+                SuggestionChosen="AutoSuggestBox_SuggestionChosen"/>
                             </StackPanel>
 
                             <StackPanel Grid.Row="5" VerticalAlignment="Bottom">

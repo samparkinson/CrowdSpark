@@ -54,7 +54,6 @@
 
                     <StackPanel Orientation="Horizontal">
                         <SearchBox FocusOnKeyboardInput="False" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
-                        <Button Content="Filter" HorizontalAlignment="Right" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                         <Button Content="Profile" HorizontalAlignment="Right" Command="{Binding SignInOutCommand}" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                     </StackPanel>
 
