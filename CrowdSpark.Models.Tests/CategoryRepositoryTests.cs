@@ -139,7 +139,7 @@ namespace CrowdSpark.Models.Tests
 
                 Assert.Equal(0, listToCheck.Count);
 
-                sorted_list = await repository.FindWildcardAsync("D");
+                sorted_list = await repository.FindWildcardAsync("e");
                 listToCheck = new List<CategoryDTO>(sorted_list);
                 Assert.True(listToCheck.Count > 0);
             }
