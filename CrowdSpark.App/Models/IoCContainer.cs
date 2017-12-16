@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+
 namespace CrowdSpark.App.Models
 {
     public class IoCContainer
@@ -27,6 +28,7 @@ namespace CrowdSpark.App.Models
             // logic
             services.AddScoped<IProjectAPI, ProjectAPI>();
             services.AddScoped<IUserAPI, UserAPI>();
+            services.AddScoped<ISkillAPI, SkillAPI>();
 
             return services.BuildServiceProvider();
         }

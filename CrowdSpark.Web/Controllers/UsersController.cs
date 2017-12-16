@@ -35,7 +35,13 @@ namespace CrowdSpark.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _userLogic.GetAsync()); // users can never be null as calling user must be logged in, thus in the db
+            var userAzureId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = await _userLogic.GetIdAsync(userAzureId);
+
+            var user = _userLogic.GetAsync(userId);
+
+            if (user is null) return NoContent();
+            else return Ok(user );
         }
 
         // GET api/v1/users/5
