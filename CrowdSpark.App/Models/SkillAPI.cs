@@ -9,11 +9,11 @@ using CrowdSpark.Common;
 
 namespace CrowdSpark.App.Models
 {
-    public class UserAPI : IUserAPI
+    public class SkillAPI : ISkillAPI
     {
         private readonly HttpClient _client;
 
-        public UserAPI(ISettings settings, DelegatingHandler handler)
+        public SkillAPI(ISettings settings, DelegatingHandler handler)
         {
             var client = new HttpClient(handler)
             {
@@ -25,50 +25,17 @@ namespace CrowdSpark.App.Models
             _client = client;
         }
 
-        public async Task<UserDTO> GetMyself()
-        {
-            var response = await _client.GetAsync($"api/v1/users");
-
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.To<UserDTO>();
-            }
-
-            return null;
-        }
-
-        public async Task<UserDTO> Get(int userId)
-        {
-            var response = await _client.GetAsync($"api/v1/users/{userId}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.To<UserDTO>();
-            }
-
-            return null;
-        }
-
-        public async Task<bool> Create(UserDTO user)
-        {
-            var response = await _client.PostAsync("api/v1/users", user.ToHttpContent());
-
-            return response.IsSuccessStatusCode;
-        }
-
-        public async Task<bool> Update(UserDTO user)
-        {
-            var response = await _client.PutAsync("api/v1/users", user.ToHttpContent());
-
-            return response.IsSuccessStatusCode;
-        }
-
-        public async Task<bool> AddSkill(SkillDTO skill)
+        public Task<bool> Create(SkillCreateDTO skill)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IReadOnlyCollection<SkillDTO>> GetSkills()
+        public Task<IReadOnlyCollection<SkillDTO>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IReadOnlyCollection<SkillDTO>> GetBySearch(string searchString)
         {
             throw new NotImplementedException();
         }
@@ -82,7 +49,7 @@ namespace CrowdSpark.App.Models
             {
                 if (disposing)
                 {
-                    _client.Dispose();
+                    // TODO: dispose managed state (managed objects).
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -93,7 +60,7 @@ namespace CrowdSpark.App.Models
         }
 
         // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~UserAPI() {
+        // ~SkillAPI() {
         //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
         //   Dispose(false);
         // }
@@ -107,6 +74,5 @@ namespace CrowdSpark.App.Models
             // GC.SuppressFinalize(this);
         }
         #endregion
-
     }
 }
