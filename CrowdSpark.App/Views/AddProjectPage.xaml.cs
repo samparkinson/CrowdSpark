@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -18,6 +19,7 @@ namespace CrowdSpark.App.Views
     {
         private readonly AddProjectPageViewModel _vm;
         private List<SkillDTO> SkillsList { get; set; }
+        private List<CategoryDTO> CategoryList { get; set; }
 
         public AddProjectPage()
         {
@@ -104,80 +106,75 @@ namespace CrowdSpark.App.Views
             ((AddProjectPageViewModel)DataContext).PostProjectCommand.Execute(projectDTO);
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        public void AddSkill_Click(object sender, RoutedEventArgs e)
         {
-            var allFull = true;
+            AutoSuggestBox autoSuggestionBox = new AutoSuggestBox();
+            autoSuggestionBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            autoSuggestionBox.Margin = new Thickness(15,0,15,15);
+            autoSuggestionBox.PlaceholderText = "TYPE IN A SKILL";
+            autoSuggestionBox.TextChanged += skillsAutoSuggestBox_TextChanged;
+            autoSuggestionBox.QuerySubmitted += skillsAutoSuggestBox_QuerySubmitted;
+            autoSuggestionBox.SuggestionChosen += skillsAutoSuggestBox_SuggestionChosen;
 
-            //reset the skill list everytime 
-            SkillsList.Clear();
+            SkillsPanel.Children.Add(autoSuggestionBox);
+        }
+   
+        private string[] SkillsSuggestions = new string[] { "Music", "Dance", "Sing", "Piano" };
 
-            foreach (var UIElement in SkillsPanel.Children)
+        private void skillsAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                if (UIElement is TextBox)
-                {
-                    var textBox = (TextBox)UIElement;
-                    var text = textBox.Text;
-                    if (!String.IsNullOrEmpty(text))
-                    {
-                        SkillsList.Add(new SkillDTO { Name = text });
-                    }
-                    else
-                    {
-                        //if the current textbox is empty remove it 
-                        if (sender.Equals(textBox))
-                        {
-                            SkillsPanel.Children.Remove(textBox);
-                        }
-                        allFull = false;
-                        break;
-                    }
-                }
-            }
-
-            //add a new textbox if all the text boxes are filled in
-            if (allFull)
-            {
-                //set up and add a new textbox
-                TextBox textBox = new TextBox();
-                textBox.PlaceholderText = "TYPE IN A SKILL";
-                textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
-                textBox.BorderThickness = new Thickness(15);
-                textBox.Padding = new Thickness(15);
-                textBox.Background = new SolidColorBrush(Colors.White);
-                textBox.TextChanged += new TextChangedEventHandler(TextBox_TextChanged);
-
-                SkillsPanel.Children.Add(textBox);
+                var Suggestion = SkillsSuggestions.Where(p => p.StartsWith(sender.Text, StringComparison.OrdinalIgnoreCase)).ToArray();
+                sender.ItemsSource = Suggestion;
             }
         }
 
-        private ObservableCollection<String> suggestions;
+        private void skillsAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+                sender.Text = args.ChosenSuggestion.ToString();
+            else
+            {
+                skillsAutoSuggestBox.Text = sender.Text;
+                SkillsList.Add(new SkillDTO { Name = sender.Text });
+            }
+        }
 
-        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private void skillsAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            sender.Text = args.SelectedItem.ToString();
+        }
+
+        private string[] CategorySuggestions = new string[] { "Apple", "Banana", "Orange", "Strawberry" };
+
+        private void categoryAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         { 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                suggestions.Clear();
-                suggestions.Add(sender.Text + "1");
-                suggestions.Add(sender.Text + "2");
-                suggestions.Add(sender.Text + "3");
-                suggestions.Add(sender.Text + "4");
-                suggestions.Add(sender.Text + "5");
+                //CategorySuggestions.Clear();
 
-                sender.ItemsSource = suggestions;
+                var Suggestion = CategorySuggestions.Where(p => p.StartsWith(sender.Text, StringComparison.OrdinalIgnoreCase)).ToArray();
+                sender.ItemsSource = Suggestion;
             }
         }
 
-        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void categoryAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion != null)
-                categoryAutoSuggestBox.Text = args.ChosenSuggestion.ToString();
+                sender.Text = args.ChosenSuggestion.ToString();
             else
+            {
                 categoryAutoSuggestBox.Text = sender.Text;
+                CategoryList.Add(new CategoryDTO { Name = sender.Text });
+            }
         }
 
-        private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private void categoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            categoryAutoSuggestBox.Text = "Chosen";
+            sender.Text = args.SelectedItem.ToString();
         }
     }
+
+
 }
