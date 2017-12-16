@@ -156,14 +156,17 @@ namespace CrowdSpark.Web.Controllers
 
         [Authorize]
         [Route("spark")]
+        [HttpGet("{projectId}")]
+        public async Task<IActionResult> GetApprovedSparks(int projectId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Authorize]
+        [Route("spark")]
         [HttpPost("{projectId}")]
         public async Task<IActionResult> CreateSpark(int projectId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             throw new NotImplementedException();
         }
     }
