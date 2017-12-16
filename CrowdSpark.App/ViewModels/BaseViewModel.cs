@@ -12,7 +12,18 @@ namespace CrowdSpark.App.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         //Options for hamburger menu, every page has a hamburger menu
-        public ObservableCollection<MenuOption> MenuOptions { get; set; }
+        private ObservableCollection<MenuOption> _menuOptions;
+        public ObservableCollection<MenuOption> MenuOptions {
+            get
+            {
+                return _menuOptions;
+            }
+            set
+            {
+                _menuOptions = value;
+                OnPropertyChanged();
+            }
+        }
 
         //TODO: Hamburger menu relay command
         public ICommand HamburgerMenuCommand { get; }
