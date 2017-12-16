@@ -17,7 +17,7 @@ namespace CrowdSpark.App.Models
 
         Task<bool> Create(CreateProjectDTO project);
 
-        Task<bool> Update(int projectId, ProjectSummaryDTO project);
+        Task<bool> Update(int projectId, ProjectDTO project);
 
         Task<bool> AddSkill(int projectId, SkillDTO skill);
 

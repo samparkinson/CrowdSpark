@@ -101,15 +101,20 @@ namespace CrowdSpark.Web.Controllers
             else return StatusCode(500);
         }
 
-        // PUT api/v1/projects/
+        // PUT api/v1/projects/42
+        [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Put([FromBody]ProjectDTO project)
+        public async Task<IActionResult> Put(int projectId, [FromBody]ProjectDTO project)
         {
             var userId = await _userLogic.GetIdFromAzureUIdAsync(GetUserId());
 
+            if (projectId != project.Id)
+            {
+                ModelState.AddModelError("Id", "Requesting routeId must match projectId");
+            }
             if (project.Creator is null || project.Creator.Id != userId)
             {
-                ModelState.AddModelError("Id", "Updating userId must match requesting userId");
+                ModelState.AddModelError("Creator", "Updating userId must match requesting userId");
             }
             if (!ModelState.IsValid)
             {
