@@ -77,7 +77,7 @@ namespace CrowdSpark.Web.Tests
                 GetUserId = () => "userid"
             };
 
-            var response = await controller.Put(project);
+            var response = await controller.Put(1, project);
 
             Assert.IsType<BadRequestObjectResult>(response);
         }
@@ -95,7 +95,7 @@ namespace CrowdSpark.Web.Tests
                 GetUserId = () => "userid"
             };
 
-            var response = await controller.Put(project);
+            var response = await controller.Put(1, project);
 
             Assert.IsType<OkResult>(response);
         }
@@ -113,7 +113,7 @@ namespace CrowdSpark.Web.Tests
                 GetUserId = () => "userid"
             };
 
-            var response = await controller.Put(project);
+            var response = await controller.Put(1, project);
 
             Assert.IsType<NotFoundResult>(response);
         }

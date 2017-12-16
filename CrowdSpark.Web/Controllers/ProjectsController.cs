@@ -102,7 +102,7 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // PUT api/v1/projects/42
-        [HttpPut]
+        [HttpPut("{projectId}")]
         [Authorize]
         public async Task<IActionResult> Put(int projectId, [FromBody]ProjectDTO project)
         {
