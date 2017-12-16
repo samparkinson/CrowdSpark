@@ -17,7 +17,7 @@ namespace CrowdSpark.Models
             _context = context;
         }
 
-        public async Task<int> CreateAsync(CreateProjectDTO project)
+        public async Task<int> CreateAsync(CreateProjectDTO project, int creatorUserId)
         {
             var projectToCreate = new Project
             {
@@ -27,7 +27,8 @@ namespace CrowdSpark.Models
                 Location = (project.Location is null) ? null : new Location() { Id = project.Location.Id, City = project.Location.City, Country = project.Location.Country },
                 Skills = EntityConversionHelper.ConvertSkillDTOsToSkills(project.Skills),
                 Category = (project.Category is null) ? null : new Category() { Id = project.Category.Id, Name = project.Category.Name },
-                CreatedDate = System.DateTime.UtcNow
+                CreatedDate = System.DateTime.UtcNow,
+                CreatorId = creatorUserId
             };
 
             _context.Projects.Add(projectToCreate);

@@ -27,5 +27,11 @@ namespace CrowdSpark.Entitites
 
         [Required]
         public DateTime CreatedDate { get; set; }
+
+        [Required]
+        public int CreatorId { get; set; }
+
+        [Required]
+        public User Creator { get; set; }
     } 
 }

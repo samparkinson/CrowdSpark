@@ -44,7 +44,7 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void CreateAsync_GivenValidUser_ReturnsNewUserID()
         {
-            var user = new UserDTO
+            var user = new UserCreateDTO
             {
                 Firstname = "Bob",
                 Surname = "Smith",
@@ -65,7 +65,7 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void CreateAsync_GivenValidUserDeletesIt_ReturnsSuccess()
         {
-            var user = new UserDTO
+            var user = new UserCreateDTO
             {
                 Firstname = "Bob",
                 Surname = "Smith",
@@ -93,7 +93,7 @@ namespace CrowdSpark.Models.Tests
         public async void CreateAsync_GivenDatabaseSaveError_ReturnsDbUpdateException()
         {
             //TODO, see what excpetion will actually be thrown if that DB is offline
-            var user = new UserDTO
+            var user = new UserCreateDTO
             {
                 Firstname = "Bob",
                 Surname = "Smith",
@@ -113,7 +113,7 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void CreateAsync_GivenDatabaseSaveDoesNotChangeRecords_ReturnsDbUpdateException()
         {
-            var userDTO = new UserDTO
+            var userDTO = new UserCreateDTO
             {
                 Firstname = "Bob",
                 Surname = "Smith",

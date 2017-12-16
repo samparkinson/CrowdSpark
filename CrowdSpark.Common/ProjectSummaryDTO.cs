@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using CrowdSpark.Entitites;
 using System.ComponentModel.DataAnnotations;
 
 namespace CrowdSpark.Common
 {
     public class ProjectSummaryDTO
     {
+        [Required]
         public int Id { get; set; }
 
         [Required]

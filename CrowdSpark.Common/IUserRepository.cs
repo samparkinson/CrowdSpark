@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Common
 {
     public interface IUserRepository : IDisposable
     {
-        Task<int> CreateAsync(UserDTO user, string azureUId);
+        Task<int> CreateAsync(UserCreateDTO user, string azureUId);
 
         Task<UserDTO> FindAsync(int userId);
 

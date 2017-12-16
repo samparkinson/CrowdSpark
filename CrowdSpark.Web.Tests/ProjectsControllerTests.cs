@@ -4,6 +4,8 @@ using CrowdSpark.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -11,13 +13,20 @@ namespace CrowdSpark.Web.Tests
 {
     public class ProjectsControllerTests
     {
+        Mock<IProjectLogic> projectLogic;
+        Mock<IUserLogic> userLogic;
+        public ProjectsControllerTests()
+        {
+            projectLogic = new Mock<IProjectLogic>();
+            userLogic = new Mock<IUserLogic>();
+        }
+
         [Fact]
         public async Task Get_given_no_existing_id_returns_NotFound()
         {
-            var repository = new Mock<IProjectLogic>();
-            repository.Setup(r => r.GetAsync(42)).ReturnsAsync(default(ProjectSummaryDTO));
+            projectLogic.Setup(r => r.GetAsync(42)).ReturnsAsync(default(ProjectSummaryDTO));
 
-            var controller = new ProjectsController(repository.Object);
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object);
 
             var response = await controller.Get(42);
 
@@ -28,10 +37,10 @@ namespace CrowdSpark.Web.Tests
         public async Task Get_given_existing_id_returns_OK_with_project()
         {
             var proj = new ProjectSummaryDTO { Id = 1 };
-            var repository = new Mock<IProjectLogic>();
-            repository.Setup(r => r.GetAsync(1)).ReturnsAsync(proj);
 
-            var controller = new ProjectsController(repository.Object);
+            projectLogic.Setup(r => r.GetAsync(1)).ReturnsAsync(proj);
+
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object);
 
             var response = await controller.Get(1) as OkObjectResult;
 
@@ -43,9 +52,13 @@ namespace CrowdSpark.Web.Tests
         {
             var project = new CreateProjectDTO { Title = "Title", Description = "Description" };
 
-            var repository = new Mock<IProjectLogic>();
+            userLogic.Setup(u => u.GetIdFromAzureUIdAsync("userid")).ReturnsAsync(1);
+            projectLogic.Setup(p => p.CreateAsync(project, 1)).ReturnsAsync((ResponseLogic.SUCCESS, 1));
 
-            var controller = new ProjectsController(repository.Object);
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object)
+            {
+                GetUserId = () => "userid"
+            };
 
             var response = await controller.Post(project);
 
@@ -55,13 +68,16 @@ namespace CrowdSpark.Web.Tests
         [Fact]
         public async Task Put_given_mismatchedids_returnsBadRequest()
         {
-            var project = new ProjectSummaryDTO { Id = 1 };
+            var project = new ProjectDTO { Id = 1, Title = "Foo", Description = "Bar", Creator = new UserDTO { Id = 1, Firstname = "Bob" } };
 
-            var repository = new Mock<IProjectLogic>();
+            userLogic.Setup(u => u.GetIdFromAzureUIdAsync("userid")).ReturnsAsync(2);
 
-            var controller = new ProjectsController(repository.Object);
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object)
+            {
+                GetUserId = () => "userid"
+            };
 
-            var response = await controller.Put(2, project);
+            var response = await controller.Put(project);
 
             Assert.IsType<BadRequestObjectResult>(response);
         }
@@ -69,14 +85,17 @@ namespace CrowdSpark.Web.Tests
         [Fact]
         public async Task Put_given_matchingids_returnsSUCCESS()
         {
-            var project = new ProjectSummaryDTO { Id = 1 };
+            var project = new ProjectDTO { Id = 1, Title = "Foo", Description = "Bar", Creator = new UserDTO { Id = 1, Firstname = "Bob" } };
 
-            var repository = new Mock<IProjectLogic>();
+            projectLogic.Setup(r => r.UpdateAsync(project, 1)).ReturnsAsync(ResponseLogic.SUCCESS);
+            userLogic.Setup(u => u.GetIdFromAzureUIdAsync("userid")).ReturnsAsync(1);
 
-            var controller = new ProjectsController(repository.Object);
-            repository.Setup(r => r.UpdateAsync(project)).ReturnsAsync(ResponseLogic.SUCCESS);
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object)
+            {
+                GetUserId = () => "userid"
+            };
 
-            var response = await controller.Put(1, project);
+            var response = await controller.Put(project);
 
             Assert.IsType<OkResult>(response);
         }
@@ -84,14 +103,17 @@ namespace CrowdSpark.Web.Tests
         [Fact]
         public async Task Put_given_matchingids_butnotvalidproject_returnsNotFound()
         {
-            var project = new ProjectSummaryDTO { Id = 1 };
+            var project = new ProjectDTO { Id = 1, Title = "Foo", Description = "Bar", Creator = new UserDTO { Id = 1, Firstname = "Bob", Surname = "Smith", Mail = "test@example.com" }, CreatedDate = System.DateTime.UtcNow };
 
-            var repository = new Mock<IProjectLogic>();
+            projectLogic.Setup(r => r.UpdateAsync(project, 1)).ReturnsAsync(ResponseLogic.NOT_FOUND);
+            userLogic.Setup(u => u.GetIdFromAzureUIdAsync("userid")).ReturnsAsync(1);
 
-            var controller = new ProjectsController(repository.Object);
-            repository.Setup(r => r.UpdateAsync(project)).ReturnsAsync(ResponseLogic.NOT_FOUND);
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object)
+            {
+                GetUserId = () => "userid"
+            };
 
-            var response = await controller.Put(1, project);
+            var response = await controller.Put(project);
 
             Assert.IsType<NotFoundResult>(response);
         }
@@ -99,10 +121,13 @@ namespace CrowdSpark.Web.Tests
         [Fact]
         public async Task Delete_given_validID_ReturnsOK()
         {
-            var repository = new Mock<IProjectLogic>();
+            projectLogic.Setup(r => r.DeleteAsync(1, 1)).ReturnsAsync(ResponseLogic.SUCCESS);
+            userLogic.Setup(u => u.GetIdFromAzureUIdAsync("userid")).ReturnsAsync(1);
 
-            var controller = new ProjectsController(repository.Object);
-            repository.Setup(r => r.DeleteAsync(1)).ReturnsAsync(ResponseLogic.SUCCESS);
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object)
+            {
+                GetUserId = () => "userid"
+            };
 
             var response = await controller.Delete(1);
 

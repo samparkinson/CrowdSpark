@@ -448,15 +448,18 @@ namespace CrowdSpark.Logic.Tests
                 Name = "Category"
             };
 
+            var creatorUser = new User() { Id = 1, Firstname = "First", Surname = "Sur", AzureUId = "Azure", Mail = "test@example.com"};
+
             var projects = new Project[]
             {
-                new Project{ Title = "Project1", Category = categoryToDelete, CreatedDate = DateTime.Now, Description = "abcd"},
-                new Project{ Title = "Project2", Category = categoryToDelete, CreatedDate = DateTime.Now, Description = "abcd"}
+                new Project{ Title = "Project1", Category = categoryToDelete, CreatedDate = DateTime.Now, Description = "abcd", CreatorId = creatorUser.Id},
+                new Project{ Title = "Project2", Category = categoryToDelete, CreatedDate = DateTime.Now, Description = "abcd", CreatorId = creatorUser.Id}
             };
 
             categoryRepository = new CategoryRepository(setupContextForIntegrationTests());
 
             context.Categories.Add(categoryToDelete);
+            context.Users.Add(creatorUser);
             context.Projects.AddRange(projects);
             context.SaveChanges();
 

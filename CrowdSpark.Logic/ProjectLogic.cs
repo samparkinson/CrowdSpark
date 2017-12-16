@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CrowdSpark.Common;
-using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Logic
 {
@@ -57,11 +56,11 @@ namespace CrowdSpark.Logic
             return await _repository.SearchAsync(categoryId);
         }
 
-        public async Task<ResponseLogic> CreateAsync(CreateProjectDTO project)
+        public async Task<(ResponseLogic outcome, int Id)> CreateAsync(CreateProjectDTO project, int creatorId)
         {
             var skills = project.Skills;
 
-            var id = await _repository.CreateAsync(project);
+            var id = await _repository.CreateAsync(project, creatorId);
 
             foreach (var skill in skills)
             {
@@ -75,15 +74,17 @@ namespace CrowdSpark.Logic
                     await _skillLogic.RemoveWithObjectAsync(skill); //TODO, need to convert this to a parallel for each
                 }
 
-                return ResponseLogic.ERROR_CREATING;
+                return (ResponseLogic.ERROR_CREATING, 0);
             }
 
-            return ResponseLogic.SUCCESS;
+            return (ResponseLogic.SUCCESS, id);
         }
 
-        public async Task<ResponseLogic> UpdateAsync(ProjectDTO project)
+        public async Task<ResponseLogic> UpdateAsync(ProjectDTO project, int requestingUserId)
         {
             var currentProject = await _repository.FindAsync(project.Id);
+
+            if (currentProject.Creator.Id != requestingUserId) return ResponseLogic.UNAUTHORISED;
 
             if (currentProject is null)
             {
@@ -126,9 +127,11 @@ namespace CrowdSpark.Logic
 
         }
 
-        public async Task<ResponseLogic> UpdateAsync(ProjectSummaryDTO project)
+        public async Task<ResponseLogic> UpdateAsync(ProjectSummaryDTO project, int requestingUserId)
         {
             var currentProject = await _repository.FindAsync(project.Id);
+
+            if (currentProject.Creator.Id != requestingUserId) return ResponseLogic.UNAUTHORISED;
 
             if (currentProject is null)
             {
@@ -152,9 +155,11 @@ namespace CrowdSpark.Logic
             return ResponseLogic.ERROR_UPDATING;
         }
 
-        public async Task<ResponseLogic> DeleteAsync(int projectId)
+        public async Task<ResponseLogic> DeleteAsync(int projectId, int requestingUserId)
         {
             var project = await _repository.FindAsync(projectId);
+
+            if (project.Creator.Id != requestingUserId) return ResponseLogic.UNAUTHORISED;
 
             if (project is null)
             {
@@ -185,7 +190,7 @@ namespace CrowdSpark.Logic
             }
         }
 
-        public async Task<ResponseLogic> AddSkillAsync(int projectId, SkillDTO skill)
+        public async Task<ResponseLogic> AddSkillAsync(int projectId, SkillDTO skill, int requestingUserId)
         {
             var project = await _repository.FindAsync(projectId);
 
@@ -196,10 +201,10 @@ namespace CrowdSpark.Logic
 
             project.Skills.Add(skill);
 
-            return await UpdateAsync(project);
+            return await UpdateAsync(project, requestingUserId);
         }
 
-        public async Task<ResponseLogic> RemoveSkillAsync(int projectId, SkillDTO skill)
+        public async Task<ResponseLogic> RemoveSkillAsync(int projectId, SkillDTO skill, int requestingUserId)
         {
             var project = await _repository.FindAsync(projectId);
             if (project is null) return ResponseLogic.NOT_FOUND;
@@ -211,7 +216,7 @@ namespace CrowdSpark.Logic
 
             project.Skills.Remove(skill);
 
-            return await UpdateAsync(project);
+            return await UpdateAsync(project, requestingUserId);
         }
 
         public async Task<IEnumerable<SparkDTO>> GetApprovedSparksAsync(int projectId)

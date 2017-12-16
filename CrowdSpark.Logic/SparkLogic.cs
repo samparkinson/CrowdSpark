@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CrowdSpark.Common;
-using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Logic
 {

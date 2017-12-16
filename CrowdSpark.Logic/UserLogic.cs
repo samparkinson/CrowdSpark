@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CrowdSpark.Common;
-using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Logic
 {
@@ -30,12 +29,12 @@ namespace CrowdSpark.Logic
             return await _repository.FindAsync(userId);
         }
 
-        public async Task<int> GetIdAsync(string azureUId)
+        public async Task<int> GetIdFromAzureUIdAsync(string azureUId)
         {
             return await _repository.GetIdAsync(azureUId);
         }
 
-        public async Task<ResponseLogic> CreateAsync(UserDTO user, string azureUId)
+        public async Task<ResponseLogic> CreateAsync(UserCreateDTO user, string azureUId)
         {
             var existing = await _repository.FindFromAzureUIdAsync(azureUId);
 
