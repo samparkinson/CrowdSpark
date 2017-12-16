@@ -4,6 +4,7 @@ using CrowdSpark.Common;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -86,7 +87,7 @@ namespace CrowdSpark.App.Views
             //should implement a null checker for these
             var ProjectTitle = TitleTextBox.Text;
             var ProjectDescription = DescriptionTextBox.Text;
-            var ProjectCategoryText = CategoryTextBox.Text;
+            var ProjectCategoryText = categoryAutoSuggestBox.Text;
             var ProjectCountry = CountryComboBox.SelectedItem.ToString();
             var ProjectCity = CityComboBox.SelectedItem.ToString();
             var ProjectLocation = new LocationDTO { Country = ProjectCountry, City = ProjectCity };
@@ -103,7 +104,7 @@ namespace CrowdSpark.App.Views
             ((AddProjectPageViewModel)DataContext).PostProjectCommand.Execute(projectDTO);
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)  
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var allFull = true;
 
@@ -118,7 +119,7 @@ namespace CrowdSpark.App.Views
                     var text = textBox.Text;
                     if (!String.IsNullOrEmpty(text))
                     {
-                        SkillsList.Add(new SkillDTO { Name = text});
+                        SkillsList.Add(new SkillDTO { Name = text });
                     }
                     else
                     {
@@ -147,6 +148,36 @@ namespace CrowdSpark.App.Views
 
                 SkillsPanel.Children.Add(textBox);
             }
+        }
+
+        private ObservableCollection<String> suggestions;
+
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        { 
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                suggestions.Clear();
+                suggestions.Add(sender.Text + "1");
+                suggestions.Add(sender.Text + "2");
+                suggestions.Add(sender.Text + "3");
+                suggestions.Add(sender.Text + "4");
+                suggestions.Add(sender.Text + "5");
+
+                sender.ItemsSource = suggestions;
+            }
+        }
+
+        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+                categoryAutoSuggestBox.Text = args.ChosenSuggestion.ToString();
+            else
+                categoryAutoSuggestBox.Text = sender.Text;
+        }
+
+        private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            categoryAutoSuggestBox.Text = "Chosen";
         }
     }
 }
