@@ -1,5 +1,7 @@
 ﻿using System;
+using CrowdSpark.Common;
 using CrowdSpark.Entitites;
+using CrowdSpark.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
@@ -34,6 +36,5 @@ namespace CrowdSpark.Models.Tests
             context.Database.RollbackTransaction();
             context.Dispose();
         }
-
     }
 }

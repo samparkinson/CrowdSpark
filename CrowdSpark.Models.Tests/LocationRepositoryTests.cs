@@ -72,6 +72,54 @@ namespace CrowdSpark.Models.Tests
         }
 
         [Fact]
+        public async void UpdateAsync_GivenBadIDReturnFalse()
+        {
+            var loc = new LocationCreateDTO
+            {
+                City = "Copenhagen",
+                Country = "Denmark"
+            };
+
+            var locupdate = new LocationDTO
+            {
+                Id = 2,
+                City = "Copenhagen",
+                Country = "Denmark"
+            };
+
+            using (var repository = new LocationRepository(context))
+            {
+                var id = await repository.CreateAsync(loc);
+                
+                Assert.False(await repository.UpdateAsync(locupdate));
+            }
+        }
+
+        [Fact]
+        public async void UpdateAsync_GivenGoodIDReturnTrue()
+        {
+            var loc = new LocationCreateDTO
+            {
+                City = "Copenhagen",
+                Country = "Denmark"
+            };
+
+            var locupdate = new LocationDTO
+            {
+                Id = 1,
+                City = "Copenhagen",
+                Country = "Denmark"
+            };
+
+            using (var repository = new LocationRepository(context))
+            {
+                var id = await repository.CreateAsync(loc);
+
+                Assert.True(await repository.UpdateAsync(locupdate));
+            }
+        }
+
+        [Fact]
         public async void DeleteAsync_GivenInvalidLocationId_ReturnsFailed()
         {
             using (var repository = new LocationRepository(context))

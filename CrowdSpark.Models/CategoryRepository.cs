@@ -66,6 +66,8 @@ namespace CrowdSpark.Models
         public async Task<bool> UpdateAsync(CategoryDTO details)
         {
             var categoryToUpdate = await _context.Categories.FindAsync(details.Id);
+            if (categoryToUpdate == null) return false;
+
             _context.Categories.Update(categoryToUpdate);
 
             categoryToUpdate.Name = details.Name;

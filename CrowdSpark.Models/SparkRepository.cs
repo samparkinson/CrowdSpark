@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CrowdSpark.Models
 {
-    public class SparkReposiory : ISparkRepository
+    public class SparkRepository : ISparkRepository
     {
         private readonly ICrowdSparkContext _context;
 
-        public SparkReposiory(ICrowdSparkContext context)
+        public SparkRepository(ICrowdSparkContext context)
         {
             _context = context;
         }
