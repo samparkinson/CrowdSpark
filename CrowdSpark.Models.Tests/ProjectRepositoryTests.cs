@@ -13,7 +13,8 @@ namespace CrowdSpark.Models.Tests
 {
     public class ProjectRepositoryTests
     {
-        private readonly CrowdSparkContext context;       
+        private readonly CrowdSparkContext context;
+        private User creator;
         
         public ProjectRepositoryTests()
         {
@@ -28,7 +29,11 @@ namespace CrowdSpark.Models.Tests
 
             //SEED IN HERE IF YOU WANT
 
-            context.Database.BeginTransaction();           
+            context.Database.BeginTransaction();
+
+            creator = new User() { Id = 1, Firstname = "Test", Surname = "Surname", Mail = "test@test.test", AzureUId = "blahblahblah"};
+            context.Users.Add(creator);
+            context.SaveChanges();
         }
 
         public void Dispose()
@@ -60,7 +65,7 @@ namespace CrowdSpark.Models.Tests
 
                 using (var repo1 = new ProjectRepository(context))
                 {
-                    var idproj = await repo1.CreateAsync(project);
+                    var idproj = await repo1.CreateAsync(project, creator.Id);
                     Assert.NotNull(await context.Locations.FindAsync(idproj));
                 }
             }
@@ -89,7 +94,7 @@ namespace CrowdSpark.Models.Tests
 
                 using (var repo1 = new ProjectRepository(context))
                 {
-                    var idproj = await repo1.CreateAsync(project);
+                    var idproj = await repo1.CreateAsync(project, creator.Id);
                     Assert.NotNull(await context.Projects.FindAsync(idproj));
                     Assert.True(await repo1.DeleteAsync(idproj));
                 }
@@ -101,9 +106,9 @@ namespace CrowdSpark.Models.Tests
         {
             var projects = new Project[]
             {
-                new Project() { Title = "TestOne", Description = "Descritpion", CreatedDate = System.DateTime.UtcNow },
-                new Project() { Title = "T3st", Description = "TestTwo", CreatedDate = System.DateTime.UtcNow },
-                new Project() { Title = "Title", Description = "Descritpion", CreatedDate = System.DateTime.UtcNow }
+                new Project() { Title = "TestOne", Description = "Descritpion", CreatedDate = System.DateTime.UtcNow, CreatorId = creator.Id },
+                new Project() { Title = "T3st", Description = "TestTwo", CreatedDate = System.DateTime.UtcNow, CreatorId = creator.Id },
+                new Project() { Title = "Title", Description = "Descritpion", CreatedDate = System.DateTime.UtcNow, CreatorId = creator.Id }
             };
 
             context.Projects.AddRange(projects);
@@ -132,9 +137,9 @@ namespace CrowdSpark.Models.Tests
 
             var projects = new Project[]
             {
-                new Project() { Title = "TestOne", Description = "Descritpion", Category = null, CreatedDate = System.DateTime.UtcNow },
-                new Project() { Title = "T3st", Description = "TestTwo", Category = category, CreatedDate = System.DateTime.UtcNow },
-                new Project() { Title = "Title", Description = "Descritpion", Category = category, CreatedDate = System.DateTime.UtcNow }
+                new Project() { Title = "TestOne", Description = "Descritpion", Category = null, CreatedDate = System.DateTime.UtcNow, CreatorId = creator.Id },
+                new Project() { Title = "T3st", Description = "TestTwo", Category = category, CreatedDate = System.DateTime.UtcNow, CreatorId = creator.Id },
+                new Project() { Title = "Title", Description = "Descritpion", Category = category, CreatedDate = System.DateTime.UtcNow, CreatorId = creator.Id }
             };
 
             context.Projects.AddRange(projects);

@@ -17,11 +17,13 @@ namespace CrowdSpark.App.Models
 
         Task<bool> Create(CreateProjectDTO project);
 
-        Task<bool> Update(int projectId, ProjectSummaryDTO project);
+        Task<bool> Update(ProjectDTO project);
 
         Task<bool> AddSkill(int projectId, SkillDTO skill);
 
         Task<IReadOnlyCollection<SkillDTO>> GetSkills(int projectId);
+
+        Task<IReadOnlyCollection<SparkDTO>> GetApprovedSparks(int projectId);
 
         Task<bool> CreateSpark(int projectId);
     }

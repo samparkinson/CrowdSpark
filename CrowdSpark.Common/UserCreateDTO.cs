@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CrowdSpark.Common
 {
-    public class UserDTO
+    public class UserCreateDTO
     {
-        [Required]
-        public int Id { get; set; }
-
         [Required]
         [StringLength(30)]
         public string Firstname { get; set; }

@@ -17,7 +17,7 @@ namespace CrowdSpark.Models
             _context = context;
         }
 
-        public async Task<int> CreateAsync(UserDTO user, string azureUIDd)
+        public async Task<int> CreateAsync(UserCreateDTO user, string azureUIDd)
         {
             var userToCreate = new User
             {
@@ -54,6 +54,7 @@ namespace CrowdSpark.Models
 
             return new UserDTO
             {
+                Id = user.Id,
                 Firstname = user.Firstname,
                 Surname = user.Surname,
                 Mail = user.Mail,
@@ -79,6 +80,7 @@ namespace CrowdSpark.Models
 
             return new UserDTO
             {
+                Id = user.Id,
                 Firstname = user.Firstname,
                 Surname = user.Surname,
                 Mail = user.Mail,
@@ -92,6 +94,7 @@ namespace CrowdSpark.Models
             var users = from u in _context.Users
                            select new UserDTO
                            {
+                               Id = u.Id,
                                Firstname = u.Firstname,
                                Surname = u.Surname,
                                Mail = u.Mail,

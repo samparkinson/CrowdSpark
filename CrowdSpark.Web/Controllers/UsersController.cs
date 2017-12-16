@@ -24,19 +24,19 @@ namespace CrowdSpark.Web.Controllers
         }
 
         private readonly IUserLogic _userLogic;
+        public Func<string> GetUserId; // Replaceable in testing
 
         public UsersController(IUserLogic userLogic/*, UserManager<UserIdentity> userman */)
         {
-         //   _userManager = userman;
             _userLogic = userLogic;
+            GetUserId = () => this.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         // GET api/v1/users
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var userAzureId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var userId = await _userLogic.GetIdAsync(userAzureId);
+            var userId = await _userLogic.GetIdFromAzureUIdAsync(GetUserId());
 
             var user = _userLogic.GetAsync(userId);
 
@@ -49,35 +49,31 @@ namespace CrowdSpark.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Get(int id)
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            string st = userId;
-            Console.WriteLine(st);
-            return Ok(st);
-           // return Ok(await _userLogic.GetAsync(id)); //TODO, decided if users can look at the profile of other users
+            return Ok(await _userLogic.GetAsync(id)); //TODO, decided if users can look at the profile of other users
         }
 
         [Authorize]
         [HttpGet]
         public IActionResult GetToken()
         {
-            return Ok(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return Ok(GetUserId());
         }
 
 
         // POST api/v1/users
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]UserDTO user)
+        public async Task<IActionResult> Post([FromBody]UserCreateDTO user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var azureUId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var azureUId = GetUserId();
 
             var success = await _userLogic.CreateAsync(user, azureUId);
 
-            var userId = 0; //TODO, get userID from auth
+            var userId = await _userLogic.GetIdFromAzureUIdAsync(azureUId);
 
             if (success == ResponseLogic.SUCCESS)
             {
@@ -91,12 +87,17 @@ namespace CrowdSpark.Web.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]UserDTO user)
         {
+            var userId = await _userLogic.GetIdFromAzureUIdAsync(GetUserId());
+
+            if (user.Id != userId)
+            {
+                ModelState.AddModelError("Id", "Updating userId must match requesting userId");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            var userId = 0; // TODO, get user ID from auth
 
             var success = await _userLogic.UpdateAsync(userId, user);
 
@@ -116,7 +117,7 @@ namespace CrowdSpark.Web.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete()
         {
-            var userId = 0; //TODO, get userId from auth
+            var userId = await _userLogic.GetIdFromAzureUIdAsync(GetUserId());
 
             var success = await _userLogic.DeleteAsync(userId);
 
@@ -136,7 +137,7 @@ namespace CrowdSpark.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSkills()
         {
-            var userId = 0; //TODO, get user id from auth
+            var userId = await _userLogic.GetIdFromAzureUIdAsync(GetUserId());
 
             var user = await _userLogic.GetAsync(userId);
 
@@ -157,7 +158,7 @@ namespace CrowdSpark.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userId = 0; //TODO, get userId from auth
+            var userId = await _userLogic.GetIdFromAzureUIdAsync(GetUserId());
 
             var success = await _userLogic.AddSkillAsync(userId, skill);
 

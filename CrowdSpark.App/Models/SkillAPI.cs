@@ -25,19 +25,35 @@ namespace CrowdSpark.App.Models
             _client = client;
         }
 
-        public Task<bool> Create(SkillCreateDTO skill)
+        public async Task<bool> Create(SkillCreateDTO skill)
         {
-            throw new NotImplementedException();
+            var response = await _client.PostAsync("api/v1/skills", skill.ToHttpContent());
+
+            return response.IsSuccessStatusCode;
         }
 
-        public Task<IReadOnlyCollection<SkillDTO>> GetAll()
+        public async Task<IReadOnlyCollection<SkillDTO>> GetAll()
         {
-            throw new NotImplementedException();
+            var response = await _client.GetAsync($"api/v1/skills");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.To<IReadOnlyCollection<SkillDTO>>();
+            }
+
+            return new List<SkillDTO>().AsReadOnly();
         }
 
-        public Task<IReadOnlyCollection<SkillDTO>> GetBySearch(string searchString)
+        public async Task<IReadOnlyCollection<SkillDTO>> GetBySearch(string searchString)
         {
-            throw new NotImplementedException();
+            var response = await _client.GetAsync($"api/v1/skills?search={searchString}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.To<IReadOnlyCollection<SkillDTO>>();
+            }
+
+            return new List<SkillDTO>().AsReadOnly();
         }
 
         #region IDisposable Support
@@ -49,7 +65,7 @@ namespace CrowdSpark.App.Models
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    _client.Dispose();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.

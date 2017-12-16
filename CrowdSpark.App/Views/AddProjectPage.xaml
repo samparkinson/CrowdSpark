@@ -161,6 +161,12 @@
                                 <StackPanel Grid.Row="2" Margin="0,0,25,0">
                                 <TextBlock Margin="0,0,10,10" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="REQUIRED SKILLS"/>
                             </StackPanel>
+                                
+                            <StackPanel Grid.Row="3" Margin="0,0,0,10">
+                                <TextBlock FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="CATEGORY"/>
+                            </StackPanel>
+
+                           
                             <ScrollViewer MaxHeight="140" Grid.Row="3" HorizontalAlignment="Stretch" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Visible" Margin="0,0,10,0">
                                 <StackPanel x:Name="SkillsPanel" Margin="0,0,15,10" Background="#808080">
                                     <AutoSuggestBox x:Name="skillsAutoSuggestBox" HorizontalAlignment="Stretch" Background="White" 
@@ -172,22 +178,7 @@
                                 </StackPanel>
                             </ScrollViewer>
 
-                            <StackPanel Grid.Row="4" VerticalAlignment="Bottom">
-                                    <!--Post Project Button-->
-                                    <StackPanel Background="white" Grid.Column="1" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Right" Margin="0,0,25,25" VerticalAlignment="Center">
-                                        <Button Click="AddSkill_Click" VerticalAlignment="Center">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Text="Add new skill" Grid.Column="0"/>
-                                                <SymbolIcon Symbol="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                            </Grid>
-                                        </Button>
-                                    </StackPanel>
-                                </StackPanel>
-
+                            
                                 <StackPanel Grid.Row="5" Margin="0,0,0,10">
                                     <TextBlock FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="CATEGORY"/>
                                 </StackPanel>

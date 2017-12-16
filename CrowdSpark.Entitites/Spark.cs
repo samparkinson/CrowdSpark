@@ -10,7 +10,7 @@ namespace CrowdSpark.Entitites
         public Project Project { get; set; }
         public User User { get; set; }
 
-        public int Status { get; set; } // TODO, create enum for Spark
+        public int Status { get; set; }
 
         public DateTime CreatedDate { get; set; }
     }

@@ -19,14 +19,13 @@ namespace CrowdSpark.App.Views
     {
         private readonly AddProjectPageViewModel _vm;
         private List<SkillDTO> SkillsList { get; set; }
-        private List<CategoryDTO> CategoryList { get; set; }
 
         public AddProjectPage()
         {
             InitializeComponent();
 
             _vm = App.ServiceProvider.GetService<AddProjectPageViewModel>();
-            
+
             DataContext = _vm;
 
             SkillsList = new List<SkillDTO>();
@@ -86,48 +85,62 @@ namespace CrowdSpark.App.Views
 
         public void PostProjectButton_Click(object sender, RoutedEventArgs e)
         {
+            var checkList = new List<string>();
             //should implement a null checker for these
-            var ProjectTitle = TitleTextBox.Text;
-            var ProjectDescription = DescriptionTextBox.Text;
-            var ProjectCategoryText = categoryAutoSuggestBox.Text;
-            var ProjectCountry = CountryComboBox.SelectedItem.ToString();
-            var ProjectCity = CityComboBox.SelectedItem.ToString();
+            var ProjectTitle = TitleTextBox.Text; checkList.Add(ProjectTitle);
+            var ProjectDescription = DescriptionTextBox.Text; checkList.Add(ProjectDescription);
+            var ProjectCategoryText = categoryAutoSuggestBox.Text; checkList.Add(ProjectCategoryText);
+
+            var ProjectCountry = default(string);
+            if (CountryComboBox.SelectedItem != null)
+            {
+                ProjectCountry = CountryComboBox.SelectedItem.ToString(); checkList.Add(ProjectCountry);
+            }
+            var ProjectCity = default(string);
+            if (CityComboBox.SelectedItem != null)
+            {
+                ProjectCity = CityComboBox.SelectedItem.ToString(); checkList.Add(ProjectCity);
+            }
+
             var ProjectLocation = new LocationDTO { Country = ProjectCountry, City = ProjectCity };
-            var ProjectCategory = new CategoryDTO { Name = ProjectCategoryText};
-            
+            var ProjectCategory = new CategoryDTO { Name = ProjectCategoryText };
+
             //TODO:needs work
             var SparkList = new List<SparkDTO>();
             SparkList.Add(new SparkDTO());
-            
-            var projectDTO = new CreateProjectDTO { Title = ProjectTitle, Description = ProjectDescription,
-                Location = ProjectLocation, Skills = SkillsList, Category = ProjectCategory};
-            
+
+            foreach (var s in checkList)
+            {
+                if (String.IsNullOrEmpty(s))
+                {
+                    return;
+                }
+            }
+            var projectDTO = new CreateProjectDTO
+            {
+                Title = ProjectTitle,
+                Description = ProjectDescription,
+                Location = ProjectLocation,
+                Skills = SkillsList,
+                Category = ProjectCategory
+            };
+
             //TODO:Use the ProjectLogic class to post the project
             ((AddProjectPageViewModel)DataContext).PostProjectCommand.Execute(projectDTO);
-        }
 
-        public void AddSkill_Click(object sender, RoutedEventArgs e)
-        {
-            AutoSuggestBox autoSuggestionBox = new AutoSuggestBox();
-            autoSuggestionBox.HorizontalAlignment = HorizontalAlignment.Stretch;
-            autoSuggestionBox.Margin = new Thickness(15,0,15,15);
-            autoSuggestionBox.PlaceholderText = "TYPE IN A SKILL";
-            autoSuggestionBox.TextChanged += skillsAutoSuggestBox_TextChanged;
-            autoSuggestionBox.QuerySubmitted += skillsAutoSuggestBox_QuerySubmitted;
-            autoSuggestionBox.SuggestionChosen += skillsAutoSuggestBox_SuggestionChosen;
-
-            SkillsPanel.Children.Add(autoSuggestionBox);
         }
-   
-        private string[] SkillsSuggestions = new string[] { "Music", "Dance", "Sing", "Piano" };
+        private string[] SkillsSuggestions = new string[] { "Music", "Guitar", "Piano" };
 
         private void skillsAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
+                //CategorySuggestions.Clear();
+
                 var Suggestion = SkillsSuggestions.Where(p => p.StartsWith(sender.Text, StringComparison.OrdinalIgnoreCase)).ToArray();
                 sender.ItemsSource = Suggestion;
             }
+           
         }
 
         private void skillsAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -136,10 +149,23 @@ namespace CrowdSpark.App.Views
                 sender.Text = args.ChosenSuggestion.ToString();
             else
             {
-                skillsAutoSuggestBox.Text = sender.Text;
+                categoryAutoSuggestBox.Text = sender.Text;
                 SkillsList.Add(new SkillDTO { Name = sender.Text });
             }
+
+            AutoSuggestBox suggestBox = new AutoSuggestBox();
+            suggestBox.PlaceholderText = "TYPE IN A SKILL";
+            suggestBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            suggestBox.Margin = new Thickness(15,0,15,15);
+           
+            suggestBox.TextChanged += skillsAutoSuggestBox_TextChanged;
+            suggestBox.SuggestionChosen += skillsAutoSuggestBox_SuggestionChosen;
+            suggestBox.QuerySubmitted += skillsAutoSuggestBox_QuerySubmitted;
+
+            SkillsPanel.Children.Add(suggestBox);
         }
+        
 
         private void skillsAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
@@ -149,7 +175,7 @@ namespace CrowdSpark.App.Views
         private string[] CategorySuggestions = new string[] { "Apple", "Banana", "Orange", "Strawberry" };
 
         private void categoryAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        { 
+        {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 //CategorySuggestions.Clear();
@@ -166,7 +192,7 @@ namespace CrowdSpark.App.Views
             else
             {
                 categoryAutoSuggestBox.Text = sender.Text;
-                CategoryList.Add(new CategoryDTO { Name = sender.Text });
+                //CategoryList.Add(new CategoryDTO { Name = sender.Text });
             }
         }
 
@@ -174,7 +200,8 @@ namespace CrowdSpark.App.Views
         {
             sender.Text = args.SelectedItem.ToString();
         }
-    }
 
+        
+    }
 
 }

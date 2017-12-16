@@ -495,15 +495,18 @@ namespace CrowdSpark.Logic.Tests
                 Country = "Australia"
             }; ;
 
+            var creatorUser = new User() { Id = 1, Firstname = "First", Surname = "Surname", AzureUId = "Azure", Mail = "test@example.com" };
+
             var projects = new Project[]
             {
-                new Project{ Title = "Project1", Location = locationToDelete, LocationId = locationToDelete.Id, CreatedDate = DateTime.Now, Description = "abcd"},
-                new Project{ Title = "Project2", Location = locationToDelete, LocationId = locationToDelete.Id, CreatedDate = DateTime.Now, Description = "abcd"}
+                new Project{ Title = "Project1", Location = locationToDelete, LocationId = locationToDelete.Id, CreatedDate = DateTime.Now, Description = "abcd", CreatorId = creatorUser.Id },
+                new Project{ Title = "Project2", Location = locationToDelete, LocationId = locationToDelete.Id, CreatedDate = DateTime.Now, Description = "abcd", CreatorId = creatorUser.Id }
             };
 
             locationRepository = new LocationRepository(setupContextForIntegrationTests());
 
             context.Locations.Add(locationToDelete);
+            context.Users.Add(creatorUser);
             context.Projects.AddRange(projects);
             context.SaveChanges();
 

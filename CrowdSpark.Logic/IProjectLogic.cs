@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CrowdSpark.Common;
-using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Logic
 {
@@ -18,17 +17,17 @@ namespace CrowdSpark.Logic
 
         Task<IEnumerable<ProjectSummaryDTO>> SearchAsync(int categoryId);
 
-        Task<ResponseLogic> CreateAsync(CreateProjectDTO project);
+        Task<(ResponseLogic outcome, int Id)> CreateAsync(CreateProjectDTO project, int creatorId);
 
-        Task<ResponseLogic> UpdateAsync(ProjectDTO project);
+        Task<ResponseLogic> UpdateAsync(ProjectDTO project, int requestingUserId);
 
-        Task<ResponseLogic> UpdateAsync(ProjectSummaryDTO project);
+        Task<ResponseLogic> UpdateAsync(ProjectSummaryDTO project, int requestingUserId);
 
-        Task<ResponseLogic> DeleteAsync(int projectId);
+        Task<ResponseLogic> DeleteAsync(int projectId, int requestingUserId);
 
-        Task<ResponseLogic> AddSkillAsync(int projectId, SkillDTO skill);
+        Task<ResponseLogic> AddSkillAsync(int projectId, SkillDTO skill, int requestingUserId);
 
-        Task<ResponseLogic> RemoveSkillAsync(int projectId, SkillDTO skill);
+        Task<ResponseLogic> RemoveSkillAsync(int projectId, SkillDTO skill, int requestingUserId);
 
         Task<IEnumerable<SparkDTO>> GetApprovedSparksAsync(int projectId);
 

@@ -44,8 +44,11 @@ namespace CrowdSpark.App.ViewModels
             {
                 if (account != null)
                 {
-                    Debug.WriteLine(((CreateProjectDTO)project).Title);
-                    await projectAPI.Create((CreateProjectDTO)project);
+                    if (project != null)
+                    {
+                        Debug.WriteLine(((CreateProjectDTO)project).Title);
+                        await projectAPI.Create((CreateProjectDTO)project);
+                    }
                 }
             });
 

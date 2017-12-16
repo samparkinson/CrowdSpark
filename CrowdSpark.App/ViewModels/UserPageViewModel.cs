@@ -27,9 +27,7 @@ namespace CrowdSpark.App.ViewModels
 
         private LocationDTO _location;
         public LocationDTO Location { get => _location; set { if (!value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
-
-        public ImageSource CountryFlag { get; set; }
-
+        
         private readonly IAuthenticationHelper helper;
 
         //List of skills 
@@ -37,28 +35,38 @@ namespace CrowdSpark.App.ViewModels
 
         public UserPageViewModel(IAuthenticationHelper _helper)
         {
-            MenuOptions = CommonAttributes.MenuOptions;
-
             helper = _helper;
+            account = CommonAttributes.account;
+            UserName = account.UserName;
+
+            SignInOutButtonText = account == null ? "Sign In" : "Sign Out";
 
             SignInOutCommand = new RelayCommand(async o =>
             {
-                if (CommonAttributes.account != null)
+                if (account != null)
                 {
-                    await helper.SignOutAsync(CommonAttributes.account);
-                    CommonAttributes.account = null;
-                    // Characters.Clear();
+                    await helper.SignOutAsync(account);
+                    account = null;
+                    CommonAttributes.account = account;
+                    SignInOutButtonText = "Sign In";
                 }
                 else
                 {
-                    CommonAttributes.account = await helper.SignInAsync();
-                    if (CommonAttributes.account != null)
+                    account = await helper.SignInAsync();
+                    if (account != null)
                     {
-                        Debug.WriteLine("Sign in successfull");
                         //Initialize();
+                        UserName = CommonAttributes.account.UserName;
+
+                        CommonAttributes.account = account;
+
+                        MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
+
+                        SignInOutButtonText = "Sign Out";
                     }
                 }
             });
+            MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
         }
 
         public void Initialize(UserViewModel userViewModel)
@@ -73,20 +81,7 @@ namespace CrowdSpark.App.ViewModels
 
             //Not sure
             Skills = (ObservableCollection<SkillDTO>) userViewModel.Skills;
-
-            CountryFlag = GetCountryFlag(Location.Country);
-        }
-        
-        private ImageSource GetCountryFlag(string Country)
-        {
-            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-            CultureInfo cInfo = cultures.FirstOrDefault(culture => new RegionInfo(culture.LCID).EnglishName == Country);
-
-            string CountryCode = cInfo.Name.Split("-")[1].ToLower();
-
-            var fileLocation = new Uri(String.Format(@"ms-appx:Assets\flags\{0}.png", CountryCode));
-
-            return new BitmapImage(fileLocation);
+            
         }
     }
 }

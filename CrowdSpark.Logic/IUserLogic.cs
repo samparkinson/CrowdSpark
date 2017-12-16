@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CrowdSpark.Common;
-using CrowdSpark.Entitites;
 
 namespace CrowdSpark.Logic
 {
@@ -12,9 +11,9 @@ namespace CrowdSpark.Logic
 
         Task<UserDTO> GetAsync(int userId);
 
-        Task<int> GetIdAsync(string azureUId);
+        Task<int> GetIdFromAzureUIdAsync(string azureUId);
 
-        Task<ResponseLogic> CreateAsync(UserDTO user, string azureUId);
+        Task<ResponseLogic> CreateAsync(UserCreateDTO user, string azureUId);
 
         Task<ResponseLogic> UpdateAsync(int userId, UserDTO user);
 

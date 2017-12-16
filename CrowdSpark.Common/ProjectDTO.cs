@@ -1,5 +1,4 @@
-﻿using CrowdSpark.Entitites;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 
 namespace CrowdSpark.Common
@@ -21,5 +20,7 @@ namespace CrowdSpark.Common
         public CategoryDTO Category { get; set; }
 
         public DateTime CreatedDate { get; set; }
+
+        public UserDTO Creator { get; set; }
     }
 }

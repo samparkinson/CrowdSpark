@@ -45,6 +45,10 @@ namespace CrowdSpark.App.ViewModels
         public ProjectPageViewModel(IAuthenticationHelper _helper)
         {
             helper = _helper;
+            account = CommonAttributes.account;
+            UserName = account.UserName;
+
+            SignInOutButtonText = account == null ? "Sign In" : "Sign Out";
 
             SignInOutCommand = new RelayCommand(async o =>
             {
@@ -52,6 +56,7 @@ namespace CrowdSpark.App.ViewModels
                 {
                     await helper.SignOutAsync(account);
                     account = null;
+                    CommonAttributes.account = account;
                     SignInOutButtonText = "Sign In";
                 }
                 else
@@ -67,6 +72,8 @@ namespace CrowdSpark.App.ViewModels
                     }
                 }
             });
+
+            MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
         }
 
         public void Initialize(ProjectViewModel projectViewModel)

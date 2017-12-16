@@ -1,4 +1,5 @@
 ﻿using CrowdSpark.App.Helpers;
+using CrowdSpark.App.Models;
 using CrowdSpark.Common;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,52 @@ namespace CrowdSpark.App.ViewModels
 {
     class SearchPageViewModel : BaseViewModel
     {
-
         public ObservableCollection<ProjectViewModel> Results { get; set; }
-        
+
+        private readonly IProjectAPI projectAPI;
+
+        private readonly IAuthenticationHelper helper;
+
+        public SearchPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI)
+        {
+            projectAPI = _projectAPI;
+            helper = _helper;
+            account = CommonAttributes.account;
+            UserName = account.UserName;
+
+            SignInOutButtonText = account == null ? "Sign In" : "Sign Out";
+
+            SignInOutCommand = new RelayCommand(async o =>
+            {
+                //sign out
+                if (account != null)
+                {
+                    await helper.SignOutAsync(account);
+                    account = null;
+                    CommonAttributes.account = account;
+                    Results.Clear();
+                    SignInOutButtonText = "Sign In";
+                }
+                else //sign in
+                {
+                    account = await helper.SignInAsync();
+                    if (account != null)
+                    {
+                        CommonAttributes.account = account;
+
+                        UserName = account.UserName;
+
+                        //Store the stuff in a static class
+                        MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
+
+                        SignInOutButtonText = "Sign Out";
+                    }
+                }
+            });
+            
+            MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
+        }
+
         public void Initialize(string Query)
         {
             //TODO:get the results from the repo async

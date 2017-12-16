@@ -78,9 +78,9 @@ namespace CrowdSpark.App.Models
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> Update(int projectId, ProjectSummaryDTO project)
+        public async Task<bool> Update(ProjectDTO project)
         {
-            var response = await _client.PutAsync($"api/v1/projects/{projectId}", project.ToHttpContent());
+            var response = await _client.PutAsync($"api/v1/projects/{project.Id}", project.ToHttpContent());
 
             return response.IsSuccessStatusCode;
         }
@@ -102,6 +102,18 @@ namespace CrowdSpark.App.Models
             }
 
             return new List<SkillDTO>().AsReadOnly();
+        }
+
+        public async Task<IReadOnlyCollection<SparkDTO>> GetApprovedSparks(int projectId)
+        {
+            var response = await _client.GetAsync($"api/v1/projects/spark/{projectId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.To<IReadOnlyCollection<SparkDTO>>();
+            }
+
+            return new List<SparkDTO>().AsReadOnly();
         }
 
         public async Task<bool> CreateSpark(int projectId)

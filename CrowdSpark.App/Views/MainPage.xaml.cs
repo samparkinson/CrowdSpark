@@ -37,6 +37,9 @@ namespace CrowdSpark.App
                 : AppViewBackButtonVisibility.Collapsed;
             
             RecentTab.Background = new SolidColorBrush(Colors.DimGray);
+            ((MainPageViewModel)DataContext).RepopulateContentCommand.Execute("Recent");
+            ProjectsListStackPanel.Visibility = Visibility.Visible;
+            CategoriesListStackPanel.Visibility = Visibility.Collapsed;
         }
 
         //Navigate to the associated project page
