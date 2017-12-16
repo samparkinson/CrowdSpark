@@ -49,7 +49,7 @@ namespace CrowdSpark.App.Models
             return null;
         }
 
-        public async Task<bool> Create(UserDTO user)
+        public async Task<bool> Create(UserCreateDTO user)
         {
             var response = await _client.PostAsync("api/v1/users", user.ToHttpContent());
 
