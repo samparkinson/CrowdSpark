@@ -112,12 +112,15 @@
     <Compile Include="Models\ISettings.cs" />
     <Compile Include="Models\ISkillAPI.cs" />
     <Compile Include="Models\IUserAPI.cs" />
+    <Compile Include="Models\NavigationService.cs" />
     <Compile Include="Models\ProjectAPI.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\IoCContainer.cs" />
     <Compile Include="Models\SkillAPI.cs" />
     <Compile Include="Models\UserAPI.cs" />
     <Compile Include="ViewModels\AddProjectPageViewModel.cs" />
+    <Compile Include="Models\INavigationService.cs" />
+    <Compile Include="ViewModels\RegisterPageViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\UserPageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -136,14 +139,14 @@
     <Compile Include="Views\ProjectPage.xaml.cs">
       <DependentUpon>ProjectPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RegisterPage.xaml.cs">
+      <DependentUpon>RegisterPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ViewComponents\AppBar.xaml.cs">
-      <DependentUpon>AppBar.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +361,10 @@
     <Content Include="Assets\icons\Settings.png" />
     <Content Include="Assets\logo-blackwhite.png" />
     <Content Include="Assets\project-image.jpg" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -384,6 +391,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RegisterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SearchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -391,10 +402,6 @@
     <Page Include="Views\UserPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ViewComponents\AppBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

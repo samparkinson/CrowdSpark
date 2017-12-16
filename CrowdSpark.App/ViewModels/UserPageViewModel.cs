@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using Windows.Security.Credentials;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -30,12 +31,15 @@ namespace CrowdSpark.App.ViewModels
         
         private readonly IAuthenticationHelper helper;
 
+        private readonly IUserAPI userAPI;
+
         //List of skills 
         public ObservableCollection<SkillDTO> Skills { get; set; }
-
-        public UserPageViewModel(IAuthenticationHelper _helper)
+        
+        public UserPageViewModel(IAuthenticationHelper _helper, IUserAPI _userAPI)
         {
             helper = _helper;
+            userAPI = _userAPI; 
             account = CommonAttributes.account;
             UserName = account.UserName;
 
@@ -55,7 +59,7 @@ namespace CrowdSpark.App.ViewModels
                     account = await helper.SignInAsync();
                     if (account != null)
                     {
-                        //Initialize();
+                        Initialize(account);
                         UserName = CommonAttributes.account.UserName;
 
                         CommonAttributes.account = account;
@@ -66,22 +70,23 @@ namespace CrowdSpark.App.ViewModels
                     }
                 }
             });
+
             MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
         }
 
-        public void Initialize(UserViewModel userViewModel)
+        public async void Initialize(WebAccount account)
         {
-            Firstname = userViewModel.Firstname;
+            //if (account != null)
+            //{
 
-            Surname = userViewModel.Surname;
+            //    var userDTO = await userAPI.GetMyself();
+            //    Firstname = userDTO.Firstname;
+            //    Surname = userDTO.Surname;
+            //    Mail = userDTO.Mail;
+            //    Location = userDTO.Location;
 
-            Mail = userViewModel.Mail;
-
-            Location = userViewModel.Location;
-
-            //Not sure
-            Skills = (ObservableCollection<SkillDTO>) userViewModel.Skills;
-            
+            //    Skills = (ObservableCollection<SkillDTO>) userDTO.Skills;
+            //}
         }
     }
 }

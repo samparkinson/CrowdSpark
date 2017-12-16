@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Windows.Security.Credentials;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,9 +33,10 @@ namespace CrowdSpark.App.Views
             //if user not signed in
             if (e.Parameter == null)
             {
-                _vm.SignInOutCommand.Execute(null);
+                ((UserPageViewModel)DataContext).SignInOutCommand.Execute(null);
             }
-            //await _vm.Initialize();
+            
+            ((UserPageViewModel)DataContext).Initialize((WebAccount)e.Parameter);
 
             var rootFrame = Window.Current.Content as Frame;
 

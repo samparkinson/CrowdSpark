@@ -160,7 +160,7 @@ namespace CrowdSpark.App.Views
                 textBox.PlaceholderText = "TYPE IN A SKILL";
                 textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
                 textBox.BorderThickness = new Thickness(15);
-                textBox.Padding = new Thickness(15);
+                textBox.Padding = new Thickness(10);
                 textBox.Background = new SolidColorBrush(Colors.White);
                 textBox.TextChanged += new TextChangedEventHandler(TextBox_TextChanged);
 

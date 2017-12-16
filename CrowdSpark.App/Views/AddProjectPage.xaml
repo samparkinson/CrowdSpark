@@ -155,7 +155,7 @@
                             <!--Required Skills-->
                             <StackPanel x:Name="SkillsPanel" Grid.Row="2" Margin="0,0,25,25">
                                 <TextBlock Margin="0,0,10,10" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="REQUIRED SKILLS"/>
-                                <TextBox TextChanged="TextBox_TextChanged" Background="White" PlaceholderText="TYPE IN A SKILL" HorizontalAlignment="Stretch" BorderThickness="15" Padding="15" ></TextBox>
+                                <TextBox TextChanged="TextBox_TextChanged" Background="White" PlaceholderText="TYPE IN A SKILL" HorizontalAlignment="Stretch" BorderThickness="15" Padding="10" ></TextBox>
                             </StackPanel>
                             <StackPanel Grid.Row="3" Margin="0,0,0,10">
                                 <TextBlock FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="CATEGORY"/>

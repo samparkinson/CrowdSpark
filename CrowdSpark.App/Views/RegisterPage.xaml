@@ -1,0 +1,82 @@
+﻿<Page
+    x:Class="CrowdSpark.App.Views.RegisterPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CrowdSpark.App.Views"
+    xmlns:c="using:CrowdSpark.App.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <c:BorderConverter x:Key="borderConverter"/>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" BorderBrush="Transparent" VerticalAlignment="Center" Margin="25">
+            <!--Name-->
+            <StackPanel Grid.Row="2">
+                <TextBlock Margin="0,0,10,10" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="NAME"/>
+                <TextBox x:Name="NameTextBox" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" Background="White" PlaceholderText="TYPE IN YOUR NAME" HorizontalAlignment="Stretch" BorderThickness="10" Padding="10"></TextBox>
+            </StackPanel>
+            
+            <!--Surname-->
+            <StackPanel Grid.Row="2" Margin="0,50">
+                <TextBlock Margin="0,0,10,10" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="SURNAME"/>
+                <TextBox x:Name="SurnameTextBox" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" Background="White" PlaceholderText="TYPE IN YOUR SURNAME" HorizontalAlignment="Stretch" BorderThickness="10" Padding="10"></TextBox>
+            </StackPanel>
+
+            <!--Mail-->
+            <StackPanel Grid.Row="2">
+                <TextBlock Margin="0,0,10,10" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="MAIL"/>
+                <TextBox x:Name="MailTextBox" IsEnabled="False" Text="{Binding Mail}" Background="White" HorizontalAlignment="Stretch" BorderThickness="10" Padding="10"></TextBox>
+            </StackPanel>
+
+            <!--Location-->
+            <StackPanel Margin="0,50">
+                <TextBlock FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="LOCATION"></TextBlock>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="CountryComboBox" Grid.Column="0" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" HorizontalAlignment="Stretch" PlaceholderText="Country"></ComboBox>
+                    <ComboBox x:Name="CityComboBox" Grid.Column="1" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" HorizontalAlignment="Stretch" PlaceholderText="City"></ComboBox>
+                </Grid>
+            </StackPanel>
+
+            <!--Skills-->
+            <StackPanel x:Name="SkillsPanel" Grid.Row="2">
+                <TextBlock Margin="0,0,10,10" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="SKILLS"/>
+                <TextBox x:Name="SkillTextBox" TextChanged="SkillsTextBox_TextChanged" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" Background="White" PlaceholderText="TYPE IN A SKILL" HorizontalAlignment="Stretch" BorderThickness="10" Padding="10"></TextBox>
+            </StackPanel>
+
+            <Grid Margin="0,50">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" HorizontalAlignment="Center" Click="cancelButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="Cancel"></SymbolIcon>
+                        <TextBlock Text="Cancel" Margin="15,0"></TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button Grid.Column="1" HorizontalAlignment="Center" Click="registerButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="Accept"></SymbolIcon>
+                        <TextBlock Text="Register" Margin="15,0"></TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>
