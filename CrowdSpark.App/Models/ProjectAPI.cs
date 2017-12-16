@@ -104,6 +104,18 @@ namespace CrowdSpark.App.Models
             return new List<SkillDTO>().AsReadOnly();
         }
 
+        public async Task<IReadOnlyCollection<SparkDTO>> GetApprovedSparks(int projectId)
+        {
+            var response = await _client.GetAsync($"api/v1/projects/spark/{projectId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.To<IReadOnlyCollection<SparkDTO>>();
+            }
+
+            return new List<SparkDTO>().AsReadOnly();
+        }
+
         public async Task<bool> CreateSpark(int projectId)
         {
             var response = await _client.PostAsync($"api/v1/projects/spark/{projectId}", null);

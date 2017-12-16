@@ -23,6 +23,8 @@ namespace CrowdSpark.App.Models
 
         Task<IReadOnlyCollection<SkillDTO>> GetSkills(int projectId);
 
+        Task<IReadOnlyCollection<SparkDTO>> GetApprovedSparks(int projectId);
+
         Task<bool> CreateSpark(int projectId);
     }
 }
