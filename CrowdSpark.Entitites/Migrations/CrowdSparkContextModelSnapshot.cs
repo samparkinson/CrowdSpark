@@ -74,7 +74,10 @@ namespace CrowdSpark.Entitites.Migrations
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<string>("Description");
+                    b.Property<int>("CreatorId");
+
+                    b.Property<string>("Description")
+                        .IsRequired();
 
                     b.Property<int?>("LocationId");
 
@@ -85,6 +88,8 @@ namespace CrowdSpark.Entitites.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CreatorId");
 
                     b.HasIndex("LocationId");
 
@@ -135,6 +140,10 @@ namespace CrowdSpark.Entitites.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AzureUId")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
                     b.Property<string>("Firstname")
                         .IsRequired()
                         .HasMaxLength(30);
@@ -161,6 +170,11 @@ namespace CrowdSpark.Entitites.Migrations
                     b.HasOne("CrowdSpark.Entitites.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
+
+                    b.HasOne("CrowdSpark.Entitites.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CrowdSpark.Entitites.Location", "Location")
                         .WithMany()
