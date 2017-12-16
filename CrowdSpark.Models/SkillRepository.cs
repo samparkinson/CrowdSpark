@@ -78,6 +78,7 @@ namespace CrowdSpark.Models
         public async Task<bool> UpdateAsync(SkillDTO details)
         {
             var skillToUpdate = await _context.Skills.FindAsync(details.Id);
+            if (skillToUpdate == null) return false;
             _context.Skills.Update(skillToUpdate);
 
             skillToUpdate.Name = details.Name;

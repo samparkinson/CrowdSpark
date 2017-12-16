@@ -100,6 +100,36 @@ namespace CrowdSpark.Models.Tests
         }
 
         [Fact]
+        public async void FindAsync_TrueifExists()
+        {
+            var cat = new CategoryCreateDTO
+            {
+                Name = "Programming"
+            };
+
+            using (var repository = new CategoryRepository(context))
+            {
+                var id = await repository.CreateAsync(cat);
+                Assert.NotNull(await repository.FindAsync("Programming"));
+            }
+        }
+
+        [Fact]
+        public async void FindAsync_Trueifcaseincorrect()
+        {
+            var cat = new CategoryCreateDTO
+            {
+                Name = "Programming"
+            };
+
+            using (var repository = new CategoryRepository(context))
+            {
+                var id = await repository.CreateAsync(cat);
+                Assert.NotNull(await repository.FindAsync("programming"));
+            }
+        }
+
+        [Fact]
         public async void FindWildcardAsync_EmptyCollection()
         {
             var list = new List<CategoryCreateDTO>();
@@ -142,6 +172,48 @@ namespace CrowdSpark.Models.Tests
                 sorted_list = await repository.FindWildcardAsync("e");
                 listToCheck = new List<CategoryDTO>(sorted_list);
                 Assert.True(listToCheck.Count > 0);
+            }
+        }
+
+        [Fact]
+        public async void UpdateAsync_GivenCorrectId_ReturnsTrue()
+        {
+            var cat = new CategoryCreateDTO
+            {
+                Name = "Programming"
+            };
+
+            var catup = new CategoryDTO
+            {
+                Id = 1,
+                Name = "Sports"
+            };
+
+            using (var repository = new CategoryRepository(context))
+            {
+                var id = await repository.CreateAsync(cat);
+                Assert.True(await repository.UpdateAsync(catup));
+            }
+        }
+
+        [Fact]
+        public async void UpdateAsync_GivenCorrectId_ReturnsFalse()
+        {
+            var cat = new CategoryCreateDTO
+            {
+                Name = "Programming"
+            };
+
+            var catup = new CategoryDTO
+            {
+                Id = 2,
+                Name = "Sports"
+            };
+
+            using (var repository = new CategoryRepository(context))
+            {
+                var id = await repository.CreateAsync(cat);
+                Assert.False(await repository.UpdateAsync(catup));
             }
         }
 

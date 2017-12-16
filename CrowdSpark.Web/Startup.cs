@@ -68,7 +68,7 @@ namespace CrowdSpark
             services.AddScoped<ISkillRepository, SkillRepository>();
             services.AddScoped<ILocationRepository, LocationRepository>();
             services.AddScoped<IAttachmentRepository, AttachmentRepository>();
-            services.AddScoped<ISparkRepository, SparkReposiory>();
+            services.AddScoped<ISparkRepository, SparkRepository>();
 
             services.AddScoped<IUserLogic, UserLogic>();
             services.AddScoped<IProjectLogic, ProjectLogic>();
