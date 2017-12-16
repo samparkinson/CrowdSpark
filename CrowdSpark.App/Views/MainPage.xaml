@@ -58,7 +58,6 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Row="0">
                         <SearchBox FocusOnKeyboardInput="False" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
-               
                     </StackPanel>
 
                     <!--Tabs-->
@@ -85,7 +84,7 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="Categories" Grid.Column="1" Margin="10,0,0,0" />
+                                    <TextBlock Text="Categories" Grid.Column="1" Margin="10,0" />
                                     <SymbolIcon Symbol="ViewAll" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                 </Grid>
                             </Button>

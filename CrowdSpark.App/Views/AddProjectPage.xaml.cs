@@ -4,9 +4,11 @@ using CrowdSpark.Common;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace CrowdSpark.App.Views
@@ -89,16 +91,16 @@ namespace CrowdSpark.App.Views
             var ProjectCity = CityComboBox.SelectedItem.ToString();
             var ProjectLocation = new LocationDTO { Country = ProjectCountry, City = ProjectCity };
             var ProjectCategory = new CategoryDTO { Name = ProjectCategoryText};
-
+            
             //TODO:needs work
             var SparkList = new List<SparkDTO>();
             SparkList.Add(new SparkDTO());
             
-            var projectDTO = new ProjectDTO { Title = ProjectTitle, Description = ProjectDescription,
-                Location = ProjectLocation, Skills = SkillsList, Category = ProjectCategory, CreatedDate = DateTime.Now, Sparks = SparkList};
-
+            var projectDTO = new CreateProjectDTO { Title = ProjectTitle, Description = ProjectDescription,
+                Location = ProjectLocation, Skills = SkillsList, Category = ProjectCategory};
+            
             //TODO:Use the ProjectLogic class to post the project
-            //await ProjectLogic().CreateAsync(projectDTO);
+            ((AddProjectPageViewModel)DataContext).PostProjectCommand.Execute(projectDTO);
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)  
@@ -138,6 +140,9 @@ namespace CrowdSpark.App.Views
                 TextBox textBox = new TextBox();
                 textBox.PlaceholderText = "TYPE IN A SKILL";
                 textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+                textBox.BorderThickness = new Thickness(15);
+                textBox.Padding = new Thickness(15);
+                textBox.Background = new SolidColorBrush(Colors.White);
                 textBox.TextChanged += new TextChangedEventHandler(TextBox_TextChanged);
 
                 SkillsPanel.Children.Add(textBox);

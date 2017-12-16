@@ -11,6 +11,7 @@
     <Page.Resources>
         <c:CountryFlagConverter x:Key="CountryFlagConverter" />
         <c:SignInOutButtonConverter x:Key="SignInOutButtonConverter" />
+        <c:ItemAvailableConverter x:Name="ItemAvailableConverter"/>
     </Page.Resources>
 
     <SplitView x:Name="MainSplitView" Background="Gray" DisplayMode="CompactInline"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200">

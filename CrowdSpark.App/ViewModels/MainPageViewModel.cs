@@ -102,6 +102,7 @@ namespace CrowdSpark.App.ViewModels
                 {
                     await helper.SignOutAsync(account);
                     account = null;
+                    CommonAttributes.account = account;
                     Content.Clear();
                     SignInOutButtonText = "Sign In";
                 }
@@ -156,13 +157,13 @@ namespace CrowdSpark.App.ViewModels
             SignInCommand.Execute(null);
 
             //Store the stuff in a static class
-            MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
+            MenuOptions = new HamburgerMenuOptionsFactory(CommonAttributes.account).MenuOptions;
             CommonAttributes.MenuOptions = MenuOptions;   
         }
 
         public async Task GetRecentProjects()
         {
-            //Content.Clear();
+            Content.Clear();
             account = await helper.GetAccountAsync();
             
             if (account != null)
@@ -171,7 +172,6 @@ namespace CrowdSpark.App.ViewModels
                 Debug.WriteLine("Getting projects");
 
                 //p is ProjectSummaryDTO
-                //take command is experimental
                 foreach (var project in recentProjects.Select(p => new ProjectViewModel(p)))
                 {
                     Content.Add(project);

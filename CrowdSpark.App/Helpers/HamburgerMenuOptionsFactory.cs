@@ -12,7 +12,7 @@ namespace CrowdSpark.App.Helpers
             //should check if the user is logged in
             MenuOptions = new ObservableCollection<MenuOption>();
 
-            var accountText = account == null ? "Sign In" : account.UserName;
+            var accountText = account == null ? "Sign In" : account.UserName.Split("@")[0];
 
             MenuOptions.Add(new MenuOption("Account", accountText));
             MenuOptions.Add(new MenuOption("Page", "Projects"));
