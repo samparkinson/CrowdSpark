@@ -119,11 +119,9 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
-                                    <StackPanel Grid.Row="0"  Margin="25" Background="#33FFFFFF">
-                                        <Grid>
-                                            <TextBlock Margin="25" Text="{Binding Firstname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
-                                            <TextBlock Margin="25" Text="{Binding Surname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
-                                        </Grid>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="0"  Margin="25" Background="#33FFFFFF">
+                                        <TextBlock Margin="25" Text="{Binding Firstname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
+                                        <TextBlock Margin="25" Text="{Binding Surname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#33FFFFFF">
@@ -134,7 +132,7 @@
 
                                     <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#33FFFFFF">
                                         <Grid>
-                                            <TextBlock Margin="25" Foreground="White" Text="RECENT POSTS" FontSize="40" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
+                                            <TextBlock Margin="25" Foreground="White" Text="RECENT PROJECTS" FontSize="40" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
                                         </Grid>
                                     </StackPanel>
                                 </Grid>

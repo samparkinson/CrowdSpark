@@ -197,7 +197,6 @@
 
                                             <TextBlock Margin="25" Text="SPARK THIS PROJECT" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
                                         </StackPanel>
-
                                     </Button>
                                 </StackPanel>
                             </Grid>

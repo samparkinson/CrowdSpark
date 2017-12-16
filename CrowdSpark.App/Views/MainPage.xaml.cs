@@ -1,10 +1,8 @@
 ﻿using CrowdSpark.App.Helpers;
-using CrowdSpark.App.Models;
 using CrowdSpark.App.ViewModels;
 using CrowdSpark.App.Views;
 using CrowdSpark.Common;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -16,7 +14,6 @@ namespace CrowdSpark.App
 {
     public sealed partial class MainPage : Page, IAppPage
     {
-
         private readonly MainPageViewModel _vm;
 
         public MainPage()
@@ -81,11 +78,6 @@ namespace CrowdSpark.App
                 case "Message":
                     break;
             }
-        }
-
-        private async Task SignIn()
-        {
-            await new AuthenticationHelper(new Settings()).SignInAsync();
         }
 
         public void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)

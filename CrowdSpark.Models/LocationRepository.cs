@@ -89,6 +89,9 @@ namespace CrowdSpark.Models
         public async Task<bool> UpdateAsync(LocationDTO details)
         {
             var locationToUpdate = await _context.Locations.FindAsync(details.Id);
+            
+            if (locationToUpdate == null) return false;
+
             _context.Locations.Update(locationToUpdate);
 
             locationToUpdate.City = details.City;

@@ -42,9 +42,6 @@ namespace CrowdSpark.App.ViewModels
             }
         }
 
-        //To set the height of scroll view
-        public int ScrollViewHeight { get; set; }
-
         private readonly IAuthenticationHelper helper;
 
         private readonly IProjectAPI projectAPI;
@@ -57,8 +54,6 @@ namespace CrowdSpark.App.ViewModels
         
         public MainPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI)
         {
-            ScrollViewHeight = 1500;
-
             helper = _helper;
 
             //recently implemented juicy api
