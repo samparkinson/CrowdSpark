@@ -25,15 +25,22 @@ namespace CrowdSpark.App.ViewModels
             }
         }
 
-        //TODO: Hamburger menu relay command
-        public ICommand HamburgerMenuCommand { get; }
-
         //Every page should have a sign in out functionality
         public ICommand SignInOutCommand { get; set; }
-        
+
         //store login information, 
         //should this be in base class or common attributes static class??
-        public WebAccount account { get; set; }
+        private WebAccount _account;
+        public WebAccount account {
+            get
+            {
+                return _account;
+            }
+            set
+            {
+                _account = value;
+                OnPropertyChanged();
+            } }
         
         //set button text on top left, Sign In as default
         private string _signInOutButtonText;

@@ -57,12 +57,14 @@ namespace CrowdSpark.App.ViewModels
         
         public MainPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI)
         {
+            ScrollViewHeight = 1500;
+
             helper = _helper;
 
             //recently implemented juicy api
             projectAPI = _projectAPI;
             
-            Categories = new ObservableCollection<CategoryDTO>();
+            initDummyCategories();
             
             //pop up the login screen if user is not logged in
             //called only on startup
@@ -79,14 +81,16 @@ namespace CrowdSpark.App.ViewModels
                         CommonAttributes.account = account;
 
                         UserName = account.UserName;
-                        //await GetRecentProjects();
+                        await GetRecentProjects();
 
                         SignInOutButtonText = "Sign Out";
+
+                        MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
                     }
                 }
                 else
                 {
-                    //await GetRecentProjects();
+                    await GetRecentProjects();
 
                     SignInOutButtonText = "Sign Out";
                 }
@@ -126,29 +130,15 @@ namespace CrowdSpark.App.ViewModels
             
             RepopulateContentCommand = new RelayCommand(async (tabName) => 
             {
-                //require log in to display content
+                //Populate lists 
                 switch (tabName)
                 {
                     case "Recent":
-                        if (account != null)
-                        {
-                            initDummyProjects();
-                            //await GetRecentProjects();
-                        }
-                        else
-                        {
-                            SignInOutCommand.Execute(null);
-                        }
+                        //initDummyProjects();
+                        await GetRecentProjects();
                         break;
                     case "Categories":
-                        if (account != null)
-                        {
-                            initDummyCategories();
-                        }
-                        else
-                        {
-                            SignInOutCommand.Execute(null);
-                        }
+                        initDummyCategories();
                         break;
                 }
             });
@@ -157,14 +147,15 @@ namespace CrowdSpark.App.ViewModels
             SignInCommand.Execute(null);
 
             //Store the stuff in a static class
-            MenuOptions = new HamburgerMenuOptionsFactory(CommonAttributes.account).MenuOptions;
+            MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
             CommonAttributes.MenuOptions = MenuOptions;   
         }
 
         public async Task GetRecentProjects()
         {
-            Content.Clear();
-            account = await helper.GetAccountAsync();
+            Content = null;
+            Content = new ObservableCollection<ProjectViewModel>();
+            //Content.Clear();
             
             if (account != null)
             {
@@ -174,6 +165,7 @@ namespace CrowdSpark.App.ViewModels
                 //p is ProjectSummaryDTO
                 foreach (var project in recentProjects.Select(p => new ProjectViewModel(p)))
                 {
+                    Debug.WriteLine(project.Title);
                     Content.Add(project);
                 }
             }
@@ -181,8 +173,8 @@ namespace CrowdSpark.App.ViewModels
 
         public async Task GetCategories()
         {
-            Categories.Clear();
-            account = await helper.GetAccountAsync();
+            Categories = null;
+            Categories = new ObservableCollection<CategoryDTO>();
 
             if (account != null)
             {
@@ -199,10 +191,13 @@ namespace CrowdSpark.App.ViewModels
 
         private void initDummyCategories()
         {
-            Categories.Clear();
+            Debug.WriteLine("Getting categories");
+
+            Categories = null;
+            Categories = new ObservableCollection<CategoryDTO>();
 
             var category = new CategoryDTO { Name="Programming", Id=0};
-
+            
             for (int i = 0; i < 20; i++)
             {
                 Categories.Add(new CategoryDTO { Name = "Cat " + i, Id = i });
@@ -228,8 +223,6 @@ namespace CrowdSpark.App.ViewModels
             {
                 Content.Add(new ProjectViewModel(p));
             }
-
-            ScrollViewHeight = Content.Count * 60;
         }
     }
 }

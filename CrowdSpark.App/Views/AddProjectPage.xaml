@@ -162,10 +162,10 @@
                             </StackPanel>
 
                             <StackPanel Grid.Row="4" Margin="0,0,25,25" Background="#808080">
-                                <AutoSuggestBox x:Name="categoryAutoSuggestBox" HorizontalAlignment="Stretch" Padding="15" Margin="15" PlaceholderText="TYPE IN A CATEGORY" 
-                TextChanged="AutoSuggestBox_TextChanged"
+                                <!--TextChanged="AutoSuggestBox_TextChanged"
                 QuerySubmitted="AutoSuggestBox_QuerySubmitted"
-                SuggestionChosen="AutoSuggestBox_SuggestionChosen"/>
+                SuggestionChosen="AutoSuggestBox_SuggestionChosen"-->
+                                <AutoSuggestBox x:Name="categoryAutoSuggestBox" HorizontalAlignment="Stretch" Padding="15" Margin="15" PlaceholderText="TYPE IN A CATEGORY" />
                             </StackPanel>
 
                             <StackPanel Grid.Row="5" VerticalAlignment="Bottom">

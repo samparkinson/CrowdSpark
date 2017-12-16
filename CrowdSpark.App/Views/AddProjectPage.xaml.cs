@@ -84,19 +84,37 @@ namespace CrowdSpark.App.Views
 
         public void PostProjectButton_Click(object sender, RoutedEventArgs e)
         {
+            var checkList = new List<string>();
             //should implement a null checker for these
-            var ProjectTitle = TitleTextBox.Text;
-            var ProjectDescription = DescriptionTextBox.Text;
-            var ProjectCategoryText = categoryAutoSuggestBox.Text;
-            var ProjectCountry = CountryComboBox.SelectedItem.ToString();
-            var ProjectCity = CityComboBox.SelectedItem.ToString();
+            var ProjectTitle = TitleTextBox.Text; checkList.Add(ProjectTitle);
+            var ProjectDescription = DescriptionTextBox.Text; checkList.Add(ProjectDescription);
+            var ProjectCategoryText = categoryAutoSuggestBox.Text; checkList.Add(ProjectCategoryText);
+
+            var ProjectCountry = default(string);
+            if (CountryComboBox.SelectedItem != null)
+            {
+                ProjectCountry = CountryComboBox.SelectedItem.ToString(); checkList.Add(ProjectCountry);
+            }
+            var ProjectCity = default(string); 
+            if (CityComboBox.SelectedItem != null)
+            {
+                ProjectCity = CityComboBox.SelectedItem.ToString(); checkList.Add(ProjectCity);
+            }
+
             var ProjectLocation = new LocationDTO { Country = ProjectCountry, City = ProjectCity };
             var ProjectCategory = new CategoryDTO { Name = ProjectCategoryText};
             
             //TODO:needs work
             var SparkList = new List<SparkDTO>();
             SparkList.Add(new SparkDTO());
-            
+
+            foreach(var s in checkList)
+            {
+                if (String.IsNullOrEmpty(s))
+                {
+                    return;
+                }
+            }            
             var projectDTO = new CreateProjectDTO { Title = ProjectTitle, Description = ProjectDescription,
                 Location = ProjectLocation, Skills = SkillsList, Category = ProjectCategory};
             
