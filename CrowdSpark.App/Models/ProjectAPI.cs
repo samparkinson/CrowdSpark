@@ -85,7 +85,7 @@ namespace CrowdSpark.App.Models
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> AddSkill(int projectId, SkillCreateDTO skill)
+        public async Task<bool> AddSkill(int projectId, SkillDTO skill)
         {
             var response = await _client.PostAsync($"api/v1/projects/skills/{projectId}", skill.ToHttpContent());
 

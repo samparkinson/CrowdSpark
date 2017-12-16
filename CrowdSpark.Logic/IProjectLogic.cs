@@ -30,5 +30,7 @@ namespace CrowdSpark.Logic
 
         Task<ResponseLogic> RemoveSkillAsync(int projectId, SkillDTO skill);
 
+        Task<IEnumerable<SparkDTO>> GetApprovedSparksAsync(int projectId);
+
     }
 }
