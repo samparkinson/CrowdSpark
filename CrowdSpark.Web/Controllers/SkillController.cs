@@ -42,6 +42,19 @@ namespace CrowdSpark.Web.Controllers
             return Ok(skill);
         }
 
+        // GET api/v1/skills?search=searchString
+        [HttpGet("{searchString}", Name = "search")]
+        public async Task<IActionResult> GetFromSearch([FromQuery] string searchString)
+        {
+            var projects = await _skillLogic.SearchAsync(searchString);
+
+            if (projects is null)
+            {
+                return NotFound();
+            }
+            else return Ok(projects);
+        }
+
         // POST api/v1/skills
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]SkillCreateDTO skill)

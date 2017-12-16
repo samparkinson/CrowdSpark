@@ -12,7 +12,7 @@ namespace CrowdSpark.Logic
 
         Task<SkillDTO> GetAsync(int skillId);
 
-        Task<IEnumerable<SkillDTO>> FindAsync(string searchString);
+        Task<IEnumerable<SkillDTO>> SearchAsync(string searchString);
 
         Task<SkillDTO> FindExactAsync(string searchString);
 

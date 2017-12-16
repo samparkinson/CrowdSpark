@@ -35,7 +35,7 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_CREATING;
         }
 
-        public async Task<IEnumerable<SkillDTO>> FindAsync(string searchString)
+        public async Task<IEnumerable<SkillDTO>> SearchAsync(string searchString)
         {
             return await _repository.FindWildcardAsync(searchString);
         }
