@@ -31,7 +31,7 @@ namespace CrowdSpark.App.ViewModels
         public LocationDTO Location { get => _location; set { if (!value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
 
         //Clear form and logout
-        public ICommand ClearCommand;
+        public ICommand SignOutCommand;
 
         public RegisterPageViewModel(IAuthenticationHelper _helper, INavigationService _service, IUserAPI _userAPI)
         {
@@ -59,13 +59,11 @@ namespace CrowdSpark.App.ViewModels
                 }
             });
 
-            ClearCommand = new RelayCommand(async o =>
+            SignOutCommand = new RelayCommand(async o =>
             {
                 await helper.SignOutAsync(account);
                 account = null;
             });
-
-            SignInOutCommand.Execute(null);
         }
 
         public async void RegisterUser(UserCreateDTO userCreateDTO)

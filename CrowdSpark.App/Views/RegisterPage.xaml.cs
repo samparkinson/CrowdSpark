@@ -102,9 +102,18 @@ namespace CrowdSpark.App.Views
             CountryComboBox.SelectedIndex = -1;
             CityComboBox.SelectedIndex = -1;
             
-            ((RegisterPageViewModel)DataContext).ClearCommand.Execute(null);
+            RegisterForm.Visibility = Visibility.Collapsed;
+            WelcomeScreen.Visibility = Visibility.Visible;
 
+            ((RegisterPageViewModel)DataContext).SignOutCommand.Execute(null);
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
             ((RegisterPageViewModel)DataContext).SignInOutCommand.Execute(null);
+        
+            WelcomeScreen.Visibility = Visibility.Collapsed;
+            RegisterForm.Visibility = Visibility.Visible;
         }
     }
 }
