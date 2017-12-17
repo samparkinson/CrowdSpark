@@ -160,7 +160,7 @@
 
                                         <!--Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}"-->
                                         <StackPanel Margin="25,25,0,25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Image x:Name="CountryFlagImage" Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}" Height="40" Width="60" HorizontalAlignment="Left"/>
+                                            <Image x:Name="CountryFlagImage" Height="40" Width="60" HorizontalAlignment="Left"/>
                                         </StackPanel>
                                         <StackPanel Margin="0,25,0,25" Grid.Column="1">
                                             <TextBlock Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
@@ -191,11 +191,10 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="4"  Margin="25,0,25,25" Background="#FF6C6C6C">
-                                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+                                    <Button x:Name="SparkProjectButton" Click="SparkProjectButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                             <SymbolIcon Symbol="Accept" HorizontalAlignment="Left"  VerticalAlignment="Center"/>
-
-                                            <TextBlock Margin="25" Text="SPARK THIS PROJECT" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                            <TextBlock x:Name="SparkProjectButtonText"  Margin="25" Text="SPARK THIS PROJECT" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
                                         </StackPanel>
                                     </Button>
                                 </StackPanel>

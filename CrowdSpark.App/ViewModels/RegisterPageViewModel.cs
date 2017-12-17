@@ -3,6 +3,10 @@ using CrowdSpark.App.Models;
 using CrowdSpark.App.Views;
 using CrowdSpark.Common;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CrowdSpark.App.ViewModels
@@ -24,12 +28,16 @@ namespace CrowdSpark.App.ViewModels
 
         private LocationDTO _location;
         public LocationDTO Location { get => _location; set { if (!value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
-        
+
+        public ObservableCollection<string> Countries { get; set; }
+
         public RegisterPageViewModel(IAuthenticationHelper _helper, INavigationService _service, IUserAPI _userAPI)
         {
             helper = _helper;
             service = _service;
             userAPI = _userAPI;
+
+            Countries = new ObservableCollection<string>(GetCountryList());
         }
 
         //Clear form and logout, for cancel button
@@ -41,14 +49,38 @@ namespace CrowdSpark.App.ViewModels
             service.Navigate(typeof(LogInPage), null);
         }
 
-        public async void RegisterUser(UserCreateDTO userCreateDTO)
+        public async Task<bool> RegisterUser(UserCreateDTO userCreateDTO)
         {
             var success = await userAPI.Create(userCreateDTO);
             
             if (success)
             {
                 service.Navigate(typeof(UserPage), account);
+                return true;
             }
+
+            return false;
+        }
+
+        private List<string> GetCountryList()
+        {
+            List<string> cultureList = new List<string>();
+
+            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+
+            foreach (CultureInfo culture in cultures)
+            {
+                RegionInfo region = new RegionInfo(culture.LCID);
+
+                if (!(cultureList.Contains(region.EnglishName)))
+                {
+                    cultureList.Add(region.EnglishName);
+                }
+            }
+
+            cultureList.Sort();
+
+            return cultureList;
         }
     }
 }

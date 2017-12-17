@@ -357,6 +357,8 @@
     <Content Include="Assets\flags\za.png" />
     <Content Include="Assets\flags\zm.png" />
     <Content Include="Assets\flags\zw.png" />
+    <Content Include="Assets\icons\crowdspark_black.png" />
+    <Content Include="Assets\icons\crowdspark_whiteyellow.png" />
     <Content Include="Assets\icons\help.png" />
     <Content Include="Assets\icons\login.png" />
     <Content Include="Assets\icons\logo-blackwhite.png" />

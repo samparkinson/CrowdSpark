@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -41,10 +42,12 @@ namespace CrowdSpark.App.ViewModels
         private ICommand SignInCommand { get; set; }
 
         private readonly IAuthenticationHelper helper;
-        
-        public ProjectPageViewModel(IAuthenticationHelper _helper)
+        private readonly IProjectAPI projectAPI;
+
+        public ProjectPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI)
         {
             helper = _helper;
+            projectAPI = _projectAPI;
             account = CommonAttributes.account;
             UserName = account.UserName;
 
@@ -94,6 +97,11 @@ namespace CrowdSpark.App.ViewModels
 
             account = CommonAttributes.account;
             MenuOptions = CommonAttributes.MenuOptions;
+        }
+
+        public async Task<bool> SparkProject()
+        {
+            return await projectAPI.CreateSpark(Id);
         }
     }
 }
