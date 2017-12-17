@@ -197,7 +197,8 @@ namespace CrowdSpark.Logic
         public async Task<ResponseLogic> AddSkillAsync(int projectId, SkillDTO skill, int requestingUserId)
         {
             var project = await _repository.FindAsync(projectId);
-
+            if (project is null) return ResponseLogic.NOT_FOUND;
+            
             if (project.Skills.Contains(skill))
             {
                 return ResponseLogic.SUCCESS;

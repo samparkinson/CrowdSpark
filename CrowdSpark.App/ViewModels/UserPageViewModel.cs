@@ -34,8 +34,7 @@ namespace CrowdSpark.App.ViewModels
         private readonly IAuthenticationHelper helper;
         private readonly IUserAPI userAPI;
         private readonly INavigationService service;
-
-
+        
         //List of skills 
         public ObservableCollection<SkillDTO> Skills { get; set; }
         

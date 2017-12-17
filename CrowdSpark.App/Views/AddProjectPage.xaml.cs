@@ -109,7 +109,7 @@ namespace CrowdSpark.App.Views
 
             foreach (var s in checkList)
             {
-                if (String.IsNullOrEmpty(s))
+                if (String.IsNullOrEmpty(s) || SkillsList.Count == 0)
                 {
                     ContentDialog fillAllFieldsDialog = new ContentDialog
                     {
