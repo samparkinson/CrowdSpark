@@ -120,6 +120,7 @@
     <Compile Include="Models\UserAPI.cs" />
     <Compile Include="ViewModels\AddProjectPageViewModel.cs" />
     <Compile Include="Models\INavigationService.cs" />
+    <Compile Include="ViewModels\LogInPageViewModel.cs" />
     <Compile Include="ViewModels\RegisterPageViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\UserPageViewModel.cs" />
@@ -132,6 +133,9 @@
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Views\AddProjectPage.xaml.cs">
       <DependentUpon>AddProjectPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LogInPage.xaml.cs">
+      <DependentUpon>LogInPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -380,6 +384,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Views\AddProjectPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogInPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

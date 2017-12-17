@@ -22,11 +22,11 @@ namespace CrowdSpark.App.ViewModels
 
         public ICommand PostProjectCommand { get; set; }
 
-        IProjectAPI projectAPI;
+        private readonly IProjectAPI projectAPI;
 
         public CreateProjectDTO createProjectDTO { get; set; }
 
-        IAuthenticationHelper helper;
+        private readonly IAuthenticationHelper helper;
 
         public AddProjectPageViewModel(IProjectAPI _projectAPI, IAuthenticationHelper _helper)
         {

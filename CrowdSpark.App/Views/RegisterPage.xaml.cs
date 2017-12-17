@@ -8,6 +8,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Core;
+using Windows.Security.Credentials;
 
 namespace CrowdSpark.App.Views
 {
@@ -31,6 +33,14 @@ namespace CrowdSpark.App.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var rootFrame = Window.Current.Content as Frame;
+
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
+                ? AppViewBackButtonVisibility.Visible
+                : AppViewBackButtonVisibility.Collapsed;
+
+            MailTextBox.Text = ((WebAccount)e.Parameter).UserName;
+            //write account to view model
+            ((RegisterPageViewModel)DataContext).account = (WebAccount)e.Parameter;
         }
 
         private void SkillsTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -102,18 +112,7 @@ namespace CrowdSpark.App.Views
             CountryComboBox.SelectedIndex = -1;
             CityComboBox.SelectedIndex = -1;
             
-            RegisterForm.Visibility = Visibility.Collapsed;
-            WelcomeScreen.Visibility = Visibility.Visible;
-
-            ((RegisterPageViewModel)DataContext).SignOutCommand.Execute(null);
-        }
-
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
-        {
-            ((RegisterPageViewModel)DataContext).SignInOutCommand.Execute(null);
-        
-            WelcomeScreen.Visibility = Visibility.Collapsed;
-            RegisterForm.Visibility = Visibility.Visible;
+            ((RegisterPageViewModel)DataContext).Cancel();
         }
     }
 }

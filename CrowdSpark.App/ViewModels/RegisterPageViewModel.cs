@@ -3,11 +3,6 @@ using CrowdSpark.App.Models;
 using CrowdSpark.App.Views;
 using CrowdSpark.Common;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CrowdSpark.App.ViewModels
@@ -29,41 +24,21 @@ namespace CrowdSpark.App.ViewModels
 
         private LocationDTO _location;
         public LocationDTO Location { get => _location; set { if (!value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
-
-        //Clear form and logout
-        public ICommand SignOutCommand;
-
+        
         public RegisterPageViewModel(IAuthenticationHelper _helper, INavigationService _service, IUserAPI _userAPI)
         {
             helper = _helper;
             service = _service;
             userAPI = _userAPI;
-            
-            SignInOutCommand = new RelayCommand(async o =>
-            {
-                account = await helper.GetAccountAsync();
-                //sign out
-                if (account != null)
-                {
-                    service.Navigate(typeof(MainPage), null);
-                }
-                else //sign in
-                {
-                    account = await helper.SignInAsync();
-                    if (account != null)
-                    {
-                        CommonAttributes.account = account;
+        }
 
-                        Mail = account.UserName;
-                    }
-                }
-            });
-
-            SignOutCommand = new RelayCommand(async o =>
-            {
-                await helper.SignOutAsync(account);
-                account = null;
-            });
+        //Clear form and logout, for cancel button
+        public async void Cancel()
+        {
+            await helper.SignOutAsync(account);
+            account = null;
+            //navigate to log in page
+            service.Navigate(typeof(LogInPage), null);
         }
 
         public async void RegisterUser(UserCreateDTO userCreateDTO)
