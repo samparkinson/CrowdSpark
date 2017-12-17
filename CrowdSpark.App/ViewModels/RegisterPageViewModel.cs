@@ -16,6 +16,7 @@ namespace CrowdSpark.App.ViewModels
         private readonly IAuthenticationHelper helper;
         private readonly INavigationService service;
         private readonly IUserAPI userAPI;
+        private readonly ISkillAPI skillAPI;
 
         private string _firstname;
         public string Firstname { get => _firstname; set { if (value != _firstname) { _firstname = value; OnPropertyChanged(); } } }
@@ -31,11 +32,12 @@ namespace CrowdSpark.App.ViewModels
 
         public ObservableCollection<string> Countries { get; set; }
 
-        public RegisterPageViewModel(IAuthenticationHelper _helper, INavigationService _service, IUserAPI _userAPI)
+        public RegisterPageViewModel(IAuthenticationHelper _helper, INavigationService _service, IUserAPI _userAPI, ISkillAPI _skillAPI)
         {
             helper = _helper;
             service = _service;
             userAPI = _userAPI;
+            skillAPI = _skillAPI;
 
             Countries = new ObservableCollection<string>(GetCountryList());
         }
@@ -51,6 +53,8 @@ namespace CrowdSpark.App.ViewModels
 
         public async Task<bool> RegisterUser(UserCreateDTO userCreateDTO)
         {
+            CompareAndCreateSkills(userCreateDTO.Skills);
+
             var success = await userAPI.Create(userCreateDTO);
             
             if (success)
@@ -60,6 +64,20 @@ namespace CrowdSpark.App.ViewModels
             }
 
             return false;
+        }
+        
+        private async void CompareAndCreateSkills(ICollection<SkillDTO> skillDTOs)
+        {
+            foreach (SkillDTO skillDTO in skillDTOs)
+            {
+                var results = await skillAPI.GetBySearch(skillDTO.Name);
+
+                if (results == null)
+                {
+                    var skillCreateDTO = new SkillCreateDTO { Name = skillDTO.Name };
+                    var skillCreateResult =  await skillAPI.Create(skillCreateDTO);
+                }
+            }
         }
 
         private List<string> GetCountryList()

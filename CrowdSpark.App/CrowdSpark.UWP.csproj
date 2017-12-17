@@ -359,26 +359,46 @@
     <Content Include="Assets\flags\zw.png" />
     <Content Include="Assets\icons\crowdspark_black.png" />
     <Content Include="Assets\icons\crowdspark_whiteyellow.png" />
+    <Content Include="Assets\icons\crowdspark_whiteyellow_forlogo.png" />
     <Content Include="Assets\icons\help.png" />
     <Content Include="Assets\icons\login.png" />
     <Content Include="Assets\icons\logo-blackwhite.png" />
     <Content Include="Assets\icons\logout.png" />
     <Content Include="Assets\icons\profile.png" />
     <Content Include="Assets\icons\Settings.png" />
+    <Content Include="Assets\icons\SplashScreen.scale-150.png" />
+    <Content Include="Assets\icons\SplashScreen.scale-200.png" />
+    <Content Include="Assets\icons\SplashScreen.scale-400.png" />
+    <Content Include="Assets\icons\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\icons\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\icons\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\icons\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\icons\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\icons\Square310x310Logo.scale-100.png" />
+    <Content Include="Assets\icons\Square310x310Logo.scale-200.png" />
+    <Content Include="Assets\icons\Square310x310Logo.scale-400.png" />
+    <Content Include="Assets\icons\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\icons\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\icons\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\icons\Square71x71Logo.scale-100.png" />
+    <Content Include="Assets\icons\Square71x71Logo.scale-125.png" />
+    <Content Include="Assets\icons\Square71x71Logo.scale-150.png" />
+    <Content Include="Assets\icons\Square71x71Logo.scale-200.png" />
+    <Content Include="Assets\icons\Square71x71Logo.scale-400.png" />
+    <Content Include="Assets\icons\StoreLogo.scale-100.png" />
+    <Content Include="Assets\icons\StoreLogo.scale-125.png" />
+    <Content Include="Assets\icons\StoreLogo.scale-150.png" />
+    <Content Include="Assets\icons\StoreLogo.scale-200.png" />
+    <Content Include="Assets\icons\StoreLogo.scale-400.png" />
+    <Content Include="Assets\icons\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\icons\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\logo-blackwhite.png" />
     <Content Include="Assets\project-image.jpg" />
-    <Content Include="Assets\SplashScreen.scale-100.png" />
-    <Content Include="Assets\SplashScreen.scale-125.png" />
-    <Content Include="Assets\SplashScreen.scale-150.png" />
-    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -420,9 +440,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.5</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>10.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>2.4.0.280</Version>
