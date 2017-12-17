@@ -47,7 +47,15 @@ namespace CrowdSpark.Logic
 
             var skills = (user.Skills == null) ? new SkillDTO[] { } : user.Skills;
 
-            if (user.Location != null) await _locationLogic.CreateAsync(new LocationCreateDTO() { City = user.Location.City, Country = user.Location.Country });
+            if (user.Location != null)
+            {
+                var success = await _locationLogic.CreateAsync(new LocationCreateDTO() { City = user.Location.City, Country = user.Location.Country });
+                if (success == ResponseLogic.SUCCESS)
+                {
+                    user.Location = await _locationLogic.FindExactAsync(user.Location.City, user.Location.Country);
+                }
+                else return ResponseLogic.ERROR_CREATING;
+            }
 
             foreach (var skill in skills)
             {
