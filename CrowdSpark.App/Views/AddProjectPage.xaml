@@ -96,8 +96,8 @@
                                 </Grid.RowDefinitions>
 
                                 <StackPanel Margin="25,25,25,25" Grid.Row="0">
-                                    <TextBox x:Name="TitleTextBox" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}"  BorderThickness="2" Height="Auto" Padding="15" Background="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontSize="30" FontStyle="Italic" PlaceholderText="PROJECT TITLE" TextChanged="TitleTextBox_TextChanged"></TextBox>
-                                </StackPanel>
+                                <TextBox x:Name="TitleTextBox" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}"  BorderThickness="2" Height="Auto" Padding="15" Background="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontSize="30" FontStyle="Italic" PlaceholderText="PROJECT TITLE"/>
+                            </StackPanel>
 
                                 <StackPanel Margin="25,0,25,25" Grid.Row="1">
                                     <TextBox x:Name="DescriptionTextBox" MinHeight="180"  AcceptsReturn="True" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" TextWrapping="Wrap" Padding="15" BorderThickness="2" Height="Auto" Background="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" PlaceholderText="PROJECT DESCRIPTION" FontSize="20" FontStyle="Italic"></TextBox>
