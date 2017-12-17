@@ -43,7 +43,7 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.ALREADY_EXISTS;
             }
 
-            var skills = user.Skills;
+            var skills = (user.Skills == null) ? new SkillDTO[] { } : user.Skills;
 
             var id = await _repository.CreateAsync(user, azureUId);
 
@@ -74,8 +74,8 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.NOT_FOUND;
             }
 
-            var currentSkills = currentUser.Skills;
-            var skills = user.Skills;
+            var currentSkills = (currentUser.Skills == null) ? new SkillDTO[] { } : currentUser.Skills;
+            var skills = (user.Skills == null) ? new SkillDTO[] { } : user.Skills;
 
             var skillsToAdd = skills.Where(s => !currentSkills.Contains(s));
             var skillsToRemove = currentSkills.Where(s => !skills.Contains(s));
