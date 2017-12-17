@@ -13,6 +13,7 @@ using System.Security.Claims;
 
 namespace CrowdSpark.Web.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/v1/projects")]
     public class ProjectsController : Controller
@@ -75,7 +76,6 @@ namespace CrowdSpark.Web.Controllers
 
         // POST api/v1/projects
         [HttpPost]
-        [Authorize]
         //     public async Task<IActionResult> Post([FromBody]CreateProjectDTO project)
         public async Task<IActionResult> Post([FromBody]CreateProjectDTO project)
         {
@@ -97,7 +97,6 @@ namespace CrowdSpark.Web.Controllers
 
         // PUT api/v1/projects/42
         [HttpPut("{projectId}")]
-        [Authorize]
         public async Task<IActionResult> Put(int projectId, [FromBody]ProjectDTO project)
         {
             var userId = await _userLogic.GetIdFromAzureUIdAsync(GetUserId());
@@ -129,7 +128,6 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // DELETE api/v1/projects/42
-        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -152,7 +150,6 @@ namespace CrowdSpark.Web.Controllers
             else return StatusCode(500);
         }
 
-        [Authorize]
         [Route("skills")]
         [HttpPost("{projectId}")]
         public async Task<IActionResult> AddSkill(int projectId, [FromBody] SkillCreateDTO skill)
@@ -169,7 +166,6 @@ namespace CrowdSpark.Web.Controllers
             //return Ok(new SkillDTO());
         }
 
-        [Authorize]
         [Route("spark")]
         [HttpGet("{projectId}")]
         public async Task<IActionResult> GetApprovedSparks(int projectId)
@@ -177,7 +173,6 @@ namespace CrowdSpark.Web.Controllers
             throw new NotImplementedException();
         }
 
-        [Authorize]
         [Route("spark")]
         [HttpPost("{projectId}")]
         public async Task<IActionResult> CreateSpark(int projectId)

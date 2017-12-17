@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CrowdSpark.Web.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/v1/skills")]
     public class SkillController : Controller
@@ -57,7 +58,6 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // POST api/v1/skills
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]SkillCreateDTO skill)
         {
@@ -77,7 +77,6 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // PUT api/v1/skills/
-        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]SkillDTO skill)
         {
@@ -100,7 +99,6 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // DELETE api/v1/skills/
-        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int skillId)
         {
