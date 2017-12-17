@@ -63,9 +63,7 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.NOT_FOUND;
             }
 
-            currentSkill.Name = skill.Name;
-
-            var success = await _repository.UpdateAsync(currentSkill);
+            var success = await _repository.UpdateAsync(skill);
 
             if (success)
             {
