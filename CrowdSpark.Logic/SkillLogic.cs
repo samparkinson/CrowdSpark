@@ -119,27 +119,6 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.NOT_FOUND;
             }
 
-            var users = await _userRepository.ReadAsync();
-            var projects = await _projectRepository.ReadDetailedAsync();
-            var occurrences = 0;
-
-            foreach (var user in users) //TODO, make this run parallel
-            {
-                if (user.Skills.Contains(skill))
-                    occurrences++;
-            }
-
-            foreach (var project in projects) //TODO, make this run parallel
-            {
-                if (project.Skills.Contains(skill))
-                    occurrences++;
-            }
-
-            if (occurrences > 1)
-            {
-                return ResponseLogic.SUCCESS;
-            }
-
             var success = await _repository.DeleteAsync(skillId);
             if (success)
             {

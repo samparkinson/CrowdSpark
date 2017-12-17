@@ -14,6 +14,7 @@ namespace CrowdSpark.Logic.Tests
         Mock<ILocationRepository> locationRepositoryMock;
         Mock<ISkillLogic> skillLogicMock;
         Mock<ISparkLogic> sparkLogicMock;
+        Mock<ILocationLogic> locationLogicMock;
 
         public ProjectLogicTests()
         {
@@ -21,6 +22,7 @@ namespace CrowdSpark.Logic.Tests
             locationRepositoryMock = new Mock<ILocationRepository>();
             skillLogicMock = new Mock<ISkillLogic>();
             sparkLogicMock = new Mock<ISparkLogic>();
+            locationLogicMock = new Mock<ILocationLogic>();
         }
 
         public void Dispose()
@@ -51,7 +53,7 @@ namespace CrowdSpark.Logic.Tests
 
             projectRepositoryMock.Setup(p => p.FindAsync(3)).ReturnsAsync(project);
 
-            using (var logic = new ProjectLogic(projectRepositoryMock.Object, locationRepositoryMock.Object, skillLogicMock.Object, sparkLogicMock.Object))
+            using (var logic = new ProjectLogic(projectRepositoryMock.Object, locationRepositoryMock.Object, skillLogicMock.Object, sparkLogicMock.Object, locationLogicMock.Object))
             {
                 var results = await logic.GetApprovedSparksAsync(3);
 
