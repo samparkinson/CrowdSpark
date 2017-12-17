@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Security.Credentials;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -76,17 +77,21 @@ namespace CrowdSpark.App.ViewModels
 
         public async void Initialize(WebAccount account)
         {
-            //if (account != null)
-            //{
+            if (account != null)
+            {
+                var userDTO = await userAPI.GetMyself();
+                Firstname = userDTO.Firstname;
+                Surname = userDTO.Surname;
+                Mail = userDTO.Mail;
+                Location = userDTO.Location;
 
-            //    var userDTO = await userAPI.GetMyself();
-            //    Firstname = userDTO.Firstname;
-            //    Surname = userDTO.Surname;
-            //    Mail = userDTO.Mail;
-            //    Location = userDTO.Location;
+                Skills = (ObservableCollection<SkillDTO>)userDTO.Skills;
+            }
+        }
 
-            //    Skills = (ObservableCollection<SkillDTO>) userDTO.Skills;
-            //}
+        public async Task<bool> UpdateUser(UserDTO userDTO)
+        {
+            return await userAPI.Update(userDTO);
         }
     }
 }
