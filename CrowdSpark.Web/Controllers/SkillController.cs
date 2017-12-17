@@ -9,6 +9,7 @@ using CrowdSpark.Common;
 using CrowdSpark.Logic;
 using CrowdSpark.Entitites;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CrowdSpark.Web.Controllers
 {
@@ -33,13 +34,13 @@ namespace CrowdSpark.Web.Controllers
                 return Ok(await _skillLogic.GetAsync());
             }
 
-            var projects = await _skillLogic.SearchAsync(searchString);
+            var skills = await _skillLogic.SearchAsync(searchString);
 
-            if (projects is null)
+            if (skills.Count() == 0)
             {
                 return NoContent();
             }
-            else return Ok(projects);
+            else return Ok(skills);
         }
 
         // GET api/v1/skills/5
@@ -56,6 +57,7 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // POST api/v1/skills
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]SkillCreateDTO skill)
         {
@@ -75,6 +77,7 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // PUT api/v1/skills/
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]SkillDTO skill)
         {
@@ -97,6 +100,7 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // DELETE api/v1/skills/
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int skillId)
         {

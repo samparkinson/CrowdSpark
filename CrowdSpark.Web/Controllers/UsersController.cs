@@ -33,6 +33,7 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // GET api/v1/users
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
