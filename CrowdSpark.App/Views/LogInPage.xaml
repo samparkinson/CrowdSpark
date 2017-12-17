@@ -13,18 +13,26 @@
             <ColumnDefinition Width="5*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <RelativePanel Grid.Column="1" Margin="50" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel x:Name="WelcomeScreen" VerticalAlignment="Center">
+                    <TextBlock Grid.Row="0" Margin="0,0,0,90" Text="CROWDSPARK" FontStyle="Italic" VerticalAlignment="Center" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontSize="50"/>
 
-        <StackPanel x:Name="WelcomeScreen" Grid.Column="1" >
-            <TextBlock Text="CROWDSPARK" FontStyle="Italic" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" HorizontalAlignment="Center" FontSize="50" Margin="200" VerticalAlignment="Top"></TextBlock>
-
-            <StackPanel HorizontalAlignment="Center" BorderBrush="Transparent" VerticalAlignment="Center" Margin="25">
-                <Button Width="300" Height="150" Command="{Binding LogInCommand}">
-                    <StackPanel Orientation="Horizontal">
-                        <SymbolIcon Symbol="People" Height="50" Width="50"></SymbolIcon>
-                        <TextBlock Text="Log In" Margin="10,0" VerticalAlignment="Center" FontSize="40"></TextBlock>
+                    <StackPanel Grid.Row="1" BorderBrush="Transparent">
+                        <Button Width="300" Height="100" Command="{Binding LogInCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="People" Height="50" Width="50"/>
+                                <TextBlock Text="Log In" Margin="10,0" VerticalAlignment="Center" FontSize="40"/>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
-                </Button>
-            </StackPanel>
-        </StackPanel>
+                </StackPanel>
+            </Grid>
+        
+        </RelativePanel>
     </Grid>
 </Page>

@@ -72,7 +72,7 @@ namespace CrowdSpark.App.Views
 
         public void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
-            this.Frame.Navigate(typeof(MainPage), args.QueryText); // navigate to SearchResultPage
+            this.Frame.Navigate(typeof(SearchPage), args.QueryText); // navigate to SearchResultPage
         }
 
         public void HamburgerButton_Click(object sender, RoutedEventArgs e)
