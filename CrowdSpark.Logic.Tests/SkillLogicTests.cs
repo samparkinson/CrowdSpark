@@ -186,6 +186,143 @@ namespace CrowdSpark.Logic.Tests
             }
         }
 
+        [Fact]
+        public async void RemoveWithObjectAsync_GivenSkillExistsAndInNoProjectsOrUsers_ReturnsSuccess()
+        {
+            var skillToDelete = new SkillDTO
+            {
+                Id = 1,
+                Name = "Cooking"
+            };
+
+            skillRepositoryMock.Setup(c => c.FindAsync(skillToDelete.Id)).ReturnsAsync(skillToDelete);
+            skillRepositoryMock.Setup(c => c.DeleteAsync(skillToDelete.Id)).ReturnsAsync(true);
+            projectRepositoryMock.Setup(p => p.ReadDetailedAsync()).ReturnsAsync(new ProjectDTO[] { });
+            userRepositoryMock.Setup(u => u.ReadAsync()).ReturnsAsync(new UserDTO[] { });
+
+            using (var logic = new SkillLogic(skillRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.RemoveWithObjectAsync(skillToDelete);
+
+                Assert.Equal(ResponseLogic.SUCCESS, response);
+                skillRepositoryMock.Verify(c => c.FindAsync(skillToDelete.Id));
+                skillRepositoryMock.Verify(c => c.DeleteAsync(skillToDelete.Id));
+                projectRepositoryMock.Verify(p => p.ReadDetailedAsync());
+                userRepositoryMock.Verify(u => u.ReadAsync());
+            }
+        }
+
+        [Fact]
+        public async void RemoveWithObjectAsync_GivenSkillExistsAndInOneProjectOrUser_ReturnsSuccess()
+        {
+            var skillToDelete = new SkillDTO
+            {
+                Id = 1,
+                Name = "Cooking"
+            };
+
+            var projectsArray = new ProjectDTO[]
+            {
+                new ProjectDTO { Title = "Project1", Description = "Foo", Skills = new SkillDTO[] { skillToDelete} }
+            };
+
+            skillRepositoryMock.Setup(c => c.FindAsync(skillToDelete.Id)).ReturnsAsync(skillToDelete);
+            skillRepositoryMock.Setup(c => c.DeleteAsync(skillToDelete.Id)).ReturnsAsync(true);
+            projectRepositoryMock.Setup(p => p.ReadDetailedAsync()).ReturnsAsync(projectsArray);
+            userRepositoryMock.Setup(u => u.ReadAsync()).ReturnsAsync(new UserDTO[] { });
+
+            using (var logic = new SkillLogic(skillRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.RemoveWithObjectAsync(skillToDelete);
+
+                Assert.Equal(ResponseLogic.SUCCESS, response);
+                skillRepositoryMock.Verify(c => c.FindAsync(skillToDelete.Id));
+                skillRepositoryMock.Verify(c => c.DeleteAsync(skillToDelete.Id));
+                projectRepositoryMock.Verify(p => p.ReadDetailedAsync());
+                userRepositoryMock.Verify(u => u.ReadAsync());
+            }
+        }
+
+        [Fact]
+        public async void RemoveWithObjectAsync_GivenSkillExistsInMoreThanOneProjectAndUser_ReturnsSuccess()
+        {
+            var skillToDelete = new SkillDTO
+            {
+                Id = 1,
+                Name = "Cooking"
+            };
+
+            var projectsArray = new ProjectDTO[]
+            {
+                new ProjectDTO { Title = "Project1", Description = "Foo", Skills = new SkillDTO[] { skillToDelete} },
+                new ProjectDTO { Title = "Project2", Description = "Bar", Skills = new SkillDTO[] { skillToDelete} }
+            };
+
+            skillRepositoryMock.Setup(c => c.FindAsync(skillToDelete.Id)).ReturnsAsync(skillToDelete);
+            projectRepositoryMock.Setup(p => p.ReadDetailedAsync()).ReturnsAsync(projectsArray);
+            userRepositoryMock.Setup(u => u.ReadAsync()).ReturnsAsync(new UserDTO[] { });
+
+            using (var logic = new SkillLogic(skillRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.RemoveWithObjectAsync(skillToDelete);
+
+                Assert.Equal(ResponseLogic.SUCCESS, response);
+                skillRepositoryMock.Verify(c => c.FindAsync(skillToDelete.Id));
+                skillRepositoryMock.Verify(c => c.DeleteAsync(It.IsAny<int>()), Times.Never());
+                projectRepositoryMock.Verify(p => p.ReadDetailedAsync());
+                userRepositoryMock.Verify(u => u.ReadAsync());
+            }
+        }
+
+        [Fact]
+        public async void RemoveWithObjectAsync_GivenDatabaseError_ReturnsERROR_DELETING()
+        {
+            var skillToDelete = new SkillDTO
+            {
+                Id = 1,
+                Name = "Cooking"
+            };
+
+            skillRepositoryMock.Setup(c => c.FindAsync(skillToDelete.Id)).ReturnsAsync(skillToDelete);
+            skillRepositoryMock.Setup(c => c.DeleteAsync(skillToDelete.Id)).ReturnsAsync(false);
+            projectRepositoryMock.Setup(p => p.ReadDetailedAsync()).ReturnsAsync(new ProjectDTO[] { });
+            userRepositoryMock.Setup(u => u.ReadAsync()).ReturnsAsync(new UserDTO[] { });
+
+            using (var logic = new SkillLogic(skillRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.RemoveWithObjectAsync(skillToDelete);
+
+                Assert.Equal(ResponseLogic.ERROR_DELETING, response);
+                skillRepositoryMock.Verify(c => c.FindAsync(skillToDelete.Id));
+                skillRepositoryMock.Verify(c => c.DeleteAsync(skillToDelete.Id));
+                projectRepositoryMock.Verify(p => p.ReadDetailedAsync());
+                userRepositoryMock.Verify(u => u.ReadAsync());
+            }
+        }
+
+        [Fact]
+        public async void RemoveWithObjectAsync_GivenSkillDoesNotExist_ReturnsNOT_FOUND()
+        {
+            var skillToDelete = new SkillDTO
+            {
+                Id = 1,
+                Name = "Cooking"
+            };
+
+            skillRepositoryMock.Setup(l => l.FindAsync(skillToDelete.Id)).ReturnsAsync(default(SkillDTO));
+
+            using (var logic = new SkillLogic(skillRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.RemoveWithObjectAsync(skillToDelete);
+
+                Assert.Equal(ResponseLogic.NOT_FOUND, response);
+                skillRepositoryMock.Verify(c => c.FindAsync(skillToDelete.Id));
+                skillRepositoryMock.Verify(c => c.DeleteAsync(It.IsAny<int>()), Times.Never());
+                projectRepositoryMock.Verify(p => p.ReadDetailedAsync(), Times.Never());
+                userRepositoryMock.Verify(u => u.ReadAsync(), Times.Never());
+            }
+        }
+
         #endregion
 
         #region IntegreationTests
