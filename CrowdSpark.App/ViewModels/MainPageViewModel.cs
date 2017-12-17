@@ -1,5 +1,6 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.Models;
+using CrowdSpark.App.Views;
 using CrowdSpark.Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,7 +44,7 @@ namespace CrowdSpark.App.ViewModels
         }
 
         private readonly IAuthenticationHelper helper;
-
+        private readonly INavigationService service;
         private readonly IProjectAPI projectAPI;
 
         //command to repopulate the content of main page
@@ -52,11 +53,10 @@ namespace CrowdSpark.App.ViewModels
         //Command to initialize the login on app opening
         private ICommand SignInCommand { get; set; }
         
-        public MainPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI)
+        public MainPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI, INavigationService _service)
         {
             helper = _helper;
-
-            //recently implemented juicy api
+            service = _service;
             projectAPI = _projectAPI;
             
             initDummyCategories();
@@ -101,6 +101,7 @@ namespace CrowdSpark.App.ViewModels
                     CommonAttributes.account = account;
                     Content.Clear();
                     SignInOutButtonText = "Sign In";
+                    service.Navigate(typeof(LogInPage), null);
                 }
                 else //sign in
                 {

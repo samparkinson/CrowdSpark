@@ -13,7 +13,7 @@ namespace CrowdSpark.App.ViewModels
     class LogInPageViewModel : BaseViewModel
     {
         public ICommand LogInCommand { get; set; }
-        public ICommand InitCommand { get; set; }
+        public ICommand InitCommand;
         private readonly IAuthenticationHelper helper;
         private readonly INavigationService service;
         private readonly IUserAPI userAPI;
@@ -34,7 +34,7 @@ namespace CrowdSpark.App.ViewModels
                     var user = await userAPI.GetMyself();
 
                     //navigate to main page
-                    if (user != null)
+                    if (user.Mail != null)
                     {
                         CommonAttributes.account = account;
                         service.Navigate(typeof(MainPage), null);
@@ -59,7 +59,7 @@ namespace CrowdSpark.App.ViewModels
                         //check api if user exists
                         var user = await userAPI.GetMyself();
 
-                        if (user == null)
+                        if (user.Mail == null)
                         {
                             service.Navigate(typeof(RegisterPage), account);
                         }
@@ -75,7 +75,7 @@ namespace CrowdSpark.App.ViewModels
                     //check api if user exists
                     var user = await userAPI.GetMyself();
 
-                    if (user == null)
+                    if (user.Mail == null)
                     {
                         service.Navigate(typeof(RegisterPage), account);
                     }

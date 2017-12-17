@@ -49,6 +49,7 @@ namespace CrowdSpark.App.ViewModels
                     account = null;
                     CommonAttributes.account = account;
                     SignInOutButtonText = "Sign In";
+                    service.Navigate(typeof(LogInPage), null);
                 }
                 else //sign in
                 {
