@@ -25,6 +25,9 @@ namespace CrowdSpark.App.ViewModels
             UserName = account.UserName;
 
             SignInOutButtonText = account == null ? "Sign In" : "Sign Out";
+            
+            ProjectResults = new ObservableCollection<ProjectViewModel>();
+            UserResults = new ObservableCollection<UserDTO>();
 
             SignInOutCommand = new RelayCommand(async o =>
             {
@@ -57,18 +60,6 @@ namespace CrowdSpark.App.ViewModels
             MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
         }
 
-        //called on page load
-        public void Initialize(string Query)
-        {
-            //TODO:get the results from the repo async
-            //initDummyProjects();
-
-            ProjectResults = new ObservableCollection<ProjectViewModel>();
-            UserResults = new ObservableCollection<UserDTO>();
-
-            SearchProjects(Query);
-        }
-
         private void initDummyProjects()
         {
             ProjectResults.Clear();
@@ -86,6 +77,13 @@ namespace CrowdSpark.App.ViewModels
             {
                 ProjectResults.Add(new ProjectViewModel(p));
             }
+        }
+
+        public async void SearchByCategory(int categoryId)
+        {
+            ProjectResults.Clear();
+
+            var searchResults = await projectAPI.GetByCategory(categoryId);
         }
 
         public async void SearchProjects(string Query)
@@ -114,11 +112,6 @@ namespace CrowdSpark.App.ViewModels
             {
                 ProjectResults.Add(new ProjectViewModel(p));
             }
-        }
-
-        public async void SearchUsers(string Query)
-        {
-
         }
     }
 }

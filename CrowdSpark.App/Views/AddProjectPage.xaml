@@ -154,7 +154,7 @@
                                     </Grid.ColumnDefinitions>
                                     <!--BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" -->
                                     <ComboBox x:Name="CountryComboBox" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" Background="White"  BorderThickness="2" Margin="10" HorizontalAlignment="Stretch" PlaceholderText="Country" Grid.Column="0" ItemsSource="{Binding Countries}"></ComboBox>
-                                    <ComboBox x:Name="CityComboBox" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" Background="White" BorderThickness="2" Margin="10" PlaceholderText="City" HorizontalAlignment="Stretch" Grid.Column="1" ItemsSource="{Binding Cities}"></ComboBox>
+                                    <TextBox x:Name="CityTextBox" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" Background="White" BorderThickness="2" Margin="10" PlaceholderText="City" HorizontalAlignment="Stretch" Grid.Column="1" ></TextBox>
                                 </Grid>
 
                                 <!--Required Skills-->
@@ -178,22 +178,18 @@
                                 </StackPanel>
                             </ScrollViewer>
 
-                            
-                                <StackPanel Grid.Row="5" Margin="0,0,0,10">
-                                    <TextBlock FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="CATEGORY"/>
-                                </StackPanel>
+                            <StackPanel Grid.Row="5" Margin="0,0,0,10">
+                                <TextBlock FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="CATEGORY"/>
+                            </StackPanel>
                                 
-                                    <StackPanel Grid.Row="7" Margin="0,0,25,10" x:Name="CategoryPanel" Background="#808080">
-                                        <AutoSuggestBox x:Name="categoryAutoSuggestBox" HorizontalAlignment="Stretch" Margin="15" PlaceholderText="TYPE IN A CATEGORY" 
+                            <StackPanel Grid.Row="7" Margin="0,0,25,10" x:Name="CategoryPanel" Background="#808080">
+                                <AutoSuggestBox x:Name="categoryAutoSuggestBox" HorizontalAlignment="Stretch" Margin="15" PlaceholderText="TYPE IN A CATEGORY" 
                                                     TextChanged="categoryAutoSuggestBox_TextChanged"
                                                     QuerySubmitted="categoryAutoSuggestBox_QuerySubmitted"
                                                     SuggestionChosen="categoryAutoSuggestBox_SuggestionChosen"/>
-                                    </StackPanel>
+                            </StackPanel>
                                 
-                                
-                              
-
-                                <StackPanel Grid.Row="8" VerticalAlignment="Bottom">
+                            <StackPanel Grid.Row="8" VerticalAlignment="Bottom">
                                     <!--Post Project Button-->
                                     <StackPanel Background="#FF6C6C6C" Grid.Column="1" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Right" Margin="0,0,25,25" VerticalAlignment="Center">
                                         <Button Click="PostProjectButton_Click" Command="{Binding AddCategoryCommand}" VerticalAlignment="Center">

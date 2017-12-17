@@ -18,7 +18,7 @@
             <ColumnDefinition Width="5*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Viewbox x:Name="RegisterForm" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="25">
+        <ScrollViewer x:Name="RegisterForm" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="25">
             <Grid>
                     <Grid.RowDefinitions>   
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -90,7 +90,7 @@
 
             </Grid>
   
-        </Viewbox>
+        </ScrollViewer>
     </Grid>
     
 </Page>

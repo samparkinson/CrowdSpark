@@ -91,11 +91,20 @@ namespace CrowdSpark.App.Views
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
-            var Name = NameTextBox.Text;
-            var Surname = SurnameTextBox.Text;
-            var Mail = MailTextBox.Text;
+            var checkList = new List<string>();
+            var Name = NameTextBox.Text; checkList.Add(Name);
+            var Surname = SurnameTextBox.Text; checkList.Add(Surname);
+            var Mail = MailTextBox.Text; checkList.Add(Mail);
             //var Country = CountryComboBox.SelectedItem.ToString();
             //var City = CityComboBox.SelectedItem.ToString();
+
+            foreach (var s in checkList)
+            {
+                if (String.IsNullOrEmpty(s))
+                {
+                    return;
+                }
+            }
 
             LocationDTO location = new LocationDTO { Country = "Denmark", City = "Copenhagen" };
 
