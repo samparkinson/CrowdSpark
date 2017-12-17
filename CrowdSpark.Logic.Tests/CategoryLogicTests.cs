@@ -13,10 +13,10 @@ namespace CrowdSpark.Logic.Tests
 {
     public class CategoryLogicTests
     {
-        private readonly Mock<ICategoryRepository> categoryRepositoryMock;
-        private CategoryRepository categoryRepository;
-        private CrowdSparkContext context;
-        private readonly Mock<IProjectRepository> projectRepositoryMock;
+        Mock<ICategoryRepository> categoryRepositoryMock;
+        CategoryRepository categoryRepository;
+        CrowdSparkContext context;
+        Mock<IProjectRepository> projectRepositoryMock;
 
         public CategoryLogicTests()
         {
