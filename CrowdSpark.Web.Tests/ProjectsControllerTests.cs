@@ -15,10 +15,12 @@ namespace CrowdSpark.Web.Tests
     {
         Mock<IProjectLogic> projectLogic;
         Mock<IUserLogic> userLogic;
+        Mock<ISparkLogic> sparkLogic;
         public ProjectsControllerTests()
         {
             projectLogic = new Mock<IProjectLogic>();
             userLogic = new Mock<IUserLogic>();
+            sparkLogic = new Mock<ISparkLogic>();
         }
 
         [Fact]
@@ -26,7 +28,7 @@ namespace CrowdSpark.Web.Tests
         {
             projectLogic.Setup(r => r.GetAsync(42)).ReturnsAsync(default(ProjectSummaryDTO));
 
-            var controller = new ProjectsController(projectLogic.Object, userLogic.Object);
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object, sparkLogic.Object);
 
             var response = await controller.Get(42);
 
@@ -36,11 +38,11 @@ namespace CrowdSpark.Web.Tests
         [Fact]
         public async Task Get_given_existing_id_returns_OK_with_project()
         {
-            var proj = new ProjectSummaryDTO { Id = 1 };
+            var proj = new ProjectDTO { Id = 1 };
 
-            projectLogic.Setup(r => r.GetAsync(1)).ReturnsAsync(proj);
+            projectLogic.Setup(r => r.GetDetailedAsync(1)).ReturnsAsync(proj);
 
-            var controller = new ProjectsController(projectLogic.Object, userLogic.Object);
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object, sparkLogic.Object);
 
             var response = await controller.Get(1) as OkObjectResult;
 
@@ -55,7 +57,7 @@ namespace CrowdSpark.Web.Tests
             userLogic.Setup(u => u.GetIdFromAzureUIdAsync("userid")).ReturnsAsync(1);
             projectLogic.Setup(p => p.CreateAsync(project, 1)).ReturnsAsync((ResponseLogic.SUCCESS, 1));
 
-            var controller = new ProjectsController(projectLogic.Object, userLogic.Object)
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object, sparkLogic.Object)
             {
                 GetUserId = () => "userid"
             };
@@ -72,7 +74,7 @@ namespace CrowdSpark.Web.Tests
 
             userLogic.Setup(u => u.GetIdFromAzureUIdAsync("userid")).ReturnsAsync(2);
 
-            var controller = new ProjectsController(projectLogic.Object, userLogic.Object)
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object, sparkLogic.Object)
             {
                 GetUserId = () => "userid"
             };
@@ -90,7 +92,7 @@ namespace CrowdSpark.Web.Tests
             projectLogic.Setup(r => r.UpdateAsync(project, 1)).ReturnsAsync(ResponseLogic.SUCCESS);
             userLogic.Setup(u => u.GetIdFromAzureUIdAsync("userid")).ReturnsAsync(1);
 
-            var controller = new ProjectsController(projectLogic.Object, userLogic.Object)
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object, sparkLogic.Object)
             {
                 GetUserId = () => "userid"
             };
@@ -108,7 +110,7 @@ namespace CrowdSpark.Web.Tests
             projectLogic.Setup(r => r.UpdateAsync(project, 1)).ReturnsAsync(ResponseLogic.NOT_FOUND);
             userLogic.Setup(u => u.GetIdFromAzureUIdAsync("userid")).ReturnsAsync(1);
 
-            var controller = new ProjectsController(projectLogic.Object, userLogic.Object)
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object, sparkLogic.Object)
             {
                 GetUserId = () => "userid"
             };
@@ -124,7 +126,7 @@ namespace CrowdSpark.Web.Tests
             projectLogic.Setup(r => r.DeleteAsync(1, 1)).ReturnsAsync(ResponseLogic.SUCCESS);
             userLogic.Setup(u => u.GetIdFromAzureUIdAsync("userid")).ReturnsAsync(1);
 
-            var controller = new ProjectsController(projectLogic.Object, userLogic.Object)
+            var controller = new ProjectsController(projectLogic.Object, userLogic.Object, sparkLogic.Object)
             {
                 GetUserId = () => "userid"
             };
