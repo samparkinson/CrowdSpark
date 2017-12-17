@@ -96,7 +96,7 @@
                                 </Grid.RowDefinitions>
 
                                 <StackPanel Margin="25,25,25,25" Grid.Row="0">
-                                    <TextBox x:Name="TitleTextBox" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}"  BorderThickness="2" Height="Auto" Padding="15" Background="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontSize="30" FontStyle="Italic" PlaceholderText="PROJECT TITLE"></TextBox>
+                                    <TextBox x:Name="TitleTextBox" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}"  BorderThickness="2" Height="Auto" Padding="15" Background="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontSize="30" FontStyle="Italic" PlaceholderText="PROJECT TITLE" TextChanged="TitleTextBox_TextChanged"></TextBox>
                                 </StackPanel>
 
                                 <StackPanel Margin="25,0,25,25" Grid.Row="1">
@@ -178,7 +178,7 @@
                                 </StackPanel>
                             </ScrollViewer>
 
-                            <StackPanel Grid.Row="5" Margin="0,0,0,10">
+                            <StackPanel Grid.Row="5" Margin="0,15,0,10">
                                 <TextBlock FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="#808080" Text="CATEGORY"/>
                             </StackPanel>
                                 
