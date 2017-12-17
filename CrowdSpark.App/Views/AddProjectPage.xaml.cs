@@ -215,7 +215,10 @@ namespace CrowdSpark.App.Views
             sender.Text = args.SelectedItem.ToString();
         }
 
-        
+        private void TitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 
 }
