@@ -421,9 +421,6 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.5</Version>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>10.0.3</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>2.4.0.280</Version>
     </PackageReference>
