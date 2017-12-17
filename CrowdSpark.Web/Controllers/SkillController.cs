@@ -37,7 +37,7 @@ namespace CrowdSpark.Web.Controllers
 
             if (projects is null)
             {
-                return NotFound();
+                return NoContent();
             }
             else return Ok(projects);
         }
