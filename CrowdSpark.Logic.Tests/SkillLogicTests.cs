@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using CrowdSpark.Common;
 using CrowdSpark.Entitites;
@@ -323,6 +324,28 @@ namespace CrowdSpark.Logic.Tests
             }
         }
 
+        [Fact]
+        public async void DeleteAsync_GivenDatabaseError_ReturnsERROR_DELETING()
+        {
+            var skillToDelete = new SkillDTO
+            {
+                Id = 1,
+                Name = "Cooking"
+            };
+
+            skillRepositoryMock.Setup(c => c.FindAsync(skillToDelete.Id)).ReturnsAsync(skillToDelete);
+            skillRepositoryMock.Setup(c => c.DeleteAsync(skillToDelete.Id)).ReturnsAsync(false);
+
+            using (var logic = new SkillLogic(skillRepositoryMock.Object, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.DeleteAsync(skillToDelete.Id);
+
+                Assert.Equal(ResponseLogic.ERROR_DELETING, response);
+                skillRepositoryMock.Verify(c => c.FindAsync(skillToDelete.Id));
+                skillRepositoryMock.Verify(c => c.DeleteAsync(skillToDelete.Id));
+            }
+        }
+
         #endregion
 
         #region IntegreationTests
@@ -515,6 +538,72 @@ namespace CrowdSpark.Logic.Tests
                 var result = await logic.GetAsync(5);
 
                 Assert.Null(result);
+            }
+        }
+
+        [Fact]
+        public async void DeleteAsync_GivenSkillExistsAndInNoProjects_ReturnsSuccess()
+        {
+            var skillToDelete = new Skill
+            {
+                Id = 1,
+                Name = "Cooking"
+            };
+
+            skillRepository = new SkillRepository(setupContextForIntegrationTests());
+
+            context.Skills.Add(skillToDelete);
+            context.SaveChanges();
+
+            //Sanity Check
+            Assert.NotNull(context.Skills.Find(skillToDelete.Id));
+            Assert.Empty(await context.Projects.ToArrayAsync());
+
+            using (var logic = new SkillLogic(skillRepository, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.DeleteAsync(skillToDelete.Id);
+
+                Assert.Equal(ResponseLogic.SUCCESS, response);
+            }
+        }
+
+        [Fact]
+        public async void DeleteAsync_GivenSkillExistsAndInProjectsAndUser_ReturnsSuccess()
+        {
+            var skillToDelete = new Skill
+            {
+                Id = 1,
+                Name = "Category"
+            };
+
+            var creatorUser = new User() { Id = 1, Firstname = "First", Surname = "Sur", AzureUId = "Azure", Mail = "test@example.com", Skills = new List<Skill> { skillToDelete }, };
+
+            var projects = new List<Project>
+            {
+                new Project{ Title = "Project1", Skills = new List<Skill> { skillToDelete }, CreatedDate = DateTime.Now, Description = "abcd", CreatorId = creatorUser.Id},
+                new Project{ Title = "Project2", Skills = new List<Skill> { skillToDelete }, CreatedDate = DateTime.Now, Description = "abcd", CreatorId = creatorUser.Id}
+            };
+
+            skillRepository = new SkillRepository(setupContextForIntegrationTests());
+
+            context.Skills.Add(skillToDelete);
+            context.Users.Add(creatorUser);
+            context.Projects.AddRange(projects);
+            context.SaveChanges();
+
+            //Sanity Check
+            Assert.NotNull(context.Skills.Find(skillToDelete.Id));
+            Assert.Equal(2, (await context.Projects.ToArrayAsync()).Length);
+
+            using (var logic = new SkillLogic(skillRepository, userRepositoryMock.Object, projectRepositoryMock.Object))
+            {
+                var response = await logic.DeleteAsync(skillToDelete.Id);
+
+                Assert.Equal(ResponseLogic.SUCCESS, response);
+                foreach (var project in await context.Projects.ToArrayAsync())
+                {
+                    Assert.Empty(project.Skills);
+                }
             }
         }
 

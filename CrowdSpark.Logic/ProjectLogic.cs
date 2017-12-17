@@ -12,13 +12,15 @@ namespace CrowdSpark.Logic
         ILocationRepository _locationRepository;
         ISkillLogic _skillLogic;
         ISparkLogic _sparkLogic;
+        ILocationLogic _locationLogic;
 
-        public ProjectLogic(IProjectRepository repository, ILocationRepository locationRepository, ISkillLogic skillLogic, ISparkLogic sparkLogic)
+        public ProjectLogic(IProjectRepository repository, ILocationRepository locationRepository, ISkillLogic skillLogic, ISparkLogic sparkLogic, ILocationLogic locationLogic)
         {
             _repository = repository;
             _locationRepository = locationRepository;
             _skillLogic = skillLogic;
             _sparkLogic = sparkLogic;
+            _locationLogic = locationLogic;
         }
 
         public async Task<IEnumerable<ProjectSummaryDTO>> GetAsync()
@@ -58,14 +60,16 @@ namespace CrowdSpark.Logic
 
         public async Task<(ResponseLogic outcome, int Id)> CreateAsync(CreateProjectDTO project, int creatorId)
         {
-            var skills = project.Skills;
-
-            var id = await _repository.CreateAsync(project, creatorId);
+            var skills = (project.Skills is null) ? new List<SkillDTO> { } : project.Skills;
 
             foreach (var skill in skills)
             {
                 await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name }); //TODO, need to convert this to a parallel for each
             }
+
+            if (project.Location != null) await _locationLogic.CreateAsync(new LocationCreateDTO() { City = project.Location.City, Country = project.Location.Country});
+
+            var id = await _repository.CreateAsync(project, creatorId);
 
             if (id == 0)
             {
