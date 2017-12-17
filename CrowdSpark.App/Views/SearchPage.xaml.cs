@@ -72,10 +72,16 @@ namespace CrowdSpark.App.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Query = (string) e.Parameter;
-
-            ((SearchPageViewModel)DataContext).Initialize(Query);
-
+            if (e.Parameter is string)
+            {
+                Query = (string) e.Parameter;
+                ((SearchPageViewModel)DataContext).SearchProjects(Query);
+            }
+            else if (e.Parameter is int)
+            {
+                ((SearchPageViewModel)DataContext).SearchByCategory((int)e.Parameter);
+            }
+            
             var rootFrame = Window.Current.Content as Frame;
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
