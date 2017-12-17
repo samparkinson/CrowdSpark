@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CrowdSpark.Web.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/v1/users")]
     public class UsersController : Controller
@@ -46,22 +47,20 @@ namespace CrowdSpark.Web.Controllers
 
         // GET api/v1/users/5
         [HttpGet("{id}")]
-        [Authorize]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _userLogic.GetAsync(id)); //TODO, decided if users can look at the profile of other users
         }
 
-        [Authorize]
-        [HttpGet]
-        public IActionResult GetToken()
-        {
-            return Ok(GetUserId());
-        }
+        //[Authorize]
+        //[HttpGet]
+        //public IActionResult GetToken()
+        //{
+        //    return Ok(GetUserId());
+        //}
 
 
         // POST api/v1/users
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]UserCreateDTO user)
         {
@@ -84,7 +83,6 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // PUT api/v1/users/
-        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]UserDTO user)
         {
@@ -114,7 +112,6 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // DELETE api/v1/users/
-        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete()
         {

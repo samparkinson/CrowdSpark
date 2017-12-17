@@ -51,6 +51,7 @@ namespace CrowdSpark.Models
         {
             var skill = await _context.Skills.FindAsync(skillId);
 
+            if (skill is null) return null;
             return new SkillDTO() { Id = skill.Id, Name = skill.Name };
         }
 
@@ -58,6 +59,7 @@ namespace CrowdSpark.Models
         {
             var skill = await _context.Skills.Where(s => s.Name.ToLower() == skillName.ToLower()).FirstOrDefaultAsync();
 
+            if (skill is null) return null;
             return new SkillDTO() { Id = skill.Id, Name = skill.Name };
         }
 

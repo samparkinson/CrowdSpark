@@ -15,8 +15,6 @@ namespace CrowdSpark.App.ViewModels
     {
         public ObservableCollection<string> Countries { get; set; }
         
-        public ObservableCollection<string> Cities { get; set; }
-
         public ICommand PostProjectCommand { get; set; }
 
         private readonly IProjectAPI projectAPI;
@@ -36,8 +34,8 @@ namespace CrowdSpark.App.ViewModels
 
             SignInOutButtonText = account == null ? "Sign In" : "Sign Out";
             
+            //init countries list
             Countries = new ObservableCollection<string>(GetCountryList());
-            Cities = new ObservableCollection<string>();
             
             PostProjectCommand = new RelayCommand(async (project) =>
             {
@@ -80,9 +78,6 @@ namespace CrowdSpark.App.ViewModels
                 }
             });
             
-            //no time to add all cities
-            Cities.Add("Copenhagen");
-            
             MenuOptions = new HamburgerMenuOptionsFactory(CommonAttributes.account).MenuOptions;
         }
 
@@ -101,6 +96,9 @@ namespace CrowdSpark.App.ViewModels
                     cultureList.Add(region.EnglishName);
                 }
             }
+
+            cultureList.Sort();
+
             return cultureList;
         }
     }

@@ -96,11 +96,7 @@ namespace CrowdSpark.App.Views
             {
                 ProjectCountry = CountryComboBox.SelectedItem.ToString(); checkList.Add(ProjectCountry);
             }
-            var ProjectCity = default(string);
-            if (CityComboBox.SelectedItem != null)
-            {
-                ProjectCity = CityComboBox.SelectedItem.ToString(); checkList.Add(ProjectCity);
-            }
+            var ProjectCity = CityTextBox.Text; checkList.Add(ProjectCity);
 
             var ProjectLocation = new LocationDTO { Country = ProjectCountry, City = ProjectCity };
             var ProjectCategory = new CategoryDTO { Name = ProjectCategoryText };
@@ -201,7 +197,10 @@ namespace CrowdSpark.App.Views
             sender.Text = args.SelectedItem.ToString();
         }
 
-        
+        private void TitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 
 }

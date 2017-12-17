@@ -9,9 +9,11 @@ using CrowdSpark.Common;
 using CrowdSpark.Logic;
 using CrowdSpark.Entitites;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CrowdSpark.Web.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/v1/skills")]
     public class SkillController : Controller
@@ -33,13 +35,13 @@ namespace CrowdSpark.Web.Controllers
                 return Ok(await _skillLogic.GetAsync());
             }
 
-            var projects = await _skillLogic.SearchAsync(searchString);
+            var skills = await _skillLogic.SearchAsync(searchString);
 
-            if (projects is null)
+            if (skills.Count() == 0)
             {
                 return NoContent();
             }
-            else return Ok(projects);
+            else return Ok(skills);
         }
 
         // GET api/v1/skills/5

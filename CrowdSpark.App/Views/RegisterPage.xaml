@@ -18,7 +18,7 @@
             <ColumnDefinition Width="5*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Viewbox x:Name="RegisterForm" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="25">
+        <ScrollViewer x:Name="RegisterForm" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="25">
             <Grid>
                     <Grid.RowDefinitions>   
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -55,8 +55,8 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <ComboBox x:Name="CountryComboBox" Grid.Column="0" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" HorizontalAlignment="Stretch" PlaceholderText="Country"></ComboBox>
-                        <ComboBox x:Name="CityComboBox" Grid.Column="1" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" HorizontalAlignment="Stretch" PlaceholderText="City"></ComboBox>
+                        <ComboBox x:Name="CountryComboBox" Grid.Column="0" ItemsSource="{Binding Countries}" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" HorizontalAlignment="Stretch" PlaceholderText="Country"></ComboBox>
+                        <TextBox x:Name="CityTextBox" Grid.Column="1" BorderBrush="{Binding RelativeSource={RelativeSource self}, Path=Text, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource borderConverter}}" HorizontalAlignment="Stretch" PlaceholderText="City"></TextBox>
                     </Grid>
                 </StackPanel>
 
@@ -82,15 +82,14 @@
                         <Button Grid.Column="1" HorizontalAlignment="Center" Click="registerButton_Click">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Accept"></SymbolIcon>
-                                <TextBlock Text="Register" Margin="15,0"></TextBlock>
+                                <TextBlock x:Name="RegisterButtonText" Text="Register" Margin="15,0"></TextBlock>
                             </StackPanel>
                         </Button>
                     </Grid>
                 </StackPanel>
-
             </Grid>
   
-        </Viewbox>
+        </ScrollViewer>
     </Grid>
     
 </Page>

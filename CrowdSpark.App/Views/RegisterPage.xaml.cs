@@ -89,19 +89,51 @@ namespace CrowdSpark.App.Views
             }
         }
 
-        private void registerButton_Click(object sender, RoutedEventArgs e)
+        private async void registerButton_Click(object sender, RoutedEventArgs e)
         {
-            var Name = NameTextBox.Text;
-            var Surname = SurnameTextBox.Text;
-            var Mail = MailTextBox.Text;
-            //var Country = CountryComboBox.SelectedItem.ToString();
-            //var City = CityComboBox.SelectedItem.ToString();
+            var checkList = new List<string>();
+            var Name = NameTextBox.Text; checkList.Add(Name);
+            var Surname = SurnameTextBox.Text; checkList.Add(Surname);
+            var Mail = MailTextBox.Text; checkList.Add(Mail);
+            var Country = "";
 
-            LocationDTO location = new LocationDTO { Country = "Denmark", City = "Copenhagen" };
+            var CountrySelection = CountryComboBox.SelectedItem;
+            if (CountrySelection != null)
+            {
+                Country = CountrySelection.ToString();
+            }
+            checkList.Add(Country);
+            var City = CityTextBox.Text; checkList.Add(City);
+
+            foreach (var s in checkList)
+            {
+                if (String.IsNullOrEmpty(s))
+                {
+                    ContentDialog fillAllFieldsDialog = new ContentDialog
+                    {
+                        Title = "Please fill all fields!",
+                        CloseButtonText = "Ok"
+                    };
+                    await fillAllFieldsDialog.ShowAsync();
+                    return;
+                }
+            }
+
+            LocationDTO location = new LocationDTO { Country = Country, City = City };
 
             var userCreateDTO = new UserCreateDTO { Firstname = Name, Surname = Surname, Mail = Mail, Location = location, Skills = SkillsList };
 
-            ((RegisterPageViewModel)DataContext).RegisterUser(userCreateDTO);
+            var isSuccess = await ((RegisterPageViewModel)DataContext).RegisterUser(userCreateDTO);
+
+            if (!isSuccess)
+            {
+                ContentDialog fillAllFieldsDialog = new ContentDialog
+                {
+                    Title = "Couldn't create account!",
+                    CloseButtonText = "Shame"
+                };
+                await fillAllFieldsDialog.ShowAsync();
+            }
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -110,7 +142,7 @@ namespace CrowdSpark.App.Views
             SurnameTextBox.Text = "";
             MailTextBox.Text = "";
             CountryComboBox.SelectedIndex = -1;
-            CityComboBox.SelectedIndex = -1;
+            CityTextBox.Text = "";
             
             ((RegisterPageViewModel)DataContext).Cancel();
         }
