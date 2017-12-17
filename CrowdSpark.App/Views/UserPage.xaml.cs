@@ -7,6 +7,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.Security.Credentials;
+using CrowdSpark.Common;
+using System.Collections.Generic;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -78,7 +80,7 @@ namespace CrowdSpark.App.Views
 
         public void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
-            this.Frame.Navigate(typeof(MainPage), args.QueryText); // navigate to SearchResultPage
+            Frame.Navigate(typeof(MainPage), args.QueryText); // navigate to SearchResultPage
         }
 
         public void HamburgerButton_Click(object sender, RoutedEventArgs e)
@@ -89,6 +91,35 @@ namespace CrowdSpark.App.Views
         private void AddProjectButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(AddProjectPage), CommonAttributes.account);
+        }
+
+        private async void UpdateUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            var checkList = new List<string>();
+            var Name = UserNameTextBox.Text; checkList.Add(Name);
+            var Surname = UserSurnameTextBox.Text; checkList.Add(Surname);
+            var Mail = UserMailTextBlock.Text;
+            var Country = UserCountryTextBox.Text; checkList.Add(Country);
+            var City = UserCityTextBox.Text; checkList.Add(City);
+
+            foreach (var s in checkList)
+            {
+                if (String.IsNullOrEmpty(s))
+                {
+                    return;
+                }
+            }
+
+            LocationDTO location = new LocationDTO { Country = Country, City = City };
+
+            UserDTO UserDTO = new UserDTO { Firstname = Name, Surname = Surname, Mail = Mail, Location = location };
+
+            var result = await ((UserPageViewModel)DataContext).UpdateUser(UserDTO);
+
+            if (result)
+            {
+                UpdateButton.Content = "UPDATED!";
+            }
         }
     }
 }

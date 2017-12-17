@@ -57,7 +57,6 @@
 
                         <StackPanel Orientation="Horizontal">
                             <SearchBox FocusOnKeyboardInput="False" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
-                            <Button Content="Profile" HorizontalAlignment="Right" Command="{Binding SignInOutCommand}" Background="Transparent" BorderThickness="2" BorderBrush="Black"></Button>
                         </StackPanel>
 
                         <!--Add Project and sign out Button-->
@@ -119,21 +118,21 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
-                                    <StackPanel Orientation="Horizontal" Grid.Row="0"  Margin="25" Background="#33FFFFFF">
-                                        <TextBlock Margin="25" Text="{Binding Firstname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
-                                        <TextBlock Margin="25" Text="{Binding Surname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
-                                    </StackPanel>
+                                    <Grid Grid.Row="0"  Margin="25" Background="#33FFFFFF">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="UserNameTextBox" Grid.Column="0" Margin="10" Text="{Binding Firstname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
+                                        <TextBox x:Name="UserSurnameTextBox" Grid.Column="1" Margin="10" Text="{Binding Surname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
+                                    </Grid>
 
                                     <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#33FFFFFF">
-                                        <Grid>
-                                            <TextBlock Margin="25" Foreground="White" Text="{Binding Mail}" FontSize="24" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
-                                        </Grid>
+                                        <TextBlock x:Name="UserMailTextBlock" Margin="25" Foreground="White" Text="{Binding Mail}" FontSize="24" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#33FFFFFF">
-                                        <Grid>
-                                            <TextBlock Margin="25" Foreground="White" Text="RECENT PROJECTS" FontSize="40" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
-                                        </Grid>
+                                        <TextBlock Margin="25" Foreground="White" Text="RECENT PROJECTS" FontSize="40" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
                                     </StackPanel>
                                 </Grid>
                             </StackPanel>
@@ -160,16 +159,15 @@
                                                 <Image x:Name="CountryFlagImage"  Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}" Height="40" Width="60" HorizontalAlignment="Left"/>
                                             </StackPanel>
                                             <StackPanel Margin="0,25,0,25" Grid.Column="1">
-                                                <TextBlock Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
-                                                <TextBlock Margin="25,5,0,0" Text="{Binding Country}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
+                                                <TextBox x:Name="UserCountryTextBox" Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
+                                                <TextBox x:Name="UserCityTextBox" Margin="25,5,0,0" Text="{Binding Country}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
                                             </StackPanel>
                                         </Grid>
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
-                                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
-                                            <TextBlock Margin="25" Text="SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
-                                        </Button>
+                                        <TextBlock HorizontalAlignment="Center" Margin="25" Text="SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+
                                         <ListView x:Name="skillsListView" ItemsSource="{Binding Skills}" SelectionMode="None" 
                                             VerticalAlignment="Center" IsItemClickEnabled="False">
                                             <ListView.ItemTemplate>
@@ -181,18 +179,17 @@
                                                         </Grid.ColumnDefinitions>
 
                                                         <StackPanel Margin="20" Grid.Column="1" >
-                                                            <TextBlock Text="{Binding Name}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"/>
+                                                            <TextBox Text="{Binding Name}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"/>
                                                         </StackPanel>
                                                     </Grid>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
-
                                         </ListView>
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2">
                                         <Grid>
-                                            <Button Content=">EDIT USER PROFILE" Height="48" Margin="15,15" VerticalAlignment="Top" Width="177" Background="#33FFFFFF" FontSize="15" FontStyle="Italic" />
+                                            <Button x:Name="UpdateButton" Content=">UPTADE USER PROFILE" Click="UpdateUserButton_Click" Height="48" Margin="15,15" VerticalAlignment="Top" Background="#33FFFFFF" FontSize="15" FontStyle="Italic" />
                                         </Grid>
                                     </StackPanel>
                                 </Grid>
