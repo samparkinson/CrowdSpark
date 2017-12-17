@@ -441,6 +441,9 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.5</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Forms">
+      <Version>2.5.0.121934</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrowdSpark.Common\CrowdSpark.Common.csproj">
