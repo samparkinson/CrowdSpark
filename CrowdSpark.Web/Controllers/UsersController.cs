@@ -61,6 +61,7 @@ namespace CrowdSpark.Web.Controllers
 
 
         // POST api/v1/users
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]UserCreateDTO user)
         {

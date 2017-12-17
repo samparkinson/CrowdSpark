@@ -59,5 +59,14 @@ namespace CrowdSpark.App.ViewModels
 
             Category = projectSummaryDTO.Category;
         }
+
+        public ProjectViewModel(CreateProjectDTO createProjectDTO)
+        {
+            Title = createProjectDTO.Title;
+            Description = createProjectDTO.Description;
+            Category = createProjectDTO.Category;
+            Skills = createProjectDTO.Skills;
+            Location = createProjectDTO.Location;
+        }
     }
 }

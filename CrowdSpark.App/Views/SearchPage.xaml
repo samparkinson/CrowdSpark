@@ -40,7 +40,7 @@
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Grid.RowDefinitions>
                     <!--For the app bar-->
-                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="140"/>
                     <!--For page contents-->
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -53,8 +53,30 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
                     <StackPanel Orientation="Horizontal">
                         <SearchBox FocusOnKeyboardInput="False" Margin="10" QuerySubmitted="SearchBox_QuerySubmitted" Height="40" MinWidth ="400" PlaceholderText="WHAT WOULD YOU WANT TO DO?"/>
+                    </StackPanel>
+
+                    <!--Tabs-->
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                        <!--Projects Tab-->
+                        <StackPanel Margin="10,0" VerticalAlignment="Bottom" x:Name="ProjectsTab" BorderThickness="2">
+                            <Button Background="Transparent" CommandParameter="Projects" Click="ProjectsTabButton_Click" HorizontalAlignment="Left">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Projects" Grid.Column="1" Margin="10,0,0,0" />
+                                    <SymbolIcon Symbol="Page" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
 
                     <!--Add Project and sign out Button-->
@@ -96,7 +118,7 @@
                 </Grid>
 
                 <!--Content-->
-                <ListView x:Name="projectsListView" Grid.Row="1" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch"  ItemsSource="{Binding Results}" SelectionMode="None" 
+                <ListView x:Name="projectsListView" Grid.Row="1" Background="#FF747474" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch"  ItemsSource="{Binding ProjectResults}" SelectionMode="None" 
                             IsItemClickEnabled="True" ItemClick="resultsListView_ItemClick">
                     <ListView.ItemTemplate>
                         <DataTemplate>

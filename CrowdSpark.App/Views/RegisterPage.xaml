@@ -19,9 +19,8 @@
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Viewbox x:Name="RegisterForm" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="25">
-            
-                <Grid>
-                    <Grid.RowDefinitions>
+            <Grid>
+                    <Grid.RowDefinitions>   
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>

@@ -55,7 +55,7 @@ namespace CrowdSpark.Web.Controllers
 
             if (projects is null)
             {
-                return queryParameterUsed ? (IActionResult) NotFound() : Ok(new ProjectDTO[] { });
+                return queryParameterUsed ? (IActionResult) NoContent() : Ok(new ProjectDTO[] { });
             }
             else return Ok(projects);            
         }
