@@ -6,6 +6,7 @@
 */appsettings.Production.json
 */appsettings.Development.json
 */wwwroot/js/config.js
+*/Models/Settings.cs
 
 # User-specific files
 *.suo

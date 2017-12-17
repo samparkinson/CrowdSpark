@@ -1,10 +1,12 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.Models;
+using CrowdSpark.App.Views;
 using CrowdSpark.Common;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -41,10 +43,14 @@ namespace CrowdSpark.App.ViewModels
         private ICommand SignInCommand { get; set; }
 
         private readonly IAuthenticationHelper helper;
-        
-        public ProjectPageViewModel(IAuthenticationHelper _helper)
+        private readonly IProjectAPI projectAPI;
+        private readonly INavigationService service;
+
+        public ProjectPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI, INavigationService _service)
         {
             helper = _helper;
+            projectAPI = _projectAPI;
+            service = _service;
             account = CommonAttributes.account;
             UserName = account.UserName;
 
@@ -58,6 +64,7 @@ namespace CrowdSpark.App.ViewModels
                     account = null;
                     CommonAttributes.account = account;
                     SignInOutButtonText = "Sign In";
+                    service.Navigate(typeof(LogInPage), null);
                 }
                 else
                 {
@@ -94,6 +101,11 @@ namespace CrowdSpark.App.ViewModels
 
             account = CommonAttributes.account;
             MenuOptions = CommonAttributes.MenuOptions;
+        }
+
+        public async Task<bool> SparkProject()
+        {
+            return await projectAPI.CreateSpark(Id);
         }
     }
 }

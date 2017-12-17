@@ -1,11 +1,8 @@
-﻿using System;
+﻿using CrowdSpark.Common;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using CrowdSpark.Common;
 
 namespace CrowdSpark.App.Models
 {
@@ -29,9 +26,9 @@ namespace CrowdSpark.App.Models
         {
             var response = await _client.GetAsync($"api/v1/users");
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode && (response.Content.To<UserDTO>().Result != null))
             {
-                return await response.Content.To<UserDTO>();
+                return await response.Content.To<UserDTO>();                
             }
 
             return null;
@@ -51,7 +48,7 @@ namespace CrowdSpark.App.Models
 
         public async Task<bool> Create(UserCreateDTO user)
         {
-            var response = await _client.PostAsJsonAsync("api/v1/users", user);
+            var response = await _client.PostAsync("api/v1/users", user.ToHttpContent());
 
             return response.IsSuccessStatusCode;
         }

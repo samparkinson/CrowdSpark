@@ -1,5 +1,6 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.Models;
+using CrowdSpark.App.Views;
 using CrowdSpark.Common;
 using System;
 using System.Collections.ObjectModel;
@@ -31,16 +32,18 @@ namespace CrowdSpark.App.ViewModels
         public LocationDTO Location { get => _location; set { if (!value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
         
         private readonly IAuthenticationHelper helper;
-
         private readonly IUserAPI userAPI;
+        private readonly INavigationService service;
+
 
         //List of skills 
         public ObservableCollection<SkillDTO> Skills { get; set; }
         
-        public UserPageViewModel(IAuthenticationHelper _helper, IUserAPI _userAPI)
+        public UserPageViewModel(IAuthenticationHelper _helper, IUserAPI _userAPI, INavigationService _service)
         {
             helper = _helper;
-            userAPI = _userAPI; 
+            userAPI = _userAPI;
+            service = _service;
             account = CommonAttributes.account;
             UserName = account.UserName;
 
@@ -54,6 +57,7 @@ namespace CrowdSpark.App.ViewModels
                     account = null;
                     CommonAttributes.account = account;
                     SignInOutButtonText = "Sign In";
+                    service.Navigate(typeof(LogInPage), null);
                 }
                 else
                 {

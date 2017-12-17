@@ -83,7 +83,7 @@ namespace CrowdSpark.App.Views
             Frame.Navigate(typeof(SearchPage), args.QueryText);
         }
 
-        public void PostProjectButton_Click(object sender, RoutedEventArgs e)
+        public async void PostProjectButton_Click(object sender, RoutedEventArgs e)
         {
             var checkList = new List<string>();
             //should implement a null checker for these
@@ -94,8 +94,10 @@ namespace CrowdSpark.App.Views
             var ProjectCountry = default(string);
             if (CountryComboBox.SelectedItem != null)
             {
-                ProjectCountry = CountryComboBox.SelectedItem.ToString(); checkList.Add(ProjectCountry);
+                ProjectCountry = CountryComboBox.SelectedItem.ToString();
             }
+            checkList.Add(ProjectCountry);
+
             var ProjectCity = CityTextBox.Text; checkList.Add(ProjectCity);
 
             var ProjectLocation = new LocationDTO { Country = ProjectCountry, City = ProjectCity };
@@ -109,10 +111,16 @@ namespace CrowdSpark.App.Views
             {
                 if (String.IsNullOrEmpty(s))
                 {
+                    ContentDialog fillAllFieldsDialog = new ContentDialog
+                    {
+                        Title = "Please fill all fields!",
+                        CloseButtonText = "Ok"
+                    };
+                    await fillAllFieldsDialog.ShowAsync();
                     return;
                 }
             }
-            var projectDTO = new CreateProjectDTO
+            var createProjectDTO = new CreateProjectDTO
             {
                 Title = ProjectTitle,
                 Description = ProjectDescription,
@@ -120,23 +128,35 @@ namespace CrowdSpark.App.Views
                 Skills = SkillsList,
                 Category = ProjectCategory
             };
+            
+            var isSuccess = await ((AddProjectPageViewModel)DataContext).PostProject(createProjectDTO);
 
-            //TODO:Use the ProjectLogic class to post the project
-            ((AddProjectPageViewModel)DataContext).PostProjectCommand.Execute(projectDTO);
-
+            if (!isSuccess)
+            {
+                ContentDialog fillAllFieldsDialog = new ContentDialog
+                {
+                    Title = "Couldn't create project!",
+                    CloseButtonText = "Shame"
+                };
+            }
         }
-        private string[] SkillsSuggestions = new string[] { "Music", "Guitar", "Piano" };
-
-        private void skillsAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        
+        private async void skillsAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                //CategorySuggestions.Clear();
+                var skillDTOs = await ((AddProjectPageViewModel)DataContext).GetSkillsAsync(sender.Text);
 
-                var Suggestion = SkillsSuggestions.Where(p => p.StartsWith(sender.Text, StringComparison.OrdinalIgnoreCase)).ToArray();
-                sender.ItemsSource = Suggestion;
+                var Suggestions = new List<string>();
+
+                foreach (var skillDTO in skillDTOs)
+                {
+                    Suggestions.Add(skillDTO.Name);
+                }
+                Suggestions.Sort();
+
+                sender.ItemsSource = Suggestions;
             }
-           
         }
 
         private void skillsAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -144,11 +164,9 @@ namespace CrowdSpark.App.Views
             if (args.ChosenSuggestion != null)
                 sender.Text = args.ChosenSuggestion.ToString();
             else
-            {
-                categoryAutoSuggestBox.Text = sender.Text;
                 SkillsList.Add(new SkillDTO { Name = sender.Text });
-            }
 
+            //create a new AutoSuggestBox 
             AutoSuggestBox suggestBox = new AutoSuggestBox();
             suggestBox.PlaceholderText = "TYPE IN A SKILL";
             suggestBox.HorizontalAlignment = HorizontalAlignment.Stretch;
