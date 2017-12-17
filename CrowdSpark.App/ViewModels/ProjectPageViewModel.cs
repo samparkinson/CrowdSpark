@@ -1,5 +1,6 @@
 ﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.Models;
+using CrowdSpark.App.Views;
 using CrowdSpark.Common;
 using System;
 using System.Collections.Generic;
@@ -43,11 +44,13 @@ namespace CrowdSpark.App.ViewModels
 
         private readonly IAuthenticationHelper helper;
         private readonly IProjectAPI projectAPI;
+        private readonly INavigationService service;
 
-        public ProjectPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI)
+        public ProjectPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI, INavigationService _service)
         {
             helper = _helper;
             projectAPI = _projectAPI;
+            service = _service;
             account = CommonAttributes.account;
             UserName = account.UserName;
 
@@ -61,6 +64,7 @@ namespace CrowdSpark.App.ViewModels
                     account = null;
                     CommonAttributes.account = account;
                     SignInOutButtonText = "Sign In";
+                    service.Navigate(typeof(LogInPage), null);
                 }
                 else
                 {
