@@ -57,7 +57,7 @@ namespace CrowdSpark.App.ViewModels
                     {
                         CommonAttributes.account = account;
                         //check api if user exists
-                        var user = await userAPI.Get(int.Parse(account.Id));
+                        var user = await userAPI.GetMyself();
 
                         if (user == null)
                         {

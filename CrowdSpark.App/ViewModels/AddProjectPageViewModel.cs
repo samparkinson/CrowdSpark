@@ -1,16 +1,13 @@
-﻿using CrowdSpark.App.Converters;
-using CrowdSpark.App.Helpers;
+﻿using CrowdSpark.App.Helpers;
 using CrowdSpark.App.Models;
+using CrowdSpark.App.Views;
 using CrowdSpark.Common;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using System.Windows.Input;
-using Windows.UI.Xaml.Data;
 
 namespace CrowdSpark.App.ViewModels
 {
@@ -27,17 +24,19 @@ namespace CrowdSpark.App.ViewModels
         public CreateProjectDTO createProjectDTO { get; set; }
 
         private readonly IAuthenticationHelper helper;
+        private readonly INavigationService service;
 
-        public AddProjectPageViewModel(IProjectAPI _projectAPI, IAuthenticationHelper _helper)
+        public AddProjectPageViewModel(IProjectAPI _projectAPI, IAuthenticationHelper _helper, INavigationService _service)
         {
             projectAPI = _projectAPI;
             helper = _helper;
+            service = _service;
             account = CommonAttributes.account;
             UserName = account.UserName;
 
             SignInOutButtonText = account == null ? "Sign In" : "Sign Out";
             
-            Countries = new ObservableCollection<string>();
+            Countries = new ObservableCollection<string>(GetCountryList());
             Cities = new ObservableCollection<string>();
             
             PostProjectCommand = new RelayCommand(async (project) =>
@@ -46,8 +45,13 @@ namespace CrowdSpark.App.ViewModels
                 {
                     if (project != null)
                     {
+                        var createProjectDTO = (CreateProjectDTO)project;
                         Debug.WriteLine(((CreateProjectDTO)project).Title);
-                        await projectAPI.Create((CreateProjectDTO)project);
+                        var result = await projectAPI.Create(createProjectDTO);
+                        if (result)
+                        {
+                            service.Navigate(typeof(ProjectPage), new ProjectViewModel(createProjectDTO));
+                        }
                     }
                 }
             });
@@ -75,17 +79,29 @@ namespace CrowdSpark.App.ViewModels
                     }
                 }
             });
-
-            Countries.Add("Denmark");
-            Countries.Add("Turkey");
-            Countries.Add("Germany");
-            Countries.Add("Sweden");
-
+            
+            //no time to add all cities
             Cities.Add("Copenhagen");
-            Cities.Add("Ankara");
-            Cities.Add("Malmø");
             
             MenuOptions = new HamburgerMenuOptionsFactory(CommonAttributes.account).MenuOptions;
+        }
+
+        private List<string> GetCountryList()
+        {
+            List<string> cultureList = new List<string>();
+
+            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+
+            foreach (CultureInfo culture in cultures)
+            {
+                RegionInfo region = new RegionInfo(culture.LCID);
+
+                if (!(cultureList.Contains(region.EnglishName)))
+                {
+                    cultureList.Add(region.EnglishName);
+                }
+            }
+            return cultureList;
         }
     }
 }

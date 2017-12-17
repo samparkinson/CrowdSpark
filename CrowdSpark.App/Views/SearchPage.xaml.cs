@@ -13,6 +13,8 @@ namespace CrowdSpark.App.Views
     {
         private readonly SearchPageViewModel _vm;
 
+        private string Query;
+
         public SearchPage()
         {
             InitializeComponent();
@@ -65,14 +67,14 @@ namespace CrowdSpark.App.Views
             //Frame.Navigate(typeof(SearchPage), args.QueryText);
 
             var context = (SearchPageViewModel)DataContext;
-            context.renewResults(args.QueryText);
+            context.SearchProjects(args.QueryText);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var Query = (string) e.Parameter;
+            Query = (string) e.Parameter;
 
-            _vm.Initialize(Query);
+            ((SearchPageViewModel)DataContext).Initialize(Query);
 
             var rootFrame = Window.Current.Content as Frame;
 
@@ -92,6 +94,11 @@ namespace CrowdSpark.App.Views
         private void AddProjectButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(AddProjectPage), CommonAttributes.account);
+        }
+
+        private void ProjectsTabButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((SearchPageViewModel)DataContext).SearchProjects(Query);
         }
     }
 }

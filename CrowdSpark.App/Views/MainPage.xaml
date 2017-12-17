@@ -52,7 +52,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
@@ -63,7 +63,7 @@
                     <!--Tabs-->
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
                         <!--Recent Tab-->
-                        <StackPanel Margin="10,0" x:Name="RecentTab" BorderThickness="2">
+                        <StackPanel Margin="10,0" VerticalAlignment="Bottom" x:Name="RecentTab" BorderThickness="2">
                             <Button Background="Transparent" CommandParameter="Recent" Command="{Binding RepopulateContentCommand}" Click="RecentTabButton_Click" HorizontalAlignment="Left">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -77,7 +77,7 @@
                         </StackPanel>
                         
                         <!--Categories tab-->
-                        <StackPanel x:Name="CategoriesTab" BorderThickness="2">
+                        <StackPanel x:Name="CategoriesTab" BorderThickness="2" VerticalAlignment="Bottom">
                             <Button Background="Transparent" CommandParameter="Categories" Command="{Binding RepopulateContentCommand}"  Click="CategoriesTabButton_Click" HorizontalAlignment="Center">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
