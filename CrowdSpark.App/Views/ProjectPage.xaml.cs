@@ -72,7 +72,7 @@ namespace CrowdSpark.App.Views
 
         public void SearchBox_QuerySubmitted(SearchBox sender, SearchBoxQuerySubmittedEventArgs args)
         {
-            this.Frame.Navigate(typeof(SearchPage), args.QueryText); // navigate to SearchResultPage
+            Frame.Navigate(typeof(SearchPage), args.QueryText); // navigate to SearchResultPage
         }
 
         public void HamburgerButton_Click(object sender, RoutedEventArgs e)
@@ -83,6 +83,16 @@ namespace CrowdSpark.App.Views
         private void AddProjectButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(AddProjectPage), CommonAttributes.account);
+        }
+
+        private async void SparkProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            var isSuccess = await ((ProjectPageViewModel)DataContext).SparkProject();
+
+            if (isSuccess)
+                SparkProjectButtonText.Text = "SPARKED";
+            else
+                SparkProjectButtonText.Text = "TRY AGAIN LATER";
         }
     }
 }
