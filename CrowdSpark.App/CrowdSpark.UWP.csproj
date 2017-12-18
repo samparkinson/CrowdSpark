@@ -110,10 +110,12 @@
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\IAttachmentAPI.cs" />
     <Compile Include="Models\IAuthenticationHelper.cs" />
+    <Compile Include="Models\ILocationAPI.cs" />
     <Compile Include="Models\IProjectAPI.cs" />
     <Compile Include="Models\ISettings.cs" />
     <Compile Include="Models\ISkillAPI.cs" />
     <Compile Include="Models\IUserAPI.cs" />
+    <Compile Include="Models\LocationAPI.cs" />
     <Compile Include="Models\NavigationService.cs" />
     <Compile Include="Models\ProjectAPI.cs" />
     <Compile Include="Models\Settings.cs" />

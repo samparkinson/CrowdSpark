@@ -26,7 +26,7 @@ namespace CrowdSpark.Web.Controllers
         }
 
         // GET api/v1/locations
-        // GET api/v1/locations?search=searchString
+        // GET api/v1/locations?city=Copenhagen&country=Denmark
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery(Name = "city")] string citySearchString, [FromQuery(Name = "country")] string countrySearchString)
         {
@@ -35,26 +35,26 @@ namespace CrowdSpark.Web.Controllers
                 return Ok(await _locationLogic.GetAsync());
             }
 
-            var skills = await _locationLogic.FindAsync(citySearchString, countrySearchString);
+            var locations = await _locationLogic.FindAsync(citySearchString, countrySearchString);
 
-            if (skills.Count() == 0)
+            if (locations.Count() == 0)
             {
                 return NoContent();
             }
-            else return Ok(skills);
+            else return Ok(locations);
         }
 
         // GET api/v1/locations/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var skill = await _locationLogic.GetAsync(id);
+            var location = await _locationLogic.GetAsync(id);
 
-            if (skill is null)
+            if (location is null)
             {
                 return NotFound();
             }
-            return Ok(skill);
+            return Ok(location);
         }
 
         // POST api/v1/locations
