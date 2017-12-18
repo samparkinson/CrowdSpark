@@ -149,6 +149,21 @@ namespace CrowdSpark.Logic
             return await UpdateAsync(userId, user);
         }
 
+        public async Task<ResponseLogic> AddSkillAsync(int userId, int skillId)
+        {
+            var user = await _repository.FindAsync(userId);
+            var skill = await _skillLogic.GetAsync(skillId);
+
+            if (user.Skills.Contains(skill))
+            {
+                return ResponseLogic.SUCCESS;
+            }
+
+            if (skill != null )user.Skills.Add(skill);
+
+            return await UpdateAsync(userId, user);
+        }
+
         public async Task<ResponseLogic> RemoveSkillAsync(int userId, SkillDTO skill)
         {
             var user = await _repository.FindAsync(userId);

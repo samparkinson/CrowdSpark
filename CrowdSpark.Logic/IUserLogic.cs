@@ -21,6 +21,8 @@ namespace CrowdSpark.Logic
 
         Task<ResponseLogic> AddSkillAsync(int userId, SkillDTO skill);
 
+        Task<ResponseLogic> AddSkillAsync(int userId, int skillId);
+
         Task<ResponseLogic> RemoveSkillAsync(int userId, SkillDTO skill);
 
     }

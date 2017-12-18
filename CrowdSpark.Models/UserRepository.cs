@@ -114,7 +114,7 @@ namespace CrowdSpark.Models
             userToUpdate.Mail = user.Mail;
             userToUpdate.LocationId = user.Location?.Id;
             userToUpdate.Location = (user.Location == null) ? null : new Location() { Id = user.Location.Id, City = user.Location.City, Country = user.Location.Country };
-            userToUpdate.Skills = EntityConversionHelper.ConvertSkillDTOsToSkills(user.Skills);    
+            userToUpdate.Skills = EntityConversionHelper.ConvertSkillDTOsToUserSkills(user.Skills, userId);    
 
             return (await saveContextChanges() > 0);
         }

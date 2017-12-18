@@ -576,12 +576,12 @@ namespace CrowdSpark.Logic.Tests
                 Name = "Category"
             };
 
-            var creatorUser = new User() { Id = 1, Firstname = "First", Surname = "Sur", AzureUId = "Azure", Mail = "test@example.com", Skills = new List<Skill> { skillToDelete }, };
+            var creatorUser = new User() { Id = 1, Firstname = "First", Surname = "Sur", AzureUId = "Azure", Mail = "test@example.com", Skills = new List<UserSkill> { { new UserSkill() { UserId = 1, Skill = skillToDelete } } }, };
 
             var projects = new List<Project>
             {
-                new Project{ Title = "Project1", Skills = new List<Skill> { skillToDelete }, CreatedDate = DateTime.Now, Description = "abcd", CreatorId = creatorUser.Id},
-                new Project{ Title = "Project2", Skills = new List<Skill> { skillToDelete }, CreatedDate = DateTime.Now, Description = "abcd", CreatorId = creatorUser.Id}
+                new Project{ Id = 1, Title = "Project1", Skills = new List<ProjectSkill> { new ProjectSkill() { ProjectId = 1, Skill = skillToDelete } }, CreatedDate = DateTime.Now, Description = "abcd", CreatorId = creatorUser.Id},
+                new Project{ Id = 2, Title = "Project2", Skills = new List<ProjectSkill> { new ProjectSkill() { ProjectId = 2, Skill = skillToDelete } }, CreatedDate = DateTime.Now, Description = "abcd", CreatorId = creatorUser.Id}
             };
 
             skillRepository = new SkillRepository(setupContextForIntegrationTests());

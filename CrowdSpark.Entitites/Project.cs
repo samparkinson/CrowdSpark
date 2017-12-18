@@ -6,11 +6,6 @@ namespace CrowdSpark.Entitites
 {
     public partial class Project
     {
-        public Project()
-        {
-            Skills = new HashSet<Skill>();
-        }
-
         public int Id { get; set; }
 
         [Required]
@@ -24,7 +19,7 @@ namespace CrowdSpark.Entitites
 
         public Location Location { get; set; }
 
-        public ICollection<Skill> Skills { get; set; }
+        public ICollection<ProjectSkill> Skills { get; set; }
 
         public ICollection<Spark> Sparks { get; set; }
 

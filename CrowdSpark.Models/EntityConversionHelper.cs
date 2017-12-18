@@ -9,22 +9,42 @@ namespace CrowdSpark.Models
 {
     internal static class EntityConversionHelper
     {
-        public static ICollection<Skill> ConvertSkillDTOsToSkills(ICollection<SkillDTO> skillDTOs)
+        public static ICollection<UserSkill> ConvertSkillDTOsToUserSkills(ICollection<SkillDTO> skillDTOs, int userId)
         {
-            var result = new List<Skill>();
+            var result = new List<UserSkill>();
             foreach (var skill in skillDTOs ?? Enumerable.Empty<SkillDTO>())
             {
-                result.Add( new Skill() { Id = skill.Id, Name = skill.Name });
+                result.Add( new UserSkill() { UserId = userId, SkillId = skill.Id });
             }
             return result;
         }
 
-        public static ICollection<SkillDTO> ConvertSkillsToSkillDTOs(ICollection<Skill> skills)
+        public static ICollection<ProjectSkill> ConvertSkillDTOsToProjectSkills(ICollection<SkillDTO> skillDTOs, int projectId)
+        {
+            var result = new List<ProjectSkill>();
+            foreach (var skill in skillDTOs ?? Enumerable.Empty<SkillDTO>())
+            {
+                result.Add(new ProjectSkill() { ProjectId = projectId, SkillId = skill.Id });
+            }
+            return result;
+        }
+
+        public static ICollection<SkillDTO> ConvertSkillsToSkillDTOs(ICollection<UserSkill> skills)
         {
             var result = new List<SkillDTO>();
-            foreach (var skill in skills ?? Enumerable.Empty<Skill>())
+            foreach (var skill in skills ?? Enumerable.Empty<UserSkill>())
             {
-                result.Add( new SkillDTO() { Id = skill.Id, Name = skill.Name });
+                result.Add(new SkillDTO() { Id = skill.Skill.Id, Name = skill.Skill.Name });
+            }
+            return result;
+        }
+
+        public static ICollection<SkillDTO> ConvertSkillsToSkillDTOs(ICollection<ProjectSkill> skills)
+        {
+            var result = new List<SkillDTO>();
+            foreach (var skill in skills ?? Enumerable.Empty<ProjectSkill>())
+            {
+                result.Add( new SkillDTO() { Id = skill.Skill.Id, Name = skill.Skill.Name });
             }
             return result;
         }

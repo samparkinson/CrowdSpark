@@ -180,7 +180,40 @@ namespace CrowdSpark.Logic.Tests
 
             using (var logic = new UserLogic(userRepository, skillLogic, sparkLogicMock.Object, locationLogicMock.Object))
             {
-                var result = await logic.AddSkillAsync(1, new SkillDTO() { Name = "Dancing" });
+                var result = await logic.AddSkillAsync(1, new SkillDTO() { Id = 1, Name = "Dancing" });
+
+                Assert.Equal(ResponseLogic.SUCCESS, result);
+            }
+        }
+
+        [Fact]
+        public async void AddSkillAsyncWithId_GivenSkillAndUserExist_ReturnsSUCCESS()
+        {
+            var existingUser = new User() { Id = 1, Firstname = "IAlready", Surname = "Exist", Mail = "already@example.com", AzureUId = "existingAuzreUId" };
+            var existingSkill = new Skill() { Id = 1, Name = "Dancing" };
+
+            userRepository = new UserRepository(setupContextForIntegrationTests());
+            skillRepository = new SkillRepository(context);
+            projectRepository = new ProjectRepository(context);
+            //locationRepository = new LocationRepository(context);
+
+            //var locationLogic = new LocationLogic(locationRepository, userRepository, projectRepository);
+            var skillLogic = new SkillLogic(skillRepository, userRepository, projectRepository);
+
+            context.Users.Add(existingUser);
+            context.Skills.Add(existingSkill);
+            context.SaveChanges();
+            context.Entry(existingSkill).State = EntityState.Detached;
+
+            //SanityCheck
+            Assert.Equal(1, await context.Users.CountAsync());
+            Assert.Equal(existingUser, await context.Users.FirstAsync());
+            Assert.Equal(1, await context.Skills.AsNoTracking().CountAsync());
+            // Assert.Equal(existingSkill, await context.Skills.AsNoTracking().FirstAsync());
+
+            using (var logic = new UserLogic(userRepository, skillLogic, sparkLogicMock.Object, locationLogicMock.Object))
+            {
+                var result = await logic.AddSkillAsync(1, 1);
 
                 Assert.Equal(ResponseLogic.SUCCESS, result);
             }

@@ -141,7 +141,7 @@ namespace CrowdSpark.Models
             projectToUpdate.Description = details.Description;
             projectToUpdate.LocationId = details.Location?.Id;
             projectToUpdate.Location = (details.Location is null) ? null : new Location() { Id = details.Location.Id, City = details.Location.City, Country = details.Location.Country };
-            projectToUpdate.Skills = EntityConversionHelper.ConvertSkillDTOsToSkills(details.Skills);
+            projectToUpdate.Skills = EntityConversionHelper.ConvertSkillDTOsToProjectSkills(details.Skills, details.Id);
             projectToUpdate.Sparks = EntityConversionHelper.ConvertSparkDTOsToSparks(details.Sparks);
             projectToUpdate.Category = (details.Category is null) ? null : new Category() { Id = details.Category.Id, Name = details.Category.Name };
 
