@@ -34,7 +34,7 @@ namespace CrowdSpark.App.ViewModels
                     var user = await userAPI.GetMyself();
 
                     //navigate to main page
-                    if (user.Mail != null)
+                    if (user != null)
                     {
                         CommonAttributes.account = account;
                         service.Navigate(typeof(MainPage), null);
@@ -59,7 +59,7 @@ namespace CrowdSpark.App.ViewModels
                         //check api if user exists
                         var user = await userAPI.GetMyself();
 
-                        if (user.Mail == null)
+                        if (user == null)
                         {
                             service.Navigate(typeof(RegisterPage), account);
                         }
@@ -75,7 +75,7 @@ namespace CrowdSpark.App.ViewModels
                     //check api if user exists
                     var user = await userAPI.GetMyself();
 
-                    if (user.Mail == null)
+                    if (user == null)
                     {
                         service.Navigate(typeof(RegisterPage), account);
                     }
