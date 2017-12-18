@@ -29,7 +29,7 @@ namespace CrowdSpark.App.ViewModels
         public string Mail { get => _mail; set { if (value != _mail) { _mail = value; OnPropertyChanged(); } } }
 
         private LocationDTO _location;
-        public LocationDTO Location { get => _location; set { if (!value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
+        public LocationDTO Location { get => _location; set { if (value != null && !value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
         
         private readonly IAuthenticationHelper helper;
         private readonly IUserAPI userAPI;
@@ -88,7 +88,7 @@ namespace CrowdSpark.App.ViewModels
                 Mail = userDTO.Mail;
                 Location = userDTO.Location;
 
-                Skills = (ObservableCollection<SkillDTO>)userDTO.Skills;
+                Skills = new ObservableCollection<SkillDTO>(userDTO.Skills);
             }
         }
 

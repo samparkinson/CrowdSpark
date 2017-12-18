@@ -79,8 +79,8 @@ namespace CrowdSpark.App.ViewModels
             if (account != null)
             {
                 //check if skills exist, if not add them
-                CompareAndAddSkills(createProjectDTO.Skills);
-
+                createProjectDTO.Skills = await CompareAndCreateSkills(createProjectDTO.Skills);
+                createProjectDTO.Location = null;
                 var result = await projectAPI.Create(createProjectDTO);
                 if (result)
                 {
@@ -91,17 +91,59 @@ namespace CrowdSpark.App.ViewModels
             return false;
         }
 
-        private async void CompareAndAddSkills(ICollection<SkillDTO> projectSkills)
+        private async Task<ICollection<SkillDTO>> CompareAndCreateSkills(ICollection<SkillDTO> skillDTOs)
         {
-            foreach (SkillDTO skillDTO in projectSkills)
+            ICollection<SkillDTO> skillsWithIDs = new List<SkillDTO>();
+
+            //create non existing skills
+            foreach (SkillDTO skillDTO in skillDTOs)
             {
-                var result = await skillAPI.GetBySearch(skillDTO.Name);
-                if (result == null)
+                var results = await skillAPI.GetBySearch(skillDTO.Name);
+
+                //Create and add if non existent
+                if (results == null)
                 {
                     var skillCreateDTO = new SkillCreateDTO { Name = skillDTO.Name };
                     await skillAPI.Create(skillCreateDTO);
+                    var skillsWithId = await skillAPI.GetBySearch(skillDTO.Name);
+                    foreach (SkillDTO skillWithId in skillsWithId)
+                    {
+                        if (skillWithId.Name.Equals(skillDTO.Name))
+                        {
+                            skillsWithIDs.Add(skillWithId);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var skill in results)
+                    {
+                        //if the skill already exists, add the existing to list
+                        if (skill.Name.Equals(skillDTO.Name))
+                        {
+                            skillsWithIDs.Add(skill);
+                            continue;
+                        }
+
+                        //create, search and add the skill
+                        var skillCreateDTO = new SkillCreateDTO { Name = skillDTO.Name };
+                        await skillAPI.Create(skillCreateDTO);
+                        //search
+                        var skillsWithId = await skillAPI.GetBySearch(skillDTO.Name);
+                        //add
+                        foreach (SkillDTO skillWithId in skillsWithId)
+                        {
+                            if (skillWithId.Name.Equals(skillDTO.Name))
+                            {
+                                skillsWithIDs.Add(skillWithId);
+                            }
+                        }
+                    }
                 }
             }
+
+            //return SkillDTOs with ID
+            return skillsWithIDs;
         }
 
         private List<string> GetCountryList()

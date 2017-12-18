@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -126,7 +127,7 @@ namespace CrowdSpark.App.Views
                 Description = ProjectDescription,
                 Location = ProjectLocation,
                 Skills = SkillsList,
-                Category = ProjectCategory
+                Category = ProjectCategory,
             };
             
             var isSuccess = await ((AddProjectPageViewModel)DataContext).PostProject(createProjectDTO);
@@ -138,6 +139,11 @@ namespace CrowdSpark.App.Views
                     Title = "Couldn't create project!",
                     CloseButtonText = "Shame"
                 };
+                await fillAllFieldsDialog.ShowAsync();
+            }
+            else
+            {
+                Frame.Navigate(typeof(ProjectPage), new ProjectViewModel(createProjectDTO));
             }
         }
         
@@ -145,17 +151,19 @@ namespace CrowdSpark.App.Views
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                var skillDTOs = await ((AddProjectPageViewModel)DataContext).GetSkillsAsync(sender.Text);
+                //dunno whats going on
+                var skillDTOs = new List<SkillDTO>();
+                
+                skillDTOs = await ((AddProjectPageViewModel)DataContext).GetSkillsAsync(sender.Text);
+            
+                    var Suggestions = new List<string>();
+                    foreach (var skillDTO in skillDTOs)
+                    {
+                        Suggestions.Add(skillDTO.Name);
+                    }
+                    Suggestions.Sort();
 
-                var Suggestions = new List<string>();
-
-                foreach (var skillDTO in skillDTOs)
-                {
-                    Suggestions.Add(skillDTO.Name);
-                }
-                Suggestions.Sort();
-
-                sender.ItemsSource = Suggestions;
+                    sender.ItemsSource = Suggestions;
             }
         }
 
@@ -184,6 +192,7 @@ namespace CrowdSpark.App.Views
         private void skillsAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             sender.Text = args.SelectedItem.ToString();
+            SkillsList.Add(new SkillDTO { Name = sender.Text });
         }
 
         private string[] CategorySuggestions = new string[] { "Apple", "Banana", "Orange", "Strawberry" };
@@ -214,11 +223,5 @@ namespace CrowdSpark.App.Views
         {
             sender.Text = args.SelectedItem.ToString();
         }
-
-        private void TitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
-
 }
