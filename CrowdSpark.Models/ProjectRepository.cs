@@ -25,7 +25,6 @@ namespace CrowdSpark.Models
                 Description = project.Description,
                 LocationId = project.Location?.Id,
                 Location = (project.Location is null) ? null : new Location() { Id = project.Location.Id, City = project.Location.City, Country = project.Location.Country },
-                Skills = EntityConversionHelper.ConvertSkillDTOsToSkills(project.Skills),
                 Category = (project.Category is null) ? null : new Category() { Id = project.Category.Id, Name = project.Category.Name },
                 CreatedDate = System.DateTime.UtcNow,
                 CreatorId = creatorUserId

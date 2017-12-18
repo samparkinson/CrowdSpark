@@ -13,14 +13,16 @@ namespace CrowdSpark.Logic
         ISkillLogic _skillLogic;
         ISparkLogic _sparkLogic;
         ILocationLogic _locationLogic;
+        ICategoryLogic _categoryLogic;
 
-        public ProjectLogic(IProjectRepository repository, ILocationRepository locationRepository, ISkillLogic skillLogic, ISparkLogic sparkLogic, ILocationLogic locationLogic)
+        public ProjectLogic(IProjectRepository repository, ILocationRepository locationRepository, ISkillLogic skillLogic, ISparkLogic sparkLogic, ILocationLogic locationLogic, ICategoryLogic categoryLogic)
         {
             _repository = repository;
             _locationRepository = locationRepository;
             _skillLogic = skillLogic;
             _sparkLogic = sparkLogic;
             _locationLogic = locationLogic;
+            _categoryLogic = categoryLogic;
         }
 
         public async Task<IEnumerable<ProjectSummaryDTO>> GetAsync()
@@ -60,24 +62,30 @@ namespace CrowdSpark.Logic
 
         public async Task<(ResponseLogic outcome, int Id)> CreateAsync(CreateProjectDTO project, int creatorId)
         {
-            var skills = (project.Skills is null) ? new List<SkillDTO> { } : project.Skills;
-
-            foreach (var skill in skills)
+            if (project.Location != null)
             {
-                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name }); //TODO, need to convert this to a parallel for each
+                var success = await _locationLogic.CreateAsync(new LocationCreateDTO() { City = project.Location.City, Country = project.Location.Country });
+                if (success == ResponseLogic.SUCCESS)
+                {
+                    project.Location = await _locationLogic.FindExactAsync(project.Location.City, project.Location.Country);
+                }
+                else return (ResponseLogic.ERROR_CREATING, 0);
             }
 
-            if (project.Location != null) await _locationLogic.CreateAsync(new LocationCreateDTO() { City = project.Location.City, Country = project.Location.Country});
+            if (project.Category != null)
+            {
+                var success = await _categoryLogic.CreateAsync(new CategoryCreateDTO() { Name = project.Category.Name});
+                if (success == ResponseLogic.SUCCESS)
+                {
+                    project.Category = await _categoryLogic.FindExactAsync(project.Category.Name);
+                }
+                else return (ResponseLogic.ERROR_CREATING, 0);
+            }
 
             var id = await _repository.CreateAsync(project, creatorId);
 
             if (id == 0)
             {
-                foreach (var skill in skills)
-                {
-                    await _skillLogic.RemoveWithObjectAsync(skill); //TODO, need to convert this to a parallel for each
-                }
-
                 return (ResponseLogic.ERROR_CREATING, 0);
             }
 

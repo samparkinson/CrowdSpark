@@ -61,14 +61,14 @@ namespace CrowdSpark.Models
         {
             var location = await _context.Locations.FindAsync(locationId);
 
-            return new LocationDTO() { Id = location.Id, City = location.City, Country = location.Country };
+            return (location is null) ? null : new LocationDTO() { Id = location.Id, City = location.City, Country = location.Country };
         }
 
         public async Task<LocationDTO> FindAsync(string searchCity, string searchCountry)
         {
-            var location =  await _context.Locations.FindAsync(searchCity, searchCountry);
+            var location =  await _context.Locations.Where(l => l.City.ToLower() == searchCity.ToLower() && l.Country.ToLower() == searchCountry.ToLower()).FirstOrDefaultAsync();
 
-            return new LocationDTO() { Id = location.Id, City = location.City, Country = location.Country };
+            return (location is null) ? null : new LocationDTO() { Id = location.Id, City = location.City, Country = location.Country };
         }
 
         public async Task<IReadOnlyCollection<LocationDTO>> ReadOrderedAsync()
