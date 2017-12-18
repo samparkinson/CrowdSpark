@@ -189,7 +189,7 @@
 
                                     <StackPanel Grid.Row="2">
                                         <Grid>
-                                            <Button x:Name="UpdateButton" Content=">UPTADE USER PROFILE" Click="UpdateUserButton_Click" Height="48" Margin="15,15" VerticalAlignment="Top" Background="#33FFFFFF" FontSize="15" FontStyle="Italic" />
+                                            <Button x:Name="UpdateButton" Content=">UPTADE USER PROFILE" Click="UpdateUserButton_Click" Height="48" Margin="25,15" VerticalAlignment="Top" Background="#33FFFFFF" FontSize="15" FontStyle="Italic" />
                                         </Grid>
                                     </StackPanel>
                                 </Grid>

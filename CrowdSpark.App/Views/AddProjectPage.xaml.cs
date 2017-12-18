@@ -155,15 +155,23 @@ namespace CrowdSpark.App.Views
                 
                 skillDTOs = await ((AddProjectPageViewModel)DataContext).GetSkillsAsync(sender.Text);
             
-                    var Suggestions = new List<string>();
-                    foreach (var skillDTO in skillDTOs)
-                    {
-                        Suggestions.Add(skillDTO.Name);
-                    }
-                    Suggestions.Sort();
+                var Suggestions = new List<string>();
+                foreach (var skillDTO in skillDTOs)
+                {
+                    Suggestions.Add(skillDTO.Name);
+                }
+                Suggestions.Sort();
 
-                    sender.ItemsSource = Suggestions;
+                sender.ItemsSource = Suggestions;
             }
+        }
+
+        private void skillsAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+                sender.Text = args.ChosenSuggestion.ToString();
+            else
+                SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
 
             //create a new AutoSuggestBox 
             AutoSuggestBox suggestBox = new AutoSuggestBox();
@@ -178,20 +186,25 @@ namespace CrowdSpark.App.Views
 
             SkillsPanel.Children.Add(suggestBox);
         }
-
-        private void skillsAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (args.ChosenSuggestion != null)
-                sender.Text = args.ChosenSuggestion.ToString();
-            else
-                SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
-        }
         
 
         private void skillsAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             sender.Text = args.SelectedItem.ToString();
             SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
+
+            //create a new AutoSuggestBox 
+            AutoSuggestBox suggestBox = new AutoSuggestBox();
+            suggestBox.PlaceholderText = "TYPE IN A SKILL";
+            suggestBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            suggestBox.Margin = new Thickness(15, 0, 15, 15);
+
+            suggestBox.TextChanged += skillsAutoSuggestBox_TextChanged;
+            suggestBox.SuggestionChosen += skillsAutoSuggestBox_SuggestionChosen;
+            suggestBox.QuerySubmitted += skillsAutoSuggestBox_QuerySubmitted;
+
+            SkillsPanel.Children.Add(suggestBox);
         }
 
         private string[] CategorySuggestions = new string[] { "Apple", "Banana", "Orange", "Strawberry" };
