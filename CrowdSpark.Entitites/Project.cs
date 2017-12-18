@@ -4,8 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CrowdSpark.Entitites
 {
-    public class Project
+    public partial class Project
     {
+        public Project()
+        {
+            Skills = new HashSet<Skill>();
+        }
+
         public int Id { get; set; }
 
         [Required]

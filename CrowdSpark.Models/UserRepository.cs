@@ -47,7 +47,7 @@ namespace CrowdSpark.Models
 
         public async Task<UserDTO> FindAsync(int userId)
         {
-            var user =  await _context.Users.FindAsync(userId);
+            var user = await _context.Users.AsNoTracking().Where(u => u.Id == userId).FirstOrDefaultAsync();
 
             if (user is null) return null;
 
@@ -64,7 +64,7 @@ namespace CrowdSpark.Models
 
         public async Task<int> GetIdAsync(string azureUId)
         {
-            var user = await _context.Users.Where(u => u.AzureUId == azureUId).FirstOrDefaultAsync();
+            var user = await _context.Users.AsNoTracking().Where(u => u.AzureUId == azureUId).FirstOrDefaultAsync();
 
             if (user is null) return -1;
 
@@ -73,7 +73,7 @@ namespace CrowdSpark.Models
 
         public async Task<UserDTO> FindFromAzureUIdAsync(string azureUId)
         {
-            var user = await _context.Users.Where(u => u.AzureUId == azureUId).FirstOrDefaultAsync();
+            var user = await _context.Users.AsNoTracking().Where(u => u.AzureUId == azureUId).FirstOrDefaultAsync();
 
             if (user is null) return null;
 

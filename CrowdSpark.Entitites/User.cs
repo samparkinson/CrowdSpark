@@ -5,7 +5,11 @@ namespace CrowdSpark.Entitites
 {
     public partial class User
     {
-
+        public User()
+        {
+            Skills = new HashSet<Skill>();
+        }
+        
         public int Id { get; set; }
 
         [Required]
