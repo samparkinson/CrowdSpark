@@ -32,6 +32,7 @@ namespace CrowdSpark.App.Models
             services.AddScoped<IProjectAPI, ProjectAPI>();
             services.AddScoped<IUserAPI, UserAPI>();
             services.AddScoped<ISkillAPI, SkillAPI>();
+            services.AddScoped<IAttachmentAPI, AttachmentAPI>();
 
             return services.BuildServiceProvider();
         }
