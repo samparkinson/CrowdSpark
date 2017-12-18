@@ -92,7 +92,7 @@ namespace CrowdSpark.Web.Controllers
 
             if (success.outcome == ResponseLogic.SUCCESS)
             {
-                return CreatedAtAction(nameof(Get), new { success.Id }, null);
+                return CreatedAtAction(nameof(Get), new { success.Id }, success.Id);
             }
             else return StatusCode(500);
         }
