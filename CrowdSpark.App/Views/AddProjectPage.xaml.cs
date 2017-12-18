@@ -126,7 +126,6 @@ namespace CrowdSpark.App.Views
                 Title = ProjectTitle,
                 Description = ProjectDescription,
                 Location = ProjectLocation,
-                Skills = SkillsList,
                 Category = ProjectCategory,
             };
             

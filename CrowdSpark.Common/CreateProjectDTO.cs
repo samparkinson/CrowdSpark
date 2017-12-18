@@ -14,8 +14,6 @@ namespace CrowdSpark.Common
 
         public LocationDTO Location { get; set; }
 
-        public ICollection<SkillDTO> Skills { get; set; }
-
         public CategoryDTO Category { get; set; }
     }
 }
