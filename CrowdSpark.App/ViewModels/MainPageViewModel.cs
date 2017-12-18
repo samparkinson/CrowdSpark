@@ -63,7 +63,7 @@ namespace CrowdSpark.App.ViewModels
             
             //pop up the login screen if user is not logged in
             //called only on startup
-            SignInCommand = new RelayCommand(async o =>
+            SignInCommand = new RelayCommand(async a =>
             {
                 if (account == null)
                 {
@@ -76,7 +76,7 @@ namespace CrowdSpark.App.ViewModels
                         CommonAttributes.account = account;
 
                         UserName = account.UserName;
-                        await GetRecentProjects();
+                        GetRecentProjects();
 
                         SignInOutButtonText = "Sign Out";
 
@@ -85,7 +85,7 @@ namespace CrowdSpark.App.ViewModels
                 }
                 else
                 {
-                    await GetRecentProjects();
+                    GetRecentProjects();
 
                     SignInOutButtonText = "Sign Out";
                 }
@@ -110,7 +110,7 @@ namespace CrowdSpark.App.ViewModels
                     {
                         //initDummyProjects();
 
-                        await GetRecentProjects();
+                        GetRecentProjects();
 
                         CommonAttributes.account = account;
 
@@ -130,8 +130,7 @@ namespace CrowdSpark.App.ViewModels
                 switch (tabName)
                 {
                     case "Recent":
-                        //initDummyProjects();
-                        await GetRecentProjects();
+                        GetRecentProjects();
                         break;
                     case "Categories":
                         initDummyCategories();
@@ -147,7 +146,7 @@ namespace CrowdSpark.App.ViewModels
             CommonAttributes.MenuOptions = MenuOptions;   
         }
 
-        public async Task GetRecentProjects()
+        public async void GetRecentProjects()
         {
             Content = null;
             Content = new ObservableCollection<ProjectViewModel>();
@@ -157,12 +156,14 @@ namespace CrowdSpark.App.ViewModels
             {
                 var recentProjects = await projectAPI.GetAll();
                 Debug.WriteLine("Getting projects");
-
-                //p is ProjectSummaryDTO
-                foreach (var project in recentProjects.Select(p => new ProjectViewModel(p)))
+                if (recentProjects != null)
                 {
-                    Debug.WriteLine(project.Title);
-                    Content.Add(project);
+                    //p is ProjectSummaryDTO
+                    foreach (var project in recentProjects.Select(p => new ProjectViewModel(p)))
+                    {
+                        Debug.WriteLine(project.Title);
+                        Content.Add(project);
+                    }
                 }
             }
         }

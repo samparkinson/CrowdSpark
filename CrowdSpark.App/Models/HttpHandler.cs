@@ -5,52 +5,34 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using CrowdSpark.Common;
 
-namespace CrowdSpark.App.Models
+namespace CrowdSpark.App
 {
-    public class SkillAPI : ISkillAPI
+    public class HttpHandler : IHttpHandler
     {
-        private readonly IHttpHandler _client;
+        private HttpClient _client = new HttpClient();
+        public HttpRequestHeaders DefaultRequestHeaders => _client.DefaultRequestHeaders;
 
-        public SkillAPI(ISettings settings, IHttpHandler client, DelegatingHandler handler)
+        public Uri BaseAddress { get => _client.BaseAddress; set => _client.BaseAddress = value; }
+
+        public async Task<HttpResponseMessage> DeleteAsync(string url)
         {
-            client.BaseAddress = settings.ApiBaseAddress;
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            _client = client;
+            return await _client.DeleteAsync(url);
         }
 
-        public async Task<bool> Create(SkillCreateDTO skill)
+        public async Task<HttpResponseMessage> GetAsync(string url)
         {
-            var response = await _client.PostAsync("api/v1/skills", skill.ToHttpContent());
-
-            return response.IsSuccessStatusCode;
+            return await _client.GetAsync(url);
         }
 
-        public async Task<IReadOnlyCollection<SkillDTO>> GetAll()
+        public async Task<HttpResponseMessage> PostAsync(string url, HttpContent content)
         {
-            var response = await _client.GetAsync($"api/v1/skills");
-
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.To<IReadOnlyCollection<SkillDTO>>();
-            }
-
-            return new List<SkillDTO>().AsReadOnly();
+            return await _client.PostAsync(url, content);
         }
 
-        public async Task<IReadOnlyCollection<SkillDTO>> GetBySearch(string searchString)
+        public async Task<HttpResponseMessage> PutAsync(string url, HttpContent content)
         {
-            var response = await _client.GetAsync($"api/v1/skills?search={searchString}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.To<IReadOnlyCollection<SkillDTO>>();
-            }
-
-            return new List<SkillDTO>().AsReadOnly();
+            return await _client.PutAsync(url, content);
         }
 
         #region IDisposable Support
@@ -73,7 +55,7 @@ namespace CrowdSpark.App.Models
         }
 
         // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~SkillAPI() {
+        // ~HttpHandler() {
         //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
         //   Dispose(false);
         // }
