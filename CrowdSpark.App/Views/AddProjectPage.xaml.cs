@@ -130,7 +130,7 @@ namespace CrowdSpark.App.Views
                 Category = ProjectCategory,
             };
             
-            var isSuccess = await ((AddProjectPageViewModel)DataContext).PostProject(createProjectDTO, SkillsList);
+            var isSuccess = await ((AddProjectPageViewModel)DataContext).PostProject(createProjectDTO, SkillsList, attachments);
 
             if (!isSuccess)
             {

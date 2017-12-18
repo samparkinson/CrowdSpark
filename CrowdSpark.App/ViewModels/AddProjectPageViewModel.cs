@@ -8,7 +8,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using System.Windows.Input;
+using Windows.Storage;
 
 namespace CrowdSpark.App.ViewModels
 {
@@ -25,13 +27,17 @@ namespace CrowdSpark.App.ViewModels
         private readonly IAuthenticationHelper helper;
         private readonly INavigationService service;
         private readonly ISkillAPI skillAPI;
+        private readonly IAttachmentAPI attachmentAPI;
+        private readonly ILocationAPI locationAPI;
 
-        public AddProjectPageViewModel(IProjectAPI _projectAPI, IAuthenticationHelper _helper, INavigationService _service, ISkillAPI _skillAPI, IAttachmentAPI _attachmentAPI)
+        public AddProjectPageViewModel(IProjectAPI _projectAPI, IAuthenticationHelper _helper, INavigationService _service, ILocationAPI _locationAPI, ISkillAPI _skillAPI, IAttachmentAPI _attachmentAPI)
         {
             projectAPI = _projectAPI;
             helper = _helper;
             service = _service;
             skillAPI = _skillAPI;
+            attachmentAPI = _attachmentAPI;
+            locationAPI = _locationAPI;
             account = CommonAttributes.account;
             UserName = account.UserName;
 
@@ -82,12 +88,14 @@ namespace CrowdSpark.App.ViewModels
             return null;
         }
 
-        public async Task<bool> PostProject(CreateProjectDTO createProjectDTO, List<SkillCreateDTO> SkillsList)
+        public async Task<bool> PostProject(CreateProjectDTO createProjectDTO, List<SkillCreateDTO> SkillsList, List<StorageFile> attachments)
         {
             if (account != null)
             {
-                //TODO: change this
-                createProjectDTO.Location = null;
+                LocationCreateDTO locationCreateDTO = new LocationCreateDTO { Country = createProjectDTO.Location.Country, City = createProjectDTO.Location.City };
+                var locationID = await locationAPI.Create(locationCreateDTO);
+                LocationDTO locationDTO = new LocationDTO { Country = createProjectDTO.Location.Country, City = createProjectDTO.Location.City, Id = locationID };
+                createProjectDTO.Location = locationDTO;
 
                 //this should return the id
                 var result = await projectAPI.Create(createProjectDTO);
@@ -99,6 +107,16 @@ namespace CrowdSpark.App.ViewModels
                     //replace with actual id 
                     SkillDTO skillDTO = new SkillDTO { Name = skillCreateDTO.Name, Id = skillID };
                     await projectAPI.AddSkill(result, skillDTO);
+                }
+
+                foreach (StorageFile file in attachments)
+                {
+                    byte[] imageArray = System.IO.File.ReadAllBytes(file.Path);
+
+                    string serializedData = Convert.ToBase64String(imageArray);
+
+                    var attachment = new AttachmentCreateDTO { Data = serializedData, Description = file.Name, ProjectId = result, Type = (int)AttachmentTypes.BITMAP };
+                    await attachmentAPI.Create(attachment);
                 }
                 
                 if (result != -1)

@@ -101,16 +101,20 @@ namespace CrowdSpark.App.ViewModels
 
         public async Task<bool> UpdateUser(UserDTO userDTO, List<SkillCreateDTO> skillCreateDTOs)
         {
+            var userSkills = new List<SkillDTO>();
             foreach (SkillCreateDTO skillCreateDTO in skillCreateDTOs)
             {
-                await skillAPI.Create(skillCreateDTO);
+                var skillId = await skillAPI.Create(skillCreateDTO);
 
                 //replace the id with the actual one
-                SkillDTO skillDTO = new SkillDTO { Id = 0, Name = skillCreateDTO.Name };
+                SkillDTO skillDTO = new SkillDTO { Id = skillId, Name = skillCreateDTO.Name };
                 await userAPI.AddSkill(skillDTO);
+                userSkills.Add(skillDTO);
             }
-
-            return await userAPI.Update(userDTO);
+            userDTO.Skills = userSkills;
+            userDTO.Id = Id;
+            var result = await userAPI.Update(userDTO);
+            return result;
         }
 
         private List<string> GetCountryList()
