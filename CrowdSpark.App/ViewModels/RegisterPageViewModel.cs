@@ -95,7 +95,8 @@ namespace CrowdSpark.App.ViewModels
                     {
                         if (skill.Name.Equals(skillDTO.Name))
                         {
-                            break;
+                            skillsWithIDs.Add(skill);
+                            continue;
                         }
                         var skillCreateDTO = new SkillCreateDTO { Name = skillDTO.Name };
                         await skillAPI.Create(skillCreateDTO);
