@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 using System.Data;
+using System.Linq;
 
 namespace CrowdSpark.Models.Tests
 {
@@ -46,8 +47,18 @@ namespace CrowdSpark.Models.Tests
             {
                 Description = "An example attachment",
                 Data = "fuvwygwiu gbuywgykaguygdchjbaeiuyxgciuyadhviu bwrhjdsiyeabfcuyuw wyadvfjcvyut3er78t2euabdcbeaiyc eqdcgfw",
-                Type = (int)AttachmentTypes.BITMAP
+                Type = (int)AttachmentTypes.BITMAP,
+                ProjectId = 1
             };
+
+            var user = new User() {Id = 1, Firstname = "John", Surname = "Smith", AzureUId = "rfaweaw", Mail = "test@example.com"};
+            var project = new Project() { Id = 1, Title = "Foo", Description = "Bar", Creator = user, CreatedDate = System.DateTime.UtcNow};
+
+            context.Projects.Add(project);
+            context.SaveChanges();
+
+            //SanityCheck
+            Assert.NotNull(context.Projects.AsNoTracking().Where(p => p.Id == 1).First());
 
             using (var repository = new AttachmentRepository(context))
             {
@@ -63,15 +74,26 @@ namespace CrowdSpark.Models.Tests
             {
                 Description = "An example attachment",
                 Data = "fuvwygwiu gbuywgykaguygdchjbaeiuyxgciuyadhviu bwrhjdsiyeabfcuyuw wyadvfjcvyut3er78t2euabdcbeaiyc eqdcgfw",
-                Type = (int)AttachmentTypes.BITMAP
+                Type = (int)AttachmentTypes.BITMAP,
+                ProjectId = 1
             };
 
             var attachmentToCreate2 = new AttachmentCreateDTO
             {
                 Description = "A second example attachment",
                 Data = "fuvwygwiu gbuywgykawrfiluhwrilhuihgfwefaguygdchjbaeiuyxgciuyadhviu bwrhjdsiyeabfcuyuw wyadvfjcvyut3er78t2euabdcbeaiyc eqdcgfw",
-                Type = (int)AttachmentTypes.PDF
+                Type = (int)AttachmentTypes.PDF,
+                ProjectId = 1
             };
+
+            var user = new User() { Id = 1, Firstname = "John", Surname = "Smith", AzureUId = "rfaweaw", Mail = "test@example.com" };
+            var project = new Project() { Id = 1, Title = "Foo", Description = "Bar", Creator = user, CreatedDate = System.DateTime.UtcNow };
+
+            context.Projects.Add(project);
+            context.SaveChanges();
+
+            //SanityCheck
+            Assert.NotNull(context.Projects.AsNoTracking().Where(p => p.Id == 1).First());
 
             using (var repository = new AttachmentRepository(context))
             {
@@ -132,9 +154,14 @@ namespace CrowdSpark.Models.Tests
             {
                 Data = "sgivehfuihvuaeirhvuhrsuvinfi",
                 Description = "Attachment",
-                Type = (int)AttachmentTypes.BITMAP
+                Type = (int)AttachmentTypes.BITMAP,
+                ProjectId = 1
             };
 
+            var user = new User() { Id = 1, Firstname = "John", Surname = "Smith", AzureUId = "rfaweaw", Mail = "test@example.com" };
+            var project = new Project() { Id = 1, Title = "Foo", Description = "Bar", Creator = user, CreatedDate = System.DateTime.UtcNow };
+
+            context.Projects.Add(project);
             var attachment = context.Attachments.Add(existingAttachment);
             context.SaveChanges();
 
@@ -153,27 +180,14 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void DeleteAsync_GivenSaveChangesError_ReturnFalse()
         {
-            var existingAttachment = new Attachment
-            {
-                Data = "sgivehfuihvuaeirhvuhrsuvinfi",
-                Description = "Attachment",
-                Type = (int)AttachmentTypes.BITMAP
-            };
-
-            var attachment = context.Attachments.Add(existingAttachment);
-            context.SaveChanges();
-
             var contextMock = new Mock<ICrowdSparkContext>();
 
             contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ReturnsAsync(0);
             contextMock.Setup(c => c.Attachments.Remove(It.IsAny<Attachment>()));
 
-            //SanityCheck
-            Assert.NotNull(context.Attachments.Find(attachment.Entity.Id));
-
             using (var repository = new AttachmentRepository(contextMock.Object))
             {
-                 Assert.False( await repository.DeleteAsync(attachment.Entity.Id));
+                 Assert.False( await repository.DeleteAsync(1));
             }
         }
 
