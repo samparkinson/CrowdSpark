@@ -154,8 +154,9 @@ namespace CrowdSpark.App.Views
                 var skillDTOs = new List<SkillDTO>();
                 
                 skillDTOs = await ((AddProjectPageViewModel)DataContext).GetSkillsAsync(sender.Text);
-            
+                
                 var Suggestions = new List<string>();
+                if (skillDTOs is null) return;
                 foreach (var skillDTO in skillDTOs)
                 {
                     Suggestions.Add(skillDTO.Name);
