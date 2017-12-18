@@ -162,9 +162,7 @@ namespace CrowdSpark.Logic.Tests
             userRepository = new UserRepository(setupContextForIntegrationTests());
             skillRepository = new SkillRepository(context);
             projectRepository = new ProjectRepository(context);
-            //locationRepository = new LocationRepository(context);
 
-            //var locationLogic = new LocationLogic(locationRepository, userRepository, projectRepository);
             var skillLogic = new SkillLogic(skillRepository, userRepository, projectRepository);
 
             context.Users.Add(existingUser);
@@ -195,9 +193,7 @@ namespace CrowdSpark.Logic.Tests
             userRepository = new UserRepository(setupContextForIntegrationTests());
             skillRepository = new SkillRepository(context);
             projectRepository = new ProjectRepository(context);
-            //locationRepository = new LocationRepository(context);
 
-            //var locationLogic = new LocationLogic(locationRepository, userRepository, projectRepository);
             var skillLogic = new SkillLogic(skillRepository, userRepository, projectRepository);
 
             context.Users.Add(existingUser);
@@ -209,7 +205,6 @@ namespace CrowdSpark.Logic.Tests
             Assert.Equal(1, await context.Users.CountAsync());
             Assert.Equal(existingUser, await context.Users.FirstAsync());
             Assert.Equal(1, await context.Skills.AsNoTracking().CountAsync());
-            // Assert.Equal(existingSkill, await context.Skills.AsNoTracking().FirstAsync());
 
             using (var logic = new UserLogic(userRepository, skillLogic, sparkLogicMock.Object, locationLogicMock.Object))
             {

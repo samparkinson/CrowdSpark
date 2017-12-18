@@ -129,9 +129,9 @@ namespace CrowdSpark.Logic
 
         public void Dispose()
         {
-            _repository.Dispose();
-            _userRepository.Dispose();
-            _projectRepository.Dispose();
+            _repository?.Dispose();
+            _userRepository?.Dispose();
+            _projectRepository?.Dispose();
         }
     }
 }

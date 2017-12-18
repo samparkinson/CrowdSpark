@@ -96,12 +96,12 @@ namespace CrowdSpark.Logic
         {
             var currentProject = await _repository.FindAsync(project.Id);
 
-            if (currentProject.Creator.Id != requestingUserId) return ResponseLogic.UNAUTHORISED;
-
             if (currentProject is null)
             {
                 return ResponseLogic.NOT_FOUND;
             }
+
+            if (currentProject.Creator?.Id != requestingUserId) return ResponseLogic.UNAUTHORISED;
 
             var currentSkills = currentProject.Skills;
             var skills = project.Skills;

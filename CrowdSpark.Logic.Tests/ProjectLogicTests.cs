@@ -148,6 +148,42 @@ namespace CrowdSpark.Logic.Tests
             }
         }
 
+        [Fact]
+        public async void AddSkillAsync_GivenSkillAndProjectExist_ReturnsSUCCESS()
+        {
+            var existingUser = new User() { Id = 1, Firstname = "IAlready", Surname = "Exist", Mail = "already@example.com", AzureUId = "existingAuzreUId" };
+            var existingSkill = new Skill() { Id = 1, Name = "Dancing" };
+            var existingProject = new Project() { Id = 1, Title = "Foo", Description = "Bar", Creator = existingUser, CreatedDate = System.DateTime.UtcNow };
+
+            locationRepository = new LocationRepository(setupContextForIntegrationTests());
+            skillRepository = new SkillRepository(context);
+            projectRepository = new ProjectRepository(context);
+            userRepository = new UserRepository(context);
+
+            var skillLogic = new SkillLogic(skillRepository, userRepository, projectRepository);
+
+            context.Users.Add(existingUser);
+            context.SaveChanges();
+            context.Skills.Add(existingSkill);
+            context.Projects.Add(existingProject);
+            context.SaveChanges();
+            context.Entry(existingSkill).State = EntityState.Detached;
+
+            //SanityCheck
+            Assert.Equal(1, await context.Users.CountAsync());
+            Assert.Equal(existingUser, await context.Users.FirstAsync());
+            Assert.Equal(1, await context.Projects.CountAsync());
+            Assert.Equal(existingProject, await context.Projects.FirstAsync());
+            Assert.Equal(1, await context.Skills.AsNoTracking().CountAsync());
+
+            using (var logic = new ProjectLogic(projectRepository, locationRepository, skillLogic, sparkLogicMock.Object, locationLogicMock.Object, categoryLogicMock.Object))
+            {
+                var result = await logic.AddSkillAsync(1, new SkillDTO() { Id = 1, Name = "Dancing" }, existingUser.Id);
+
+                Assert.Equal(ResponseLogic.SUCCESS, result);
+            }
+        }
+
         private CrowdSparkContext setupContextForIntegrationTests()
         {
             var connection = new SqliteConnection("DataSource=:memory:");
