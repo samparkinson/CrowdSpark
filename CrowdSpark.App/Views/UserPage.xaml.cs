@@ -10,13 +10,8 @@ using Windows.Security.Credentials;
 using CrowdSpark.Common;
 using System.Collections.Generic;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace CrowdSpark.App.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class UserPage : Page, IAppPage
     {
         private readonly UserPageViewModel _vm;
@@ -31,6 +26,8 @@ namespace CrowdSpark.App.Views
             DataContext = _vm;
 
             SkillsList = new List<SkillCreateDTO>();
+
+            UserCountryComboBox.ItemsSource = ((UserPageViewModel)DataContext).Countries;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -48,6 +45,8 @@ namespace CrowdSpark.App.Views
             {
                 setCountryComboBoxSelection(userLocation.Country);
             }
+
+            fillSkillsList();
 
             var rootFrame = Window.Current.Content as Frame;
 
@@ -149,13 +148,13 @@ namespace CrowdSpark.App.Views
 
         private async void skillsAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput && !String.IsNullOrEmpty(sender.Text))
             {
                 //dunno whats going on
                 var skillDTOs = new List<SkillDTO>();
-
+                
                 skillDTOs = await ((UserPageViewModel)DataContext).GetSkillsAsync(sender.Text);
-
+                
                 var Suggestions = new List<string>();
 
                 if (skillDTOs != null)
@@ -177,9 +176,19 @@ namespace CrowdSpark.App.Views
             else
                 SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
 
+            addAutoSuggestBox(null);
+        }
+
+        private void addAutoSuggestBox(string optionalText)
+        {
             //create a new AutoSuggestBox 
             AutoSuggestBox suggestBox = new AutoSuggestBox();
-            suggestBox.PlaceholderText = "TYPE IN A SKILL";
+
+            if (optionalText != null)
+                suggestBox.Text = optionalText;
+            else
+                suggestBox.PlaceholderText = "TYPE IN A SKILL";
+            
             suggestBox.HorizontalAlignment = HorizontalAlignment.Stretch;
 
             suggestBox.Margin = new Thickness(15, 0, 15, 15);
@@ -190,7 +199,6 @@ namespace CrowdSpark.App.Views
 
             SkillsPanel.Children.Add(suggestBox);
         }
-
 
         private void skillsAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
@@ -206,6 +214,16 @@ namespace CrowdSpark.App.Views
                 {
                     UserCountryComboBox.SelectedItem = item;
                 }
+            }
+        }
+
+        private void fillSkillsList()
+        {
+            var skillCreateDTOs = ((UserPageViewModel)DataContext).populateSkillsList();
+
+            foreach (var skillCreateDTO in skillCreateDTOs)
+            {
+                addAutoSuggestBox(skillCreateDTO.Name);
             }
         }
     }

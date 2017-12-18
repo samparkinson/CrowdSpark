@@ -102,9 +102,8 @@ namespace CrowdSpark.App.Views
             {
                 Country = CountrySelection.ToString();
             }
-            checkList.Add(Country);
 
-            var City = CityTextBox.Text; checkList.Add(City);
+            var City = CityTextBox.Text; 
 
             foreach (var s in checkList)
             {

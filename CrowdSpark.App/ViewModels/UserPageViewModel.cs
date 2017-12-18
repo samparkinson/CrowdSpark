@@ -51,7 +51,7 @@ namespace CrowdSpark.App.ViewModels
             account = CommonAttributes.account;
             UserName = account.UserName;
             Countries = new ObservableCollection<string>(GetCountryList());
-            
+
             SignInOutButtonText = account == null ? "Sign In" : "Sign Out";
             
             SignInOutCommand = new RelayCommand(async o =>
@@ -93,6 +93,7 @@ namespace CrowdSpark.App.ViewModels
                 Surname = userDTO.Surname;
                 Mail = userDTO.Mail;
                 Location = userDTO.Location;
+                Id = userDTO.Id;
 
                 Skills = new ObservableCollection<SkillDTO>(userDTO.Skills);
             }
@@ -103,6 +104,8 @@ namespace CrowdSpark.App.ViewModels
             foreach (SkillCreateDTO skillCreateDTO in skillCreateDTOs)
             {
                 await skillAPI.Create(skillCreateDTO);
+
+                //replace the id with the actual one
                 SkillDTO skillDTO = new SkillDTO { Id = 0, Name = skillCreateDTO.Name };
                 await userAPI.AddSkill(skillDTO);
             }
@@ -131,8 +134,8 @@ namespace CrowdSpark.App.ViewModels
             return cultureList;
         }
 
-    public async Task<List<SkillDTO>> GetSkillsAsync(string Query)
-       {
+        public async Task<List<SkillDTO>> GetSkillsAsync(string Query)
+        {
            var result = await skillAPI.GetBySearch(Query);
 
            if (result != null)
@@ -142,8 +145,21 @@ namespace CrowdSpark.App.ViewModels
                    return new List<SkillDTO>(result);
                }
            }
+           else
+                return null;
+        }
 
-           else return null;
-       }
+        public List<SkillCreateDTO> populateSkillsList()
+        {
+            var result = new List<SkillCreateDTO>();
+            if (Skills != null)
+            {
+                foreach (SkillDTO skillDTO in Skills)
+                {
+                    result.Add(new SkillCreateDTO { Name = skillDTO.Name });
+                }
+            }
+            return result;
+        }
     }
 }
