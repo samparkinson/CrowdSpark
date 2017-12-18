@@ -20,12 +20,14 @@ namespace CrowdSpark.Web.Controllers
     {
         private readonly IProjectLogic _logic;
         private readonly IUserLogic _userLogic;
+        private readonly ISparkLogic _sparkLogic;
         public Func<string> GetUserId; // Replaceable in testing
 
-        public ProjectsController(IProjectLogic logic, IUserLogic userLogic )
+        public ProjectsController(IProjectLogic logic, IUserLogic userLogic, ISparkLogic sparkLogic)
         {
             _logic = logic;
             _userLogic = userLogic;
+            _sparkLogic = sparkLogic;
             GetUserId = () => this.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
@@ -65,7 +67,7 @@ namespace CrowdSpark.Web.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var project = await _logic.GetAsync(id);
+            var project = await _logic.GetDetailedAsync(id);
 
             if (project is null)
             {
@@ -152,32 +154,68 @@ namespace CrowdSpark.Web.Controllers
 
         [Route("skills")]
         [HttpPost("{projectId}")]
-        public async Task<IActionResult> AddSkill(int projectId, [FromBody] SkillCreateDTO skill)
+        public async Task<IActionResult> AddSkill(int projectId, [FromBody] SkillDTO skill)
         {
             // if skill.Name does not exist in Skill DB, create new SkillDTO with new Id;
-            throw new NotImplementedException();
+            var userId = await _userLogic.GetIdFromAzureUIdAsync(GetUserId());
+
+            var success = await _logic.AddSkillAsync(projectId, skill, userId);
+
+            if (success == ResponseLogic.SUCCESS)
+            {
+                return Ok();
+            }
+            else if (success == ResponseLogic.NOT_FOUND)
+            {
+                return NotFound();
+            }
+            else if (success == ResponseLogic.UNAUTHORISED)
+            {
+                return Unauthorized();
+            }
+            else return StatusCode(500);
         }
 
         [Route("skills")]
         [HttpGet("{projectId}")]
         public async Task<IActionResult> GetSkills(int projectId)
         {
-            throw new NotImplementedException();
-            //return Ok(new SkillDTO());
+            var project = await _logic.GetDetailedAsync(projectId);
+
+            if (project is null)
+            {
+                return NotFound();
+            }
+            else if (project.Skills.Count() == 0)
+            {
+                return NoContent();
+            }
+            else return Ok(project.Skills);
         }
 
         [Route("spark")]
         [HttpGet("{projectId}")]
         public async Task<IActionResult> GetApprovedSparks(int projectId)
         {
-            throw new NotImplementedException();
+            var sparks = await _logic.GetApprovedSparksAsync(projectId);
+
+            if (sparks.Count() == 0) return NoContent();
+            else return Ok(sparks);
         }
 
         [Route("spark")]
         [HttpPost("{projectId}")]
         public async Task<IActionResult> CreateSpark(int projectId)
         {
-            throw new NotImplementedException();
+            var userId = await _userLogic.GetIdFromAzureUIdAsync(GetUserId());
+
+            var success = await _sparkLogic.CreateAsync(projectId, userId);
+
+            if (success == ResponseLogic.SUCCESS)
+            {
+                return CreatedAtAction(nameof(GetApprovedSparks), new { projectId }, null);
+            }
+            else return StatusCode(500);
         }
     }
 }
