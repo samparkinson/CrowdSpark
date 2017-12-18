@@ -166,7 +166,7 @@
                                             </Grid>
                                         </StackPanel>
 
-                                        <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
+                                        <StackPanel x:Name="SkillsPanel" Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
                                             <TextBlock HorizontalAlignment="Center" Margin="25" Text="SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
 
                                             <ListView x:Name="skillsListView" ItemsSource="{Binding Skills}" SelectionMode="None" 
@@ -186,6 +186,12 @@
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </ListView>
+                                            <AutoSuggestBox x:Name="skillsAutoSuggestBox" HorizontalAlignment="Stretch" Background="White" 
+                                                Margin="15" PlaceholderText="TYPE IN A SKILL" 
+                                                TextChanged="skillsAutoSuggestBox_TextChanged"
+                                                QuerySubmitted="skillsAutoSuggestBox_QuerySubmitted"
+                                                SuggestionChosen="skillsAutoSuggestBox_SuggestionChosen"
+                                                />
                                         </StackPanel>
 
                                         <StackPanel Grid.Row="2">

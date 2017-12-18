@@ -3,6 +3,7 @@ using CrowdSpark.App.Models;
 using CrowdSpark.App.Views;
 using CrowdSpark.Common;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -33,15 +34,17 @@ namespace CrowdSpark.App.ViewModels
         
         private readonly IAuthenticationHelper helper;
         private readonly IUserAPI userAPI;
+        private readonly ISkillAPI skillAPI;
         private readonly INavigationService service;
         
         //List of skills 
         public ObservableCollection<SkillDTO> Skills { get; set; }
         
-        public UserPageViewModel(IAuthenticationHelper _helper, IUserAPI _userAPI, INavigationService _service)
+        public UserPageViewModel(IAuthenticationHelper _helper, IUserAPI _userAPI, ISkillAPI _skillAPI, INavigationService _service)
         {
             helper = _helper;
             userAPI = _userAPI;
+            skillAPI = _skillAPI;
             service = _service;
             account = CommonAttributes.account;
             UserName = account.UserName;
@@ -90,6 +93,21 @@ namespace CrowdSpark.App.ViewModels
 
                 Skills = new ObservableCollection<SkillDTO>(userDTO.Skills);
             }
+        }
+
+        public async Task<List<SkillDTO>> GetSkillsAsync(string Query)
+        {
+            var result = await skillAPI.GetBySearch(Query);
+
+            if (result != null)
+            {
+                lock (result)
+                {
+                    return new List<SkillDTO>(result);
+                }
+            }
+
+            else return null;
         }
 
         public async Task<bool> UpdateUser(UserDTO userDTO)

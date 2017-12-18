@@ -20,6 +20,7 @@ namespace CrowdSpark.App.Views
     public sealed partial class UserPage : Page, IAppPage
     {
         private readonly UserPageViewModel _vm;
+        private List<SkillCreateDTO> SkillsList { get; set; }
 
         public UserPage()
         {
@@ -28,6 +29,8 @@ namespace CrowdSpark.App.Views
             _vm = App.ServiceProvider.GetService<UserPageViewModel>();
 
             DataContext = _vm;
+
+            SkillsList = new List<SkillCreateDTO>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -130,6 +133,57 @@ namespace CrowdSpark.App.Views
             {
                 UpdateButton.Content = "TRY AGAIN LATER";
             }
+        }
+
+        private async void skillsAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //dunno whats going on
+                var skillDTOs = new List<SkillDTO>();
+
+                skillDTOs = await ((UserPageViewModel)DataContext).GetSkillsAsync(sender.Text);
+
+                var Suggestions = new List<string>();
+
+                if (skillDTOs != null)
+                {
+                    foreach (var skillDTO in skillDTOs)
+                    {
+                        Suggestions.Add(skillDTO.Name);
+                    }
+                    Suggestions.Sort();
+                }
+                sender.ItemsSource = Suggestions;
+            }
+        }
+
+        private void skillsAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+                sender.Text = args.ChosenSuggestion.ToString();
+            else
+                SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
+
+            //create a new AutoSuggestBox 
+            AutoSuggestBox suggestBox = new AutoSuggestBox();
+            suggestBox.PlaceholderText = "TYPE IN A SKILL";
+            suggestBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            suggestBox.Margin = new Thickness(15, 0, 15, 15);
+
+            suggestBox.TextChanged += skillsAutoSuggestBox_TextChanged;
+            suggestBox.SuggestionChosen += skillsAutoSuggestBox_SuggestionChosen;
+            suggestBox.QuerySubmitted += skillsAutoSuggestBox_QuerySubmitted;
+
+            SkillsPanel.Children.Add(suggestBox);
+        }
+
+
+        private void skillsAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            sender.Text = args.SelectedItem.ToString();
+            SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
         }
     }
 }
