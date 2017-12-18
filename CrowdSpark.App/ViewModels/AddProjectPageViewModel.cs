@@ -95,11 +95,11 @@ namespace CrowdSpark.App.ViewModels
                 foreach (SkillCreateDTO skillCreateDTO in SkillsList)
                 {
                     var skillID = await skillAPI.Create(skillCreateDTO);
-                    //SkillDTO skillDTO = new SkillDTO { Name = skillCreateDTO.Name, Id = skillID };
-                    //projectAPI.AddSkill(result, skillDTO);
+                    SkillDTO skillDTO = new SkillDTO { Name = skillCreateDTO.Name, Id = 0 };
+                    //await projectAPI.AddSkill(result, skillDTO);
                 }
 
-                //-1 is error
+                // set to result != -1 
                 if (result)
                 {
                     service.Navigate(typeof(ProjectPage), new ProjectViewModel(createProjectDTO));

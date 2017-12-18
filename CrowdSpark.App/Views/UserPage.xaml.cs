@@ -20,6 +20,7 @@ namespace CrowdSpark.App.Views
     public sealed partial class UserPage : Page, IAppPage
     {
         private readonly UserPageViewModel _vm;
+        private List<SkillCreateDTO> SkillsList { get; set; }
 
         public UserPage()
         {
@@ -28,6 +29,8 @@ namespace CrowdSpark.App.Views
             _vm = App.ServiceProvider.GetService<UserPageViewModel>();
 
             DataContext = _vm;
+
+            SkillsList = new List<SkillCreateDTO>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -39,6 +42,12 @@ namespace CrowdSpark.App.Views
             }
             
             ((UserPageViewModel)DataContext).Initialize((WebAccount)e.Parameter);
+
+            var userLocation = ((UserPageViewModel)DataContext).Location;
+            if (userLocation != null)
+            {
+                setCountryComboBoxSelection(userLocation.Country);
+            }
 
             var rootFrame = Window.Current.Content as Frame;
 
@@ -99,7 +108,13 @@ namespace CrowdSpark.App.Views
             var Name = UserNameTextBox.Text; checkList.Add(Name);
             var Surname = UserSurnameTextBox.Text; checkList.Add(Surname);
             var Mail = UserMailTextBlock.Text;
-            var Country = UserCountryTextBox.Text; //checkList.Add(Country);
+            var Country = default(string);
+            if (UserCountryComboBox.SelectedItem != null)
+            {
+                Country = UserCountryComboBox.SelectedItem.ToString();
+
+            }
+            //checkList.Add(Country);
             var City = UserCityTextBox.Text; //checkList.Add(City);
 
             foreach (var s in checkList)
@@ -120,7 +135,7 @@ namespace CrowdSpark.App.Views
 
             UserDTO UserDTO = new UserDTO { Firstname = Name, Surname = Surname, Mail = Mail, Location = location };
 
-            var result = await ((UserPageViewModel)DataContext).UpdateUser(UserDTO);
+            var result = await ((UserPageViewModel)DataContext).UpdateUser(UserDTO, SkillsList);
 
             if (result)
             {
@@ -129,6 +144,68 @@ namespace CrowdSpark.App.Views
             else
             {
                 UpdateButton.Content = "TRY AGAIN LATER";
+            }
+        }
+
+        private async void skillsAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //dunno whats going on
+                var skillDTOs = new List<SkillDTO>();
+
+                skillDTOs = await ((UserPageViewModel)DataContext).GetSkillsAsync(sender.Text);
+
+                var Suggestions = new List<string>();
+
+                if (skillDTOs != null)
+                {
+                    foreach (var skillDTO in skillDTOs)
+                    {
+                        Suggestions.Add(skillDTO.Name);
+                    }
+                    Suggestions.Sort();
+                }
+                sender.ItemsSource = Suggestions;
+            }
+        }
+
+        private void skillsAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+                sender.Text = args.ChosenSuggestion.ToString();
+            else
+                SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
+
+            //create a new AutoSuggestBox 
+            AutoSuggestBox suggestBox = new AutoSuggestBox();
+            suggestBox.PlaceholderText = "TYPE IN A SKILL";
+            suggestBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            suggestBox.Margin = new Thickness(15, 0, 15, 15);
+
+            suggestBox.TextChanged += skillsAutoSuggestBox_TextChanged;
+            suggestBox.SuggestionChosen += skillsAutoSuggestBox_SuggestionChosen;
+            suggestBox.QuerySubmitted += skillsAutoSuggestBox_QuerySubmitted;
+
+            SkillsPanel.Children.Add(suggestBox);
+        }
+
+
+        private void skillsAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            sender.Text = args.SelectedItem.ToString();
+            SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
+        }
+
+        private void setCountryComboBoxSelection(string Country)
+        {
+            foreach (var item in UserCountryComboBox.Items)
+            {
+                if (item.ToString().Equals(Country))
+                {
+                    UserCountryComboBox.SelectedItem = item;
+                }
             }
         }
     }
