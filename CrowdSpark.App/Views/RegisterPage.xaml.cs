@@ -122,7 +122,7 @@ namespace CrowdSpark.App.Views
 
             LocationDTO location = new LocationDTO { Country = Country, City = City, Id = 0 };
 
-            var userCreateDTO = new UserCreateDTO { Firstname = Name, Surname = Surname, Mail = Mail, Location = location, Skills = SkillsList };
+            var userCreateDTO = new UserCreateDTO { Firstname = Name, Surname = Surname, Mail = Mail, Location = location };
 
             var isSuccess = await ((RegisterPageViewModel)DataContext).RegisterUser(userCreateDTO);
 

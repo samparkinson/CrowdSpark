@@ -25,7 +25,6 @@ namespace CrowdSpark.Models
                 Surname = user.Surname,
                 Mail = user.Mail,
                 LocationId = user.Location?.Id,
-                Skills = EntityConversionHelper.ConvertSkillDTOsToSkills(user.Skills),
                 AzureUId = azureUIDd
             };
 
