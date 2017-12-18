@@ -11,9 +11,10 @@ using System;
 namespace CrowdSpark.Entitites.Migrations
 {
     [DbContext(typeof(CrowdSparkContext))]
-    partial class CrowdSparkContextModelSnapshot : ModelSnapshot
+    [Migration("20171218190742_attachments")]
+    partial class attachments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

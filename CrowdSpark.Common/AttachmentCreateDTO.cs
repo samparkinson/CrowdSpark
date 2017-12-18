@@ -14,5 +14,7 @@ namespace CrowdSpark.Common
 
         [Required]
         public int Type { get; set; }
+
+        public int ProjectId { get; set; }
     }
 }

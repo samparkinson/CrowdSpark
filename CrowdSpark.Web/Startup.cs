@@ -76,6 +76,7 @@ namespace CrowdSpark
             services.AddScoped<ICategoryLogic, CategoryLogic>();
             services.AddScoped<ISparkLogic, SparkLogic>();
             services.AddScoped<ILocationLogic, LocationLogic>();
+            services.AddScoped<IAttachmentLogic, AttachmentLogic>();
 
             var options = new AzureAdOptions();
             Configuration.Bind("AzureAd", options);

@@ -23,7 +23,8 @@ namespace CrowdSpark.Models
             {
                 Description = attachment.Description,
                 Data = attachment.Data,
-                Type = attachment.Type
+                Type = attachment.Type,
+                ProjectId = attachment.ProjectId
             };
 
             _context.Attachments.Add(attachmentToCreate);
@@ -55,7 +56,8 @@ namespace CrowdSpark.Models
                 Id = attachment.Id,
                 Description = attachment.Description,
                 Data = attachment.Data,
-                Type = attachment.Type
+                Type = attachment.Type,
+                ProjectId = attachment.ProjectId
             };
         }
 
@@ -67,7 +69,24 @@ namespace CrowdSpark.Models
                                 Id = a.Id,
                                 Description = a.Description,
                                 Data = a.Data,
-                                Type = a.Type
+                                Type = a.Type,
+                                ProjectId = a.ProjectId
+                            })
+                            .ToArrayAsync();
+        }
+
+        public async Task<IReadOnlyCollection<AttachmentDTO>> ReadForProjectAsync(int projectId)
+        {
+            return await _context.Attachments
+                            .AsNoTracking()
+                            .Where(a => a.ProjectId == projectId)
+                            .Select(a => new AttachmentDTO()
+                            {
+                                Id = a.Id,
+                                Description = a.Description,
+                                Data = a.Data,
+                                Type = a.Type,
+                                ProjectId = a.ProjectId
                             })
                             .ToArrayAsync();
         }
@@ -75,6 +94,8 @@ namespace CrowdSpark.Models
         public async Task<bool> UpdateAsync(AttachmentDTO details)
         {
             var attachmentToUpdate = await _context.Attachments.FindAsync(details.Id);
+            if (attachmentToUpdate is null) return false;
+
             _context.Attachments.Update(attachmentToUpdate);
 
             attachmentToUpdate.Description = details.Description;

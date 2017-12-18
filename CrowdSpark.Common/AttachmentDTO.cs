@@ -11,6 +11,8 @@ namespace CrowdSpark.Common
 
         public string Description { get; set; }
 
+        public int ProjectId { get; set; }
+
         [Required]
         public string Data { get; set; }
 

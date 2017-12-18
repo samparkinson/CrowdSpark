@@ -13,6 +13,8 @@ namespace CrowdSpark.Common
 
         Task<IReadOnlyCollection<AttachmentDTO>> ReadAsync();
 
+        Task<IReadOnlyCollection<AttachmentDTO>> ReadForProjectAsync(int projectId);
+
         Task<bool> UpdateAsync(AttachmentDTO details);
 
         Task<bool> DeleteAsync(int attachmentId);
