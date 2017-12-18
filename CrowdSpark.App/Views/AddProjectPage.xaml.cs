@@ -165,6 +165,19 @@ namespace CrowdSpark.App.Views
 
                     sender.ItemsSource = Suggestions;
             }
+
+            //create a new AutoSuggestBox 
+            AutoSuggestBox suggestBox = new AutoSuggestBox();
+            suggestBox.PlaceholderText = "TYPE IN A SKILL";
+            suggestBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            suggestBox.Margin = new Thickness(15, 0, 15, 15);
+
+            suggestBox.TextChanged += skillsAutoSuggestBox_TextChanged;
+            suggestBox.SuggestionChosen += skillsAutoSuggestBox_SuggestionChosen;
+            suggestBox.QuerySubmitted += skillsAutoSuggestBox_QuerySubmitted;
+
+            SkillsPanel.Children.Add(suggestBox);
         }
 
         private void skillsAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -173,19 +186,6 @@ namespace CrowdSpark.App.Views
                 sender.Text = args.ChosenSuggestion.ToString();
             else
                 SkillsList.Add(new SkillDTO { Name = sender.Text });
-
-            //create a new AutoSuggestBox 
-            AutoSuggestBox suggestBox = new AutoSuggestBox();
-            suggestBox.PlaceholderText = "TYPE IN A SKILL";
-            suggestBox.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-            suggestBox.Margin = new Thickness(15,0,15,15);
-           
-            suggestBox.TextChanged += skillsAutoSuggestBox_TextChanged;
-            suggestBox.SuggestionChosen += skillsAutoSuggestBox_SuggestionChosen;
-            suggestBox.QuerySubmitted += skillsAutoSuggestBox_QuerySubmitted;
-
-            SkillsPanel.Children.Add(suggestBox);
         }
         
 
