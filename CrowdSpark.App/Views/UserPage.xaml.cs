@@ -43,6 +43,12 @@ namespace CrowdSpark.App.Views
             
             ((UserPageViewModel)DataContext).Initialize((WebAccount)e.Parameter);
 
+            var userLocation = ((UserPageViewModel)DataContext).Location;
+            if (userLocation != null)
+            {
+                setCountryComboBoxSelection(userLocation.Country);
+            }
+
             var rootFrame = Window.Current.Content as Frame;
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
@@ -102,7 +108,13 @@ namespace CrowdSpark.App.Views
             var Name = UserNameTextBox.Text; checkList.Add(Name);
             var Surname = UserSurnameTextBox.Text; checkList.Add(Surname);
             var Mail = UserMailTextBlock.Text;
-            var Country = UserCountryTextBox.Text; //checkList.Add(Country);
+            var Country = default(string);
+            if (UserCountryComboBox.SelectedItem != null)
+            {
+                Country = UserCountryComboBox.SelectedItem.ToString();
+
+            }
+            //checkList.Add(Country);
             var City = UserCityTextBox.Text; //checkList.Add(City);
 
             foreach (var s in checkList)
@@ -123,7 +135,7 @@ namespace CrowdSpark.App.Views
 
             UserDTO UserDTO = new UserDTO { Firstname = Name, Surname = Surname, Mail = Mail, Location = location };
 
-            var result = await ((UserPageViewModel)DataContext).UpdateUser(UserDTO);
+            var result = await ((UserPageViewModel)DataContext).UpdateUser(UserDTO, SkillsList);
 
             if (result)
             {
@@ -184,6 +196,17 @@ namespace CrowdSpark.App.Views
         {
             sender.Text = args.SelectedItem.ToString();
             SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
+        }
+
+        private void setCountryComboBoxSelection(string Country)
+        {
+            foreach (var item in UserCountryComboBox.Items)
+            {
+                if (item.ToString().Equals(Country))
+                {
+                    UserCountryComboBox.SelectedItem = item;
+                }
+            }
         }
     }
 }

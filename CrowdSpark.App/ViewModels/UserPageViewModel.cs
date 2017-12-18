@@ -130,5 +130,20 @@ namespace CrowdSpark.App.ViewModels
 
             return cultureList;
         }
+
+    public async Task<List<SkillDTO>> GetSkillsAsync(string Query)
+       {
+           var result = await skillAPI.GetBySearch(Query);
+
+           if (result != null)
+           {
+               lock (result)
+               {
+                   return new List<SkillDTO>(result);
+               }
+           }
+
+           else return null;
+       }
     }
 }
