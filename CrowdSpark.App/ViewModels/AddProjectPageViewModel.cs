@@ -81,6 +81,7 @@ namespace CrowdSpark.App.ViewModels
                 //check if skills exist, if not add them
                 createProjectDTO.Skills = await CompareAndCreateSkills(createProjectDTO.Skills);
                 createProjectDTO.Location = null;
+                createProjectDTO.Skills = null;
                 var result = await projectAPI.Create(createProjectDTO);
                 if (result)
                 {
