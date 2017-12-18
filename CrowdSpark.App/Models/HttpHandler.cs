@@ -13,7 +13,17 @@ namespace CrowdSpark.App
         private HttpClient _client = new HttpClient();
         public HttpRequestHeaders DefaultRequestHeaders => _client.DefaultRequestHeaders;
 
-        public Uri BaseAddress { get => _client.BaseAddress; set => _client.BaseAddress = value; }
+        public Uri BaseAddress
+        {
+            get => _client.BaseAddress;
+            set
+            {
+                if (_client.BaseAddress != value)
+                {
+                    _client.BaseAddress = value;
+                }
+            }
+        }
 
         public async Task<HttpResponseMessage> DeleteAsync(string url)
         {
