@@ -26,7 +26,10 @@ namespace CrowdSpark.App.ViewModels
 
         public ICollection<SparkDTO> _sparks;
         public ICollection<SparkDTO> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
-        
+
+        public ICollection<AttachmentDTO> _attachments { get; set; }
+        public ICollection<AttachmentDTO> Attachments { get => _attachments; set { if (value != _attachments) { _attachments = value; OnPropertyChanged(); } } }
+
         public DateTime _createdDate;
         public DateTime CreatedDate { get => _createdDate; set { if (!value.Equals(_createdDate)) { _createdDate = value; OnPropertyChanged(); } } }
 
@@ -44,7 +47,9 @@ namespace CrowdSpark.App.ViewModels
 
             Category = ProjectDTO.Category;
              
-            Sparks = ProjectDTO.Sparks; 
+            Sparks = ProjectDTO.Sparks;
+
+           // Attachments = ProjectDTO.Attachments;
         }
 
         public ProjectViewModel(ProjectSummaryDTO projectSummaryDTO)

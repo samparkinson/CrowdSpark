@@ -107,19 +107,22 @@
                         </Grid.ColumnDefinitions>
 
                         <!--LEFT COLUMN: Title and description part-->
-                        <StackPanel Margin ="25,25,0,25" Grid.Column="0" Background="#FF716F6F" >
+                        <StackPanel Margin ="25,25,0,25" Grid.Column="0">
+                                <StackPanel.Background>
+                                    <ImageBrush Stretch="UniformToFill" ImageSource="Assets/project-image.jpg"/>
+                                </StackPanel.Background>
                             <!-- TODO: set group profile/main picture as a background -->
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <!--For Post title-->
                                     <RowDefinition Height="Auto"/>
                                     <!--Detail-->
-                                    <RowDefinition Height="Auto" />
-                                    <!--Recent Posts-->
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <StackPanel Grid.Row="0"  Margin="25" Background="#33FFFFFF">
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    
+                                    </Grid.RowDefinitions>
+                                
+                                    <StackPanel Grid.Row="0"  Margin="25" Background="#33FFFFFF">
                                     <Grid>
                                         <TextBlock Margin="25" Text="{Binding Title}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
                                     </Grid>
@@ -130,7 +133,17 @@
                                         <TextBlock Margin="25" Foreground="White" Text="{Binding Description}" FontSize="24" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
                                     </Grid>
                                 </StackPanel>
-                            </Grid>
+
+                                    <ListView x:Name="ProjectImageList" Margin="25,0,25,25" ItemsSource="{Binding Attachments}" VerticalAlignment="Center" IsItemClickEnabled="False">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Image Source="{Binding Data}" Width="200" Height="200" Stretch="UniformToFill" Margin="0,0,0,5"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </Grid>
                         </StackPanel>
 
                         <!--RIGHT COLUMN-->
