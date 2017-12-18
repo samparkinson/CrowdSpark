@@ -25,11 +25,11 @@ namespace CrowdSpark.App.Models
             _client = client;
         }
 
-        public async Task<bool> Create(SkillCreateDTO skill)
+        public async Task<int> Create(SkillCreateDTO skill)
         {
             var response = await _client.PostAsync("api/v1/skills", skill.ToHttpContent());
-
-            return response.IsSuccessStatusCode;
+            var newSkillId = response.Content.To<int>().Result;
+            return response.IsSuccessStatusCode ? newSkillId : -1;
         }
 
         public async Task<IReadOnlyCollection<SkillDTO>> GetAll()

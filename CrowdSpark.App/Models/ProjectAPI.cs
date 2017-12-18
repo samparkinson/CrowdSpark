@@ -71,11 +71,11 @@ namespace CrowdSpark.App.Models
             return null;
         }
 
-        public async Task<bool> Create(CreateProjectDTO project)
+        public async Task<int> Create(CreateProjectDTO project)
         {
             var response = await _client.PostAsync("api/v1/projects", project.ToHttpContent());
-
-            return response.IsSuccessStatusCode;
+            var newProjectId = response.Content.To<int>().Result;
+            return response.IsSuccessStatusCode ? newProjectId : -1;
         }
 
         public async Task<bool> Update(ProjectDTO project)

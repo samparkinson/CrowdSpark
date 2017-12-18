@@ -11,7 +11,7 @@ namespace CrowdSpark.App.Models
 
         Task<UserDTO> Get(int userId);
 
-        Task<bool> Create(UserCreateDTO user);
+        Task<int> Create(UserCreateDTO user);
 
         Task<bool> Update(UserDTO user);
 

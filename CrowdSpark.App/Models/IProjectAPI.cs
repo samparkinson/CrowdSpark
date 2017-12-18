@@ -15,7 +15,7 @@ namespace CrowdSpark.App.Models
 
         Task<ProjectDTO> Get(int projectId);
 
-        Task<bool> Create(CreateProjectDTO project);
+        Task<int> Create(CreateProjectDTO project);
 
         Task<bool> Update(ProjectDTO project);
 

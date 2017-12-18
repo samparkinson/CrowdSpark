@@ -46,11 +46,11 @@ namespace CrowdSpark.App.Models
             return null;
         }
 
-        public async Task<bool> Create(UserCreateDTO user)
+        public async Task<int> Create(UserCreateDTO user)
         {
             var response = await _client.PostAsync("api/v1/users", user.ToHttpContent());
-
-            return response.IsSuccessStatusCode;
+            var newUserId = response.Content.To<int>().Result;
+            return response.IsSuccessStatusCode ? newUserId : -1;
         }
 
         public async Task<bool> Update(UserDTO user)
