@@ -77,13 +77,24 @@ namespace CrowdSpark.App.ViewModels
             }
         }
 
-        public async Task<bool> PostProject(CreateProjectDTO createProjectDTO)
+        public async Task<bool> PostProject(CreateProjectDTO createProjectDTO, List<SkillCreateDTO> SkillsList)
         {
             if (account != null)
             {
                 //check if skills exist, if not add them
                 createProjectDTO.Location = null;
+
+                //this should return the id
                 var result = await projectAPI.Create(createProjectDTO);
+
+                foreach (SkillCreateDTO skillCreateDTO in SkillsList)
+                {
+                    var skillID = await skillAPI.Create(skillCreateDTO);
+                    //SkillDTO skillDTO = new SkillDTO { Name = skillCreateDTO.Name, Id = skillID };
+                    //projectAPI.AddSkill(result, skillDTO);
+                }
+
+                //-1 is error
                 if (result)
                 {
                     service.Navigate(typeof(ProjectPage), new ProjectViewModel(createProjectDTO));

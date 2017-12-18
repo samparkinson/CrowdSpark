@@ -19,7 +19,7 @@ namespace CrowdSpark.App.Views
     public sealed partial class AddProjectPage : Page, IAppPage
     {
         private readonly AddProjectPageViewModel _vm;
-        private List<SkillDTO> SkillsList { get; set; }
+        private List<SkillCreateDTO> SkillsList { get; set; }
 
         public AddProjectPage()
         {
@@ -29,7 +29,7 @@ namespace CrowdSpark.App.Views
 
             DataContext = _vm;
 
-            SkillsList = new List<SkillDTO>();
+            SkillsList = new List<SkillCreateDTO>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -129,7 +129,7 @@ namespace CrowdSpark.App.Views
                 Category = ProjectCategory,
             };
             
-            var isSuccess = await ((AddProjectPageViewModel)DataContext).PostProject(createProjectDTO);
+            var isSuccess = await ((AddProjectPageViewModel)DataContext).PostProject(createProjectDTO, SkillsList);
 
             if (!isSuccess)
             {
@@ -184,14 +184,14 @@ namespace CrowdSpark.App.Views
             if (args.ChosenSuggestion != null)
                 sender.Text = args.ChosenSuggestion.ToString();
             else
-                SkillsList.Add(new SkillDTO { Name = sender.Text });
+                SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
         }
         
 
         private void skillsAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             sender.Text = args.SelectedItem.ToString();
-            SkillsList.Add(new SkillDTO { Name = sender.Text });
+            SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
         }
 
         private string[] CategorySuggestions = new string[] { "Apple", "Banana", "Orange", "Strawberry" };

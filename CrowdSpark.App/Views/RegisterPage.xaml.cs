@@ -15,7 +15,7 @@ namespace CrowdSpark.App.Views
 {
     public sealed partial class RegisterPage : Page
     {
-        private List<SkillDTO> SkillsList { get; set; }
+        private List<SkillCreateDTO> SkillsList { get; set; }
 
         private readonly RegisterPageViewModel _vm;
 
@@ -23,7 +23,7 @@ namespace CrowdSpark.App.Views
         {
             InitializeComponent();
 
-            SkillsList = new List<SkillDTO>();
+            SkillsList = new List<SkillCreateDTO>();
 
             _vm = App.ServiceProvider.GetService<RegisterPageViewModel>();
 
@@ -58,7 +58,7 @@ namespace CrowdSpark.App.Views
                     var text = textBox.Text;
                     if (!String.IsNullOrEmpty(text))
                     {
-                        SkillsList.Add(new SkillDTO { Name = text });
+                        SkillsList.Add(new SkillCreateDTO { Name = text });
                     }
                     else
                     {
@@ -124,8 +124,8 @@ namespace CrowdSpark.App.Views
 
             var userCreateDTO = new UserCreateDTO { Firstname = Name, Surname = Surname, Mail = Mail, Location = location };
 
-            var isSuccess = await ((RegisterPageViewModel)DataContext).RegisterUser(userCreateDTO);
-
+            var isSuccess = await ((RegisterPageViewModel)DataContext).RegisterUser(userCreateDTO, SkillsList);
+            
             if (!isSuccess)
             {
                 ContentDialog fillAllFieldsDialog = new ContentDialog

@@ -51,12 +51,21 @@ namespace CrowdSpark.App.ViewModels
             service.Navigate(typeof(LogInPage), null);
         }
 
-        public async Task<bool> RegisterUser(UserCreateDTO userCreateDTO)
+        public async Task<bool> RegisterUser(UserCreateDTO userCreateDTO, List<SkillCreateDTO> SkillsList)
         {
             //userCreateDTO.Skills = await CompareAndCreateSkills(userCreateDTO.Skills);
-            
+            //create user
             var success = await userAPI.Create(userCreateDTO);
-            
+
+            //deal with skills
+            foreach (SkillCreateDTO skillCreateDTO in SkillsList)
+            {
+                var skillID = await skillAPI.Create(skillCreateDTO);
+                //SkillDTO skillDTO = new SkillDTO { Name = skillCreateDTO.Name, Id = skillID };
+                //await userAPI.AddSkill(skillDTO);
+            }
+
+
             if (success)
             {
                 service.Navigate(typeof(UserPage), account);
