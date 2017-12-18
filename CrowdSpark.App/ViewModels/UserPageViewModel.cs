@@ -3,6 +3,7 @@ using CrowdSpark.App.Models;
 using CrowdSpark.App.Views;
 using CrowdSpark.Common;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -30,24 +31,29 @@ namespace CrowdSpark.App.ViewModels
 
         private LocationDTO _location;
         public LocationDTO Location { get => _location; set { if (value != null && !value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
-        
+
+        public ObservableCollection<string> Countries { get; set; }
+
         private readonly IAuthenticationHelper helper;
         private readonly IUserAPI userAPI;
         private readonly INavigationService service;
+        private readonly ISkillAPI skillAPI;
         
         //List of skills 
         public ObservableCollection<SkillDTO> Skills { get; set; }
         
-        public UserPageViewModel(IAuthenticationHelper _helper, IUserAPI _userAPI, INavigationService _service)
+        public UserPageViewModel(IAuthenticationHelper _helper, IUserAPI _userAPI, ISkillAPI _skillAPI, INavigationService _service)
         {
             helper = _helper;
             userAPI = _userAPI;
             service = _service;
+            skillAPI = _skillAPI;
             account = CommonAttributes.account;
             UserName = account.UserName;
-
+            Countries = new ObservableCollection<string>(GetCountryList());
+            
             SignInOutButtonText = account == null ? "Sign In" : "Sign Out";
-
+            
             SignInOutCommand = new RelayCommand(async o =>
             {
                 if (account != null)
@@ -92,9 +98,52 @@ namespace CrowdSpark.App.ViewModels
             }
         }
 
-        public async Task<bool> UpdateUser(UserDTO userDTO)
+        public async Task<bool> UpdateUser(UserDTO userDTO, List<SkillCreateDTO> skillCreateDTOs)
         {
+            foreach (SkillCreateDTO skillCreateDTO in skillCreateDTOs)
+            {
+                await skillAPI.Create(skillCreateDTO);
+                SkillDTO skillDTO = new SkillDTO { Id = 0, Name = skillCreateDTO.Name };
+                await userAPI.AddSkill(skillDTO);
+            }
+
             return await userAPI.Update(userDTO);
         }
+
+        private List<string> GetCountryList()
+        {
+            List<string> cultureList = new List<string>();
+
+            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+
+            foreach (CultureInfo culture in cultures)
+            {
+                RegionInfo region = new RegionInfo(culture.LCID);
+
+                if (!(cultureList.Contains(region.EnglishName)))
+                {
+                    cultureList.Add(region.EnglishName);
+                }
+            }
+
+            cultureList.Sort();
+
+            return cultureList;
+        }
+
+    public async Task<List<SkillDTO>> GetSkillsAsync(string Query)
+       {
+           var result = await skillAPI.GetBySearch(Query);
+
+           if (result != null)
+           {
+               lock (result)
+               {
+                   return new List<SkillDTO>(result);
+               }
+           }
+
+           else return null;
+       }
     }
 }
