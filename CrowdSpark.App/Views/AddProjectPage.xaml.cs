@@ -154,7 +154,9 @@ namespace CrowdSpark.App.Views
                 var skillDTOs = new List<SkillDTO>();
                 
                 skillDTOs = await ((AddProjectPageViewModel)DataContext).GetSkillsAsync(sender.Text);
-            
+
+                if (skillDTOs != null)
+                {
                     var Suggestions = new List<string>();
                     foreach (var skillDTO in skillDTOs)
                     {
@@ -163,6 +165,7 @@ namespace CrowdSpark.App.Views
                     Suggestions.Sort();
 
                     sender.ItemsSource = Suggestions;
+                }
             }
 
             //create a new AutoSuggestBox 
