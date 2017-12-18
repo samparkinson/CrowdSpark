@@ -15,8 +15,10 @@ namespace CrowdSpark.Entitites
         [Required]
         public int Type { get; set; }
 
+        [Required]
         public int ProjectId { get; set; }
 
+        [Required]
         public Project Project { get; set; }
     }
 }
