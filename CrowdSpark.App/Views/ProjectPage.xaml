@@ -180,8 +180,17 @@
 
                                 <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
                                     <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
-                                        <TextBlock Margin="25" Text="REQUIRED SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
+                                        <TextBlock Margin="25,25,25,5" Text="REQUIRED SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
                                     </Button>
+                                    <ListView x:Name="ProjectSkillsList" Margin="0,0,0,25" ItemsSource="{Binding Skills}" VerticalAlignment="Center" IsItemClickEnabled="False">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <TextBlock Text="{Binding Name}" Margin="0,0,0,5"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="3" Margin="25,0,25,25" Background="#FF6C6C6C">
