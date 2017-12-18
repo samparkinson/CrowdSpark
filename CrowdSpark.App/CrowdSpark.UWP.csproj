@@ -107,7 +107,9 @@
     <Compile Include="Models\AuthorizedHandler.cs" />
     <Compile Include="Models\CurrentUser.cs" />
     <Compile Include="Models\Extensions.cs" />
+    <Compile Include="Models\HttpHandler.cs" />
     <Compile Include="Models\IAuthenticationHelper.cs" />
+    <Compile Include="Models\IHttpHandler.cs" />
     <Compile Include="Models\IProjectAPI.cs" />
     <Compile Include="Models\ISettings.cs" />
     <Compile Include="Models\ISkillAPI.cs" />
