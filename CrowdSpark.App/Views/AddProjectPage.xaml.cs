@@ -97,9 +97,8 @@ namespace CrowdSpark.App.Views
             {
                 ProjectCountry = CountryComboBox.SelectedItem.ToString();
             }
-            checkList.Add(ProjectCountry);
 
-            var ProjectCity = CityTextBox.Text; checkList.Add(ProjectCity);
+            var ProjectCity = CityTextBox.Text; 
 
             var ProjectLocation = new LocationDTO { Country = ProjectCountry, City = ProjectCity };
             var ProjectCategory = new CategoryDTO { Name = ProjectCategoryText };
@@ -148,7 +147,7 @@ namespace CrowdSpark.App.Views
         
         private async void skillsAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput && !String.IsNullOrEmpty(sender.Text))
             {
                 //dunno whats going on
                 var skillDTOs = new List<SkillDTO>();

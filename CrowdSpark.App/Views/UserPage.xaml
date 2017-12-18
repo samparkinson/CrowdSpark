@@ -160,7 +160,7 @@
                                                     <Image x:Name="CountryFlagImage"  Source="{Binding ElementName=UserCountryComboBox, Path=SelectedValue, Converter={StaticResource CountryFlagConverter}}" Height="40" Width="60" HorizontalAlignment="Left"/>
                                                 </StackPanel>
                                                 <StackPanel Margin="0,25,0,25" Grid.Column="1">
-                                                    <ComboBox x:Name="UserCountryComboBox" Margin="25,5,0,0" BorderThickness="2" HorizontalAlignment="Stretch" PlaceholderText="Country" ItemsSource="{Binding Countries}" Height="50"/>
+                                                    <ComboBox x:Name="UserCountryComboBox" Margin="25,5,0,0" BorderThickness="2" HorizontalAlignment="Stretch" PlaceholderText="Country" Height="50"/>
                                                     <TextBox x:Name="UserCityTextBox" Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="DarkGray" Grid.ColumnSpan="2"/>
                                                 </StackPanel>
                                             </Grid>
@@ -190,7 +190,7 @@
                                                 Margin="15" PlaceholderText="TYPE IN A SKILL" 
                                                 TextChanged="skillsAutoSuggestBox_TextChanged"
                                                 QuerySubmitted="skillsAutoSuggestBox_QuerySubmitted"
-                                                SuggestionChosen="skillsAutoSuggestBox_SuggestionChosen"
+                                                SuggestionChosen="skillsAutoSuggestBox_SuggestionChosen" 
                                                 />
                                         </StackPanel>
 

@@ -64,8 +64,7 @@ namespace CrowdSpark.App.ViewModels
                 //SkillDTO skillDTO = new SkillDTO { Name = skillCreateDTO.Name, Id = skillID };
                 //await userAPI.AddSkill(skillDTO);
             }
-
-
+            
             if (success)
             {
                 service.Navigate(typeof(UserPage), account);
@@ -73,56 +72,6 @@ namespace CrowdSpark.App.ViewModels
             }
 
             return false;
-        }
-        
-        private async Task<ICollection<SkillDTO>> CompareAndCreateSkills(ICollection<SkillDTO> skillDTOs)
-        {
-            ICollection<SkillDTO> skillsWithIDs = new List<SkillDTO>();
-            
-            //create non existing skills
-            foreach (SkillDTO skillDTO in skillDTOs)
-            {
-                var results = await skillAPI.GetBySearch(skillDTO.Name);
-
-                //Create if non existent
-                if (results == null)
-                {
-                    var skillCreateDTO = new SkillCreateDTO { Name = skillDTO.Name };
-                    await skillAPI.Create(skillCreateDTO);
-                    var skillsWithId = await skillAPI.GetBySearch(skillDTO.Name);
-                    foreach (SkillDTO skillWithId in skillsWithId)
-                    {
-                        if (skillWithId.Name.Equals(skillDTO.Name))
-                        {
-                            skillsWithIDs.Add(skillWithId);
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var skill in results)
-                    {
-                        if (skill.Name.Equals(skillDTO.Name))
-                        {
-                            skillsWithIDs.Add(skill);
-                            continue;
-                        }
-                        var skillCreateDTO = new SkillCreateDTO { Name = skillDTO.Name };
-                        await skillAPI.Create(skillCreateDTO);
-                        var skillsWithId = await skillAPI.GetBySearch(skillDTO.Name);
-                        foreach (SkillDTO skillWithId in skillsWithId)
-                        {
-                            if (skillWithId.Name.Equals(skillDTO.Name))
-                            {
-                                skillsWithIDs.Add(skillWithId);
-                            }
-                        }
-                    }
-                }
-            }
-
-            //return SkillDTOs with ID
-            return skillsWithIDs;
         }
 
         private List<string> GetCountryList()
