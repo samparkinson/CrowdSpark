@@ -99,13 +99,19 @@ namespace CrowdSpark.App.Views
             var Name = UserNameTextBox.Text; checkList.Add(Name);
             var Surname = UserSurnameTextBox.Text; checkList.Add(Surname);
             var Mail = UserMailTextBlock.Text;
-            var Country = UserCountryTextBox.Text; checkList.Add(Country);
-            var City = UserCityTextBox.Text; checkList.Add(City);
+            var Country = UserCountryTextBox.Text; //checkList.Add(Country);
+            var City = UserCityTextBox.Text; //checkList.Add(City);
 
             foreach (var s in checkList)
             {
                 if (String.IsNullOrEmpty(s))
                 {
+                    ContentDialog fillAllFieldsDialog = new ContentDialog
+                    {
+                        Title = "Please fill all fields!",
+                        CloseButtonText = "Ok"
+                    };
+                    await fillAllFieldsDialog.ShowAsync();
                     return;
                 }
             }
@@ -119,6 +125,10 @@ namespace CrowdSpark.App.Views
             if (result)
             {
                 UpdateButton.Content = "UPDATED!";
+            }
+            else
+            {
+                UpdateButton.Content = "TRY AGAIN LATER";
             }
         }
     }

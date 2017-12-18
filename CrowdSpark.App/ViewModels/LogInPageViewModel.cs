@@ -39,6 +39,10 @@ namespace CrowdSpark.App.ViewModels
                         CommonAttributes.account = account;
                         service.Navigate(typeof(MainPage), null);
                     }
+                    else
+                    {
+                        service.Navigate(typeof(RegisterPage), account);
+                    }
                 }
             });
 
