@@ -98,7 +98,7 @@
 
                 <!--Body-->
                 <StackPanel Grid.Row="1" Background="#FFB7B5B5" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
-                    <Grid>
+                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                         <!--Grid for the big two column-->
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*"/>
@@ -133,9 +133,9 @@
                         </StackPanel>
 
                         <!--RIGHT COLUMN-->
-                        <StackPanel Grid.Column="1">
+                        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollMode="Enabled" Grid.Column="1">
                             <!--Grid for Row definition in Right column-->
-                            <Grid>
+                            <Grid VerticalAlignment="Stretch">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
@@ -202,7 +202,7 @@
                                     </Button>
                                 </StackPanel>
                             </Grid>
-                        </StackPanel>
+                        </ScrollViewer>
                     </Grid>
                 </StackPanel>
             </Grid>

@@ -156,11 +156,11 @@
                                             </Grid.ColumnDefinitions>
 
                                             <StackPanel Margin="25,25,0,25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <Image x:Name="CountryFlagImage"  Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}" Height="40" Width="60" HorizontalAlignment="Left"/>
+                                                <Image x:Name="CountryFlagImage"  Source="{Binding ElementName=UserCountryComboBox, Path=SelectedItem, Converter={StaticResource CountryFlagConverter}}" Height="40" Width="60" HorizontalAlignment="Left"/>
                                             </StackPanel>
                                             <StackPanel Margin="0,25,0,25" Grid.Column="1">
-                                                <TextBox x:Name="UserCountryTextBox" Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="DarkGray" Grid.ColumnSpan="2"/>
-                                                <TextBox x:Name="UserCityTextBox" Margin="25,5,0,0" Text="{Binding Country}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="DarkGray" Grid.ColumnSpan="2"/>
+                                                <ComboBox x:Name="UserCountryComboBox" Margin="25,5,0,0" BorderThickness="2" HorizontalAlignment="Stretch" PlaceholderText="Country" ItemsSource="{Binding Countries}" Height="50"/>
+                                                <TextBox x:Name="UserCityTextBox" Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="DarkGray" />
                                             </StackPanel>
                                         </Grid>
                                     </StackPanel>
@@ -169,7 +169,7 @@
                                         <TextBlock HorizontalAlignment="Center" Margin="25" Text="SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
 
                                         <ListView x:Name="skillsListView" ItemsSource="{Binding Skills}" SelectionMode="None" 
-                                            VerticalAlignment="Center" IsItemClickEnabled="False">
+                                            VerticalAlignment="Center" ScrollViewer.VerticalScrollMode="Enabled" IsItemClickEnabled="False">
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid>
