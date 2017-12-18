@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -19,7 +20,10 @@ namespace CrowdSpark.App.Views
     public sealed partial class AddProjectPage : Page, IAppPage
     {
         private readonly AddProjectPageViewModel _vm;
-        private List<SkillCreateDTO> SkillsList { get; set; }
+        private List<SkillCreateDTO> SkillsList = new List<SkillCreateDTO>();
+        private int textBlockCount = 0;
+        private List<TextBlock> addButtonTextBlockList = new List<TextBlock>();
+        private List<StorageFile> attachments = new List<StorageFile>();
 
         public AddProjectPage()
         {
@@ -28,8 +32,6 @@ namespace CrowdSpark.App.Views
             _vm = App.ServiceProvider.GetService<AddProjectPageViewModel>();
 
             DataContext = _vm;
-
-            SkillsList = new List<SkillCreateDTO>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -222,6 +224,71 @@ namespace CrowdSpark.App.Views
         private void categoryAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             sender.Text = args.SelectedItem.ToString();
+        }
+
+        private async void addAttachmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            var picker = new Windows.Storage.Pickers.FileOpenPicker();
+            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+            picker.FileTypeFilter.Add(".png");
+
+            StorageFile file = await picker.PickSingleFileAsync();
+            if (file != null)
+            {
+                attachments.Insert(0, file);
+                addAttachmentButton();
+                fileNameTextBlock.Text = file.Name;
+            }
+        }
+
+        private async void addAttachmentButton_Click_Generated(object sender, RoutedEventArgs e)
+        {
+            if (textBlockCount < 8)
+            {
+                var picker = new Windows.Storage.Pickers.FileOpenPicker();
+                picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+                picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+                picker.FileTypeFilter.Add(".jpg");
+                picker.FileTypeFilter.Add(".jpeg");
+                picker.FileTypeFilter.Add(".png");
+
+                StorageFile file = await picker.PickSingleFileAsync();
+                if (file != null)
+                {
+                    TextBlock textBlock = addButtonTextBlockList.ElementAt(textBlockCount);
+                    textBlock.Text = file.Name;
+                    attachments.Add(file);
+                    addAttachmentButton();
+                }
+            }
+
+        }
+
+        private void addAttachmentButton()
+        {
+            textBlockCount++;
+            StackPanel buttonTextStackPanel = new StackPanel();
+            buttonTextStackPanel.Margin = new Thickness(0, 0, 25, 0); 
+
+            Button addButton = new Button();
+            SymbolIcon addIcon = new SymbolIcon();
+            addIcon.Symbol = Symbol.Add;
+            addButton.Content = addIcon;
+            addButton.Height = 50; addButton.Width = 50;
+
+            TextBlock textBlock = new TextBlock();
+            textBlock.Name = "fileNameTextBlock" + textBlockCount;
+            textBlock.MaxWidth = 50;
+            textBlock.TextWrapping = TextWrapping.Wrap;
+            addButton.Click += new RoutedEventHandler(addAttachmentButton_Click_Generated);
+
+            buttonTextStackPanel.Children.Add(addButton);
+            buttonTextStackPanel.Children.Add(textBlock);
+            AttachmentsPanel.Children.Add(buttonTextStackPanel);
+            addButtonTextBlockList.Add(textBlock);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace CrowdSpark.Web.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("api/v1/attachment")]
+    [Route("api/v1/attachments")]
     public class AttachmentController : Controller
     {
         private readonly IAttachmentLogic _attachmentLogic;
@@ -25,9 +25,9 @@ namespace CrowdSpark.Web.Controllers
             _attachmentLogic = attachmentLogic;
         }
 
-        // GET api/v1/attachments
+        // GET api/v1/attachments?project=42
         [HttpGet]
-        public async Task<IActionResult> GetForProject([FromQuery(Name = "projectId")] int projectId)
+        public async Task<IActionResult> GetForProject([FromQuery(Name = "project")] int projectId)
         {
             return Ok(await _attachmentLogic.GetForProjectAsync(projectId));
         }
