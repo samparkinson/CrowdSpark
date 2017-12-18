@@ -98,104 +98,112 @@
                     </Grid>
 
                     <!--Body-->
-                    <StackPanel Grid.Row="1" Background="#FFB7B5B5" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
+                    <ScrollViewer Grid.Row="1">
+                        <StackPanel Background="#FFB7B5B5" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <!--LEFT COLUMN: Title and description part-->
-                            <StackPanel Margin ="25,25,0,25" Grid.Column="0" Background="#FF716F6F" >
-                                <!-- TODO: set group profile/main picture as a background -->
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <!--For Post title-->
-                                        <RowDefinition Height="Auto"/>
-                                        <!--Detail-->
-                                        <RowDefinition Height="Auto" />
-                                        <!--Recent Posts-->
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
+                                <!--LEFT COLUMN: Title and description part-->
+                                <StackPanel Margin ="25,25,0,25" Grid.Column="0" Background="#FF716F6F" >
+                                    <!-- TODO: set group profile/main picture as a background -->
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <!--For Post title-->
+                                            <RowDefinition Height="Auto"/>
+                                            <!--Detail-->
+                                            <RowDefinition Height="Auto" />
+                                            <!--Recent Posts-->
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
 
-                                    <Grid Grid.Row="0"  Margin="25" Background="#33FFFFFF">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBox x:Name="UserNameTextBox" Grid.Column="0" Margin="10" Text="{Binding Firstname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
-                                        <TextBox x:Name="UserSurnameTextBox" Grid.Column="1" Margin="10" Text="{Binding Surname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
-                                    </Grid>
-
-                                    <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#33FFFFFF">
-                                        <TextBlock x:Name="UserMailTextBlock" Margin="25" Foreground="White" Text="{Binding Mail}" FontSize="24" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#33FFFFFF">
-                                        <TextBlock Margin="25" Foreground="White" Text="RECENT PROJECTS" FontSize="40" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
-
-                            <!--RIGHT COLUMN-->
-                            <StackPanel Grid.Column="1">
-                                <!--Grid for Row definition in Right column-->
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-
-                                    <!--Location-->
-                                    <StackPanel DataContext="{Binding Location}" Margin="25" Grid.Row="0" Background="LightGray">
-                                        <Grid>
+                                        <Grid Grid.Row="0"  Margin="25" Background="#33FFFFFF">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
-
-                                            <StackPanel Margin="25,25,0,25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <Image x:Name="CountryFlagImage"  Source="{Binding ElementName=UserCountryComboBox, Path=SelectedItem, Converter={StaticResource CountryFlagConverter}}" Height="40" Width="60" HorizontalAlignment="Left"/>
-                                            </StackPanel>
-                                            <StackPanel Margin="0,25,0,25" Grid.Column="1">
-                                                <ComboBox x:Name="UserCountryComboBox" Margin="25,5,0,0" BorderThickness="2" HorizontalAlignment="Stretch" PlaceholderText="Country" ItemsSource="{Binding Countries}" Height="50"/>
-                                                <TextBox x:Name="UserCityTextBox" Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="DarkGray" />
-                                            </StackPanel>
+                                            <TextBox x:Name="UserNameTextBox" Grid.Column="0" Margin="10" Text="{Binding Firstname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
+                                            <TextBox x:Name="UserSurnameTextBox" Grid.Column="1" Margin="10" Text="{Binding Surname}" Foreground="White" FontSize="40" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" />
                                         </Grid>
-                                    </StackPanel>
 
-                                    <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
-                                        <TextBlock HorizontalAlignment="Center" Margin="25" Text="SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                        <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#33FFFFFF">
+                                            <TextBlock x:Name="UserMailTextBlock" Margin="25" Foreground="White" Text="{Binding Mail}" FontSize="24" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                        </StackPanel>
 
-                                        <ListView x:Name="skillsListView" ItemsSource="{Binding Skills}" SelectionMode="None" 
-                                            VerticalAlignment="Center" ScrollViewer.VerticalScrollMode="Enabled" IsItemClickEnabled="False">
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="32"/>
-                                                            <ColumnDefinition Width="*"/>
-                                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#33FFFFFF">
+                                            <TextBlock Margin="25" Foreground="White" Text="RECENT PROJECTS" FontSize="40" VerticalAlignment="Bottom" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" MaxLines="100"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
 
-                                                        <StackPanel Margin="20" Grid.Column="1" >
-                                                            <TextBox Text="{Binding Name}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"/>
-                                                        </StackPanel>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
-                                    </StackPanel>
+                                <!--RIGHT COLUMN-->
+                                <StackPanel Grid.Column="1">
+                                    <!--Grid for Row definition in Right column-->
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                    <StackPanel Grid.Row="2">
-                                        <Grid>
-                                            <Button x:Name="UpdateButton" Content=">UPTADE USER PROFILE" Click="UpdateUserButton_Click" Height="48" Margin="25,15" VerticalAlignment="Top" Background="#33FFFFFF" FontSize="15" FontStyle="Italic" />
-                                        </Grid>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
-                        </Grid>
-                    </StackPanel>
+                                        <!--Location-->
+                                        <StackPanel DataContext="{Binding Location}" Margin="25" Grid.Row="0" Background="LightGray">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Margin="25,25,0,25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Image x:Name="CountryFlagImage"  Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}" Height="40" Width="60" HorizontalAlignment="Left"/>
+                                                </StackPanel>
+                                                <StackPanel Margin="0,25,0,25" Grid.Column="1">
+                                                    <TextBox x:Name="UserCountryTextBox" Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="DarkGray" Grid.ColumnSpan="2"/>
+                                                    <TextBox x:Name="UserCityTextBox" Margin="25,5,0,0" Text="{Binding Country}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Foreground="DarkGray" Grid.ColumnSpan="2"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </StackPanel>
+
+                                        <StackPanel x:Name="SkillsPanel" Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
+                                            <TextBlock HorizontalAlignment="Center" Margin="25" Text="SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+
+                                            <ListView x:Name="skillsListView" ItemsSource="{Binding Skills}" SelectionMode="None" 
+                                            VerticalAlignment="Center" IsItemClickEnabled="False">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="32"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <StackPanel Margin="20" Grid.Column="1" >
+                                                                <TextBox Text="{Binding Name}" FontSize="24" TextWrapping="NoWrap" FontWeight="Bold"/>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                            <AutoSuggestBox x:Name="skillsAutoSuggestBox" HorizontalAlignment="Stretch" Background="White" 
+                                                Margin="15" PlaceholderText="TYPE IN A SKILL" 
+                                                TextChanged="skillsAutoSuggestBox_TextChanged"
+                                                QuerySubmitted="skillsAutoSuggestBox_QuerySubmitted"
+                                                SuggestionChosen="skillsAutoSuggestBox_SuggestionChosen"
+                                                />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="2">
+                                            <Grid>
+                                                <Button x:Name="UpdateButton" Content=">UPTADE USER PROFILE" Click="UpdateUserButton_Click" Height="48" Margin="25,15" VerticalAlignment="Top" Background="#33FFFFFF" FontSize="15" FontStyle="Italic" />
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </SplitView.Content>
         </SplitView>

@@ -97,8 +97,9 @@
                 </Grid>
 
                 <!--Body-->
-                <StackPanel Grid.Row="1" Background="#FFB7B5B5" HorizontalAlignment="Stretch" Margin="10,10" VerticalAlignment="Stretch" >
-                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <ScrollViewer Grid.Row="1" Margin="10">
+                <StackPanel  Background="#FFB7B5B5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                    <Grid>
                         <!--Grid for the big two column-->
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*"/>
@@ -133,78 +134,82 @@
                         </StackPanel>
 
                         <!--RIGHT COLUMN-->
-                        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollMode="Enabled" Grid.Column="1">
-                            <!--Grid for Row definition in Right column-->
-                            <Grid VerticalAlignment="Stretch">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                            
+                        <ScrollViewer Grid.Column="1" VerticalAlignment="Center">
+                            
+                                <!--Grid for Row definition in Right column-->
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <!--Location-->
+                                    <StackPanel DataContext="{Binding Location}" Margin="25" Grid.Row="0" Background="LightGray">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
 
-                                <!--Location-->
-                                <StackPanel DataContext="{Binding Location}" Margin="25" Grid.Row="0" Background="LightGray">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                                            <!--Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}"-->
+                                            <StackPanel Margin="25,25,0,25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Image x:Name="CountryFlagImage" Height="40" Width="60" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="0,25,0,25" Grid.Column="1">
+                                                <TextBlock Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
+                                                <TextBlock x:Name="CountryTextBox" Margin="25,5,0,0" Text="{Binding Country}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic" Grid.ColumnSpan="2"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
 
-                                        <!--Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}"-->
-                                        <StackPanel Margin="25,25,0,25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Image x:Name="CountryFlagImage" Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}" Height="40" Width="60" HorizontalAlignment="Left"/>
-                                        </StackPanel>
-                                        <StackPanel Margin="0,25,0,25" Grid.Column="1">
-                                            <TextBlock Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" Foreground="DarkGray" FontStyle="Italic" Grid.ColumnSpan="2"/>
-                                            <TextBlock x:Name="CountryTextBox" Margin="25,5,0,0" Text="{Binding Country}" FontSize="24" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" Foreground="DarkGray" FontStyle="Italic" Grid.ColumnSpan="2"/>
-                                        </StackPanel>
-                                    </Grid>
-                                </StackPanel>
+                                    <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#FF6C6C6C">
+                                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
+                                            <StackPanel Orientation="Horizontal" DataContext="{Binding Category}">
+                                                <TextBlock Margin="25, 25, -15, 25" Text="CATEGORY:" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
+                                                <TextBlock Margin="25" Text="{Binding Name}" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
 
-                                <StackPanel Grid.Row="2" Margin="25,0,25,25" Background="#FF6C6C6C">
-                                    <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
-                                        <StackPanel Orientation="Horizontal" DataContext="{Binding Category}">
-                                            <TextBlock Margin="25, 25, -15, 25" Text="CATEGORY:" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
-                                            <TextBlock Margin="25" Text="{Binding Name}" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
+                                    <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
+                                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
+                                            <TextBlock Margin="25,25,25,5" Text="REQUIRED SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
+                                        </Button>
+                                        <ListView x:Name="ProjectSkillsList" Margin="0,0,0,25" ItemsSource="{Binding Skills}" VerticalAlignment="Center" IsItemClickEnabled="False">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <TextBlock Text="{Binding Name}" Margin="0,0,0,5"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </StackPanel>
 
-                                <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
-                                    <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
-                                        <TextBlock Margin="25,25,25,5" Text="REQUIRED SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
-                                    </Button>
-                                    <ListView x:Name="ProjectSkillsList" Margin="0,0,0,25" ItemsSource="{Binding Skills}" VerticalAlignment="Center" IsItemClickEnabled="False">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <TextBlock Text="{Binding Name}" Margin="0,0,0,5"/>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
-                                </StackPanel>
+                                    <StackPanel Grid.Row="3" Margin="25,0,25,25" Background="#FF6C6C6C">
+                                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+                                            <TextBlock Margin="25" Text="CONTRIBUTORS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                        </Button>
+                                    </StackPanel>
 
-                                <StackPanel Grid.Row="3" Margin="25,0,25,25" Background="#FF6C6C6C">
-                                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
-                                        <TextBlock Margin="25" Text="CONTRIBUTORS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
-                                    </Button>
-                                </StackPanel>
-
-                                <StackPanel Grid.Row="4"  Margin="25,0,25,25" Background="#FF6C6C6C">
-                                    <Button x:Name="SparkProjectButton" Click="SparkProjectButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                            <Image Source="Assets\icons\crowdspark_whiteyellow.png" Width="60" HorizontalAlignment="Left"  VerticalAlignment="Center"/>
-                                            <TextBlock x:Name="SparkProjectButtonText"  Margin="10,25" Text="SPARK THIS PROJECT" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
+                                    <StackPanel Grid.Row="4"  Margin="25,0,25,25" Background="#FF6C6C6C">
+                                        <Button x:Name="SparkProjectButton" Click="SparkProjectButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                <Image Source="ms-appx:\Assets\icons\crowdspark_whiteyellow.png" Width="40" HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                                                <TextBlock x:Name="SparkProjectButtonText"  Margin="10,25" Text="SPARK THIS PROJECT" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            
                         </ScrollViewer>
+                          
                     </Grid>
                 </StackPanel>
+                </ScrollViewer>
             </Grid>
         </SplitView.Content>
     </SplitView>

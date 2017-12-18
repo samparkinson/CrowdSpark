@@ -34,8 +34,10 @@ namespace CrowdSpark.Entitites
         {
             modelBuilder.Entity<Spark>()
                 .HasKey(e => new { e.ProjectId, e.UserId });
-      //      modelBuilder.Entity<EpisodeCharacter>()
-      //          .HasKey(e => new { e.EpisodeId, e.CharacterId });
+            modelBuilder.Entity<User>(e =>
+            {
+                e.HasMany(x => x.Skills);
+            });
         }
     }
 }

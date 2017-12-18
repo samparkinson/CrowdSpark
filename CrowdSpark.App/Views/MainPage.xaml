@@ -75,20 +75,6 @@
                                 </Grid>
                             </Button>
                         </StackPanel>
-                        
-                        <!--Categories tab-->
-                        <StackPanel x:Name="CategoriesTab" BorderThickness="2" VerticalAlignment="Bottom">
-                            <Button Background="Transparent" CommandParameter="Categories" Command="{Binding RepopulateContentCommand}"  Click="CategoriesTabButton_Click" HorizontalAlignment="Center">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="Categories" Grid.Column="1" Margin="10,0" />
-                                    <SymbolIcon Symbol="ViewAll" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                </Grid>
-                            </Button>
-                        </StackPanel>
                     </StackPanel>
 
                     <!--Add Project and sign out Button-->

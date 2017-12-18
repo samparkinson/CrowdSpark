@@ -49,7 +49,7 @@ namespace CrowdSpark.Models
 
         public async Task<SkillDTO> FindAsync(int skillId)
         {
-            var skill = await _context.Skills.FindAsync(skillId);
+            var skill = await _context.Skills.AsNoTracking().Where(s => s.Id == skillId).FirstOrDefaultAsync();
 
             if (skill is null) return null;
             return new SkillDTO() { Id = skill.Id, Name = skill.Name };
@@ -57,7 +57,7 @@ namespace CrowdSpark.Models
 
         public async Task<SkillDTO> FindAsync(string skillName)
         {
-            var skill = await _context.Skills.Where(s => s.Name.ToLower() == skillName.ToLower()).AsNoTracking().FirstOrDefaultAsync();
+            var skill = await _context.Skills.AsNoTracking().Where(s => s.Name.ToLower() == skillName.ToLower()).FirstOrDefaultAsync();
 
             if (skill is null) return null;
             return new SkillDTO() { Id = skill.Id, Name = skill.Name };
@@ -65,8 +65,7 @@ namespace CrowdSpark.Models
 
         public async Task<IEnumerable<SkillDTO>> FindWildcardAsync(string skillName)
         {
-            return await _context.Skills.Where(s => s.Name.ToLower().Contains(skillName.ToLower()))
-                .AsNoTracking()
+            return await _context.Skills.AsNoTracking().Where(s => s.Name.ToLower().Contains(skillName.ToLower()))
                 .Select(s => new SkillDTO() { Id = s.Id, Name = s.Name })
                 .ToArrayAsync();
         }
