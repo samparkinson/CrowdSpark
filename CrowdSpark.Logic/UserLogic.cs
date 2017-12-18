@@ -45,8 +45,6 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.ALREADY_EXISTS;
             }
 
-            var skills = (user.Skills == null) ? new SkillDTO[] { } : user.Skills;
-
             if (user.Location != null)
             {
                 var success = await _locationLogic.CreateAsync(new LocationCreateDTO() { City = user.Location.City, Country = user.Location.Country });
@@ -57,20 +55,10 @@ namespace CrowdSpark.Logic
                 else return ResponseLogic.ERROR_CREATING;
             }
 
-            foreach (var skill in skills)
-            {
-                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name }); //TODO, need to convert this to a parallel for each
-            }
-
             var id = await _repository.CreateAsync(user, azureUId);
 
             if (id == 0)
             {
-                foreach (var skill in skills)
-                {
-                    await _skillLogic.RemoveWithObjectAsync(skill); //TODO, need to convert this to a parallel for each
-                }
-
                 return ResponseLogic.ERROR_CREATING;
             }
 

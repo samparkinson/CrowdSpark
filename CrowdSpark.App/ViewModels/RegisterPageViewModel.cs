@@ -53,7 +53,7 @@ namespace CrowdSpark.App.ViewModels
 
         public async Task<bool> RegisterUser(UserCreateDTO userCreateDTO)
         {
-            userCreateDTO.Skills = await CompareAndCreateSkills(userCreateDTO.Skills);
+            //userCreateDTO.Skills = await CompareAndCreateSkills(userCreateDTO.Skills);
             
             var success = await userAPI.Create(userCreateDTO);
             

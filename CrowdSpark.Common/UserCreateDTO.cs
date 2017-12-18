@@ -18,7 +18,5 @@ namespace CrowdSpark.Common
         public string Mail { get; set; }
 
         public LocationDTO Location { get; set; }
-
-        public ICollection<SkillDTO> Skills { get; set; }
     }
 }
