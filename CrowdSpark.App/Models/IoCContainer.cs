@@ -27,7 +27,6 @@ namespace CrowdSpark.App.Models
             services.AddScoped<INavigationService, NavigationService>();
             services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
             services.AddScoped<DelegatingHandler, AuthorizedHandler>();
-            services.AddScoped<IHttpHandler, HttpHandler>();
 
             // logic
             services.AddScoped<IProjectAPI, ProjectAPI>();

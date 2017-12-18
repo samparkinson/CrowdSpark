@@ -11,11 +11,14 @@ namespace CrowdSpark.App.Models
 {
     public class SkillAPI : ISkillAPI
     {
-        private readonly IHttpHandler _client;
+        private readonly HttpClient _client;
 
-        public SkillAPI(ISettings settings, IHttpHandler client, DelegatingHandler handler)
+        public SkillAPI(ISettings settings, DelegatingHandler handler)
         {
-            client.BaseAddress = settings.ApiBaseAddress;
+            var client = new HttpClient(handler)
+            {
+                BaseAddress = settings.ApiBaseAddress
+            };
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
