@@ -77,7 +77,7 @@ namespace CrowdSpark.Web.Controllers
 
             if (success == ResponseLogic.SUCCESS)
             {
-                return CreatedAtAction(nameof(Get), new { userId }, null);
+                return CreatedAtAction(nameof(Get), new { userId }, userId);
             }
             else return StatusCode(500);
         }

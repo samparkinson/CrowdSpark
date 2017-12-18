@@ -71,7 +71,7 @@ namespace CrowdSpark.Web.Controllers
             if (success == ResponseLogic.SUCCESS)
             {
                 var createdSkill = await _skillLogic.FindExactAsync(skill.Name);
-                return CreatedAtAction(nameof(Get), new { createdSkill.Id }, null);
+                return CreatedAtAction(nameof(Get), new { createdSkill.Id }, createdSkill.Id);
             }
             else return StatusCode(500);
         }
