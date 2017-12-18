@@ -60,25 +60,6 @@ namespace CrowdSpark.App.ViewModels
             MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
         }
 
-        private void initDummyProjects()
-        {
-            ProjectResults.Clear();
-
-            var _location = new LocationDTO { Id = 1, City = "Copenhagen", Country = "Denmark" };
-
-            var _dummyProjects = new List<ProjectDTO>();
-
-            for (int i = 0; i < 20; i++)
-            {
-                _dummyProjects.Add(new ProjectDTO { Id = i, Title = "Project " + i, Location = _location, Description = "Description " + i, Category = new CategoryDTO { Name = "Programming" } });
-            }
-
-            foreach (var p in _dummyProjects)
-            {
-                ProjectResults.Add(new ProjectViewModel(p));
-            }
-        }
-
         public async void SearchByCategory(int categoryId)
         {
             ProjectResults.Clear();
@@ -96,21 +77,6 @@ namespace CrowdSpark.App.ViewModels
             foreach(var result in searchResults)
             {
                 ProjectResults.Add(new ProjectViewModel(result));
-            }
-            
-            //for testing purposes
-            var _location = new LocationDTO { Id = 1, City = "Helsinki", Country = "Finland" };
-
-            var _dummyProjects = new List<ProjectDTO>();
-
-            for (int i = 0; i < 20; i++)
-            {
-                _dummyProjects.Add(new ProjectDTO { Id = i, Title = Query + " " + i, Location = _location, Description = "Description " + i, Category = new CategoryDTO { Name = "Programming" } });
-            }
-
-            foreach (var p in _dummyProjects)
-            {
-                ProjectResults.Add(new ProjectViewModel(p));
             }
         }
     }

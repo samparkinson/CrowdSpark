@@ -154,7 +154,7 @@
 
                                         <!--Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}"-->
                                         <StackPanel Margin="25,25,0,25" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Image x:Name="CountryFlagImage" Height="40" Width="60" HorizontalAlignment="Left"/>
+                                            <Image x:Name="CountryFlagImage" Source="{Binding ElementName=CountryTextBox, Path=Text, Converter={StaticResource CountryFlagConverter}}" Height="40" Width="60" HorizontalAlignment="Left"/>
                                         </StackPanel>
                                         <StackPanel Margin="0,25,0,25" Grid.Column="1">
                                             <TextBlock Margin="25,5,0,0" Text="{Binding City}" FontSize="30" VerticalAlignment="Top" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" Foreground="DarkGray" FontStyle="Italic" Grid.ColumnSpan="2"/>

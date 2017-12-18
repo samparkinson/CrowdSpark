@@ -22,11 +22,15 @@ namespace CrowdSpark.App.Converters
             //value is the country name
             CultureInfo cInfo = cultures.FirstOrDefault(culture => new RegionInfo(culture.LCID).EnglishName == value.ToString());
 
-            string CountryCode = cInfo.Name.Split("-")[1].ToLower();
-            
-            var fileLocation = new Uri(String.Format(@"ms-appx:Assets\flags\{0}.png", CountryCode));
+            if (cInfo != null)
+            {
+                string CountryCode = cInfo.Name.Split("-")[1].ToLower();
 
-            return new BitmapImage(fileLocation);
+                var fileLocation = new Uri(String.Format(@"ms-appx:Assets\flags\{0}.png", CountryCode));
+
+                return new BitmapImage(fileLocation);
+            }
+            return new BitmapImage(new Uri(String.Format(@"ms-appx:Assets\icons\help.png")));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
