@@ -71,10 +71,15 @@ namespace CrowdSpark.App.ViewModels
         public async Task<List<SkillDTO>> GetSkillsAsync(string Query)
         {
             var result = await skillAPI.GetBySearch(Query);
-            lock (result)
+
+            if (result != null)
             {
-                return new List<SkillDTO>(result);
+                lock (result)
+                {
+                    return new List<SkillDTO>(result);
+                }
             }
+            return null;
         }
 
         public async Task<bool> PostProject(CreateProjectDTO createProjectDTO, List<SkillCreateDTO> SkillsList)

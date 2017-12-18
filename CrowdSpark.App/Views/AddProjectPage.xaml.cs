@@ -154,16 +154,26 @@ namespace CrowdSpark.App.Views
                 var skillDTOs = new List<SkillDTO>();
                 
                 skillDTOs = await ((AddProjectPageViewModel)DataContext).GetSkillsAsync(sender.Text);
-            
-                    var Suggestions = new List<string>();
+                var Suggestions = new List<string>();
+
+                if (skillDTOs != null)
+                {
                     foreach (var skillDTO in skillDTOs)
                     {
                         Suggestions.Add(skillDTO.Name);
                     }
                     Suggestions.Sort();
-
-                    sender.ItemsSource = Suggestions;
+                } 
+                sender.ItemsSource = Suggestions;
             }
+        }
+
+        private void skillsAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+                sender.Text = args.ChosenSuggestion.ToString();
+            else
+                SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
 
             //create a new AutoSuggestBox 
             AutoSuggestBox suggestBox = new AutoSuggestBox();
@@ -177,14 +187,6 @@ namespace CrowdSpark.App.Views
             suggestBox.QuerySubmitted += skillsAutoSuggestBox_QuerySubmitted;
 
             SkillsPanel.Children.Add(suggestBox);
-        }
-
-        private void skillsAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (args.ChosenSuggestion != null)
-                sender.Text = args.ChosenSuggestion.ToString();
-            else
-                SkillsList.Add(new SkillCreateDTO { Name = sender.Text });
         }
         
 

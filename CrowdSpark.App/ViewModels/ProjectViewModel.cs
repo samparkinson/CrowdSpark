@@ -40,11 +40,11 @@ namespace CrowdSpark.App.ViewModels
 
             Description = ProjectDTO.Description;
 
-            //Skills = ProjectDTO.Skills;
+            Skills = ProjectDTO.Skills;
 
             Category = ProjectDTO.Category;
              
-            //Sparks = ProjectDTO.Sparks; 
+            Sparks = ProjectDTO.Sparks; 
         }
 
         public ProjectViewModel(ProjectSummaryDTO projectSummaryDTO)
