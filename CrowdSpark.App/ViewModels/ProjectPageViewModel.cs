@@ -5,11 +5,14 @@ using CrowdSpark.Common;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using System.Drawing;
+
 
 namespace CrowdSpark.App.ViewModels
 {
@@ -39,6 +42,10 @@ namespace CrowdSpark.App.ViewModels
         public ICollection<SparkDTO> _sparks;
         public ICollection<SparkDTO> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
 
+        public ICollection<AttachmentDTO> _attachments { get; set; }
+        public ICollection<AttachmentDTO> Attachments { get => _attachments; set { if (value != _attachments) { _attachments = value; OnPropertyChanged(); } } }
+        //public ICollection<Image> Images { get; set; }
+
         //Command to initialize the login on app opening
         private ICommand SignInCommand { get; set; }
 
@@ -46,14 +53,14 @@ namespace CrowdSpark.App.ViewModels
         private readonly IProjectAPI projectAPI;
         private readonly INavigationService service;
 
-        public ProjectPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI, INavigationService _service)
+        public ProjectPageViewModel(IAuthenticationHelper _helper, IProjectAPI _projectAPI, INavigationService _service, IAttachmentAPI _attachmentAPI)
         {
             helper = _helper;
             projectAPI = _projectAPI;
             service = _service;
             account = CommonAttributes.account;
             UserName = account.UserName;
-
+            
             SignInOutButtonText = account == null ? "Sign In" : "Sign Out";
 
             SignInOutCommand = new RelayCommand(async o =>
@@ -102,8 +109,16 @@ namespace CrowdSpark.App.ViewModels
 
             CategoryString = realProject.Title.ToUpper();
 
+            Attachments = projectViewModel.Attachments;
+
             account = CommonAttributes.account;
             MenuOptions = CommonAttributes.MenuOptions;
+
+            
+            /*for( )
+            {
+                var img = System.Drawing.Image.FromStream(new MemoryStream(Convert.FromBase64String(Attachments.)));
+            }*/
         }
 
         public async Task<bool> SparkProject()
