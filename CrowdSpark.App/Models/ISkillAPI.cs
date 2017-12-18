@@ -11,7 +11,7 @@ namespace CrowdSpark.App.Models
 
         Task<IReadOnlyCollection<SkillDTO>> GetBySearch(string searchString);
 
-        Task<bool> Create(SkillCreateDTO skill);
+        Task<int> Create(SkillCreateDTO skill);
 
     }
 }
