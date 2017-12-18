@@ -18,8 +18,6 @@ namespace CrowdSpark.App.Views
             _vm = App.ServiceProvider.GetService<LogInPageViewModel>();
 
             DataContext = _vm;
-
-            ((LogInPageViewModel)DataContext).InitCommand.Execute(null);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

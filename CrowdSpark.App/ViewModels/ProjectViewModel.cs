@@ -55,7 +55,7 @@ namespace CrowdSpark.App.ViewModels
 
             Description = projectSummaryDTO.Description;
 
-            Location.Id = projectSummaryDTO.Id;
+            //Location.Id = projectSummaryDTO.Id;
 
             Category = projectSummaryDTO.Category;
         }
