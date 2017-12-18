@@ -26,7 +26,7 @@ namespace CrowdSpark.App.ViewModels
         private readonly INavigationService service;
         private readonly ISkillAPI skillAPI;
 
-        public AddProjectPageViewModel(IProjectAPI _projectAPI, IAuthenticationHelper _helper, INavigationService _service, ISkillAPI _skillAPI)
+        public AddProjectPageViewModel(IProjectAPI _projectAPI, IAuthenticationHelper _helper, INavigationService _service, ISkillAPI _skillAPI, IAttachmentAPI _attachmentAPI)
         {
             projectAPI = _projectAPI;
             helper = _helper;
@@ -86,7 +86,7 @@ namespace CrowdSpark.App.ViewModels
         {
             if (account != null)
             {
-                //check if skills exist, if not add them
+                //TODO: change this
                 createProjectDTO.Location = null;
 
                 //this should return the id
@@ -97,16 +97,15 @@ namespace CrowdSpark.App.ViewModels
                     var skillID = await skillAPI.Create(skillCreateDTO);
 
                     //replace with actual id 
-                    SkillDTO skillDTO = new SkillDTO { Name = skillCreateDTO.Name, Id = 0 };
-                    //await projectAPI.AddSkill(result, skillDTO);
+                    SkillDTO skillDTO = new SkillDTO { Name = skillCreateDTO.Name, Id = skillID };
+                    await projectAPI.AddSkill(result, skillDTO);
                 }
-
-                // set to result != -1 
-                if (result)
+                
+                if (result != -1)
                 {
                     service.Navigate(typeof(ProjectPage), new ProjectViewModel(createProjectDTO));
                 }
-                return result;
+                return true;
             }
             return false;
         }

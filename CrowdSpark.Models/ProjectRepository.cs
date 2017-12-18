@@ -63,7 +63,8 @@ namespace CrowdSpark.Models
                 Skills = EntityConversionHelper.ConvertSkillsToSkillDTOs(project.Skills),
                 Sparks = EntityConversionHelper.ConvertSparksToSparkDTOs(project.Sparks),
                 Category = (project.Category is null) ? null : new CategoryDTO() { Id = project.Category.Id, Name = project.Category.Name },
-                CreatedDate = project.CreatedDate
+                CreatedDate = project.CreatedDate,
+                Creator = (project.Creator == null) ? null : new UserDTO() { Id = project.Creator.Id, Firstname = project.Creator.Firstname, Location = (project.Creator.Location == null) ? null : new LocationDTO() { Id = project.Creator.Location.Id, City = project.Creator.Location.City, Country = project.Location.Country }, Mail = project.Creator.Mail, Skills = EntityConversionHelper.ConvertSkillsToSkillDTOs(project.Creator.Skills), Surname = project.Creator.Surname }
             };
         }
 
@@ -126,7 +127,8 @@ namespace CrowdSpark.Models
                                Skills = EntityConversionHelper.ConvertSkillsToSkillDTOs(p.Skills),
                                Sparks = EntityConversionHelper.ConvertSparksToSparkDTOs(p.Sparks),
                                CreatedDate = p.CreatedDate,
-                               Category = (p.Category == null) ? null : new CategoryDTO() { Id = p.Category.Id, Name = p.Category.Name }
+                               Category = (p.Category == null) ? null : new CategoryDTO() { Id = p.Category.Id, Name = p.Category.Name },
+                               Creator = (p.Creator == null) ? null : new UserDTO() { Id = p.Creator.Id, Firstname = p.Creator.Firstname, Location = (p.Creator.Location == null) ? null : new LocationDTO() { Id = p.Creator.Location.Id, City = p.Creator.Location.City, Country = p.Location.Country }, Mail = p.Creator.Mail, Skills = EntityConversionHelper.ConvertSkillsToSkillDTOs(p.Creator.Skills), Surname = p.Creator.Surname }
                            };
 
             return await projects.ToListAsync();
