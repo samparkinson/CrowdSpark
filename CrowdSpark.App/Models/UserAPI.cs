@@ -8,11 +8,14 @@ namespace CrowdSpark.App.Models
 {
     public class UserAPI : IUserAPI
     {
-        private readonly IHttpHandler _client;
+        private readonly HttpClient _client;
 
-        public UserAPI(ISettings settings, IHttpHandler client, DelegatingHandler handler)
+        public UserAPI(ISettings settings, DelegatingHandler handler)
         {
-            client.BaseAddress = settings.ApiBaseAddress;
+            var client = new HttpClient(handler)
+            {
+                BaseAddress = settings.ApiBaseAddress
+            };
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
