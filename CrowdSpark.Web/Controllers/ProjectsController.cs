@@ -156,7 +156,6 @@ namespace CrowdSpark.Web.Controllers
         [HttpPost("{projectId}")]
         public async Task<IActionResult> AddSkill(int projectId, [FromBody] SkillDTO skill)
         {
-            // if skill.Name does not exist in Skill DB, create new SkillDTO with new Id;
             var userId = await _userLogic.GetIdFromAzureUIdAsync(GetUserId());
 
             var success = await _logic.AddSkillAsync(projectId, skill, userId);

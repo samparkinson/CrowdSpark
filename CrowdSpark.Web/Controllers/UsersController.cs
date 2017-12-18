@@ -39,10 +39,10 @@ namespace CrowdSpark.Web.Controllers
         {
             var userId = await _userLogic.GetIdFromAzureUIdAsync(GetUserId());
 
-            var user = _userLogic.GetAsync(userId);
+            var user = await _userLogic.GetAsync(userId);
 
             if (user is null) return NoContent();
-            else return Ok(user );
+            else return Ok(user);
         }
 
         // GET api/v1/users/5

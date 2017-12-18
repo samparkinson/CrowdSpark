@@ -26,9 +26,9 @@ namespace CrowdSpark.App.Models
         {
             var response = await _client.GetAsync($"api/v1/users");
 
-            if (response.IsSuccessStatusCode && (await (response.Content.To<UserDTO>()) != null))
+            if (response.IsSuccessStatusCode)
             {
-                return await response.Content.To<UserDTO>();                
+                return await response.Content.To<UserDTO>();              
             }
 
             return null;
