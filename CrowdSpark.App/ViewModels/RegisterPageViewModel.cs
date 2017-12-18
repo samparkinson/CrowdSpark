@@ -53,8 +53,8 @@ namespace CrowdSpark.App.ViewModels
 
         public async Task<bool> RegisterUser(UserCreateDTO userCreateDTO)
         {
-            CompareAndCreateSkills(userCreateDTO.Skills);
-
+            userCreateDTO.Skills = await CompareAndCreateSkills(userCreateDTO.Skills);
+            
             var success = await userAPI.Create(userCreateDTO);
             
             if (success)
@@ -66,18 +66,53 @@ namespace CrowdSpark.App.ViewModels
             return false;
         }
         
-        private async void CompareAndCreateSkills(ICollection<SkillDTO> skillDTOs)
+        private async Task<ICollection<SkillDTO>> CompareAndCreateSkills(ICollection<SkillDTO> skillDTOs)
         {
+            ICollection<SkillDTO> skillsWithIDs = new List<SkillDTO>();
+            
+            //create non existing skills
             foreach (SkillDTO skillDTO in skillDTOs)
             {
                 var results = await skillAPI.GetBySearch(skillDTO.Name);
 
+                //Create if non existent
                 if (results == null)
                 {
                     var skillCreateDTO = new SkillCreateDTO { Name = skillDTO.Name };
-                    var skillCreateResult =  await skillAPI.Create(skillCreateDTO);
+                    await skillAPI.Create(skillCreateDTO);
+                    var skillsWithId = await skillAPI.GetBySearch(skillDTO.Name);
+                    foreach (SkillDTO skillWithId in skillsWithId)
+                    {
+                        if (skillWithId.Name.Equals(skillDTO.Name))
+                        {
+                            skillsWithIDs.Add(skillWithId);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var skill in results)
+                    {
+                        if (skill.Name.Equals(skillDTO.Name))
+                        {
+                            break;
+                        }
+                        var skillCreateDTO = new SkillCreateDTO { Name = skillDTO.Name };
+                        await skillAPI.Create(skillCreateDTO);
+                        var skillsWithId = await skillAPI.GetBySearch(skillDTO.Name);
+                        foreach (SkillDTO skillWithId in skillsWithId)
+                        {
+                            if (skillWithId.Name.Equals(skillDTO.Name))
+                            {
+                                skillsWithIDs.Add(skillWithId);
+                            }
+                        }
+                    }
                 }
             }
+
+            //return SkillDTOs with ID
+            return skillsWithIDs;
         }
 
         private List<string> GetCountryList()

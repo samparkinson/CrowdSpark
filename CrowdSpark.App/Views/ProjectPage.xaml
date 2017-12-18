@@ -178,10 +178,11 @@
                                     </Button>
                                 </StackPanel>
 
-                                <StackPanel Grid.Row="1" Margin="25,0,25,25" Background="#FF6C6C6C">
-                                    <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
-                                        <TextBlock Margin="25" Text="REQUIRED SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"></TextBlock>
-                                    </Button>
+                                <StackPanel Grid.Row="1" Margin="25,0,25,25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF6C6C6C">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="25" Text="REQUIRED SKILLS" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
+                                    <ListView Background="Transparent" ItemsSource="{Binding Skills}">
+                                        
+                                    </ListView>
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="3" Margin="25,0,25,25" Background="#FF6C6C6C">
@@ -193,7 +194,7 @@
                                 <StackPanel Grid.Row="4"  Margin="25,0,25,25" Background="#FF6C6C6C">
                                     <Button x:Name="SparkProjectButton" Click="SparkProjectButton_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                            <Image Source="Assets\icons\crowdspark_whiteyellow.png" HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                                            <Image Source="Assets\icons\crowdspark_black.png" Height="50" Width="50" HorizontalAlignment="Left"  VerticalAlignment="Center"/>
                                             <TextBlock x:Name="SparkProjectButtonText"  Margin="25" Text="SPARK THIS PROJECT" FontSize="24" Foreground="White" FontFamily="Assets/RobotoCondensed-Light.ttf#Roboto Condensed Light" FontStyle="Italic"/>
                                         </StackPanel>
                                     </Button>

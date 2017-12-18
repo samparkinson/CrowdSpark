@@ -93,7 +93,7 @@ namespace CrowdSpark.App.ViewModels
 
             Location = projectViewModel.Location;
 
-            //Skills = projectViewModel.Skills;
+            Skills = projectViewModel.Skills;
 
             Category = projectViewModel.Category;
 

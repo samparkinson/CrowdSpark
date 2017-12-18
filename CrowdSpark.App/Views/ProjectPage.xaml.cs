@@ -27,7 +27,7 @@ namespace CrowdSpark.App.Views
         {
             var _project = e.Parameter as ProjectViewModel;
 
-            _vm.Initialize(_project);
+            ((ProjectPageViewModel)DataContext).Initialize(_project);
             
            var rootFrame = Window.Current.Content as Frame;
 
