@@ -102,6 +102,20 @@ namespace CrowdSpark.Models.Tests
         }
 
         [Fact]
+        public async void CreateAsync_GivenNoChangesSaved_ReturnsDbUpdateException()
+        {
+            var contextMock = new Mock<ICrowdSparkContext>();
+
+            contextMock.Setup(c => c.Projects.Add(It.IsAny<Project>()));
+            contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ReturnsAsync(0);
+
+            using (var repo = new ProjectRepository(contextMock.Object))
+            {
+                await Assert.ThrowsAsync<DbUpdateException>(() => repo.CreateAsync(new CreateProjectDTO() { }, 1));
+            }
+        }
+
+        [Fact]
         public async void SearchAsyncWithSearchString_GivenProjectsExist_ReturnsProjects()
         {
             var projects = new Project[]
@@ -156,6 +170,18 @@ namespace CrowdSpark.Models.Tests
                 Assert.Equal(2, results.Count());
                 Assert.Equal("T3st", results.ToArray()[0].Title);
                 Assert.Equal("Title", results.ToArray()[1].Title);
+            }
+        }
+
+        [Fact]
+        public async void FindAysnc_GivenProjectDoesNotExist_ReturnsNull()
+        {
+            //Sanity check
+            Assert.Empty(context.Locations.ToArray());
+
+            using (var repo = new ProjectRepository(context))
+            {
+                Assert.Null(await repo.FindAsync(1));
             }
         }
     }
