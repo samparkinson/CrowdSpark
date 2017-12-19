@@ -88,7 +88,7 @@ namespace CrowdSpark.App.ViewModels
             return null;
         }
 
-        public async Task<bool> PostProject(CreateProjectDTO createProjectDTO, List<SkillCreateDTO> SkillsList, List<StorageFile> attachments)
+        public async Task<int> PostProject(CreateProjectDTO createProjectDTO, List<SkillCreateDTO> SkillsList, List<StorageFile> attachments)
         {
             if (account != null)
             {
@@ -98,15 +98,15 @@ namespace CrowdSpark.App.ViewModels
                 createProjectDTO.Location = locationDTO;
 
                 //this should return the id
-                var result = await projectAPI.Create(createProjectDTO);
-
+                var projectID = await projectAPI.Create(createProjectDTO);
+                
                 foreach (SkillCreateDTO skillCreateDTO in SkillsList)
                 {
                     var skillID = await skillAPI.Create(skillCreateDTO);
 
                     //replace with actual id 
                     SkillDTO skillDTO = new SkillDTO { Name = skillCreateDTO.Name, Id = skillID };
-                    await projectAPI.AddSkill(result, skillDTO);
+                    await projectAPI.AddSkill(projectID, skillDTO);
                 }
 
                 foreach (StorageFile file in attachments)
@@ -115,17 +115,18 @@ namespace CrowdSpark.App.ViewModels
 
                     string serializedData = Convert.ToBase64String(imageArray);
 
-                    var attachment = new AttachmentCreateDTO { Data = serializedData, Description = file.Name, ProjectId = result, Type = (int)AttachmentTypes.BITMAP };
+                    var attachment = new AttachmentCreateDTO { Data = serializedData, Description = file.Name, ProjectId = projectID, Type = (int)AttachmentTypes.BITMAP };
                     await attachmentAPI.Create(attachment);
                 }
                 
-                if (result != -1)
+                if (projectID != -1)
                 {
-                    service.Navigate(typeof(ProjectPage), new ProjectViewModel(createProjectDTO));
+                    return projectID;
+                    //var projectViewModel = new ProjectViewModel(initProjectDTO);
+                    //service.Navigate(typeof(ProjectPage), projectViewModel);
                 }
-                return true;
             }
-            return false;
+            return -1;
         }
 
         private List<string> GetCountryList()

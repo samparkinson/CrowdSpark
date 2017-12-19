@@ -25,11 +25,13 @@ namespace CrowdSpark.App.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var _project = e.Parameter as ProjectViewModel;
-
-            ((ProjectPageViewModel)DataContext).Initialize(_project);
+            if (e != null)
+            {
+                var _project = (ProjectViewModel)e.Parameter;
+                ((ProjectPageViewModel)DataContext).Initialize(_project);
+            }
             
-           var rootFrame = Window.Current.Content as Frame;
+            var rootFrame = Window.Current.Content as Frame;
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack
                 ? AppViewBackButtonVisibility.Visible

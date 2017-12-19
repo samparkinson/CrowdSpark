@@ -104,8 +104,7 @@ namespace CrowdSpark.App.Views
 
             var ProjectLocation = new LocationDTO { Country = ProjectCountry, City = ProjectCity };
             var ProjectCategory = new CategoryDTO { Name = ProjectCategoryText };
-
-            //TODO:needs work
+            
             var SparkList = new List<SparkDTO>();
             SparkList.Add(new SparkDTO());
 
@@ -132,7 +131,7 @@ namespace CrowdSpark.App.Views
             
             var isSuccess = await ((AddProjectPageViewModel)DataContext).PostProject(createProjectDTO, SkillsList, attachments);
 
-            if (!isSuccess)
+            if (isSuccess == -1)
             {
                 ContentDialog fillAllFieldsDialog = new ContentDialog
                 {
@@ -143,7 +142,8 @@ namespace CrowdSpark.App.Views
             }
             else
             {
-                Frame.Navigate(typeof(ProjectPage), new ProjectViewModel(createProjectDTO));
+                var initDTO = new ProjectDTO { Id = isSuccess };
+                Frame.Navigate(typeof(ProjectPage), new ProjectViewModel(initDTO));
             }
         }
         
@@ -258,7 +258,7 @@ namespace CrowdSpark.App.Views
                 StorageFile file = await picker.PickSingleFileAsync();
                 if (file != null)
                 {
-                    TextBlock textBlock = addButtonTextBlockList.ElementAt(textBlockCount);
+                    TextBlock textBlock = addButtonTextBlockList.ElementAt(textBlockCount-1);
                     textBlock.Text = file.Name;
                     attachments.Add(file);
                     addAttachmentButton();

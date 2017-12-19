@@ -10,28 +10,28 @@ namespace CrowdSpark.App.ViewModels
         public int Id { get => _id; set { if (value != _id) { _id = value; OnPropertyChanged(); } } }
 
         private string _title;
-        public string Title { get => _title; set { if (value != _title) { _title = value; OnPropertyChanged(); } } }
+        public string Title { get => _title; set { if (value != null && value != _title) { _title = value; OnPropertyChanged(); } } }
 
         private LocationDTO _location;
-        public LocationDTO Location { get => _location; set { if (!value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
+        public LocationDTO Location { get => _location; set { if (value != null && !value.Equals(_location)) { _location = value; OnPropertyChanged(); } } }
 
         public string _description;
-        public string Description { get => _description; set { if (value != _description) { _description = value; OnPropertyChanged(); } } }
+        public string Description { get => _description; set { if (value != null && value != _description) { _description = value; OnPropertyChanged(); } } }
 
         public CategoryDTO _category;
-        public CategoryDTO Category{ get => _category; set { if (value != _category) { _category = value; OnPropertyChanged(); } } }
+        public CategoryDTO Category{ get => _category; set { if (value != null && value != _category) { _category = value; OnPropertyChanged(); } } }
         
         public ICollection<SkillDTO> _skills { get; set; }
-        public ICollection<SkillDTO> Skills { get => _skills; set { if (!value.Equals(_skills)) { _skills = value; OnPropertyChanged(); } } }
+        public ICollection<SkillDTO> Skills { get => _skills; set { if (value != null && !value.Equals(_skills)) { _skills = value; OnPropertyChanged(); } } }
 
         public ICollection<SparkDTO> _sparks;
-        public ICollection<SparkDTO> Sparks { get => _sparks; set { if (!value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
+        public ICollection<SparkDTO> Sparks { get => _sparks; set { if (value != null && !value.Equals(_sparks)) { _sparks = value; OnPropertyChanged(); } } }
 
         public ICollection<AttachmentDTO> _attachments { get; set; }
-        public ICollection<AttachmentDTO> Attachments { get => _attachments; set { if (value != _attachments) { _attachments = value; OnPropertyChanged(); } } }
+        public ICollection<AttachmentDTO> Attachments { get => _attachments; set { if (value != null && value != _attachments) { _attachments = value; OnPropertyChanged(); } } }
 
         public DateTime _createdDate;
-        public DateTime CreatedDate { get => _createdDate; set { if (!value.Equals(_createdDate)) { _createdDate = value; OnPropertyChanged(); } } }
+        public DateTime CreatedDate { get => _createdDate; set { if (value != null && !value.Equals(_createdDate)) { _createdDate = value; OnPropertyChanged(); } } }
 
         public ProjectViewModel(ProjectDTO ProjectDTO)
         {
@@ -47,9 +47,7 @@ namespace CrowdSpark.App.ViewModels
 
             Category = ProjectDTO.Category;
              
-            Sparks = ProjectDTO.Sparks;
-
-           // Attachments = ProjectDTO.Attachments;
+            //Sparks = ProjectDTO.Sparks;
         }
 
         public ProjectViewModel(ProjectSummaryDTO projectSummaryDTO)

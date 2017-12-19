@@ -32,10 +32,7 @@ namespace CrowdSpark.App.ViewModels
 
         public CategoryDTO _category;
         public CategoryDTO Category { get => _category; set { if (value != _category) { _category = value; OnPropertyChanged(); } } }
-
-        public string _categoryString;
-        public string CategoryString { get => _categoryString; set { if (value != _categoryString) { _categoryString = value; OnPropertyChanged(); } } }
-
+        
         public ICollection<SkillDTO> _skills { get; set; }
         public ICollection<SkillDTO> Skills { get => _skills; set { if (value != null && !value.Equals(_skills)) { _skills = value; OnPropertyChanged(); } } }
 
@@ -106,19 +103,9 @@ namespace CrowdSpark.App.ViewModels
             Skills = realProject.Skills;
 
             Category = realProject.Category;
-
-            CategoryString = realProject.Title.ToUpper();
-
-            Attachments = projectViewModel.Attachments;
-
+            
             account = CommonAttributes.account;
             MenuOptions = CommonAttributes.MenuOptions;
-
-            
-            /*for( )
-            {
-                var img = System.Drawing.Image.FromStream(new MemoryStream(Convert.FromBase64String(Attachments.)));
-            }*/
         }
 
         public async Task<bool> SparkProject()
