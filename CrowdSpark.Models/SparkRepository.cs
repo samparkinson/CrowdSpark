@@ -28,7 +28,7 @@ namespace CrowdSpark.Models
                 Project = project,
                 UserId = user.Id,
                 User = user,
-                Status = 0, //TODO, set this with the enum
+                Status = (int)SparkStatus.PENDING,
                 CreatedDate = System.DateTime.UtcNow
             };
 
