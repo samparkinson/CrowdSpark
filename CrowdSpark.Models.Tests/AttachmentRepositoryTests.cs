@@ -197,7 +197,6 @@ namespace CrowdSpark.Models.Tests
             //SanityCheck
             Assert.Equal(2, context.Attachments.ToArray().Count());
 
-
             using (var repo = new AttachmentRepository(context))
             {
                 var results = await repo.ReadAsync();
@@ -211,6 +210,54 @@ namespace CrowdSpark.Models.Tests
             }
         }
 
+        [Fact]
+        public async void UpdateAsync_GivenAttachmentExists_ReturnsTrue()
+        {
+            var user = new User() { Id = 1, Firstname = "Bob", Surname = "Smith", AzureUId = "foo", Mail = "test@example.com" };
+            var project = new Project() { Id = 1, Title = "Foo", Description = "Bar", Creator = user, CreatedDate = System.DateTime.UtcNow };
+
+            var attachment = new Attachment() { Id = 1, Description = "Foo", Data = "thurfh", ProjectId = 1, Project = project, Type = (int)AttachmentTypes.PDF };
+
+            context.Users.Add(user);
+            context.Projects.Add(project);
+            context.Attachments.Add(attachment);
+            context.SaveChanges();
+
+            //SanityCheck
+            Assert.Equal(1, context.Attachments.ToArray().Count());
+
+            using (var repo = new AttachmentRepository(context))
+            {
+                var updatedAttachment = new AttachmentDTO() { Id = 1, Description = "Foo", Data = "thurfh", ProjectId = 1, Type = (int)AttachmentTypes.BITMAP };
+
+                var result = await repo.UpdateAsync(updatedAttachment);
+
+                var expectedInDB = new Attachment() { Id = 1, Description = "Foo", Data = "thurfh", ProjectId = 1, Project = project, Type = (int)AttachmentTypes.BITMAP };
+
+                Assert.True(result);
+                Assert.Equal(1, context.Attachments.ToArray().Count());
+
+                var attachmentinDB = context.Attachments.First();
+                attachmentinDB.ShouldBeEquivalentTo(expectedInDB);
+            }
+        }
+
+        [Fact]
+        public async void UpdateAsync_GivenAttachmentDoesNotExist_ReturnsFalse()
+        {
+            //SanityCheck
+            Assert.Equal(0, context.Attachments.ToArray().Count());
+
+            using (var repo = new AttachmentRepository(context))
+            {
+                var updatedAttachment = new AttachmentDTO() { Id = 1, Description = "Foo", Data = "thurfh", ProjectId = 1, Type = (int)AttachmentTypes.BITMAP };
+
+                var result = await repo.UpdateAsync(updatedAttachment);
+
+                Assert.False(result);
+                Assert.Equal(0, context.Attachments.ToArray().Count());
+            }
+        }
 
         [Fact]
         public async void ReadAsync_GivenAttachmentsDoNotExist_ReturnsEmptyCollection()
