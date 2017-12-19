@@ -72,6 +72,71 @@ namespace CrowdSpark.Models.Tests
         }
 
         [Fact]
+        public async void CreateAsync_GivenNoChangesSaved_ReturnsDbUpdateException()
+        {
+            var contextMock = new Mock<ICrowdSparkContext>();
+
+            contextMock.Setup(c => c.Locations.Add(It.IsAny<Location>()));
+            contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ReturnsAsync(0);
+
+            using (var repo = new LocationRepository(contextMock.Object))
+            {
+                await Assert.ThrowsAsync<DbUpdateException>(() => repo.CreateAsync(new LocationCreateDTO() { }));
+            }
+        }
+
+        [Fact]
+        public async void CreateAsync_GivenSaveThrowsException_ReturnsDbUpdateException()
+        {
+            var contextMock = new Mock<ICrowdSparkContext>();
+
+            contextMock.Setup(c => c.Locations.Add(It.IsAny<Location>()));
+            contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ThrowsAsync(new System.Data.DataException("Error", default(Exception)));
+
+            using (var repo = new LocationRepository(contextMock.Object))
+            {
+                await Assert.ThrowsAsync<DbUpdateException>(() => repo.CreateAsync(new LocationCreateDTO() { }));
+            }
+        }
+
+        [Fact]
+        public async void ReadAsync_GivenNoLocations_ReturnsEmptyEnumerable()
+        {
+            //SanityCheck
+            Assert.Empty(await context.Locations.ToArrayAsync());
+
+            using (var repo = new LocationRepository(context))
+            {
+                var result = await repo.ReadAsync();
+
+                Assert.Empty(result);
+            }
+        }
+
+        [Fact]
+        public async void ReadAsync_GivenLocationsExist_ReturnsLocations()
+        {
+            var locations = new Location[]
+            {
+                new Location() {Id = 1, City = "Sydney", Country = "Australia" },
+                new Location() {Id = 2, City = "Brisbane", Country = "Australia" }
+            };
+
+            context.Locations.AddRange(locations);
+            context.SaveChanges();
+
+            //SanityCheck
+            Assert.Equal(2, await context.Locations.CountAsync());
+
+            using (var repo = new LocationRepository(context))
+            {
+                var results = await repo.ReadAsync();
+
+                Assert.Equal(2, results.Count);
+            }
+        }
+
+        [Fact]
         public async void UpdateAsync_GivenBadIDReturnFalse()
         {
             var loc = new LocationCreateDTO

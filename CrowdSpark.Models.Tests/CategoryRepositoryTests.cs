@@ -54,6 +54,34 @@ namespace CrowdSpark.Models.Tests
         }
 
         [Fact]
+        public async void CreateAsync_GivenNoChangesSaved_ReturnsDbUpdateException()
+        {
+            var contextMock = new Mock<ICrowdSparkContext>();
+
+            contextMock.Setup(c => c.Categories.Add(It.IsAny<Category>()));
+            contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ReturnsAsync(0);
+
+            using (var repo = new CategoryRepository(contextMock.Object))
+            {
+                await Assert.ThrowsAsync<DbUpdateException>(() => repo.CreateAsync(new CategoryCreateDTO() { }));
+            }
+        }
+
+        [Fact]
+        public async void CreateAsync_GivenSaveThrowsException_ReturnsDbUpdateException()
+        {
+            var contextMock = new Mock<ICrowdSparkContext>();
+
+            contextMock.Setup(c => c.Categories.Add(It.IsAny<Category>()));
+            contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ThrowsAsync(new System.Data.DataException("Error", default(Exception)));
+
+            using (var repo = new CategoryRepository(contextMock.Object))
+            {
+                await Assert.ThrowsAsync<DbUpdateException>(() => repo.CreateAsync(new CategoryCreateDTO() { }));
+            }
+        }
+
+        [Fact]
         public async void CreateManyCategories_GetThemBackSorted()
         {
             var list = new List<CategoryCreateDTO>();
