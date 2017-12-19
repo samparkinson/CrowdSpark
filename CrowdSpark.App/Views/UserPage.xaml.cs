@@ -131,7 +131,7 @@ namespace CrowdSpark.App.Views
             }
 
             LocationDTO location = new LocationDTO { Country = Country, City = City };
-
+            
             UserDTO UserDTO = new UserDTO { Firstname = Name, Surname = Surname, Mail = Mail, Location = location };
 
             var result = await ((UserPageViewModel)DataContext).UpdateUser(UserDTO, SkillsList);

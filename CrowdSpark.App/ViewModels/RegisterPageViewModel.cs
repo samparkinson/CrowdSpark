@@ -55,7 +55,7 @@ namespace CrowdSpark.App.ViewModels
         {
             //create user
             var success = await userAPI.Create(userCreateDTO);
-
+            
             //deal with skills
             foreach (SkillCreateDTO skillCreateDTO in SkillsList)
             {

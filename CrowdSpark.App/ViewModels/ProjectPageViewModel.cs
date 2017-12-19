@@ -90,21 +90,24 @@ namespace CrowdSpark.App.ViewModels
             MenuOptions = new HamburgerMenuOptionsFactory(account).MenuOptions;
         }
 
-        public void Initialize(ProjectViewModel projectViewModel)
+        public async void Initialize(ProjectViewModel projectViewModel)
         {
-            Id = projectViewModel.Id;
+            ProjectDTO realProject = new ProjectDTO();
+            realProject = await projectAPI.Get(projectViewModel.Id);
 
-            Title = projectViewModel.Title;
+            Id = realProject.Id;
 
-            Description = projectViewModel.Description;
+            Title = realProject.Title;
 
-            Location = projectViewModel.Location;
+            Description = realProject.Description;
 
-            Skills = projectViewModel.Skills;
+            Location = realProject.Location;
 
-            Category = projectViewModel.Category;
+            Skills = realProject.Skills;
 
-            CategoryString = Category.Name.ToUpper();
+            Category = realProject.Category;
+
+            CategoryString = realProject.Title.ToUpper();
 
             Attachments = projectViewModel.Attachments;
 
