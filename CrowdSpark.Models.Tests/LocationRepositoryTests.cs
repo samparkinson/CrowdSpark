@@ -27,8 +27,6 @@ namespace CrowdSpark.Models.Tests
             context = new CrowdSparkContext(builder.Options);
             context.Database.EnsureCreated();
 
-            //SEED IN HERE IF YOU WANT
-
             context.Database.BeginTransaction();
         }
 

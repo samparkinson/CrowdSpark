@@ -78,7 +78,6 @@ namespace CrowdSpark.Web.Controllers
 
         // POST api/v1/projects
         [HttpPost]
-        //     public async Task<IActionResult> Post([FromBody]CreateProjectDTO project)
         public async Task<IActionResult> Post([FromBody]CreateProjectDTO project)
         {
             if (!ModelState.IsValid)

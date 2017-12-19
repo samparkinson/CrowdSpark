@@ -44,7 +44,6 @@ namespace CrowdSpark
 
             var policy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                //.RequireRole("Admin", "SuperUser")
                 .Build();
             
             services.Configure<MvcOptions>(o =>
@@ -84,7 +83,6 @@ namespace CrowdSpark
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(o =>
             {
-                //o.Audience = options.Audience;
                 o.Authority = options.Authority;
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -120,7 +118,6 @@ namespace CrowdSpark
 
             app.UseAuthentication();
 
-            // Enable CORS - you probably want to limit this to known origins.
             app.UseCors(builder =>
                  builder.AllowAnyOrigin()
                         .AllowAnyHeader()

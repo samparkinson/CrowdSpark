@@ -82,11 +82,11 @@ namespace CrowdSpark.Logic
 
             foreach (var skill in skillsToAdd)
             {
-                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name }); //TODO, need to convert this to a parallel for each
+                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name });
             }
             foreach (var skill in skillsToRemove)
             {
-                await _skillLogic.RemoveWithObjectAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.RemoveWithObjectAsync(skill);
             }
             
             var success = await _repository.UpdateAsync(userId, user);
@@ -99,11 +99,11 @@ namespace CrowdSpark.Logic
             // roll back skill changes 
             foreach (var skill in skillsToAdd)
             {
-                await _skillLogic.RemoveWithObjectAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.RemoveWithObjectAsync(skill);
             }
             foreach (var skill in skillsToRemove)
             {
-                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name }); //TODO, need to convert this to a parallel for each
+                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name });
             }
 
             return ResponseLogic.ERROR_UPDATING;
@@ -178,11 +178,28 @@ namespace CrowdSpark.Logic
             return await UpdateAsync(userId, user);
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _repository.Dispose();
+                    _sparkLogic.Dispose();
+                    _skillLogic.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            _repository.Dispose();
-            _sparkLogic.Dispose();
-            _skillLogic.Dispose();
+            Dispose(true);
         }
+        #endregion
     }
 }

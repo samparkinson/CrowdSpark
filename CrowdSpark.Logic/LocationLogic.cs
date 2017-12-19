@@ -73,19 +73,17 @@ namespace CrowdSpark.Logic
             var foundLocation = await _repository.FindAsync(loc.Id);
             if (foundLocation is null) return ResponseLogic.NOT_FOUND;
 
-            // Need to check if it is being used in other places?
-
             var users = await _userRepository.ReadAsync();
             var projects = await _projectRepository.ReadAsync();
             var occurrences = 0;
 
-            foreach (var user in users) //TODO, make this run parallel
+            foreach (var user in users)
             {
-                if (user.Location == loc) //TODO, consider moving this into the repo for more efficiency
+                if (user.Location == loc)
                     occurrences++;
             }
 
-            foreach (var project in projects) //TODO, make this run parallel
+            foreach (var project in projects)
             {
                 if (project.LocationId == loc.Id)
                     occurrences++;
@@ -113,11 +111,28 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_DELETING;
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _repository.Dispose();
+                    _userRepository.Dispose();
+                    _projectRepository.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            _repository.Dispose();
-            _userRepository.Dispose();
-            _projectRepository.Dispose();
+            Dispose(true);
         }
+        #endregion
     }
 }

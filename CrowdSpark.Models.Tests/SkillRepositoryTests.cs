@@ -13,9 +13,6 @@ namespace CrowdSpark.Models.Tests
 
         public SkillRepositoryTests()
         {
-            // Setup Seed Here
-            // If using real DB, begin transaction
-
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
@@ -25,14 +22,11 @@ namespace CrowdSpark.Models.Tests
             context = new CrowdSparkContext(builder.Options);
             context.Database.EnsureCreated();
 
-            //SEED IN HERE IF YOU WANT
-
             context.Database.BeginTransaction();
         }
 
         public void Dispose()
         {
-            // If using real DB rollback transaction
             context.Database.RollbackTransaction();
             context.Dispose();
         }
@@ -44,10 +38,6 @@ namespace CrowdSpark.Models.Tests
             {
                 Name = "Cooking"
             };
-            //var contextMock = new Mock<ICrowdSparkContext>();
-
-            //contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ReturnsAsync(1);
-            //contextMock.Setup(c => c.Users.Add(It.IsAny<User>())).Returns(1);
 
             using (var repository = new SkillRepository(context))
             {
@@ -68,10 +58,6 @@ namespace CrowdSpark.Models.Tests
             {
                 Name = "Dancing"
             };
-            //var contextMock = new Mock<ICrowdSparkContext>();
-
-            //contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ReturnsAsync(1);
-            //contextMock.Setup(c => c.Users.Add(It.IsAny<User>())).Returns(1);
 
             using (var repository = new SkillRepository(context))
             {

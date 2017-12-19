@@ -19,9 +19,7 @@ namespace CrowdSpark
         {
             using (var context = new CrowdSparkContext())
             {
-                //var user = context.User.FirstOrDefault();
 
-                //       Console.WriteLine(user.Firstname);
             }
 
             BuildWebHost(args).Run();
@@ -31,14 +29,4 @@ namespace CrowdSpark
                 .UseStartup<Startup>()
                 .Build();
     }
-
-    /*  public static IWebHost BuildWebHost(string[] args) =>
-           WebHost.CreateDefaultBuilder(args)
-              .UseKestrel()
-              .UseContentRoot(pathToContentRoot)
-              .UseIISIntegration()
-              .UseStartup<Startup>()
-              .UseApplicationInsights()
-              .Build();
-  }*/
 }

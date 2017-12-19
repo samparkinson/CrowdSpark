@@ -27,7 +27,7 @@ namespace CrowdSpark.Web.Controllers
         private readonly IUserLogic _userLogic;
         public Func<string> GetUserId; // Replaceable in testing
 
-        public UsersController(IUserLogic userLogic/*, UserManager<UserIdentity> userman */)
+        public UsersController(IUserLogic userLogic)
         {
             _userLogic = userLogic;
             GetUserId = () => this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -49,16 +49,8 @@ namespace CrowdSpark.Web.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _userLogic.GetAsync(id)); //TODO, decided if users can look at the profile of other users
+            return Ok(await _userLogic.GetAsync(id));
         }
-
-        //[Authorize]
-        //[HttpGet]
-        //public IActionResult GetToken()
-        //{
-        //    return Ok(GetUserId());
-        //}
-
 
         // POST api/v1/users
         [HttpPost]
@@ -139,7 +131,7 @@ namespace CrowdSpark.Web.Controllers
 
             var user = await _userLogic.GetAsync(userId);
 
-            if (user is null) //NOTE can user actually be null?
+            if (user is null)
             {
                 return NotFound();
             }
@@ -147,7 +139,7 @@ namespace CrowdSpark.Web.Controllers
         }
 
         //[HttpPost("skills{name}")]
-        [Route("skills")] //NOTE,Is this to create a skill for the user or to create a new skill in our skill db??
+        [Route("skills")]
         [HttpPost]
         public async Task<IActionResult> PostSkill([FromBody]SkillDTO skill)
         {

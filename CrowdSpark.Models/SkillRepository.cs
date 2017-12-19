@@ -101,9 +101,26 @@ namespace CrowdSpark.Models
             }
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            _context.Dispose();
+            Dispose(true);
         }
+        #endregion
     }
 }

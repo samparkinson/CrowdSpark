@@ -17,9 +17,6 @@ namespace CrowdSpark.Models.Tests
 
         public UserRepositoryTests()
         {
-            // Setup Seed Here
-            // If using real DB, begin transaction
-
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
@@ -29,14 +26,11 @@ namespace CrowdSpark.Models.Tests
             context = new CrowdSparkContext(builder.Options);
             context.Database.EnsureCreated();
 
-            //SEED IN HERE IF YOU WANT
-
             context.Database.BeginTransaction();
         }
 
         public void Dispose()
         {
-            // If using real DB rollback transaction
             context.Database.RollbackTransaction();
             context.Dispose();
         }
@@ -50,10 +44,6 @@ namespace CrowdSpark.Models.Tests
                 Surname = "Smith",
                 Mail = "bobsmith@example.com" 
             };
-            //var contextMock = new Mock<ICrowdSparkContext>();
-
-            //contextMock.Setup(c => c.SaveChangesAsync(default(CancellationToken))).ReturnsAsync(1);
-            //contextMock.Setup(c => c.Users.Add(It.IsAny<User>())).Returns(1);
 
             using (var repository = new UserRepository(context))
             {
@@ -92,7 +82,6 @@ namespace CrowdSpark.Models.Tests
         [Fact]
         public async void CreateAsync_GivenDatabaseSaveError_ReturnsDbUpdateException()
         {
-            //TODO, see what excpetion will actually be thrown if that DB is offline
             var user = new UserCreateDTO
             {
                 Firstname = "Bob",
@@ -130,12 +119,6 @@ namespace CrowdSpark.Models.Tests
             {
                 await Assert.ThrowsAsync<DbUpdateException>(async () => await repository.CreateAsync(userDTO, "abcd"));
             }
-        }
-
-        [Fact]
-        public void CreateAsync_GivenValidUser_SuccesfullyCreatesDBRecord()
-        {
-            // Create in memory or SQLlite DB
         }
     }
 }

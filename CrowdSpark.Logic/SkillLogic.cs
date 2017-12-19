@@ -81,17 +81,17 @@ namespace CrowdSpark.Logic
                 return ResponseLogic.NOT_FOUND;
             }
 
-            var users = await _userRepository.ReadAsync();  //TODO, consider moving this into the repo for more efficiency
+            var users = await _userRepository.ReadAsync();
             var projects = await _projectRepository.ReadDetailedAsync();
             var occurrences = 0;
 
-            foreach (var user in users) //TODO, make this run parallel
+            foreach (var user in users)
             {
                 if (user.Skills.Contains(skill))
                     occurrences++;
             }
 
-            foreach (var project in projects) //TODO, make this run parallel
+            foreach (var project in projects)
             {
                 if (project.Skills.Contains(skill))
                     occurrences++;
@@ -127,11 +127,28 @@ namespace CrowdSpark.Logic
             else return ResponseLogic.ERROR_DELETING;
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _repository?.Dispose();
+                    _userRepository?.Dispose();
+                    _projectRepository?.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            _repository?.Dispose();
-            _userRepository?.Dispose();
-            _projectRepository?.Dispose();
+            Dispose(true);
         }
+        #endregion
     }
 }

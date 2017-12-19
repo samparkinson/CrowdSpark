@@ -91,7 +91,7 @@ namespace CrowdSpark.Web.Controllers
         {
             var success = await _attachmentLogic.DeleteAsync(attachmentId);
 
-            if (success == ResponseLogic.SUCCESS) //NOTE, this is probably condusing as success is returned if nothing is deleted (I.e. the skill is being used somewhere).... need to consider if we even want to expose this api
+            if (success == ResponseLogic.SUCCESS)
             {
                 return NoContent();
             }

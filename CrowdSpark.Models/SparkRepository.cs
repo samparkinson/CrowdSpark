@@ -101,7 +101,7 @@ namespace CrowdSpark.Models
             var sparkToUpdate = await _context.Sparks.FindAsync(details.PId, details.UId);
             _context.Sparks.Update(sparkToUpdate);
 
-            sparkToUpdate.Status = details.Status; //this is the only attribute on a spark that should ever change
+            sparkToUpdate.Status = details.Status; //This is the only attribute on a spark that should ever change
 
             return (await saveContextChanges() > 0);
         }
@@ -118,9 +118,26 @@ namespace CrowdSpark.Models
             }
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            _context.Dispose();
+            Dispose(true);
         }
+        #endregion
     }
 }

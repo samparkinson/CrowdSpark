@@ -111,11 +111,11 @@ namespace CrowdSpark.Logic
 
             foreach (var skill in skillsToAdd)
             {
-                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name }); //TODO, need to convert this to a parallel for each
+                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name });
             }
             foreach (var skill in skillsToRemove)
             {
-                await _skillLogic.RemoveWithObjectAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.RemoveWithObjectAsync(skill);
             }
             
             var success = await _repository.UpdateAsync(project);
@@ -128,11 +128,11 @@ namespace CrowdSpark.Logic
             // roll back skill changes 
             foreach (var skill in skillsToAdd)
             {
-                await _skillLogic.RemoveWithObjectAsync(skill); //TODO, need to convert this to a parallel for each
+                await _skillLogic.RemoveWithObjectAsync(skill);
             }
             foreach (var skill in skillsToRemove)
             {
-                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name }); //TODO, need to convert this to a parallel for each
+                await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name });
             }
 
             return ResponseLogic.ERROR_UPDATING;
@@ -180,7 +180,7 @@ namespace CrowdSpark.Logic
 
             foreach (var skill in project.Skills)
             {
-                await _skillLogic.RemoveWithObjectAsync(skill); //TODO, make run in parallel
+                await _skillLogic.RemoveWithObjectAsync(skill);
             }
 
             await _sparkLogic.DeleteForProjectAsync(projectId);
@@ -195,7 +195,7 @@ namespace CrowdSpark.Logic
             {
                 foreach (var skill in project.Skills)
                 {
-                    await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name }); //TODO, make run in parallel
+                    await _skillLogic.CreateAsync(new SkillCreateDTO() { Name = skill.Name });
                 }
 
                 return ResponseLogic.ERROR_DELETING;
@@ -244,7 +244,7 @@ namespace CrowdSpark.Logic
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        private bool disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
         {
@@ -258,26 +258,13 @@ namespace CrowdSpark.Logic
                     _sparkLogic.Dispose();
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
                 disposedValue = true;
             }
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~ProjectLogic() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
         }
         #endregion
     }

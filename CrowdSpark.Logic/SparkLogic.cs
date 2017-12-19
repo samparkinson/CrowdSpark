@@ -96,9 +96,26 @@ namespace CrowdSpark.Logic
 
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _repository.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            _repository.Dispose();
+            Dispose(true);
         }
+        #endregion
     }
 }
